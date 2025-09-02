@@ -1,0 +1,110 @@
+\section{Beyond Boolean outputs}
+\label{sec:beyond-boolean-outputs}
+
+In the previous section, we have defined a protocol to compute functions with string inputs and Boolean outputs. In this section, we consider a generalisation, with possibly infinite output domains. The inputs, however, remain unchanged -- they will always be strings in this paper; see the last section for more comments on non-string inputs.  For the output domain, we use a very general notion, namely a set with some operations. 
+\begin{definition}[Output domain]
+    An \emph{output domain} consists of: 
+    \begin{enumerate}
+        \item an underlying set $\domain$; together with
+        \item a family of \emph{operations}, each one having  type $\domain^n \to \domain$ for some $n \in \set{0,1,\ldots}$.
+    \end{enumerate}
+\end{definition}
+An output domain is the same thing as a (non-indexed) algebra, in the sense of universal algebra~\cite[p.5]{hobby1988structure}. 
+The output domain might be infinite. In principle, the family of operations might be infinite as well, although any protocol will only use finitely many operations.
+By abuse of notation, we use the same symbol $\domain$ to denote the output domain and its underlying set, with the operations being implicit. Here are the output domains that will be studied in this paper: 
+\begin{itemize}
+    \item \textbf{Boolean domain.} The set is $\set{\text{yes, no}}$, and there are no basic operations. (We could add basic operations, such as $\lor$ or $\land$, but this will not affect the expressive power of our protocol, so we choose to have no operations.)
+    \item \textbf{Field domain.} The set is a field, such as the rationals or reals, and there are two operations for addition and multiplication. This is not one domain, but a family of domains, with one for each field.
+    \item \textbf{String domain.} The set is $\Gamma^*$ for some finite alphabet $\Gamma$, and there is one basic operation, which is concatenation. Again, this is not one domain, but a family of domains, with one for each field.
+\end{itemize}
+
+In the protocol, the output value will be constructed in a constant number of steps, by using operations from the output domain. Insofar as the protocols are concerned, we will not distinguish between the  operations that are in the output domain, and other operations that are derived by composing them. This leads us to the following definition, which also comes from universal algebra~\cite[p.6]{hobby1988structure}.
+
+\begin{definition}[Polynomials]\label{def:polynomials}
+    Consider an output domain. A \emph{polynomial with variables $x_1,\ldots,x_n$} is any function $\domain^n \to \domain$ that is obtained from an expression which is built by applying operations to the variables and elements of the domain. We write $\domain[x_1,\ldots,x_n]$ for the set of such polynomials.
+\end{definition}
+
+\begin{myexample}
+    The prototypical example of polynomials is for an output domain which is a field. In this case, polynomials are the usual notion of polynomials, e.g. 
+\begin{align*}
+3x_1x_2^2 - 2x_1x_2x_3^3 + 5
+\end{align*}
+is a polynomial in variables $\set{x_1,x_2,x_3}$. 
+For example, if the output domain is the Boolean domain, which has no operations, then a polynomial is either a variable $x_i$, or one of the two constants \emph{yes} or \emph{no}. In the case of a string domain, a polynomial is the same as a string over the alphabet extended with the variables, e.g.
+\begin{align*}
+ababx_1abax_2ababx_1aba \in (\set{a,b}^*)[x_1,x_2]
+\end{align*}
+Observe that a polynomial is allowed to use its arguments several times. A polynomial is called \emph{linear} if each argument is used at most once.
+\end{myexample}
+
+
+
+In this section, we generalise the protocol to cover functions 
+\begin{align*}
+f : \Sigma^* \to \domain,
+\end{align*}
+where $\domain$ is some possibly infinite output domain. As in the Boolean version of the protocol, the output value is constructed by Alice and Bob, as a result of an exchange of a constant number of messages. Each message has two parts, which are called the \emph{signal part} and the \emph{output part}. The signal part consists of a finite amount of information, and is used to exchange information between the two parties as in the Boolean protocol. The output part is an element of the output domain, and  is meant to be part of the output value. At the end of the protocol, the final output is constructed by applying some polynomial to the output parts, with the polynomial depending only on the signal parts. 
+
+\begin{definition}\label{def:two-party-protocol-general} A two-party protocol   
+   is given by the following ingredients: 
+  \begin{enumerate}
+    \item an output domain $\domain$;
+    \item a finite input alphabet $\Sigma$;
+    \item a number of rounds $k \in \set{1,2,\ldots}$;
+    \item signal spaces for Alice and Bob, which are finite sets $Q_A$ and $Q_B$;
+    \item for each round $i \in \set{1,\ldots,k}$, a strategy
+    \begin{align*}
+    \myoverbrace{\sigma_A^i : \myunderbrace{\Sigma^*}{Alice's \\ local\\ string} \times \myunderbrace{Q_B^{i-1}}{history of \\ signals \\ from Bob}  \to \myunderbrace{Q_A \times \domain}{new\\ message}}{stategy for Alice in the $i$-th round}
+    \qquad 
+        \myoverbrace{\sigma_B^i : \myunderbrace{\Sigma^*}{Bob's \\ local\\ string} \times \myunderbrace{Q_A^{i-1}}{hostory of \\ signals \\ from Alice}  \to \myunderbrace{Q_B \times \domain}{new\\ message}}{stategy for Bob in the $i$-th round}
+    \end{align*}
+    \item an output function of type \begin{align*}
+    (Q_A \times Q_B)^{k} \to \myunderbrace{\domain[x_1,y_1,x_2,y_2,\ldots,x_k,y_k]}{polynomial operations  over domain $\domain$ \\ with $2k$ variables}
+    \end{align*}
+  \end{enumerate}
+\end{definition}
+
+As in the Boolean case, the protocol is executed on a pair of strings $(w_1,w_2)$. In each round, each of the two parties  sends a message (which consists of a signal and an output) that is based on their local string and the history of signals coming from the other party. After all $k$ rounds have been executed, the joint signal history of both players is used, by the output function, to determine a polynomial operation. This operation is then applied to the output history, yielding the final result of the protocol. As in the Boolean case, we are interested in protocols that are split invariant, which means that for every string $w \in \Sigma^*$, the same output is produced for every possible decomposition $w = w_1 w_2$. Such protocols compute a function of type $\Sigma^* \to \domain$. 
+
+\begin{myexample}[Boolean domain]
+    Consider the Boolean output domain, or more generally a finite output domain. In this case, the distinction between output values and signals is irrelevant, since the output values can be sent as signals. Therefore, the general protocol coincides with the Boolean protocol from the previous section. In particular, the general protocol can only compute regular languages. 
+\end{myexample}
+
+\begin{myexample}[String domain]
+    In this example, the output domain is strings $\Sigma^*$, with concatenation. 
+    Consider the  reverse function 
+    \begin{align*}
+    f : \Sigma^* \to \Sigma^*.
+    \end{align*}
+    Here is a  protocol. Alice sends the reverse of her string, and Bob sends the reverse of his string. These two partial outputs are then concatenated, Bob first and Alice second, which yields the reverse of the original input. In this protocol, there are no signals, i.e.~both of the signal spaces $Q_A$ and $Q_B$ are singletons. Signals could be useful for other functions however; for example we could reverse the input only conditionally on the first and last letters being equal; in this case the signals would be used to check this conditional.
+\end{myexample}
+
+\begin{myexample}[Field domain]
+    In this example, the output domain is the field of rational numbers, although the function in question will output only natural numbers.
+    Consider the function 
+    \begin{align*}
+    f : \set{0,1}^* \to \mathbb Q,
+    \end{align*}
+    which maps a binary string to the natural number that it represents. For example, the input $01000$ will be mapped to $8$. Here is a protocol. Based on his input string $w_2$, Bob computes two numbers, namely: 
+    \begin{align*}
+    \myunderbrace{y_1 = f(w_2)}{number represented\\  by $w_2$} 
+    \qquad \text{and} \qquad 
+    \myunderbrace{y_2 = 2^{|w_2|}}{the power of two \\ corresponding to the\\ length of $w_2$}.
+    \end{align*}
+    Alice does the same, yielding two numbers $x_1$ and $x_2$, of which only $x_1$ will be used. The final output is then 
+    \begin{align*}
+    x_1\cdot y_2 + x_2.
+    \end{align*}
+    In this protocol, there are no signals. As we will see in the next section, when the output domain is a field, then signals are not needed (unlike the case of strings or Booleans, where signals are needed).
+\end{myexample}
+
+
+\subsection{One-round protocols}
+
+We have little say to say about our protocols in the case of a general output domain. The only general result that we have is a reduction to one-round protocols, similarly to the Boolean case.  For the reduction to work, we need a slightly more general notion of one-round protocol, where more than one element of the output domain can be sent in each round. More formally, we adapt Definition~\ref{def:two-party-protocol-general} so that there is an extra parameter $d \in \set{1,2,\ldots}$, and in each round both players send a message of the form $Q \times \domain^d$, instead of $Q \times \domain$. The output function is then a polynomial in $2kd$ variables, instead of $2k$ variables. This generalisation does not affect the expressive power of the protocol, since each round in the new protocol can be simulated using $d$ rounds in the original protocol. However, if we care about the number of rounds, then there is a difference.  From now on, when we talk about a one-round protocol, we refer to the generalised version of the protocol. The following lemma, which is proved the same way as \cref{lem:one-round-reduction-boolean}, shows that  every protocol can be reduced to a one-round version.
+     \begin{lemma}\label{lemma:one-round-reduction-general}
+        Every protocol is equivalent to a one-round protocol.
+ \end{lemma}
+ \begin{proof}
+    Same proof as in \cref{lem:one-round-reduction-boolean}. 
+ \end{proof}

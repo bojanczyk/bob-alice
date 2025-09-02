@@ -1,0 +1,39 @@
+\documentclass{article}
+
+
+\usepackage{macros}
+
+
+
+% macros specific to this paper
+\newcommand{\domain}{\mathbb D}
+\newcommand{\pol}{\text{Pol}}
+
+\begin{document}
+
+\title{Two-party computation for functions with string inputs}
+\author{Miko{\l}aj Boja\'nczyk, Aliaume Lopez, Rafa{\l} Stefa\'nski, Omid Yaghoubi }
+
+\maketitle 
+\begin{abstract}
+ We introduce a model of computation, based on communication complexity,  which defines functions of type $\Sigma^* \to \domain$, where $\Sigma$ is a finite alphabet and $\domain$ is some domain. Domains of interest include: the Booleans, strings, or a field. In the model, the input string $w$ is divided into two parts $w=w_1 w_2$, which are sent to two parties, Alice and Bob. These two parties cooperate, by exchanging a constant number of messages, to compute the output of the function. The two parties must be able to produce the correct output regardless of the partition $w = w_1 w_2$. We prove that for some domains, the model coincides with known finite state models: in the case of Boolean outputs it defines exactly the regular languages, and in the case of fields, it defines exactly the functions computable by weighted automata. This is despite the fact that the model is non-uniform and has no computational assumptions. 
+\end{abstract}
+
+
+
+\input{boolean-domain}
+\input{general-domains}
+
+
+\input{field-domain}
+\input{string-domains}
+\input{conclusions}
+
+
+
+\bibliographystyle{alpha}
+\bibliography{bib}
+
+
+
+\end{document}

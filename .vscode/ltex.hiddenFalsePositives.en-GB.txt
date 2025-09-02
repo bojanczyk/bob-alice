@@ -1,0 +1,1 @@
+{"rule":"OXFORD_SPELLING_Z_NOT_S","sentence":"^\\QThe number of messages is bound by a constant, which depends on the language, but does not depend on the input word or its factorisation.\\E$"}

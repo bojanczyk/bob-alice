@@ -1,0 +1,80 @@
+
+\section{Boolean outputs}
+\label{sec:boolean-domain}
+In this section, we describe our model of computation for the simplest output domain, namely the Booleans. In this case, the model computes a function of type $\Sigma^* \to \set{\text{yes, no}}$, which is the same as a language. Before giving a more formal definition of the protocol, we give an informal description.
+
+Suppose that we want to compute a language over some input alphabet $\Sigma$. The computation will be distributed across two parties, called Alice and Bob, who cooperate and have infinite computational power. An evil adversary chooses an input word $w \in \Sigma^*$, and a factorisation $w = w_1 w_2$ of this input into two consecutive parts. The first part is sent to Alice, and the second part is sent to Bob. Next Alice and Bob exchange a constant number of bits, where the constant depends only on the protocol, and not on the input word $w$ or its factorisation $w=w_1 w_2$. After this exchange, the two parties must decide if the input word $w$ belongs to the language. 
+
+\begin{myexample}
+Suppose that the language is 
+\begin{align*}
+\setbuild{ w \in \set{a,b}^*}{the first $k$ letters of $w$ are equal to the last $k$ letters of $w$}.
+\end{align*}
+To decide this language, the parties can exchange $\Oo(k)$ messages. For example, Alice can send the first $k$ letters of her part to Bob. Alternatively, Bob can send his first $k$ letters, and other variants are possible as well. At any rate, the number of exchanged messages is a function of $k$, which is part of the language and not of the input string. 
+\end{myexample}
+
+
+We now give a formal definition of the protocol. 
+
+\begin{definition}
+    \label{def:two-party-protocol-boolean}
+  A Boolean two-party protocol 
+   is given by the following ingredients: 
+  \begin{enumerate}
+    \item a finite input alphabet $\Sigma$;
+    \item a number of rounds $k \in \set{1,2,\ldots}$;
+    \item message spaces for Alice and Bob, which are finite sets $Q_A$ and $Q_B$;
+    \item for each round $i \in \set{1,\ldots,k}$, two strategies
+    \begin{align*}
+    \myoverbrace{\sigma_A^i : \myunderbrace{\Sigma^*}{Alice's \\ local\\ string} \times \myunderbrace{Q_B^{i-1}}{message \\ history}  \to \myunderbrace{Q_A}{new\\ message}}{stategy for Alice in the $i$-th round}
+    \qquad \text{and} \qquad 
+        \myoverbrace{\sigma_B^i : \myunderbrace{\Sigma^*}{Bob's \\ local\\ string} \times \myunderbrace{Q_A^{i-1}}{message \\ history}  \to \myunderbrace{Q_B}{new\\ message}}{stategy for Bob in the $i$-th round};
+    \end{align*}
+    \item an output function of type $(Q_A \times Q_B)^{k} \to \set{\text{yes, no}}$.
+  \end{enumerate}
+\end{definition}
+
+Given a pair of input strings $(w_1,w_2)$, which are called the \emph{local strings} of Alice and Bob, respectively, the  protocol is run as follows. There are $k$ rounds. In each round, both parties send messages, and therefore after $i$ rounds are played, the communication history contains $i$ messages sent by Alice and $i$ messages sent by Bob.  In round  $i \in \set{1,\ldots,k}$,  each of the two parties  looks at their local string and the $i-1$ messages sent by the other party in the previous rounds (only the messages sent by the other party are needed, since the party knows their own messages). Based on this information, each of the two parties uses their strategy to produce a new message. At the end of the protocol, the output function is used to determine the value of the function, based on all messages in  the communication history. We say that the protocol computes a language $L \subseteq \Sigma^*$ if for every two strings $w_1,w_2$, the output of the protocol tells us if the concatenation $w_1w_2$ belongs to the language. In particular, the answer given by the protocol must satisfy a property that we call \emph{split invariance}: the output for a pair $(w_1,w_2)$ depends only on the concatenation $w_1w_2$. 
+
+Let us comment on two design choices in Definition~\ref{def:two-party-protocol-boolean}. The first design choice is that messages sent by the two parties belong to some fixed finite sets $Q_A$ and $Q_B$. Without changing the expressive power, one could simplify the protocol by assuming that both of these sets are the same, and they are $\set{0,1}$, which means that the parties simply exchange individual bits of information. However, the variant with sets $Q_A$ and $Q_B$ will be more amenable to generalisations and modifications, so we use this variant. The second design choice is the in each round, the two parties send their messages simultaneously, without seeing the message sent by the other party in the same round. We do this for the purpose of symmetry, but the protocol could be changed, without affecting its expressive power, so that the parties send messages in alternation.
+
+An important part of the protocol is that there are no uniformity assumptions or computational restrictions. For example, the first message sent by Alice could contain an answer to some undecidable problem. However, as we will see, the split invariance restriction will make it impossible to use this information, since the protocol can only compute regular languages. 
+
+\begin{theorem}
+  A language $L \subseteq \Sigma^*$ is computed by a protocol if and only if it is regular.
+\end{theorem}
+\begin{proof}
+  We begin with the easier right-to-left implication, which says that the protocol can compute every regular language. Consider a regular language, which is recognised by a deterministic automaton with state space $Q$. To compute this language, we will use a  one-round protocol. Alice sends the state in $Q$ of the automaton after reading her local string, and Bob sends the dependency $Q \to \set{\text{yes, no}}$ which says how Alice's state determines acceptance. Once these two pieces of information are known, we can apply the function from Bob's message to the state in Alice's message to determine the output.
+
+  The rest of this proof is devoted to the left-to-right implication, i.e.~to showing that every language computed by the protocol is regular. This is the heart of the proof, and the place where we need to tame the hypothetically infinite computational power of the protocol. 
+  
+  Observe that in the right-to-left implication, we have proved that regular languages need only one round. Therefore, if we want to  prove that the protocol can only compute regular languages, then a by-product will be that the protocol collapses to the one-round case.  This is, in fact, the first step of our proof. 
+  \begin{lemma}\label{lem:one-round-reduction-boolean}
+    For every protocol, there is a one-round protocol that computes the same function. 
+  \end{lemma}
+  \begin{proof}
+    The general idea is that instead of engaging in interactive communication, each party sends the dependency of their message upon the messages of the other party. Suppose that we are  Alice, and we know our local input string. The sequence of messages that we send will depend on the messages sent by Bob. This dependency is captured by a function of type 
+    \begin{align*}
+    (Q_B)^k \to (Q_A)^k,
+    \end{align*}
+    which  itself depends on the local string of Alice.  Instead of waiting for Bob's messages, Alice sends this function. (This function is not a general function, since it must satisfy the following \emph{causality} constraint: the $i$-th coordinate of the output depends only on the first $i-1$ input coordinates.) At the same time, Bob sends an analogous function of type 
+    \begin{align*}
+    (Q_A)^k \to (Q_B)^k,
+    \end{align*}
+    which describes the dependency of his messages. Due to the causality constraints, the two functions combine to create a unique output in $(Q_A \times Q_B)^k$, which can be used to determine the output of the protocol.
+  \end{proof}
+
+  Observe that the proof of the above lemma can, in general, incur an exponential cost in the size of the message spaces. This is of little concern to us, since we only care about the protocol having a constant number of rounds, without  any regard as to the size of the constant. 
+
+  To complete the proof of the theorem, we use the  Myhill-Nerode Theorem to that one-round protocols can only compute regular languages.  Indeed, consider the strategy of  Alice: 
+  \begin{align*}
+  \sigma_A : \Sigma^* \to Q_A.
+  \end{align*}
+  For all we know, this function is non-computable. However, it classifies all local strings into finitely many categories, and furthermore, if two strings $w_1$ and $w'_1$ are classified into the same category, then they are equivalent in the following sense: 
+  \begin{align*}
+  w_1 w_2 \in L \Leftrightarrow w'_1 w_2 \in L 
+  \qquad \text{for every $w_2 \in \Sigma^*$.}
+  \end{align*}
+  The equivalence described above is the same equivalence as in the Myhill-Nerode Theorem. In particular, equivalence classes of this equivalence are the same as states of the minimal deterministic automaton. In particular, this automaton is finite, and therefore the language is regular.  (Observe that we have shown that the language has at most $Q_A$ equivalence classes of Myhill-Nerode equivalence, which gives an upper bound on the size of the minimal automaton recognizing the language.)
+\end{proof}
+
