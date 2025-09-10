@@ -1,0 +1,222 @@
+\subsubsection{$\Int$-regular functions with non-negative outputs}
+
+In this section, we present the last ingredient of the proof of \cref{thm:unary-string-to-string}, which is that negative coefficients can be eliminated from linear combinations of counting functions, as long as the outputs are non-negative. This result is non-trivial, and it crucially depends on linearity (i.e.~the basic counting functions have arity at most one), as explained in the following example.
+
+\begin{myexample}[Quadratic counterexample]\label{ex:quadratic-counterexample}
+     We show give a function which: (a) is a linear combination of basic counting functions of arity two, with negative coefficients; (b) has only non-negative outputs; and (c) cannot be presented as linear combination with positive coefficients. The idea, which is based on~\cite[Example 2.1]{BerstelReutenauer08}, is to trivially ensure non-negativity by simply squaring any function. Take the function
+\begin{align*}
+w \in \set{a,b}^* 
+\quad \mapsto \quad 
+(\text{(number of $a$'s in $w$)} - \text{(number of $b$'s in $w$)})^2.
+\end{align*}
+This function clearly satisfies (a) and (b). As explained in \cite[p.3]{Zpolyreg23}, this function does not satisfy (c), since the inverse image of $0$ is not a regular language
+has non-negative outputs, but it needs negative coefficients to be decomposed into \mso counting functions.
+\end{myexample}
+
+    Before proving the claim, we observe that the result only works because we use linear \mso counting functions, i.e.~each \mso formula has at most one free variable.
+
+
+
+\label{sec:non-negative}
+\begin{theorem}\label{thm:int-to-nat}
+    Consider a string-to-$\Int$ of the form
+    \begin{align*}
+ \alpha_1 \counter{\varphi_1} + \cdots +  \alpha_k \counter{\varphi_k},
+    \end{align*}        
+        where the coefficents $\alpha_i$ are in $\Int$, and the queries $\varphi_i$ have arity zero or one. If all outputs of this function are non-negative, then there is another decomposition in which the coefficients are positive, and the queries also have arity zero or one.
+\end{theorem}
+
+In the proof of the theorem, we use the following terminology. A function with a decomposition as in the assumption of the theorem is called \emph{$\Int$-regular}. If the coefficients are positive, then it is called \emph{$\Nat$-regular}. In this terminology, the theorem says 
+\begin{align}\label{eq:nat-to-int}
+\text{$\Int$-regular} \ \land \ \text{non-negative outputs} \implies \text{$\Nat$-regular}.
+\end{align}
+The terminology is based on~\cite{Zpolyreg23}, where the polynomial (instead of linear) generalisations of these functions are called $\Int$-polyregular and $\Nat$-polyregular. As remarked in Example~\ref{ex:quadratic-counterexample}, the polynomial version of~\eqref{eq:nat-to-int} does not hold.
+
+Instead of having only non-negative outputs, we will be interested in a weaker but more robust property, which we call \emph{having lower bounded outputs}: there is some lower bound $c \in \Int$, which could be smaller than zero, such that all outputs are at least $c$. This is a relaxation of the assumption in the theorem. The corresponding relaxation of the conclusion of the theorem is a notion that we call being \emph{almost $\Nat$-regular}: there is a decomposition into a linear combination of  basic functions where negative coefficients are allowed, but only for basic functions of arity zero. 
+The following lemma bridges the gap between functions that are almost $\Nat$-regular and those that are $\Nat$-regular.
+
+
+
+
+
+        \begin{lemma}\label{lem:remove-almost}
+            If a  $\Int$-regular function  is almost $\Nat$-regular, and has only non-negative outputs, then  is $\Nat$-regular.
+    \end{lemma}
+    \begin{proof}
+        In the proof of the lemma, and also for the enclosing theorem, it will be more convenient to work with a generalisation where the input domain, instead of being  all strings over the input alphabet, is restricted to  some regular language. The notions of $\Int$-regularity and $\Nat$-regularity are adapted in the natural way for such functions: for a regular language $L \subseteq \Sigma^*$, a function of type  $ L \to \Int$ is called $\Int$-regular if it coincides with some $\Int$-regular function of type $ \Sigma^* \to \Int$ over the domain $L$. In the same way we define $\Nat$-regularity. We will prove the lemma for this more general setup, which will allow us to do case analysis and split the domain into several regular parts. To do such splits, we use the following claim.
+
+
+    \begin{claim}\label{claim:aggregate-two-domains} If a $\Int$-regular function  is  $\Nat$-regular when its domain is restricted to $L_1$ and $L_2$, then it is  $\Nat$-regular when its domain is restricted to $L_1 \cup L_2$. Likewise for almost $\Nat$-regular.
+    \end{claim}
+    \begin{proof}
+        The queries for $L_2$ can be modified so that they return ``false'' (in the case of arity zero) or ``no positions'' (in the case of arity one) on inputs from $L_1$. After this modification, we can simply add the two function to each other.
+    \end{proof}
+
+     We now return to the proof of the lemma.  
+         Consider a $\Int$-regular function $g : L \to \Int$, which is almost $\Nat$-regular and has non-negative outputs. Consider  a decomposition into basic functions 
+        \begin{align*}
+        g = \sum_{i \in I} \alpha_i \cdot \counter{\varphi_i}.
+        \end{align*}
+        By possibly repeating queries, we can assume that each coefficient $\alpha_i$ is either $1$ or $-1$. By the assumption that $g$ is almost $\Nat$-regular, we can choose this decomposition so that queries with a negative coefficient have arity zero. Our goal is to improve the decomposition so that it only uses positive coefficients. We will prove this by induction on the number of queries with a negative coefficient. In the induction base, all queries have positive coefficients, and there is nothing to do.
+
+        For each input string, we are interested in the following information: (a) for each query $\varphi_i$ of arity zero, is it true in the string; and (b) for each query of $\varphi_i$ of arity one, is it true for at least one position in the string. This information can assume finitely many values, namely $2^{|I|}$, and for each such value the corresponding set of strings is a regular language. Therefore, we can split the domain $L$ into finitely many regular parts, such that for each part this information is fixed. It is then enough to prove the lemma for each of the parts, since the results from the conclusion of the lemma can then be aggregated using  \cref{claim:aggregate-two-domains}. Summing up, we  can assume without loss of generality that the information (a) and (b) is the same for all strings in the entire domain. 
+        
+        If some query with a negative coefficient is false in the domain, then it can be removed, and we can call on the inductive assumption. Otherwise, there is some query $\varphi_i$ which has a negative coefficient, and which is true in the entire domain. By the assumption that the function only has outputs in $\Nat$, this negative contriubtion must be canclelled out by some positive contribution. This means  there must be some $j$ such that the query $\varphi_j$ has a positive coefficient and either: (i) has arity zero and is true in the entire domain; or (ii) has arity one and is true for at least one position in every string from the domain. In case (i), we can remove both queries $\varphi_i$ and $\varphi_j$, and the output of the function will be unchanged, while the induction parameter is decreased. In case (ii), we can modify the query $\varphi_j$ so that it does not select some chosen element, say the leftmost element that $\varphi_j$ originally chose. This way the contribution of $\varphi_j$ is decremented by one, and we can then remove the query $\varphi_i$ to balance out the output, thus decreasing the induction parameter.
+    \end{proof}
+
+
+    In light of the above lemma, to prove the theorem, it is enough to show that if a $\Int$-regular function has only nonnegative outputs, then it is almost $\Int$-regular. The advantage of almost $\Nat$-regular functions is that they are more robust, and in particular they are amenable to our proof strategy, which is to use a tool from algebraic language theory, called the Factorisation Forest Theorem~\cite[Theorem 6.1]{simonFactorizationForestsFinite1990}. We now describe this tool.
+
+\paragraph*{The Factorisation Forest Theorem.} In the proof below, it will sometimes be more convenient to use monoids, instead of \mso formulas, to define queries. We assume that the reader is familiar with the basic notions of monoid and monoid homomorphism, see~\cite[Section 1]{bojanczyk_recobook}. A monoid homomorphism $h : \Sigma^* \to M$ can be used to recognise a query. We describe this notion only for arities zero and one, which are the only ones that we need. For arity zero, a query  is recognised
+ by $h$  if for every input string $w$, the output (which is true or false) depends only on the monoid element $h(w)$ produced by the  monoid homomorphism. For arity one, we say that  $\varphi(x)$ is recognised by $h$ 
+    if for every input string $w$,  whether a position $x$ in the  string $w$ is selected by $\varphi(x)$ depends only on the following three pieces of information: 
+    \begin{enumerate}[(a)]
+        \item the value of $h$ on the part of the string before $x$;
+        \item the label of $x$;
+        \item the value of $h$ on the part of the string after $x$.
+    \end{enumerate}
+    A standard compositionality argument for \mso, see \cite[Section 2.1]{bojanczyk_recobook}, shows that every \mso query of arity zero or one is recognised by some homomorphism into a finite monoid,  and the converse is also true, i.e.~if a query is recognised by a homomorphism into some finite monoid, then it is can be expressed in \mso. (The result is also true for higher arities, but we do not use it here.)
+    % We extend the notion of recognisability to $\Int$-regular functions: such a function is said to be recognised by a monoid homomorphism if all the  queries in the corresponding linear combination are recognised by this monoid homomorphism. Again, every $\Int$-regular function is recognised by some homomorphism into a finite monoid.
+
+    The advantage of using monoids instead of \mso is that we can appeal to the  Factorisation Forest Theorem, which we now describe. The general idea behind the theorem is to recursively split the string into simpler factors, with a special role being played by factors whose corresponding monoid element is idempotent, i.e.~it satisfies $aa=a$.  Fix a monoid homomorphism $h : \Sigma^* \to M$. For an input string $w$,  define its \emph{height} to be the smallest number $k$ that can be obtained as follows:
+\begin{enumerate}
+    \item the empty string and single letters have  height $0$;
+    \item if $w_1,w_2$ have height  $\leq k$, then their concatenation $w_1w_2$ has height  $\leq k+1$;
+    \item if $w_1,\ldots,w_n$ have height $ \leq k$, and all these strings are mapped by $h$ to the same monoid element which is furthermore idempotent, 
+ then the concatenation $w_1 \cdots w_n$ has height  $\leq k$.
+\end{enumerate}
+In other words, we can concatenate words without increasing the height, but only if the concatenated words are mapped by the homomorphism to the same idempotent. The Factorisation Forest Theorem says that all strings have bounded height.
+
+\begin{theorem}
+    [Factorisation Forest Theorem] For every monoid homomorphism $h : \Sigma^* \to M$ into a finite monoid, there is some $k \in \set{0,1,\ldots}$ such that every string has height at most $k$.
+\end{theorem}
+
+Using the Factorisation Forest Theorem, we  prove \cref{thm:int-to-nat} by induction on the height of input strings, as stated in the following lemma. Observe that in the assumption of the lemma we have the weaker property of having lower bounded outputs, and in the  conclusion of the lemma we have the weaker property of being almost $\Nat$-regular. This is because these weaker properties will push through the induction, unlike the stronger properties of having non-negative outputs and being $\Nat$-regular.     
+
+\begin{lemma}\label{lem:induction-on-height}
+    Let $f : \Sigma^* \to \Int$ be a lower bounded counting function which is recognised by a  monoid homomorphism $h : \Sigma^* \to M$, which means that $f$ can be decomposed into a linear combination, with coefficients in $\Int$, of basic functions that are recognised by $h$ and have arity zero or one. For every monoid element $a \in M$ and every $k \in \set{0,1,\ldots}$, the function $f$ is almost $\Nat$-regular when its domain is restricted to the set
+    \begin{align*}
+    L(k,a) = \setbuild{ w \in \Sigma^*}{$w$ has height at most $k$ and $h(w) = a$}.
+    \end{align*}
+\end{lemma}
+
+Before proving the lemma, we use it to conclude the proof of \cref{thm:int-to-nat}. Suppose that $f$ is $\Int$-regular, and has non-negative outputs. Choose some monoid homomorphism $h$ that recognises it. By the above lemma, $f$ is almost $\Nat$-regular, when its domain is restricted to input strings that have some specific value in the monoid, and some specific height. By the Factorisation Forest Theorem, there is a finite bound on the heights, and there are also finitely many values in the monoid. Therefore, the set of all input strings is covered by a finite union of languages of the form $L(k,a)$. By \cref{lem:induction-on-height}, $f$ is almost $\Nat$-regular on each of these languages, and we can apply  \cref{claim:aggregate-two-domains} to aggregate these languages into their union, thus proving that  $f$ is almost $\Nat$-regular on all input strings. Finally, since $f$ has non-negative outputs, we can apply \cref{lem:remove-almost} to conclude that $f$ is $\Nat$-regular, thus proving \cref{thm:int-to-nat}. It remains to prove the lemma.
+
+\begin{proof}[Proof of \cref{lem:induction-on-height}]
+In the proof, it will be convenient to avoid queries of arity zero. Removing all queries of arity zero affects neither the assumption of the lemma (having lower bounded outputs)  nor the conclusion (being almist $\Nat$-regular). Therefore, we will only consider linear combinations of basic functions of arity one.
+An advantage of such functions is that we can use the following notion of derivative. 
+
+\begin{definition}[Derivative]
+    Consider a basic function $\#\varphi$ of arity one. For two input strings $w_1, w_2$, we define the \emph{derivative} of this function, denoted by $w_1 (\#\varphi) w_2$, to be the function which maps an input string $w$ to the number of positions which are selected by $\varphi$ in the string $w_1 w w_2$, and which are in the part $w$.
+\end{definition}
+
+% Let $f : \Sigma^* \to \Int$ be a function as in the assumption of the theorem. We say that a $f$ is \emph{constant-free} if it does not use any basic functions that have arity 0, i.e.~all the basic functions have arity 1. We can assume without loss of generality that $f$ is constant-free, since basic functions of arity 0 can be changed into arity 1, by selecting the first position of the input string. (This works for nonempty input strings, but we can handle the empty string separately, since it is only one input.)
+
+
+
+
+
+The following claim collects the basic properties of derivatives. The proof is a straightforward consequence of the definitions, and is left to the reader.  
+\begin{claim}\label{claim:derivatives}
+    Let $\counter \varphi$ be a basic function of arity one. Then
+    \begin{enumerate}
+        \item \label{it:derivative-add} for every input string we have
+         \begin{align*}
+(\counter \varphi)(w_1 w_2) = ((\counter \varphi) \cdot w_2)(w_1) + (w_1 \cdot (\counter \varphi))(w_2)
+\end{align*}
+        % \item  \label{it:derivative-lower-bounded} if $\counter \varphi$ has lower bounded outputs, then so are its derivatives;
+        \item \label{it:derivative-homo} each derivative of $\counter \varphi$ is a basic function of arity one, and furthermore, if $\counter \varphi$ is recognised by a monoid homomorphism $h$, then so are  its derivatives;
+                \item \label{it:derivative-depends} the derivative $w_1(\counter \varphi) w_2$ depends only on $h(a_1)$ and $h(a_2)$;
+                \item \label{it:derivative-finite} there are finitely many derivatives;
+        \item  \label{it:derivative-associative} taking derivatives is associative in the following sense
+        \begin{align*}
+        v_1 (w_1 (\counter\varphi) w_2) v_2 = (v_1 w_1) (\counter\varphi) (w_2 v_2).
+        \end{align*}
+    \end{enumerate}
+\end{claim}
+
+
+We extend the notion of derivatives to constant-free $\Int$-regular functions,  by distributing out the linear combinations:
+\begin{align*}
+w_1(\sum_i \alpha_i \cdot  \counter{\varphi_i}) w_2 = \sum_i \alpha_i \cdot (w_1(\counter{\varphi_i}) w_2)
+\end{align*} 
+The results of \cref{claim:derivatives} extend to such  linear combinations in a straightforward manner. Thanks to item~\ref{it:derivative-depends} in the claim, we can use monoid elements instead of strings in the derivatives, i.e.~for a $\Int$-regular function $f$ that is recognised by a monoid homomorphism $h$, and monoid elements $a_1, a_2$, we write $a_1 f a_2$ for the derivative which arises from some (equivalently, every) strings $w_1$ and $w_2$ that are mapped to $a_1$ and $a_2$. 
+
+
+The following claim shows that the property of having lower bounded outputs is preserved by taking derivatives.
+
+\begin{claim}\label{claim:derivative-lower-bounded}
+    Let $f$ be a $\Int$-regular function which is constant-free. If $f$ has lower bounded outputs, then the same is true for all of its derivatives.
+\end{claim}
+\begin{proof}
+    The words $w_1$ and $w_2$ in the derivative can change the output of the function only by a constant amount.
+\end{proof}
+
+
+
+
+We are now ready to prove the lemma. The proof is by induction on $k$, i.e.~on the height of input strings. In the induction base of $k=0$, there is nothing to do, since each set $L(k,a)$ is finite, and every function is almost $\Nat$-regular on a finite domain. 
+
+It remains to prove the induction step. 
+Suppose that we have proved the lemma for  $k-1$, and we want to prove it for $k$.  We want to show that for every monoid element $a$, the function $f$ is almost $\Nat$-regular when its domain is restricted $L(a,k)$. We consider two cases, depending on whether $a$ is an idempotent or not.
+
+
+\paragraph*{Non-idempotent.} Suppose first that $a$ is not an idempotent. In this case, by definition of  height we have 
+\begin{align*}
+L(a,k) = \bigcup_{a_1,a_2} L(a_1,k-1) \cdot L(a_2,k-1),
+\end{align*}
+where the sum ranges over pairs of monoid elements such that $a_1 a_2 =a$.
+Thanks to \cref{claim:aggregate-two-domains}, it is enough to prove that $f$ is almost $\Nat$-regular when restricted to each  summand. Let us then fix one summand, which corresponds to some monoid elements $a_1,a_2$. Consider an input string $w$ of type $a$ which admits  a factorisation $w = w_1 w_2$ into strings of types $a_1$ and $a_2$, respectively. This factorisation is not unique. However, there is a unary query $\varphi(x)$ which chooses one such  decomposition, if it exists, and then describes it by selecting the first positions from the second part $w_1$. One way of doing it is to consider a \emph{leftmost factorisation}, where the part $w_1$ has  minimal length. 
+ By item~\ref{it:derivative-add} of \cref{claim:aggregate-two-domains}, we know that 
+\begin{align*}
+f(w_1 w_2) = \myunderbrace{(f a_2)}{$f_1$}(w_1) + \myunderbrace{(a_1  f)}{$f_2$}(w_2).
+\end{align*}
+The functions $f_1$ and $f_2$ are derivatives of $f$. They have lower bounded ouptuts thanks to \cref{claim:derivative-lower-bounded}, and  therefore we can use the induction assumption to conclude that $f_1$ is almost $\Nat$-regular on $L(a_1,k-1)$ and that $f_2$ is almost $\Nat$-regular on $L(a_2,k-1)$. Since the leftmost factorisation $w = w_1 w_2$ can be defined in \mso, we can modify the functions $f_1$ and $f_2$ so that they are applied only to the parts $w_1$ and $w_2$. The result is a sum of two almost $\Nat$-regular functions, and is therefore also almost $\Nat$-regular.
+
+\paragraph*{Idempotent.} We are left with the case when $a$ is idempotent. In this case, except for the summands discussed in the non-idemoptent case, which are treated in the same way, we also have to deal with a summand of the form 
+\begin{align*}
+(L(a,k-1))^*.
+\end{align*}
+As in the previous case, for an input string $w \in L(a,k)$, consisder a factorisation 
+\begin{align*}
+w = w_1 \cdots w_n,
+\end{align*}
+where all factors belong to $L(a,k-1)$. This factorisation is not unique. Similarly to the non-idempotent case, we can make it unique, by requiring that $w_1$ has minimal length, then $w_2$ has minimal length, and so on. Call this the \emph{leftmost factorisation}. As previously the leftmost factorisation is definable in \mso, i.e.~there is a query $\varphi(x)$ that selects the first positions of the factors $w_1,\ldots,w_n$.  As previously, we have 
+\begin{align*}
+f(w) = (fa)(w_1) + \myunderbrace{(afa)(w_2) +  \cdots + (afa)(w_{n-1})}{in this part, thanks to idempotence, \\ the same derivative $afa$ is always applied} + (a f)(w_n).
+\end{align*}
+We will be interested in the partition of $w$ into three parts: the left part $w_1$, the middle part $w_2,\ldots,w_{n-1}$, and the right part $w_n$. The partition into these three parts, in the leftmost factorisation,  can be defined in \mso.  We can use the same reasoning for the left and right part is in the non-idempotent case. We are left with the middle part. 
+
+Using the induction assumption, we know that the contribution of each string $w_i$ in the middle part is almost $\Nat$-regular. However, we cannot simply add these contributions to each other, since they might have negative components of arity zero, and these components might accumulate in an unbounded way. Fortunately, this accumulation cannot arise, because the strings in the middle part will have necessarily non-negative contributions, as shown in the following claim. 
+
+
+
+\begin{claim}
+    Suppose that $f$ has lower bounded outputs, and is recognised by the monoid homomorphism $h$. If $a\in M$ is an idempotent, then the derivative $afa$ has non-negative outputs when applied to strings with type $a$. 
+\end{claim}
+\begin{proof}
+    Suppose, toward a contradiction, that there is some string $w$ of type $a$ which has negative output. By concatenating many copies of this string with itself, we get an output 
+    \begin{align*}
+    (afa)(w^n) = (afa)(w) + (afa)(w) + \cdots + (afa)(w) = n \cdot (afa)(w),
+    \end{align*}
+    thus proving that $afa$ does not have lower bounded  outputs, which cannot happen by \cref{claim:derivative-lower-bounded}.
+\end{proof}
+
+By the above claim, the derivative $afa$ is not only lower bounded, but it has non-negative outputs. Therefore, we can apply \cref{lem:remove-almost} to conclude that $afa$ is $\Nat$-regular, i.e.~it has a decomposition where only positive coefficients are used. Without loss of generality, we can assume that all coefficients are 1, i.e.~the decomposition is 
+\begin{align*}
+afa = \sum_{i \in I} \counter \varphi_i.
+\end{align*}
+Let us investigate the contribution of each basic function $\counter \varphi_i$, when computing the output of the middle part, i.e. one the value 
+\begin{align*}
+    (\counter \varphi_i)(w_2) +  \cdots + (\counter \varphi_i)(w_{n-1}).
+\end{align*}
+
+Suppose first that $\varphi_i$ has arity zero. Since it is recognised by the homomorphism $h$, and all strings $w_2,\ldots,w_{n-1}$ have the same type, this contribution is eiter $0$ or $n-2$, depending on whether $\varphi_i$ is true in strings of type $a$. This value can be computed by a basic function, since the decomposition of the middle part into strings $w_2,\ldots,w_{n-1}$ can be defined in \mso. 
+
+Suppose now that $\varphi_i$ has arity one. The observation is that if we take a position $x$ inside some string $w_i$ from the middle part, then this position will satisfy $\varphi_i$ inside $w_i$ if and only if the same position $x$, but inside the entire string $w$, satisfies the same query $\varphi_i$. Therefore, the contribution of $\varphi_i$ can be obtained by counting the number of positions in $w$ that satisfy $\varphi_i$ and belong to the middle part. This is a basic counting function. 
+
+This concludes the idempotent case in the induction step, and thus also the proof of the lemma. 
+\end{proof}
+
+
+

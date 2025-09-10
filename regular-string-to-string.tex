@@ -1,0 +1,64 @@
+
+\subsection{Regular string-to-string functions}
+\label{sec:regular-string-to-string-functions}
+
+In this section, we define the class of regular string-to-string functions, and we prove one implication in the conjecture. 
+ Historically, this class of functions was first defined in terms of 
+ deterministic two-way automata with output\cite[Note 4]{shepherdson1959reduction}. Let us present this definition.
+
+ \begin{definition}[Two-way automaton]
+    A deterministic two-way automaton with output is given by the following ingredients:
+    \begin{enumerate}
+        \item a finite input alphabet $\Sigma$;
+        \item a finite output alphabet $\Gamma$;
+        \item a finite set of states $Q$, with an initial state $q_0 \in Q$;
+        \item a transition function  
+        \begin{align*}
+        \delta : 
+        \myunderbrace{Q}{old \\ state} \times 
+        \myunderbrace{(\Sigma + \{\vdash, \dashv\})}{input letter\\ under  the head} \to  \set{\text{halt}} + (
+        \myunderbrace{Q}{new \\ state}
+         \times 
+         \myunderbrace{\{-1,0,1\}}{head \\ movement} \times 
+         \myunderbrace{\Gamma^*}{added \\ output}) .
+        \end{align*}
+    \end{enumerate}
+ \end{definition}
+
+    The automaton works as follows. The input string $w$ is placed on a tape, with the left end marked by $\vdash$ and the right end marked by $\dashv$. The automaton starts in state $q_0$, with its head on the left end of the tape, which contains the marker $\vdash$. In each step, the automaton looks at its current state and the letter under its head, and based on this information, it uses the transition function to decide if it halts, or it continues its computation. In case it continues, it chooses a  new state, the direction in which it moves its head, and a string over the output alphabet $\Gamma$, which is appended to the output tape. We assume that the automaton is always halting, which means that for every input string, the computation eventually halts. In particular, the computation must be well-defined, which means that the head never falls off the input by moving outside the endmarkers.   The semantics of such an automaton is of type $\Sigma^* \to \Gamma^*$. (For automata which are not necessarily halting, the function would be partial, since it would be undefined for inputs where the automaton does not halt.)
+
+    \begin{myexample}[Reverse]
+        For each input alphabet $\Sigma$, the reverse function of type $\Sigma^* \to \Sigma^*$ is computed by a  two-way automaton, which first moves its head to the end of the string, and then starts copying it to the output while moving in the left direction.
+    \end{myexample}
+
+    The class of functions computed by two-way automata has a remarkable number of equivalent descriptions,  originating in different fields, including:  monadic second-order transductions~\cite[Section 4]{engelfrietMSODefinableString2001}, streaming string transducers~\cite[Section 3]{alurExpressivenessStreamingString2010},  certain kinds of regular expressions~\cite[Section 2]{alur2014regular}, a calculus of functions based on  combinators~\cite[Theorem 6.1]{bojanczykRegularFirstOrderList2018}, a characterisation based on natural transformations~\cite[Theorem 3.2]{bojanczykTitoRegular23}. For this reason, some authors (starting with Engelfriet and Hoogeboom), use the name \emph{regular} for this class of function, with the intended meaning being that these functions play the same role for string-to-string functions, as that which is played by regular languages for string-to-Boolean functions. We adopt this terminology here, as stated in the following definition.
+
+
+    \begin{definition}[Regular string-to-string function]
+        \label{def:regular-string-to-string}
+        A string-to-string function is called \emph{regular} if it is computed by a deterministic two-way automaton with output.
+    \end{definition}
+    
+    
+    One good  property of the regular string-to-string functions is that they  are closed under composition~\cite[Theorem 2]{chytilSerialComposition2Way1977}. In particular, our conjecture would imply that the same is true for functions computed by protocols. Without proving the conjecture, we do not see any direct way of proving composition for protocols.
+     
+    
+    Another good property of the  regular string-to-string functions is that equivalence is decidable, i.e.~given two functions $f$ and $g$, one can decide if for every input string, the two output strings are equal~\cite[Theorem 1]{gurariEquivalenceProblemDeterministic1982}. This property does not seem to have any direct bearing on protocols, since there is no obvious way of presenting a non-uniform protocol as an input for a decision procedure.
+
+
+
+    The following lemma shows one of the implications in the conjecture.
+
+\begin{lemma}\label{lem:from-regular-to-protocol}
+    If a string-to-string function is regular, then it is computed by a protocol.
+\end{lemma}
+\begin{proof}
+    The two parties can simulate a two-way automaton with output. The execution of the protocol describes the crossing sequence of the automaton, i.e.~how it crosses the boundary between the two local strings of Alice and Bob. Here is a picture: 
+    \mypic{1} 
+    More formally, the crossing sequence is defined as follows, given  a split of the input string into two parts $w_1 w_2$. We run the automaton until the first configuration which is in the word $w_2$. Then we run it until the first configuration which is in the word $w_1$. We continue this way, with odd-numbered steps describing runs inside $w_1$ that end in  configurations from $w_2$, and even-numbered steps describing runs inside $w_2$ that end in a configuration from $w_1$. The last step is exceptional, since it ends with an accepting configuration. 
+    The number of steps in a crossing sequence is bounded  the number of states, since otherwise the automaton would enter an infinite loop. This bound is the number of rounds in the protocol. In each round, the state corresponding to this round is sent as a signal, and the output value in the message is the  part of the output string that is produced in this  step. At the end of the protocol, the pieces of the output string are concatenated. 
+\end{proof}
+
+In view of the above lemma, the content of the conjecture is the opposite implication, namely that every protocol computes are regular function. In the rest of this section, we give some evidence for the opposite implication. In Section~\ref{sec:continuity}, we show that functions computed by protocols share some good properties of the regular functions, which is evidence that they might be the same functions. Then,  in Section~\ref{sec:unary-output-alphabet}, we prove the conjecture in the special case of a unary output alphabet. 
+
+

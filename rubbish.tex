@@ -1,0 +1,54 @@
+    Let us underline that when talking about the number $f(w)$, we mean the number itself, and not the number of bits needed to represented, which would be exponentially smaller. In other words, we think of $f(w)$ as being represented in unary and not binary. This is appropriate to our intended application, since we think of natural numbers as representing strings over a unary alphabet. 
+
+The main observation in the proof is the following pumping lemma, which tells us that if the input string is long enough, then some nonempty factor can be deleted, at the cost of an at most constant increase of the output.
+    \begin{claim}\label{claim:pumping}
+        There are constants $N,\Delta \in \set{0,1,\ldots}$ such that for every input string $w \in \Sigma^*$ that has length at least $N$, there is a factorisation $w = w_1 v w_2$ such that 
+        \begin{align*}
+       v \neq \varepsilon \qquad \text{and} \qquad  f(w) < \myunderbrace{f(w_1 w_2)}{$w$ with $v$ deleted} + \Delta.
+        \end{align*}
+    \end{claim}
+Before proving the claim, we use it to finish the proof of the lemma, i.e.~to show that the output has linear size. If the input  string has length bigger than $N$, then the claim can be repeatedly applied until its size drops to below $N$. Each application of the claim deletes at least one letter from the input, and increases the output size by at most a constant. After all applications have been performed,  the input has length smaller than $N$, and therefore its output has bounded size. Summing up, the output is at most linear, as required in the lemma. It remains to prove the claim.
+\begin{proof}[Proof \cref{claim:pumping}] Thanks to \cref{lemma:one-round-reduction-general}, we assume  that the protocol is a one-round protocol.     In a one-round protocol, each of the two parties sends a signal and $k$  natural numbers.  Based on the signal, one chooses a polynomial operation, which is applied to the $2k$  natural numbers  which were sent as messages by Alice and Bob.  In the domain $(\Nat,+)$, a polynomial operation can use only addition and constants, and therefore it has the shape 
+    \begin{align*}
+    (x_1,\ldots,x_k,y_1,\ldots,y_k) \quad \mapsto \quad \lambda_1 x_1 + \cdots \lambda_k x_k + \gamma_1 y_1 + \cdots + \gamma_k y_k + c,
+    \end{align*}
+    for some coefficients $\lambda_i, \gamma_i$ and $c$ which are natural numbers in $\set{0,1,\ldots}$. Furthermore, we can ensure that all coefficients $\lambda_i$ and $\gamma_i$ are either $0$ or $1$. This is done by modifying the protocol so that its operations  are \emph{non-copying}, which means that each argument is used at most once.  In a non-copying operation, each argument is either used or not used, which means that its coefficeint is either $1$ or $0$. 
+    The non-copying condition  can be ensured by modifying the protocol so that each copied valued is sent multiple times, once for each copy. 
+
+    The claim will be proved by looking at the effect which Alice's part of the string has on the entire output, and applying Dickson's Lemma.
+    Suppose that we fix Alice's string $w_1$ and we do not know the string $w_2$ of Bob. We are interested in the function 
+    \begin{align}\label{eq:alices-side-fixed}
+    w_2 \mapsto f(w_1 w_2).
+    \end{align}
+    This function works as follows. We know the signal $q_A$ that will be sent by Alice, and we also know the vector $\bar x \in \Nat^k$  that she will send. We do not know the signal $q_B$ that will be sent by Bob, and we do not know his vector of natural numbers $\bar y \in \Nat$. Therefore, the function in~\eqref{eq:alices-side-fixed}  is determined by the following information: for each signal $q_B$ that could be sent by Bob, what is the operation 
+    \begin{align}\label{eq:profile-operation}
+    \bar y \in \Nat^d \quad \mapsto \quad p_{q_A,q_B}(\bar x, \bar y) \in \Nat.
+    \end{align}
+    We call this information the \emph{profile} of $w_1$. This profile is a tuple of operations, each one with $k$ arguments, which is indexed by possible signals of Bob. These operations in the profile are  non-copying, because we have assumed that the protocol uses non-copying operations, and fixing several values in a non-copying operation gives another non-copying operation. In other words, each operation in the profile is of the form 
+    \begin{align*}
+    (y_1,\ldots,y_d) \in \Nat^d 
+    \quad \mapsto \quad 
+    \lambda_1 y_1 + \cdots + \lambda_d y_d + c,
+    \end{align*}
+    for some coefficients $\lambda_1,\ldots,\lambda_d$ which are either $0$ or $1$ and some constant $c$ which can be an arbitrarily large natural number.  A profile stores one such function for each possible signal, and therefore the set of profiles can be identified with 
+    \begin{align*}
+        \myunderbrace{(\set{0,1}^d)^{Q_A}}{scalars} \times \myunderbrace{\Nat^{Q_A}}{constants}.
+    \end{align*}
+    We order strings as follows: $w_1 \le w'_1$ if in the corresponding profiles, the scalar parts are the same, and the constants for $w'_1$ are coordinate-wise bigger than the constants of $w_1$. If we take two input strings $w_1$ and $w'_1$, then we have 
+    \begin{align}\label{eq:monotonicity}
+    w_1 \leq w'_1
+    \quad \Rightarrow \quad 
+    f(w_1 w_2) \leq f(w'_1 w_2) \quad \text{for every $w_2$.}
+    \end{align}
+    Furthermore, the difference between the two outputs in the conclusion of the implication is bounded by some constant $\delta$ which depends only on $w_1$ and $w'_1$, and not on $w_2$. This constant $\delta$ is the largest difference between the constant parts of the profiles in $w_1$ and the bigger profile $w'_1$.
+
+    The order $\leq$ described above is a well-quasi-order. This is because the scalar parts can be chosen in finitely many ways, and the constants are tuples of natural numbers, and therefore Dickson's Lemma can be applied.  This means that for every sufficiently long word, one can find two prefixes, such that the longer prefix has a greater or equal profile. More formally,  there is some constant $N$ such that for every string $w$ that is longer than $N$, one can find a decomposition 
+    \begin{align*}
+     w =\myunderbrace{w_1 v}{call this $w'_1$} w_2
+    \end{align*}
+    such that $v$ is nonempty, and $w_1 \leq w'_1$. Without loss of generality, we can assume that both prefixes have length at most $N$. By~\eqref{eq:monotonicity}, we know that 
+    \begin{align*}
+    f(w_1w_2) \leq f(w_1vw_2),
+    \end{align*}
+    and furthermore the difference between the two terms is bounded by a constant that depends only on $w_1$ and $v$. Since both $w_1$ and $v$ are assumed to have bounded length, i.e.~at most $N$, it follows that the difference between the two terms is also bounded by a constant. This establishes the claim.
+\end{proof}

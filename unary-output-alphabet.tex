@@ -1,0 +1,119 @@
+\subsection{Unary output alphabet}
+\label{sec:unary-output-alphabet}
+In this section, we prove the special case of Conjectures~\ref{conj:protocol-regular-string-to-string} and~\ref{conj:regular-continuous}, for output alphabets with only one letter.
+\begin{theorem}\label{thm:unary-string-to-string}
+    The following conditions are equivalent for  a string-to-string function $f$ where  the output alphabet  has only one letter:
+    \begin{enumerate}
+        \item $f$ is computed by a protocol;
+        \item \label{it:unary-weighted-continuous} $f$ is weighted continuous;
+        \item \label{it:unary-regular} $f$ is regular.
+    \end{enumerate}
+\end{theorem}
+
+The rest of this section is devoted to proving the above theorem. As discussed above, the only missing implication is \ref{it:unary-weighted-continuous}~$\Rightarrow$~\ref{it:unary-regular}. In the case of a unary output alphabet, we will be able to prove this implication, since outputs can be seen as representing natural numbers.  Under this representation, concatenation of strings is the same as addition of natural numbers. Therefore, we can think of the output domain in the protocol as being $(\Nat,+)$.
+
+
+
+\subsubsection{Linear output size}
+\label{sec:linear-output-size}
+
+Another corollary  of \cref{lem:nat-in-rat} is that the output of a protocol $f : \Sigma^* \to \Nat$ can be at most exponential, since this is true for weighted automata over the field of rationals.
+The next step in our construction is a stronger bound on the output size, namely linear. This result is true also for output alphabets that have more than one letter. 
+
+
+
+
+\begin{lemma}\label{lem:linear-output-size}
+    If a function $f : \Sigma^* \to \Gamma^*$ is computed by a protocol, then it has linear output size, i.e.~the length of the output string is at most linear in the length  of the input string.
+\end{lemma}
+\begin{proof}
+    In the proof, we again use weighted automata over a field. We begin by observing that string-to-string functions computed by protocols can be postcomposed with string-to-field functions computed by weighted automata, and there result will be a string-to-field function computed by a weighted automaton. 
+
+
+
+    Observe also that, since all regular string-to-string functions are computed by protocols (Lemma~\ref{lem:from-regular-to-protocol}), the above claim implies that weighted automata are closed under precomposition with regular string-to-string functions. As far as we know, this is a new result, and we are not of any direct proof of this result which would be substantially simpler than the one given here (although the result can be proved directly, without passing through protocols). 
+    We believe that the  claim describes an essential property of the protocols, and we will  discuss this in more detail in Section~\ref{sec:continuity}.    For the moment, we use the claim to prove linear growth. 
+
+    Consider the ring  $\Rat[x]$ of polynomials in one variable, and its field extension which is the field of rational functions $\Rat(x)$. An element of this field extension is a fraction of two polynomials, modulo equivalence of fractions.  We use this field represent the length of an output string, via the map 
+    \begin{align}\label{eq:length-as-polynomial-degree}
+    w \in \Gamma^* 
+    \quad \mapsto \quad 
+    x^{|w|} \in \Rat(x).
+    \end{align}
+    This map is easily seen to be computed by a weighted automaton (the state stores the output of the function, and in each step it is multiplied by the scalar $x$, which is a linear map). By \cref{claim:postcomposition-weighted-automaton}, the composition of the protocol $f$ with the map from~\eqref{eq:length-as-polynomial-degree} is computed by a weighted automaton. This map is 
+    \begin{align*}
+    w \in \Sigma^* \quad \mapsto \quad x^{|f(w)|} \in \Rat(x).
+    \end{align*}
+    The size of the outuput string for $f$ is the same as the degree of the output of the output of the above function. The above function happens to produce only polynomials (and not fractions of polynomials, which is the general case of elements in $\Rat(x)$), but the notion of degree can easily be extended to fractions: this is the degree of the enumerator minus the degree of the denominator. The following claim shows that the degree can be at most linear in the input size, thus proving the lemma. 
+    \begin{claim}
+        Consider a function $h : \Sigma^* \to \Rat(x)$ which is computed by a weighted automaton. Then the degree of the output is at most linear in the length of the input.
+    \end{claim}
+    \begin{proof}
+        When reading one input letter, the degrees of the field elements stored in the state can only increase by a constant amount.
+    \end{proof}
+\end{proof}
+
+
+
+
+\subsubsection{Regularity}
+\label{sec:regularity-of-string-to-number}
+We now proceed to the final stage of the proof of \cref{thm:unary-string-to-string}. So far, we have established that if a function $f : \Sigma^* \to \Nat$ is computed by a protocol, then: (1) it is computed by a weighted automaton over the rationals (\cref{lem:nat-in-rat}); and (2) it has linear output size (\cref{lem:linear-output-size}). In this section, we show that these two properties ensure regularity, which completes the proof of \cref{thm:unary-string-to-string}.
+\begin{lemma}
+    Consider a function $f : \Sigma^* \to \Nat$ which:
+    \begin{enumerate}
+        \item is computed by a weighted automaton over the field $\Rat$;
+        \item produces  output number that are at most linear in the length of the input string.
+    \end{enumerate}
+    Then the corresponding string-to-string function $w \mapsto a^{f(w)}$ is regular. 
+\end{lemma}
+
+\begin{proof} Following~\cite{Zpolyreg23}, we  use an approach that is based counting positions selected by formulas of  monadic second-order logic \mso. We assume that the reader is familiar with this logic, see~\cite[Section 2.1]{bojanczyk_recobook} for an introduction. 
+A \emph{query of arity $d \in \set{0,1,\ldots}$} 
+over an iput alphabet $\Sigma$ is defined to be a function which inputs a string  $w \in \Sigma^*$ and output a subset of $d$-tuples of positions in $w$. We will be interested mainly in the cases of arity zero or one. 
+% We use the name \emph{unary query} for a query of arity one, while queries of arity zero are the same as languages, but we call them \emph{Boolean queries} when viewed as queries. 
+Also, we will  only be interested in queries that can be defined in \mso. This means that for each query there must be an \mso formula $\varphi(x_1,\ldots,x_d)$, which tells us when a tuple of positions is selected by the query. Such queries will play the role of regular languages, and will be called \emph{\mso definable}. For example, a unary query $\varphi(x)$ could say that the position has at least one $a$ before it, and at least one $a$ after it, which can clearl be expressed in \mso.  
+
+In the context of this paper, queries will be used to define string-to-number functions, by counting the number of selected tuples, as described in the  following definition, which is based on~\cite{Zpolyreg23}.
+
+
+\begin{definition}
+    [Basic counting functions]   For an \mso definable query $\varphi(x_1,\ldots,x_k)$ over input alphabet $\Sigma$, the corresponding \emph{counting function}, denoted by
+    \begin{align*}
+    \counter\varphi : \Sigma^* \to \Nat,
+    \end{align*}
+    is the function that outputs the number of selected tuples in the input string. Any function of this type is called a \emph{basic counting function of arity $d$}.
+\end{definition}
+
+The following claim shows that the regular functions, as in the conclusion of the present lemma, are exactly those that can be obtained using positive linear combinations of basic counting functions of arity zero or one.
+    \begin{claim}\label{claim:mso-counting-regular}
+        Consider a function $f : \Sigma^* \to \Nat$. Then the corresponding string-to-string function with a unary output alphabet is regular if and only if $f$  can be decomposed as  a linear combination 
+        \begin{align*}
+        f = \alpha_1 \counter{\varphi_1} + \cdots +  \alpha_k \counter{\varphi_k},
+        \end{align*}        
+        where the coefficents $\alpha_i$ are in $\Nat$, and the queries $\varphi_i$ have arity zero or one.
+    \end{claim}
+    \begin{proof}
+        To prove this claim, we use the characterisation of regular functions in terms of \mso transductions from~\cite[Section 4]{engelfrietMSODefinableString2001}. If the output is unary, then the order on output positions is irrelevant, and only the number of output positions is relevant. In an \mso transduction, the output positions are defined using \mso formulas with at most one free variable, thus yielding the result. 
+    \end{proof}
+
+In light of the above claim, to prove the lemma it will be enough to show that if a function is computed by a weighted automaton, and its  outputs are natural numbers of linear size, then it is a sum of basic counting functions of arity zero or one. The first step in our construction will be to prove that there is such a decomposition, but possibly using negative coefficients.
+
+\begin{claim}\label{claim:mso-counting-regular-with-negative}
+    Consider a function $f : \Sigma^* \to \Nat$ which satisfies the assumption of the lemma, i.e.~it is computed by a weighted automaton over the rationals, and it has linear output size. Then $f$ admits a decomposition 
+    \begin{align*}
+    f = \alpha_1 \counter{\varphi_1} + \cdots +  \alpha_k \counter{\varphi_k},
+    \end{align*}        
+        where the coefficents $\alpha_i$ are in $\Int$, and the queries $\varphi_i$ have arity zero or one.
+\end{claim}
+\begin{proof}
+    In the proof, we use weighted automata over the integer ring $\Int$. This is the special case of weighted automata over the rational field $\Rat$, in which all coefficients are integers. If a function is computed by a weighted automaton over $\Rat$, and all of its outputs are integers,  then it is also computed by a weighted automaton over $\Int$,  see~\cite[p. 110]{BerstelReutenauer08}. Therefore, we can assume that $f$ is computed by a weighted automaton over $\Int$.
+    As remarked in~\cite[Remark II.21]{Zpolyreg23}, if a function is computed by a weighted automaton over the ring $\Int$, and it has polynomial output size, then it can be obtained as a linear combination of basic counting functions, possibly using negative coefficients. Furthermore, the cited remark can be strengthened, with the same proof, to a linear version: if the output is linear, then the basic counting functions can be chosen to have arity zero or one, as required by the claim.
+\end{proof}
+
+To finish the proof of the lemma, we will show that negative coefficients are not necessary, assuming that the outputs are non-negative. Since the  proof of this last part is long, and the corresponding result  might be of independent interest, we state it as a separate theorem in its own separate section, see \cref{thm:int-to-nat} in Section~\ref{sec:non-negative}. This theorem completes the proof of the lemma, and thus also of \cref{thm:unary-string-to-string}.
+\end{proof}
+
+
+
+\input{non-negative}

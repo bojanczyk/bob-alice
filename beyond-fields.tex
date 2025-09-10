@@ -1,0 +1,168 @@
+
+\subsection{Semirings that are not fields}
+\label{sec:beyond-fields}
+In our discussion so far, a prominent role was played by weighted automata over a field. However, weighted automata make also sense in a more general setting, where a semiring is used instead of a field. We discuss this more general setting in the present section.
+
+When talking about weighted automata over a semiring, it  will be more convenient to work with an alternative presentation of weighted automata.  Instead of using a deterministic automaton that operates on tuples in $\domain^k$, we use a nondeterministic automaton with weights on states and transitions, as defined below. 
+\begin{definition}
+    [Weighted automaton, nondeterministic presentation] 
+    \label{def:weighted-automaton-nondeterministic}
+    A \emph{weighted automaton} consists of a finite input alphabet $\Sigma$,  a finite set of states $Q$, and functions: 
+    \begin{align*}
+    \myunderbrace{I : Q \to \domain}{initial}
+    \quad
+    \myunderbrace{F : Q \to \domain}{final}
+    \quad
+    \myunderbrace{\Delta : Q \times \Gamma \times Q \to \domain}{transitions}.
+    \end{align*}
+\end{definition}
+ A run of this automaton is defined in the usual way: it is a sequence of transitions, one for each input letter, such that consecutive transitions agree on the connecting states. The weight of a run is the product of: (1) the initial weight of its source state; (2) the weights used by its transitions; and (3) the final weight of its target state. If the semiring is commutative, the order of transitions is unimportant when taking the product. For an input string, the output of the automaton is the sum of weights of all runs over this automaton.  For fields, the model from Definition~\ref{def:weighted-automaton-nondeterministic}  defines the same functions as the model from Definition~\ref{def:weighted-automaton}, see~\cite[Lemma 8.3]{bojanczyk_automata_2025}. The equivalence also extends to semirings, for a suitable adaptation of Definition~\ref{def:weighted-automaton}. For the purposes of this seciton, we use the nondeterministic  model described from Definition~\ref{def:weighted-automaton-nondeterministic}.
+
+
+
+  Recall Conjecture~\ref{conj:regular-continuous}, which says that a string-to-string function is regular if and only if it is weighted continuous, with respect to weighted automata over a field. One could consider variants of this conjecture for semirings.  For a class $\algclass$ of semirings, let us define \emph{weighted continuity over $\algclass$} to be the same as in Definition~\ref{def:weighted-continuity}, except that instead of fields, we have semirings from the class $\algclass$. This section is devoted to studying   variants of Conjecture~\ref{conj:regular-continuous} for  important classes of semirings, namely:
+\begin{align}
+\text{weighted continuous over finite fields}
+& \iff
+\text{regular}
+\label{eq:weighted-continuous-finite-fields}\\
+\text{weighted continuous over fields}
+& \iff
+\text{regular}
+\label{eq:weighted-continuous-fields}\\
+    \text{weighted continuous over commutative semirings}
+& \iff
+\text{regular}
+\label{eq:weighted-continuous-commutative-semirings}\\
+\text{weighted continuous over all semirings}
+& \iff
+\text{regular}
+\label{eq:weighted-continuous-all-semirings}
+\end{align}
+
+As the class of semirings grows, the left condition becomes stronger, and thus the implication $\implies$ becomes easier to prove, while the converse implication $\impliedby$ becomes harder to prove. The following diagram explains what we know and conjecture about the implications (known facts are in black, and conjectures are in red).
+
+\begin{eqnarray*}
+\text{weighted continuous over finite fields}
+& \raisebox{-3pt}{\stackon[1pt]{\(\centernot\implies\)}{\(\impliedby\)}}
+& \text{regular}\\ [1.5ex]
+\text{weighted continuous over fields}
+& \raisebox{-3pt}{\stackon[3pt]{\(\red\implies\)}{\(\impliedby\)}}
+&  \text{regular}\\ [1.5ex]
+    \text{weighted continuous over commutative semirings}
+& \raisebox{-3pt}{\stackon[3pt]{\(\red\implies\)}{\(\impliedby\)}}
+& \text{regular}\\ [1.5ex]
+\text{weighted continuous over all semirings}
+& \raisebox{-3pt}{\stackon[1pt]{\(\red\implies\)}{\({\centernot \impliedby}\)}}
+& \text{regular}
+\end{eqnarray*}
+
+To justify the description above, we need to show that: (a) there is a function that is continuous over finite fields, but which is not regular; (b) there is a function that is regular, but not continuous over all semirings; and (c) if a function is regular, then it is continuous over commutative semirings. These are justified in Example~\ref{ex:not-regular-but-continuous-over-finite-fields}, Example~\ref{ex:all-semirings} and Theorem~\ref{thm:regular-continuous-commutative-semirings} below.
+
+
+\begin{myexample}
+    \label{ex:not-regular-but-continuous-over-finite-fields}
+    We give a counterexample that witnesses
+    \begin{align*}
+    \text{weighted continuous over finite fields}
+    & \centernot \implies \text{regular}.
+    \end{align*}
+    A weighted automaton over a finite field is the same thing as a regular language. More precisely if $\domain$ is a finite field, then a  function 
+    \begin{align*}
+    g : \Gamma^* \to \domain
+    \end{align*}
+    is computed by a weighted automaton over $\field$ if and only if for every field element $x \in \field$, the set of strings that are mapped to $x$ is a regular language. This is because a finite automaton can simulate a weighted automaton over a finite field, and conversely a deterministic finite automaton can be seen as a special case of a weighted automaton over any field with at least two elements. Therefore, being weighted continuous over finite fields is the same thing as preserving regularity under inverse images. This is an established notion of continuity for functions, as we have explained before.  As shown in \cite{bojanczykTitoRegular23}, there are functions which are not regular but still preserve regularity under inverse images, in fact there are uncountably many such functions.
+\end{myexample}
+
+
+\begin{myexample} 
+    \label{ex:all-semirings}
+    We give a counterexample that witnesses
+    \begin{align*}
+    \text{weighted continuous over all semirings}
+    & {\centernot \impliedby} \text{regular}.
+    \end{align*}
+    Fix a two-letter alphabet $\set{a,b}$, and  consider the semiring 
+    \begin{align*}
+    \domain = \pfin(\set{a,b}^*),
+    \end{align*}
+    in which elements are finite sets of words, addition is union, and multiplication is concatenation. Over this semiring, a weighted automaton 
+    \begin{align*}
+    f : \Sigma^* \to \domain
+    \end{align*}
+    gives a function from input strings in $\Sigma^*$ to finite sets of output strings in $\set{a,b}^*$. This function can be viewed as a binary relation between input strings in $\Sigma^*$ and output strings in $\set{a,b}^*$. The binary relations that arise this way are exactly the \emph{rational relations}~\cite[Chapter IX]{Eilenberg74}, i.e.~relations that can be  described by a nondeterministic automaton with output strings on transitions. If regular functions would be countinuous over the semiring $\domain$, then rational relations would be closed under precomposition with regular functions. This is not the case. For example, the identity function $\set{a,b}^* \to \set{a,b}^*$ is a rational relation, but if we precompose it with the reverse function, which is regular, we get the reverse function again, which is not a rational relation. The non-rationality of reverse can formally be proved by appealing to the decidable characterisation of rationality in \cite[Theorem 1]{filiot2013two}.
+\end{myexample}
+
+\begin{theorem}\label{thm:regular-continuous-commutative-semirings}
+    If a string-to-string function is  regular, then it is weighted continuous over commutative semirings.
+\end{theorem}
+\begin{proof}
+
+    Having described the model, let us prove the lemma.
+        Let $\domain$ be a commutative semiring, and  consider  a composition 
+    \[
+    \begin{tikzcd}
+    \Sigma^* 
+    \ar[r,"f"]
+    & 
+    \Gamma^*
+    \ar[r,"g"]
+    &
+    \domain
+    \end{tikzcd}
+    \]
+    where the first function $f$ is computed by a two-way automaton, and the second function $g$ is computed by a weighted automaton over $\domain$. We need to show that the composition $f;g$ can be computed by a weighted automaton over $\domain$. To prove the lemma, we use a straightforward product construction. To describe the construction, we use \emph{weighted graphs}. Such a graph is a directed graph, where every directed edge has a weight, and every vertex has two weights: an initial and final weight. For an input string $w \in \Sigma^*$, consider the following weighted graph, which call the \emph{run graph}:
+    \begin{itemize}
+        \item \textbf{Vertices.} Vertices are triples of the form $(p,x,q)$ where $(p,x)$ is a configuration of the two-way automaton for $f$ and  $q$ is a state of the weighted automaton for $g$. Recall that a configuration of the two-way automaton consists of a state $p$, and a position  $x$  in the string obtained from $w$ by adding endmarkers $\vdash$ and $\dashv$ to both ends. 
+        \item \textbf{Edges.} In the graph, there is an edge 
+        \begin{align*}
+        (p,x,q) \xrightarrow{a} (p',x',q')
+        \end{align*}
+        if the two-way automaton has a single transition which goes from configuration $(p,x)$ to configuration $(p',x')$.
+        \item \textbf{Weights of edges.} Consider an edge as in the previous item. The weight of this edge is defined as follows. Let $u$ be the output string, possibly empty, which is produced by the two-way automaton in the transition that goes from $(p,x)$ to $(p',x')$. The weight of the edge is defined to be the  sum of weights of all runs in the weighted automaton that go from $q$ to $q'$ and have input string $u$. In the special case when $u$ is empty, this will mean that $a$ is the $1$ of the semiring, i.e.~the neutral element of multiplication, because there is a unique run over the input string, and this run has weight $1$. 
+        \item \textbf{Initial weights of vertices.} The initial weight of a vertex $(p,x,q)$ is zero if $(p,x)$ is not the initial configuration of the two-way automaton, and otherwise it is the initial weight of  the state $q$.
+        \item \textbf{Final weights of vertices.} The final weight of a vertex $(p,x,q)$ is zero if $(p,x)$ is not the final configuration of the two-way automaton, and otherwise it is the final weight of the state $q$.
+    \end{itemize}
+The weight of a path in this graph is defined to be the product of: (1) the initial weight of the first vertex; (2) the weights of all edges on the path; and (3) the final wight of the last vertex. It is  easy to see that for an input string $w \in \Sigma^*$, the output of the composition $f;g$ is the same as the sum of weights of all paths in the corresponding run graph.  (This sum finite and therefore well-defined, since the run graph has finitely many paths by virtue of being  acyclic. This is because the two-way automaton is not allowed to loop.) To complete the proof of the theorem, it is enough to show the following claim.
+\begin{claim}
+    There is a weighted automaton which inputs a string $w \in \Sigma^*$, and outputs the sum of weights of all paths in the corresponding run graph.
+\end{claim}
+\begin{proof}
+    This claim is the place where we use commutativity of the semiring. Consider a run graph, as in the following picture (to avoid clutter, we only show the vertices, and not the weights):
+    \mypic{3}
+    Consider a path in the run graph. Since the run graph is necessarily acyclic, such a path is uniquely described by the set of edges that it uses, as in the   following picture:  
+    \mypic{4}
+    A run graph together with a distinguished path can be viewed as a string, which we call its \emph{string representation}. Each letter in the string representation describes a single column of the picture above. (The string representation includes the weights of the vertices and edges, which are omitted in the picture.)     The function which inputs a string from $\Sigma^*$ and returns the set of all string representations of paths in the corresponding run graph is easily seen to be a rational relation, in the sense that was  discussed in Example~\ref{ex:all-semirings}. Let this relation be 
+    \begin{align*}
+    R \subseteq \Sigma^* \times \Delta^*,
+    \end{align*}
+    where $\Delta$ is the alphabet used for string representation of paths inside run graphs. The function in the present claim is the same as 
+    \begin{align*}
+    w \in \Sigma^* 
+    \quad \mapsto \quad 
+    \sum_{\substack{v \in \Delta^* \\ (w,v) \in R}} \text{weight of path described by $v$}.
+    \end{align*} 
+    Weighted automata are closed under sums as above~\cite[Lemma 8.12]{bojanczyk_automata_2025}, and therefore to complete the proof of the claim it is enough to show a weighted automaton for the function
+    \begin{align*}
+    v \in \Delta^* 
+    \quad \mapsto \quad 
+    \text{weight of path described by $v$}.
+    \end{align*}
+    This weighted automaton is trivial: it simply mutiplies the weights of all highlighted edges, together with the initial weight of the first vertex and the final weight of the last vertex. Here, commutativity of the semiring is crucial, since the multiplication will be done in a left-to-right fashion, which will typically be inconsistent with the order of vertices on the path. 
+\end{proof}
+
+\end{proof}
+
+We finish this section by dicussing the relationship between two implications, both of which we conjecture to be true.
+\begin{align}
+\text{weighted continuous over fields}
+& \iff
+\text{regular}
+\label{eq:weighted-continuous-fields-again}\\
+    \text{weighted continuous over commutative semirings}
+& \iff
+\text{regular}
+\label{eq:weighted-continuous-commutative-semirings-again}
+\end{align}
+Since the implications $\impliedby$ are known to be true by \cref{thm:regular-continuous-commutative-semirings}, the more difficult equivalence is the first one, which has a weaker condition on the left side. 
+For all we know, only the harder  first equivalence has any bearing on protocols, since we have established continuity for protocols only in the field case, see \cref{lem:postcomposition-weighted-automaton}. Even though it might not be connected to protocols, the  easier second equivalence would still be interesting on its own, as a characterisation of the regular string-to-string functions.

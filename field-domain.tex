@@ -1,10 +1,13 @@
 \section{Field outputs}
 \label{sec:field-domain}
-In this section, we prove that if the output domain is a field, then our protocol has exactly the same expressive power as weighted automata. We begin by recalling the notion of weighted automata.
+In this section, we prove that if the output domain is a field, then our protocol has exactly the same expressive power as weighted automata.
+Recall that in a field domain, the operations are addition and multiplication. (We discuss division later in this section.)
+We begin by recalling the notion of weighted automata.
 
-\paragraph*{Weighted automata.}  A weighted automaton is a device that is used to compute a function from strings to a field. Essentially, this is a deterministic automaton where the state space is a vector space of finite dimension, and each input letter induces a linear map. Here is the formal definition. 
+\paragraph*{Weighted automata.}  A weighted automaton is a device that is used to compute a function from strings to a field (more generally, a semiring, but we consider the case of fields here). This model was originally introduced by \schutz~\cite{schutzenberger1961definition}. Essentially, this is a deterministic automaton where the state space is a vector space of finite dimension, and each input letter induces a linear map. Here is the formal definition. 
 
 \begin{definition}[Weighted automaton]
+    \label{def:weighted-automaton}
     A weighted automaton over a field $\domain$ is given by: 
     \begin{enumerate}
         \item a finite input alphabet $\Sigma$;
@@ -27,7 +30,15 @@ The main result of this section is that our protocol is equivalent to weighted a
     \end{align*}  is computed by a protocol if and only if it is  computed by a weighted automaton.
 \end{theorem}
 
-The rest of this section is devoted to proving the theorem. 
+The rest of this section is devoted to proving the theorem. Before proving it, we discuss the role of division.
+
+\begin{myexample}
+    Because it is undefined for zero, division is not a total operation, and therefore technically speaking it does not fall into our framework. We could, however try to incorporate it, by making the two parties responsible for avoiding division by zero. Under this framework, we could use a protocol to compute the function 
+    \begin{align*}
+    w \mapsto \frac 1 {|w|+1}.
+    \end{align*}
+    In the protocol, Alice sends 1 + her input length, Bob adds this to his length, and then takes the inverse. We claim that this function cannot be computed by a protocol, and therefore having division would strictly increase the expressive power. Indeed, if the function would be computed by a protocol, then it would be a weighted automaton, thanks to~\cref{thm:field-domain}. This function depends only on the input length, and therefore it can be thought of being a function of type $\Nat \to \Rat$. For such functions, weighted automata compute exactly the linear recurrence sequences. The inverse function, as in our example, is not a linear recurrence sequence.
+\end{myexample}
 
 For the right-to-left implication, there is little to do. Suppose that the function is computed by a weighted automaton, which uses  dimension $d$. Every input string $\Sigma^*$ induces a linear map of type $\domain^d \to \domain^d$, which is obtained by composing the linear maps for the individual letters in the string.  Such a linear map can be represented as a matrix, and therefore it can be output using $d^2$ messages.  In the protocol, Alice sends the matrix  which corresponds to her local string, and Bob sends the  matrix which corresponds to  his local string. These matrices are multiplied using the field operations, and then multiplied with the initial and final vectors. This protocol is signal-free, i.e.~no information is conveyed using signals.
 
