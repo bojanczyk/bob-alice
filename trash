@@ -1,0 +1,37 @@
+
+% \begin{align}
+% \text{continuous over finite fields}
+% & \stackrel ? \iff
+% \text{regular}
+% \label{eq:weighted-continuous-finite-fields}\\
+% \text{continuous over fields}
+% & \stackrel ? \iff
+% \text{regular}
+% \label{eq:weighted-continuous-fields}\\
+%     \text{continuous over commutative semirings}
+% & \stackrel ? \iff
+% \text{regular}
+% \label{eq:weighted-continuous-commutative-semirings}\\
+% \text{continuous over all semirings}
+% & \stackrel ? \iff
+% \text{regular}
+% \label{eq:weighted-continuous-all-semirings}
+% \end{align}
+
+% As the class of semirings grows, the left condition becomes stronger, and thus the implication $\implies$ becomes easier to prove, while the converse implication $\impliedby$ becomes harder to prove. In fact, the implication $\impliedby$ is false in the first variant (as we have seen in Example~\ref{ex:not-regular-but-continuous-over-finite-fields}), and the implication $\implies$ is false in the last case, as we will see in Example~\ref{ex:all-semirings}. The remaining middle two variants, of which  Conjecture~\ref{conj:regular-continuous} is the upper one, are still open, and we believe that both of them are true (and in particular the two middle kinds of continuity are the same).
+% The following diagram summarises what we know and conjecture about the implications (known facts are in black, and conjectures are in red).
+
+% \begin{eqnarray*}
+% \text{weighted continuous over finite fields}
+% & \raisebox{-3pt}{\stackon[1pt]{\(\centernot\implies\)}{\(\impliedby\)}}
+% & \text{regular}\\ [1.5ex]
+% \text{weighted continuous over fields}
+% & \raisebox{-3pt}{\stackon[3pt]{\(\red\implies\)}{\(\impliedby\)}}
+% &  \text{regular}\\ [1.5ex]
+%     \text{weighted continuous over commutative semirings}
+% & \raisebox{-3pt}{\stackon[3pt]{\(\red\implies\)}{\(\impliedby\)}}
+% & \text{regular}\\ [1.5ex]
+% \text{weighted continuous over all semirings}
+% & \raisebox{-3pt}{\stackon[1pt]{\(\red\implies\)}{\({\centernot \impliedby}\)}}
+% & \text{regular}
+% \end{eqnarray*}

@@ -71,10 +71,10 @@ An important part of the protocol is that there are no uniformity assumptions or
   \sigma_A : \Sigma^* \to Q_A.
   \end{align*}
   For all we know, this function is non-computable. However, it classifies all local strings into finitely many categories, and furthermore, if two strings $w_1$ and $w'_1$ are classified into the same category, then they are equivalent in the following sense: 
-  \begin{align*}
+  \begin{align}\label{eq:myhill-nerode-equivalence}
   w_1 w_2 \in L \Leftrightarrow w'_1 w_2 \in L 
   \qquad \text{for every $w_2 \in \Sigma^*$.}
-  \end{align*}
+  \end{align}
   The equivalence described above is the same equivalence as in the Myhill-Nerode Theorem. In particular, equivalence classes of this equivalence are the same as states of the minimal deterministic automaton. In particular, this automaton is finite, and therefore the language is regular.  (Observe that we have shown that the language has at most $Q_A$ equivalence classes of Myhill-Nerode equivalence, which gives an upper bound on the size of the minimal automaton recognizing the language.)
 \end{proof}
 

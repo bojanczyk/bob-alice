@@ -1,6 +1,7 @@
-\subsection{Weighted continuous functions}
+\subsection{Evidence for the conjecture}
 \label{sec:continuity}
-In this section, we give some evidence for Conjecture~\ref{conj:protocol-regular-string-to-string}. The point of departure is the following lemma, which connects weighted automata and string-to-string functions that can be computed in our protocol.
+The rest of Section~\ref{sec:string-outputs} is devoted to  evidence for Conjecture~\ref{conj:protocol-regular-string-to-string}.
+In this subsection, we show that the string-to-string functions computed by protocols share some of the good properties of regular functions, such as linear size outputs and computability. (A priori, it is not clear why the functions should be computable, since the protocols are non-uniform.) The point of departure is the following lemma, which connects weighted automata and string-to-string functions that can be computed in our protocol.
 
     \begin{lemma}
         \label{lem:postcomposition-weighted-automaton}
@@ -28,20 +29,23 @@ In this section, we give some evidence for Conjecture~\ref{conj:protocol-regular
 The above lemma establishes a property of $f$, namely that weighted automata (over a field) are closed under precomposition with $f$. We think that this is an important property, and therefore we give it a name.
 
 
-\begin{definition}[Weighted continuity]
+\begin{definition}[Field continuity]
     \label{def:weighted-continuity}
-    A string-to-string function $f : \Sigma^* \to \Gamma^*$ is called \emph{weighted continuous} if functions computed by weighted automata over a field are closed under precomposition with $f$.
+    A string-to-string function $f : \Sigma^* \to \Gamma^*$ is called \emph{field continuous} if functions computed by weighted automata over a field are closed under precomposition with $f$.
 \end{definition}
 
-The name ``continuous'' is inspired by a similar terminology that is used in automata theory for functions that preserve regularity under inverse images, see~\cite[Theorem 4.1]{PinSilva05} or~\cite[Footnote 2]{continuity20}. 
-As we have shown in \cref{lem:postcomposition-weighted-automaton}, all string-to-string functions computed by protocols are weighted continuous. In particular, since every regular string-to-string function is computed by a protocol, it follows that every regular string-to-string function is weighted continuous. (To the best of our knowledge, this is a new result.)
+In the above definition, we only consider weighted automata over a field. The more general setting of semirings is dicussed in Section~\ref{sec:beyond-fields}.
+The name ``continuous'' is inspired by a similar terminology that is used in automata theory for functions that preserve regularity under inverse images, see~\cite[Theorem 4.1]{PinSilva05} or~\cite[Footnote 2]{continuity20}.  For the latter notion, we use the name \emph{Boolean continuity}.
+
+As we have shown in \cref{lem:postcomposition-weighted-automaton}, all string-to-string functions computed by protocols are field continuous. In particular, since every regular string-to-string function is computed by a protocol, it follows that every regular string-to-string function is field continuous\footnote{To the best of our knowledge, this is a new result. It can also be proved directly, without passing through protocols, and we present such a direct proof in Section~\ref{sec:beyond-fields}, for the more general setting of commutative semirings. In the more general case we need a direct proof, since \cref{thm:field-domain} is not known to be true for this case.}
 We conjecture that the converse is also true.
 
 \begin{conjecture}\label{conj:regular-continuous}
-    A string-to-string function is weighted continuous if and only if it is regular.
+    A string-to-string function is field continuous if and only if it is regular.
 \end{conjecture}
 
- One consequence of the above conjecture would be a machine independent characterisation of regular functions. This would be a very valuable contribution. Almost all known characterisations of regular functions have somewhat lengthy definitions, based on specific computational models, and it is something of a  miracle that all of these models are equivalent. A possible exception is the characterisation in~\cite{bojanczykTitoRegular23}; however that characterisation uses the abstract language of category theory, and is less elementary than the one in Conjecture~\ref{conj:regular-continuous}.
+In Section~\ref{sec:beyond-fields}, we dicuss variants of the conjecture, and in particular we show that the conjecture becomes false if the left side is relaxed from field continuous to Boolean continuous.
+The above conjecture can be seen as  a machine independent characterisation of the regular string-to-string  functions. This would be a very valuable contribution. Almost all known characterisations of the regular string-to-string  functions have somewhat lengthy definitions, based on specific computational models, and it is something of a  miracle that all of these models are equivalent. A possible exception is the characterisation in~\cite{bojanczykTitoRegular23}, which does not use a machine model; however that characterisation uses the abstract language of category theory, and is less elementary than the one in Conjecture~\ref{conj:regular-continuous}.
 
 As in Conjecture~\ref{conj:protocol-regular-string-to-string}, the content of the conjecture is the left-to-right implication. 
 Conjecture~\ref{conj:regular-continuous} is stronger than Conjecture~\ref{conj:protocol-regular-string-to-string}, as explained in the following diagram, which shows the known relations between three kinds of string-to-string functions:
@@ -54,21 +58,20 @@ Conjecture~\ref{conj:regular-continuous} is stronger than Conjecture~\ref{conj:p
 \ar[d,Rightarrow, shift right=2, "\text{\cref{lem:postcomposition-weighted-automaton}}"']
 \ar[u,Rightarrow, shift right=2,"\text{Conjecture~\ref{conj:protocol-regular-string-to-string}}"']
 \\ 
-\text{weighted continuous} 
+\text{field continuous} 
 \ar[uu,bend right=89, Rightarrow, shift right=2,"\text{Conjecture~\ref{conj:regular-continuous}}"']
 \end{tikzcd}
 \]
 
 
-The proof of \cref{lem:postcomposition-weighted-automaton} could be generalised from fields to commutative semirings. Therefore, we could have an intermediate conjecture, sitting between Conjectures~\ref{conj:protocol-regular-string-to-string} and\ref{conj:regular-continuous}, which uses continuity for commutative semirings. However, it seems likely that continuity for fields is enough, so we stay with fields, and we refer only to fields when talking about weighted coninuity. 
-The following theorem gives some evidence for the stronger conjecture, by showing that the weighted coniniuous functions share some well-known properties of the regular string-to-string functions. 
+The following theorem gives some evidence for the stronger conjecture, by showing that the field coniniuous functions share some well-known properties of the regular string-to-string functions. 
 
 \begin{theorem}\label{thm:evidence-for-the-conjecture}
-    If a function $f : \Sigma^* \to \Gamma^*$ is  weighted continuous, then:
+    If a function $f : \Sigma^* \to \Gamma^*$ is  field continuous, then:
     \begin{enumerate}
         \item \label{it:linear-size-outputs} the outputs have at most linear size;
         \item \label{it:linear-time-computable} the outputs can be   computed in linear time;
-        \item \label{it:regular-preimages} for every regular language $L \subseteq \Gamma^*$, the preimage $f^{-1}(L)$ is a regular language.
+        \item \label{it:regular-preimages} it is Boolean continuous, i.e.~preimages of regular languages are regular.
     \end{enumerate}
 \end{theorem}
 
@@ -77,18 +80,18 @@ The following theorem gives some evidence for the stronger conjecture, by showin
 
 \begin{proof}
     For properties~\ref{it:linear-size-outputs} and~\ref{it:linear-time-computable}, we embed strings into numbers. 
-    An output string over alphabet $\Gamma$ can be seen as a number in base $|\Gamma|+1$. We do the $+1$ to avoid the digit zero, so that the encoding becomes injective. Let 
+    An output string over alphabet $\Gamma$ can be seen as a number in base $|\Gamma|$. To avoid with ambiguity that could result from leading zeros, we first prepend the string with the digit 1. Let 
     \begin{align*}
-    g : \Gamma^* \to \Rat
+    g : \Gamma^* \to \Nat \subseteq \Rat
     \end{align*} 
-    be the corresponding encoding. This encoding can be computed by a weighted automaton, see~\cite[Lemma 8.10]{bojanczyk_automata_2025}. By  the assumption on weighted continuity, the composition $f;g$ can be computed by a weighted automaton. This is a weighted automaton that only produces integers on its output, and therefore the same function can also be computed by a weighted automaton over the ring of integers $\Int$, by~\cite[p. 110]{BerstelReutenauer08}. Summing up, we have a weighted automaton over $\Int$ that outputs the representation, in base $|\Gamma|+1$, of  This tells us that 
-    \begin{align*}
-    g : \Gamma^* \to \Rat(\Gamma)
-    \end{align*}
-    is easily seen to be 
-    This encoding is easily seen to be computable by a weighted automaton over the field $\Rat(\Gamma)$. Therefore, by assumption on weighted continuity, the encodings of outputs of  $f$ can be computed by a weighted automaton. Since a weighted automaton can be evaluated in linear time, it follows that the encodings of outputs of $f$ can be computed in linear time. A string is easily recovered from its encoding, thus proving property~\ref{it:linear-time-computable}. 
-    
-    We are left with property~\ref{it:regular-preimages}, about regularity of preimages. As mentioned before, this property is sometimes called continuity in the context of automata theory. As we will see, continuity with respect to regular languages, as in property~\ref{it:regular-preimages}, is the special case of  continuity with respect to weighted automata. More precisely, this is the special case that corresponds to weighted automata over the two-element field.  This is because of  the following  folklore correspondence between regular languages and weighted automata over the two-element field. 
+    be the corresponding encoding. This encoding can be computed by a weighted automaton over the field $\Rat$, see~\cite[Lemma 8.10]{bojanczyk_automata_2025}. By  the assumption on field continuity, the composition $f;g$ can be computed by a weighted automaton. This is a weighted automaton that works in the field of rationals $\Rat$, but  only produces natural numbers on its output. By~\cite[p. 110]{BerstelReutenauer08}  the automaton can be chosen so that it only uses  integers $\Int$, possibly including negative integers. Summing up, we have a weighted automaton over $\Int$ that outputs the representation, in base $|\Gamma|$, of the output string produced by $g$. We claim that for such an automaton, the output number
+    \begin{enumerate}
+        \item has a linear number of digits;
+        \item can be computed in linear time.
+    \end{enumerate}
+    These two claims yield the corresponding items in the statement of the theorem. The first claim, about a linear number of digits, is true because it is true for every weighted automaton over $\Int$. This is because applying a fixed linear map can only add a constant number of digits. THe second claim is also easy to see, since the weighted automaton can be evaluated in linear time (we assume that we work in a model where addition and subtraction of integers has unit cost). 
+
+    We are left with property~\ref{it:regular-preimages}, about Boolean continuity.  This will follow from the special case of field continuity, where the field is  the two-element field.  This is because of  the following  folklore correspondence between regular languages and weighted automata over the two-element field. 
         
         \begin{claim}\label{claim:regular-weighted-automata}
             A language $L \subseteq \Gamma^*$ is regular iff its characteristic function $\Gamma^* \to \set{0,1}$ is computed by a weighted automaton over the two-element field 
@@ -100,5 +103,14 @@ The following theorem gives some evidence for the stronger conjecture, by showin
         In terms of the correspondence from the above claim, preimages of regular languages become precompositions of weighted automata over the two-element field. In particular, regularity is preserved. 
 \end{proof}
 
-One could think that already the two properties in the above theorem are not only necessary for weighted continuous functions, but also sufficient. This is not the case, as shown by the following example.
+One could think that already the two properties in the above theorem are not only necessary for field continuous functions, but also sufficient. This is not the case, as shown by the following example.
 
+\begin{myexample}[Factorials]
+    \label{ex:not-regular-but-continuous-over-finite-fields}
+    Consider a string-to-string function 
+    \begin{align*}
+    g : \Sigma^* \to \set{a}^*
+    \end{align*}
+    where both the input and output alphabets are unary. A sufficient condition for regularity of such functions is given in  \cite[Example 2.12]{bojanczykTitoRegular23}, using \emph{factorials}, i.e.~numbers in the set $\setbuild{n!}{$n \in \Nat$}$. This sufficient condition is that: (a) every output string arises from finitely many inputs; and (b) every output string has length that is a factorial. 
+    It is not hard to come up with a function that has  properties (a) and (b), thus ensuring Boolean continuity, and which has furthermore linear size outputs and is computable in linear time. For example, the function could map an input string $w$ to the longest string of factorial length that is shorter than $w$. 
+\end{myexample}

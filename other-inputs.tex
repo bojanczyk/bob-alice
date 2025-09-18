@@ -1,0 +1,85 @@
+\section{Other inputs}
+\label{sec:other-inputs}
+In this section, we discuss how the model can be adapted to other types of inputs, beyond strings. Apart from an output domain $\domain$, we also have an input domain $\domainc$. Similarly to the output domain, the input domain is a set with operations. The point of a protocol is to describe a function of type $\domainc \to \domain$. 
+
+
+
+Consider a two domains $\domainc$ and $\domain$. We say that a function 
+\begin{align*}
+f : \domainc^n \to \domain
+\end{align*}
+
+\begin{definition}[Multiparty function]
+    \label{def:multiparty-function}
+    Consider two domains $\domainc$ and $\domain$, and a number $n \in \set{1,2,\ldots}$ of parties. 
+    A  (one-round) $n$-party function is a function 
+    \begin{align*}
+f : \domainc^n \to \domain,
+    \end{align*}
+    which is described as follows. For each $i \in \set{1,\ldots,n}$ there is a  strategy
+        \begin{align*}
+        \sigma_i : \domainc \to Q_i \times \domain^{d_i}
+        \end{align*}
+for some finite message space $Q_i$ and dimension $d_i \in \set{0,1,\ldots}$. There is also an output map
+\begin{align*}
+\text{out} : Q_1 \times \cdots \times Q_n \to \myunderbrace{(\domain^{d_1 + \cdots + d_n} \to \domain)}{polynomial operations}.
+\end{align*}   
+The function $f$ is then defined as follows: first each of the parties applies their strategy to their cooredinate of the input, yielding a tuple of messages in $Q_1 \times \cdots \times Q_n$, and $d_1 + \cdots + d_n$ elements of  the output domain $\domain$. To these results, the output function is applied. 
+\end{definition}
+
+
+
+
+\begin{definition}
+    Let $\domainc$ and $\domain$ be two domains. A function 
+    \begin{align*}
+    f : \domainc \to \domain
+    \end{align*} 
+    is called \emph{protocol regular} if for every polynomial operation 
+    \begin{align*}
+    p : \domainc^n \to \domainc
+    \end{align*}
+    there is an $n$-party function 
+    \begin{align*}
+    f_p : \domainc^n \to \domain
+    \end{align*}
+    such that the following diagram commutes:
+\[\begin{tikzcd}
+\domainc^n \ar[r, "p"]  \ar[dr, "f_p"']
+& \domainc \ar[d,"f"]  \\
+& \domain 
+\end{tikzcd}\]
+\end{definition}
+
+The above definition is meant to be a generalisation of our protocols from Definition~\ref{def:two-party-protocol-general}, in the case where the input domain is strings with concatenation. This is not 
+
+\begin{theorem}
+    For every two protocol regular functions 
+    \[
+    \begin{tikzcd}
+    \domainc \ar[r, "f"] & \domain \ar[r, "g"] & \domaine,
+    \end{tikzcd}
+    \]
+    their composition is also protocol regular.
+\end{theorem}
+The semantics of a multiparty protocol is a function 
+\begin{align*}
+f : \domainc^n \to \domain,
+\end{align*} 
+which is defined as follows. Each party applies their strategy to their coordinate of the input. To the resulting outputs, we apply the output function 
+An $n$-player protocol computes a function of type $\domainc^n \to \domain$. 
+This is done as follows. Consider some input value $c \in \domainc$, for which we want to compute the value of the function. An evil adversary chooses some decomposition 
+\begin{align*}
+c = p(c_1,\ldots,c_n),
+\end{align*}
+where $p$ is some polynomial operation in the input domain. Next, a protocol with $n$ players, one for each argument in the polynomial, will be executed. The protocol, in particular the number of rounds in it, depends on the polynomial, and thus one can think of the polynomial as being public information in this protocol. In the protocol, there is a number of rounds $k$, and a message space $Q_1,\ldots,Q_n$ for each player. 
+
+\[
+\begin{tikzcd}
+\domainc^n \ar[r, "p"]  \ar[dr, "f_p"']
+& \domainc \ar[d,"f"]  \\
+& \domain 
+\end{tikzcd}
+\]
+
+He also chooses a partition of the $n$ arguments into two parts, one for Alice and one for Bob. We assume that this partion is such that Alice gets the first $n_A$ arguments, and Bob gets the remaining $n_B$ arguments, where $n = n_A + n_B$. (One can always reorder the arguments in a polynomial operation to achieve this.) The polynomial $p$ and the partition $n=n_A + n_B$ are known to both Alice and Bob, and the protocol -- including the number of rounds -- can depend on this information. 

@@ -13,8 +13,8 @@ We begin by recalling the notion of weighted automata.
         \item a finite input alphabet $\Sigma$;
         \item a dimension $d \in \set{0,1,\ldots}$;
         \item an initial state $q_0 \in \domain^d$;
-        \item for each letter $a \in \Sigma$, a corresponding linear map of type $\domain^d \to \domain^d$;
-        \item a \emph{final map}, which is a linear map of type $\domain^d \to \domain$. 
+        \item \label{it:weighted-definition-transitions} for each letter $a \in \Sigma$, a corresponding linear map of type $\domain^d \to \domain^d$;
+        \item \label{it:weighted-definition-final} a \emph{final map}, which is a linear map of type $\domain^d \to \domain$. 
     \end{enumerate}
 \end{definition}
 
@@ -113,7 +113,13 @@ In this section, we complete the proof of \cref{thm:field-domain}, by showing th
     is the matrix where rows are words in $\Sigma^*$; columns are words in $\Sigma^*$; and the entry corresponding to a row $u$ and a column $v$ is $f(uv)$.
 \end{definition}
 
-The Fliess Theorem~\cite[Theorem 2.1.1]{fliess1974} states that a function $f$ is computed by a weighted automaton if and only if the Hankel matrix of $f$ has finite rank, i.e.~its rows are spanned by a finite subset. (This is equivalent to saying that the columns have a finite spanning subset.) Therefore, to complete the proof of \cref{thm:field-domain}, it is enough to show the following lemma.
+Another perspective on the Hankel matrix is that it describes the \emph{derivatives} of the function $f$. Each row in the Hanekel matrix can be seen as a function of type $\Sigma^* \to \domain$, which inputs columns (i.e.~strings) and outputs the corresponding entries in the Hankel matrix. If the row corresponds to a word $w$, then this function is
+\begin{align*}
+v \mapsto f(wv),
+\end{align*}
+which is called the \emph{left derivative} of $f$ with respect to $w$. Similarly, the columns of the Hankel matrix describe \emph{right derivatives} of $f$.
+
+The Fliess Theorem~\cite[Theorem 2.1.1]{fliess1974} states that a function $f$ is computed by a weighted automaton if and only if the Hankel matrix of $f$ has finite rank, i.e.~its rows (i.e.~the left derivatives) are spanned by a finite subset. (This is equivalent to saying that the columns, or right derivatives, have a finite spanning subset.) Therefore, to complete the proof of \cref{thm:field-domain}, it is enough to show the following lemma.
 
 \begin{lemma}\label{lem:hankel-finite-rank}
     If a function is computed by a scalar product protocol, then its Hankel matrix has finite rank.

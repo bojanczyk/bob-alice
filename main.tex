@@ -1,5 +1,5 @@
-\documentclass{article}
-
+\documentclass[11pt]{article}
+\usepackage[letterpaper, margin=1.5in]{geometry}
 
 \usepackage{macros}
 \usepackage{stackengine}
@@ -8,8 +8,18 @@
 
 % macros specific to this paper
 \newcommand{\domain}{\mathbb D}
+\newcommand{\domainc}{\mathbb C}
+\newcommand{\domaine}{\mathbb E}
 \newcommand{\pol}{\text{Pol}}
 \newcommand{\counter}[1]{\#{#1}}
+\newcommand{\lincomb}{\operatorname{Lin}}
+
+% various kinds of function spaces
+\newcommand{\lineqfun}[2]{ #1 \underset{\text{lineq}}{\longrightarrow} #2}
+\newcommand{\linfsfun}[2]{ #1 \underset{\text{linfs}}{\longrightarrow} #2}
+\newcommand{\eqfun}[2]{ #1 \underset{\text{eq}}{\longrightarrow} #2}
+\newcommand{\fsfun}[2]{ #1 \underset{\text{fs}}{\longrightarrow} #2}
+\newcommand{\leftderivative}[2]{#1(#2\underline{\hspace{2mm}})}
 
 \begin{document}
 
@@ -18,17 +28,16 @@
 
 \maketitle 
 \begin{abstract}
- We introduce a model of computation, based on communication complexity,  which defines functions of type $\Sigma^* \to \domain$, where $\Sigma$ is a finite alphabet and $\domain$ is some domain. Domains of interest include: the Booleans, strings, or a field. In the model, the input string $w$ is divided into two parts $w=w_1 w_2$, which are sent to two parties, Alice and Bob. These two parties cooperate, by exchanging a constant number of messages, to compute the output of the function. The two parties must be able to produce the correct output regardless of the partition $w = w_1 w_2$. We prove that for some domains, the model coincides with known finite state models: in the case of Boolean outputs it defines exactly the regular languages, and in the case of fields, it defines exactly the functions computable by weighted automata. This is despite the fact that the model is non-uniform and has no computational assumptions. 
+ Inspired by communication complexity, we introduce a model of computation that defines functions of type $\Sigma^* \to \domain$, where $\Sigma$ is a finite alphabet and $\domain$ is some domain. Domains of interest include: the Booleans, strings, or a field. In the model, the input string $w$ is divided into two parts $w=w_1 w_2$, which are sent to two parties, Alice and Bob. These two parties cooperate, by exchanging a constant number of messages, to compute the output of the function. The two parties must be able to produce the correct output regardless of the partition $w = w_1 w_2$. We prove that for some domains, the model coincides with known finite state models: in the case of Boolean outputs it defines exactly the regular languages, and in the case of fields, it defines exactly the functions computable by weighted automata. This is despite the fact that the model is non-uniform and has no computational assumptions. 
 \end{abstract}
 
 
 
 \input{boolean-domain}
 \input{general-domains}
-
-
 \input{field-domain}
 \input{string-domains}
+\input{orbit-finite}
 \input{conclusions}
 
 
