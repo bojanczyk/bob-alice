@@ -12,11 +12,11 @@ w \in \set{a,b}^*
 This function clearly satisfies (a) and (b). As explained in \cite[p.3]{Zpolyreg23}, it also satisfies (c), since the inverse image of $0$ is not a regular language, as would be the case if only positive coefficients were used.
 \end{myexample}
 
-The rest of Section~\ref{sec:non-negative} is devoted to the proof of \cref{thm:int-to-nat}. We use the following terminology. A function with a decomposition as in the assumption of the theorem is called \emph{$\Int$-regular}. If the coefficients are positive, then it is called \emph{$\Nat$-regular}. In this terminology, the theorem says 
+The rest of Section~\ref{sec:non-negative} is devoted to proving \cref{thm:int-to-nat}. We use the following terminology\footnote{The terminology is based on~\cite{Zpolyreg23}, where the polynomial (instead of linear) generalisations of these functions are called $\Int$-polyregular and $\Nat$-polyregular, respectively. As remarked in Example~\ref{ex:quadratic-counterexample}, the polynomial version of~\eqref{eq:nat-to-int} does not hold.
+}. A function with a decomposition as in the assumption of the theorem is called \emph{$\Int$-regular}. In other words, this is a linear combination of \mso counting functions that have arities zero or one, with the coefficient in the linear combination being from $\Int$. If the coefficients are positive, then the funciton is called \emph{$\Nat$-regular}. In this terminology, the theorem says 
 \begin{align}\label{eq:nat-to-int}
 \text{$\Int$-regular} \ \land \ \text{non-negative outputs} \implies \text{$\Nat$-regular}.
 \end{align}
-The terminology is based on~\cite{Zpolyreg23}, where the polynomial (instead of linear) generalisations of these functions are called $\Int$-polyregular and $\Nat$-polyregular, respectively. As remarked in Example~\ref{ex:quadratic-counterexample}, the polynomial version of~\eqref{eq:nat-to-int} does not hold.
 For technical reasons, it will be easier to work with the following variant of \eqref{eq:nat-to-int}, where both the assumption and conclusion are weakened as follows: 
 \begin{align}\label{eq:nat-to-int-weaker}
 \text{$\Int$-regular} \ \land \ 
@@ -29,12 +29,12 @@ For technical reasons, it will be easier to work with the following variant of \
  \implies 
  \myunderbrace{\text{
 \begin{tabular}{c}
-        is $\Int$-regular, but  negative \\ coefficients are allowed \\
-        only for arity zero
+         $\Int$-regular, but  negative \\ coefficients are allowed 
+        only\\ for queries of arity zero
     \end{tabular}
 }}{call this \emph{almost $\Nat$-regular}}
 \end{align}
-We consider the weaker properties, because they are more robust, as we will see in the proof. Before proving~\eqref{eq:nat-to-int-weaker}, we show how to deduce~\eqref{eq:nat-to-int} from it. The main observation is in the following lemma, which bridges the gap between almost $\Nat$-regular and $\Nat$-regular functions.
+The implication~\eqref{eq:nat-to-int-weaker}, which uses the weaker properties, will turn out to be more amenable to our proof techniques, and therefore this will be the implication that we care about.  Before proving~\eqref{eq:nat-to-int-weaker}, we show how to deduce~\eqref{eq:nat-to-int} from it. The main observation is in the following lemma, which bridges the gap between almost $\Nat$-regular and $\Nat$-regular functions.
 
 
 
@@ -42,7 +42,7 @@ We consider the weaker properties, because they are more robust, as we will see 
             If a  $\Int$-regular function  is almost $\Nat$-regular, and has only non-negative outputs, then  is $\Nat$-regular.
     \end{lemma}
 
-    Before proving the lemma, we use it to show how the implication~\eqref{eq:nat-to-int-weaker} gives us the implication~\eqref{eq:nat-to-int}, which is the same as the theorem. This is explained in the following diagram:
+    Before proving the lemma, we use it to show how the implication~\eqref{eq:nat-to-int-weaker} gives us the implication~\eqref{eq:nat-to-int}. This is explained in the following diagram:
     \[
     \begin{tikzcd}
     \text{$\Int$-regular and  non-negative outputs}
@@ -64,7 +64,7 @@ We consider the weaker properties, because they are more robust, as we will see 
     Therefore, to finish the proof of the theorem, it remains to prove~\eqref{eq:nat-to-int-weaker} and the lemma. We begin with the lemma.
 
     \begin{proof}[Proof of \cref{lem:remove-almost}]
-        It will be easier to prove a generalisation of the lemma,  where the input domain of the function, instead of being  all strings over the input alphabet, is restricted to  some regular language. The notions of $\Int$-regularity and $\Nat$-regularity are adapted in the natural way for such functions: for a regular language $L \subseteq \Sigma^*$, a function of type  $ L \to \Int$ is called $\Int$-regular if it coincides with some $\Int$-regular function of type $ \Sigma^* \to \Int$ over the domain $L$. In the same way we define $\Nat$-regularity. This more general setup allows us to do case analysis and split the domain into several regular parts, as shown in the  following claim.
+        It will be easier to prove a generalisation of the lemma,  where the input domain of the function, instead of being  all strings over the input alphabet, is restricted to  some regular language. The notions of $\Int$-regularity and $\Nat$-regularity are adapted in the natural way for such functions: for a regular language $L \subseteq \Sigma^*$, a function of type  $ L \to \Int$ is called $\Int$-regular if it coincides with some $\Int$-regular function of type $ \Sigma^* \to \Int$ over the domain $L$. In the same way, we extend  $\Nat$-regularity to functions whose domains are regular languages. This more general setup allows us to do case analysis and split the domain into several regular parts, as shown in the  following claim.
 
 
     \begin{claim}\label{claim:aggregate-two-domains} If a  function  is  $\Nat$-regular when its domain is restricted to $L_1$,  and also when restricted to $L_2$, then it is  $\Nat$-regular when its domain is restricted to $L_1 \cup L_2$. Likewise for almost $\Nat$-regular.
@@ -133,13 +133,24 @@ Before proving the lemma, we use it to conclude the proof of implication~\eqref{
 In the proof, it will be convenient to avoid queries of arity zero. Removing all queries of arity zero affects neither the assumption of the lemma (having lower bounded outputs)  nor the conclusion (being almost $\Nat$-regular). Therefore, we will only consider linear combinations of query counting functions of arity one; such linear combinations will be called \emph{constant-free}.
 An advantage of such functions is that we can use the following notion of derivative. 
 
+
+
 \begin{definition}[Derivative]
-    Consider a query counting function $\#\varphi$ of arity one. For two input strings $w_1, w_2$, we define the \emph{derivative} of this function, denoted by $w_1 (\#\varphi) w_2$, to be the function which maps an input string $w$ to the number of positions which are selected by $\varphi$ in the string $w_1 w w_2$, and which are in the part $w$.
+    Consider a query counting function $\#\varphi$ of arity one. For two input strings $w_1, w_2$, we define the \emph{derivative} of this function, denoted by $\twoderivative {w_1} {(\#\varphi)}{w_2}$, to be the function which maps an input string $w$ to the number of positions which are selected by $\varphi$ in the string $w_1 w w_2$, and which are in the part $w$.
 \end{definition}
 
 % Let $f : \Sigma^* \to \Int$ be a function as in the assumption of the theorem. We say that a $f$ is \emph{constant-free} if it does not use any basic functions that have arity 0, i.e.~all the basic functions have arity 1. We can assume without loss of generality that $f$ is constant-free, since basic functions of arity 0 can be changed into arity 1, by selecting the first position of the input string. (This works for nonempty input strings, but we can handle the empty string separately, since it is only one input.)
 
 
+
+One of the two strings $w_1$ or $w_2$ might be empty, in which case we get derivatives like $w_1 (\#\varphi)$ or $(\# \varphi)w_2$. 
+There is a caveat to the above definition, which is worth discussing. 
+This notion is similar to the derivatives of that were discussed in the proof of the Fliess Theorem, however it is not exactly the same, since the contribution of the words $w_1$ and $w_2$ is subtracted from the result. Therefore, the equality
+\begin{align*}
+\#\varphi(w_1 w w_2) = 
+(\twoderivative {w_1}{(\#\varphi)}{w_1}) (w)
+\end{align*}
+fails for the derivatives from the above Definition, while it  would be true in the case of the derivatives from the Fliess Theorem. 
 
 
 
@@ -149,12 +160,15 @@ The following claim collects the basic properties of derivatives. The proof is a
     \begin{enumerate}
         \item \label{it:derivative-add} for every input string we have
          \begin{align*}
-(\counter \varphi)(w_1 w_2) = ((\counter \varphi) \cdot w_2)(w_1) + (w_1 \cdot (\counter \varphi))(w_2)
+\counter \varphi(w_1 w_2) = 
+(\twoderivative{}{(\counter \varphi)}{w_1}) (w_2) 
++ 
+(\twoderivative{}{(\counter \varphi)}{w_2}) (w_1)
 \end{align*}
         % \item  \label{it:derivative-lower-bounded} if $\counter \varphi$ has lower bounded outputs, then so are its derivatives;
         \item \label{it:derivative-homo} each derivative of $\counter \varphi$ is a query counting function of arity one;
         \item \label{it:derivative-homo2} if $\counter \varphi$ is recognised by a monoid homomorphism $h$, then so are  its derivatives;
-                \item \label{it:derivative-depends} the derivative $w_1(\counter \varphi) w_2$ depends only on $h(a_1)$ and $h(a_2)$;
+                \item \label{it:derivative-depends} the derivative $\twoderivative{w_1} {\counter \varphi} {w_2}$ depends only on $h(a_1)$ and $h(a_2)$;
                 \item \label{it:derivative-finite} there are finitely many derivatives;
         \item  \label{it:derivative-associative} taking derivatives is associative in the following sense
         \begin{align*}

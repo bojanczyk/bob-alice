@@ -2,9 +2,9 @@
 \subsection{Regular string-to-string functions}
 \label{sec:regular-string-to-string-functions}
 
-In this section, we define the class of regular string-to-string functions, and we prove one implication in the conjecture. 
+In this section, we define the class of regular string-to-string functions, and we prove the implication $\impliedby$ in the conjecture. 
  Historically, class of regular string-to-string  functions was first defined in terms of 
- deterministic two-way automata with output\cite[Note 4]{shepherdson1959reduction}, and this will be the definition that we use in this paper.
+ deterministic two-way automata with output\cite[Note 4]{shepherdson1959reduction}. Although numerous equivalent definitions appeared later on, we will use the original definition.
 
  \begin{definition}[Two-way automaton]
     A deterministic two-way automaton with output is given by the following ingredients:
@@ -31,7 +31,7 @@ In this section, we define the class of regular string-to-string functions, and 
         For each input alphabet $\Sigma$, the reverse function of type $\Sigma^* \to \Sigma^*$ is computed by a  two-way automaton, which first moves its head to the end of the string, and then starts copying it to the output while moving in the left direction.
     \end{myexample}
 
-    The class of functions computed by two-way automata has a remarkable number of equivalent descriptions,  originating in different fields, including:  monadic second-order transductions~\cite[Section 4]{engelfrietMSODefinableString2001}, streaming string transducers~\cite[Section 3]{alurExpressivenessStreamingString2010},  certain kinds of regular expressions~\cite[Section 2]{alur2014regular}, a calculus of functions based on  combinators~\cite[Theorem 6.1]{bojanczykRegularFirstOrderList2018}, a characterisation based on natural transformations~\cite[Theorem 3.2]{bojanczykTitoRegular23}. For this reason, some authors (starting with Engelfriet and Hoogeboom), use the name \emph{regular} for this class of function, with the intended meaning being that these functions are the functional analogue of regular languages. Although this thesis can be questioned, see~\cite{polyregular-survey}, for the purposes of this paper we adopt the terminiology of Engelfriet and Hoogeboom, as expressed in the following definition.
+    The class of functions computed by two-way automata has a remarkable number of equivalent descriptions,  originating in different fields, including:  monadic second-order transductions~\cite[Section 4]{engelfrietMSODefinableString2001}, streaming string transducers~\cite[Section 3]{alurExpressivenessStreamingString2010},  certain kinds of regular expressions~\cite[Section 2]{alur2014regular}, a calculus of functions based on  combinators~\cite[Theorem 6.1]{bojanczykRegularFirstOrderList2018}, a characterisation based on natural transformations~\cite[Theorem 3.2]{bojanczykTitoRegular23}. For this reason, some authors (starting with Engelfriet and Hoogeboom), use the name \emph{regular} for this class of function, with the intended meaning being that these functions are the functional analogue of regular languages. Although this thesis can be questioned, see~\cite{polyregular-survey}, for the purposes of this paper we adopt the terminiology of Engelfriet and Hoogeboom~\cite[p.~217]{engelfrietMSODefinableString2001}, as expressed in the following definition.
 
 
     \begin{definition}[Regular string-to-string function]
@@ -40,7 +40,7 @@ In this section, we define the class of regular string-to-string functions, and 
     \end{definition}
     
     
-    One good  property of the regular string-to-string functions is that they  are closed under composition~\cite[Theorem 2]{chytilSerialComposition2Way1977}. In particular, Conjecture~\ref{conj:protocol-regular-string-to-string} would imply that the same is true for functions computed by protocols. Without proving the conjecture, we do not see any direct way of proving composition for protocols. The  regular string-to-string functions have other good properties, such as decidablle equivalence~\cite[Theorem 1]{gurariEquivalenceProblemDeterministic1982}, but we do not discuss these in more detail, since they seem to have little direct bearing on protocols.
+    One good  property of the regular string-to-string functions is that they  are closed under composition~\cite[Theorem 2]{chytilSerialComposition2Way1977}. In particular, Conjecture~\ref{conj:protocol-regular-string-to-string} would imply that the same is true for functions computed by protocols. Without proving the conjecture, we do not see any direct way of proving composition for protocols. The  regular string-to-string functions have other good properties, such as decidable equivalence~\cite[Theorem 1]{gurariEquivalenceProblemDeterministic1982}, but we do not discuss these in more detail, since they seem to have little direct bearing on protocols.
 
 
     The following lemma shows one of the implications in the conjecture.
@@ -55,5 +55,6 @@ In this section, we define the class of regular string-to-string functions, and 
     The number of steps in a crossing sequence is bounded  the number of states, since otherwise the automaton would enter an infinite loop. This bound is the number of rounds in the protocol. In each round, the state corresponding to this round is sent as a signal, and the output value in the message is the  part of the output string that is produced in this  step. At the end of the protocol, the pieces of the output string are concatenated. 
 \end{proof}
 
-In view of the above lemma, the content of the conjecture is the opposite implication, namely that every protocol computes are regular function.  
+In view of the above lemma, the content of the conjecture is the opposite implication, namely that every protocol computes are regular function.  The rest of Section~\ref{sec:string-outputs} is devoted to  evidence for the opposite implication.
+
 

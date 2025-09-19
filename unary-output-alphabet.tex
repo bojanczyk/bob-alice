@@ -1,16 +1,17 @@
 \subsection{Unary output alphabet}
 \label{sec:unary-output-alphabet}
-In this section, we provide further evidence for Conjectures~\ref{conj:protocol-regular-string-to-string} and~\ref{conj:regular-continuous}, by showing that they are true for output alphabets with only one letter.
+In this section, we provide further evidence for Conjectures~\ref{conj:protocol-regular-string-to-string} and~\ref{conj:regular-continuous}, by showing that they are true for output alphabets with only one letter. From a technical point of view, this is the most involved result in the paper, since our proof uses a refined analysis of the expressive power of weighted automata that output natural numbers of linear size.
+
 \begin{theorem}\label{thm:unary-string-to-string}
-    The following conditions are equivalent for  a string-to-string function $f$ where  the output alphabet  has only one letter:
+    The following conditions are equivalent for  a string-to-string function where  the output alphabet  has only one letter:
     \begin{enumerate}
-        \item $f$ is computed by a protocol;
-        \item \label{it:unary-weighted-continuous} $f$ is field continuous;
-        \item \label{it:unary-regular} $f$ is regular.
+        \item computed by a protocol;
+        \item \label{it:unary-weighted-continuous} field continuous;
+        \item \label{it:unary-regular} regular.
     \end{enumerate}
 \end{theorem}
 \begin{proof}
-In light of \cref{lem:from-regular-to-protocol} and \cref{lem:postcomposition-weighted-automaton},  the only missing implication is \ref{it:unary-weighted-continuous}~$\Rightarrow$~\ref{it:unary-regular}.  We begin with the following claim. 
+In light of Lemmas \ref{lem:from-regular-to-protocol} and \ref{lem:postcomposition-weighted-automaton},  the only missing implication is \ref{it:unary-weighted-continuous}~$\Rightarrow$~\ref{it:unary-regular}.  We begin with the following claim. 
 
 \begin{claim}\label{claim:unary-output-alphabet-basic-consequences}
     If $f :\Sigma^* \to \Gamma^*$ is field continuous and has a unary output alphabet, then 
@@ -20,13 +21,15 @@ In light of \cref{lem:from-regular-to-protocol} and \cref{lem:postcomposition-we
     \end{enumerate}
 \end{claim}
 \begin{proof}
-    The length function is computed by a weighted automaton over the field $\Rat$, and therefore we get the first item. The second item was proved in \cref{thm:evidence-for-the-conjecture}.
+    The length function is computed by a weighted automaton over the field $\Rat$, and therefore we get the first item by appealing to field continuity. The second item was proved in \cref{thm:evidence-for-the-conjecture}.
 \end{proof}
 
-We will show that the two items in the conclusion of the above claim are  enough to conclude that $f$ is  regular. Since the output alphabet is unary, i.e.~essentially it is the natural numbers, we can use an approach to regularity from~\cite{Zpolyreg23}, which is based counting positions selected by formulas of  monadic second-order logic \mso. We assume that the reader is familiar with this logic, see~\cite[Section 2.1]{bojanczyk_recobook} for an introduction. 
+We will show that the two items in the conclusion of the above claim are  enough to conclude that $f$ is  regular. Since the output alphabet is unary, i.e.~essentially it is the natural numbers, we can use an approach to regularity from~\cite{Zpolyreg23}, which is based counting positions selected by queries. Let us describe this approach.
+
 A \emph{query of arity $d \in \set{0,1,\ldots}$} 
-over an iput alphabet $\Sigma$ is defined to be a function which inputs a string  $w \in \Sigma^*$ and output a subset of $d$-tuples of positions in $w$.
- We will be interested mainly in the case where: (a) the arity is zero or one; and (b) the queries  can be defined in \mso. Definability in \mso means that there is an \mso formula $\varphi(x_1,\ldots,x_d)$, which tells us when a tuple of positions is selected by the query. 
+over an input alphabet $\Sigma$ is defined to be a function which inputs a string  $w \in \Sigma^*$ and output a subset of $d$-tuples of position   s in $w$.
+ We will be interested mainly in the case where: (a) the arity is zero or one; and (b) the queries  can be defined in the logic \mso.  We assume that the reader is familiar with this logic, see~\cite[Section 2.1]{bojanczyk_recobook} for an introduction. 
+Definability in \mso means that there is an \mso formula $\varphi(x_1,\ldots,x_d)$, which tells us when a tuple of positions is selected by the query. 
 In the context of this paper, queries will be used to define string-to-number functions, by counting the number of selected tuples, as described in the  following definition, which is based on~\cite{Zpolyreg23}.
 
 
@@ -38,7 +41,7 @@ In the context of this paper, queries will be used to define string-to-number fu
     is the function that outputs the number of selected tuples in the input string. Any function of this type is called a \emph{\mso counting function of arity $d$}.
 \end{definition}
 
-The following claim shows that the regular string-to-string  functions with a unary output alphabet  are exactly those that can be obtained using positive linear combinations of \mso counting functions of arity zero or one.
+In this section, we will be interested in linear combinations of counting functions as in the above definition. The focus on the analysis will be on the kind of coefficents that can be used in such combinations, namely sometimes we will allow negative coefficients, and sometimes only non-negative ones. The following claim uses non-negative coefficients to characterise  regular string-to-string  functions with a unary output alphabet.
     \begin{claim}\label{claim:mso-counting-regular}
         Consider a function $f : \Sigma^* \to \Nat$. Then the corresponding string-to-string function with a unary output alphabet is regular if and only if $f$  can be decomposed as  a linear combination 
         \begin{align*}
@@ -50,7 +53,7 @@ The following claim shows that the regular string-to-string  functions with a un
         To prove this claim, we use the characterisation of regular functions in terms of \mso transductions from~\cite[Section 4]{engelfrietMSODefinableString2001}. If the output is unary, then the order on output positions is irrelevant, and only the number of output positions is relevant. In an \mso transduction, the output positions are defined using \mso formulas with at most one free variable, thus yielding the result. 
     \end{proof}
 
-In light of the above claim, to complete the proof of the theorem it will be enough to show that if a function $f : \Sigma^* \to \Nat$ satisfies conditions~\ref{it:unary-computed-by-weighted} and~\ref{it:unary-linear-output-size}, i.e.~it is computed by a weighted automaton over $\Rat$ and has linear output size, then it is a sum of \mso counting functions of arity zero or one. The first step in our construction will be to prove that there is such a decomposition, but possibly using negative coefficients.
+In light of the above claim, to complete the proof of the theorem it will be enough to show that if a function $f : \Sigma^* \to \Nat$ satisfies conditions~\ref{it:unary-computed-by-weighted} and~\ref{it:unary-linear-output-size} from \cref{claim:unary-output-alphabet-basic-consequences}, i.e.~it is computed by a weighted automaton over $\Rat$ and has linear output size, then it is a sum of \mso counting functions of arity zero or one. The first step in our construction will be to prove that there is such a decomposition, but possibly using negative coefficients.
 
 \begin{claim}\label{claim:mso-counting-regular-with-negative}
     Consider a function $f : \Sigma^* \to \Nat$ which is computed by a weighted automaton over $\Rat$ and has linear output size. Then $f$ admits a decomposition 
@@ -64,13 +67,13 @@ In light of the above claim, to complete the proof of the theorem it will be eno
     As remarked in~\cite[Remark II.21]{Zpolyreg23}, if a function is computed by a weighted automaton over the $\Int$, and it has polynomial output size, then it can be obtained as a linear combination of \mso counting functions, possibly using negative coefficients. Furthermore, the cited remark can be strengthened, with the same proof, to a linear version: if the output is linear, then the \mso counting functions can be chosen to have arity zero or one, as required by the claim.
 \end{proof}
 
-To finish the proof of the theorem, we will show that negative coefficients are not necessary, assuming that the outputs are non-negative. This is stated in the following theorem:
+To finish the proof of the theorem, we will show that negative coefficients are not necessary, assuming that the outputs are non-negative. This is stated in the following theorem, which is the technical heart of this section.
 \begin{theorem}\label{thm:int-to-nat}
     Consider a function $f : \Sigma^* \to  \Int$ which admits a decomposition
     \begin{align*}
  \alpha_1 \counter{\varphi_1} + \cdots +  \alpha_k \counter{\varphi_k},
     \end{align*}        
-        where the coefficents $\alpha_i$ are in $\Int$, and the queries $\varphi_i$ have arity zero or one. If all outputs of this function are non-negative, then there is another decomposition in which the coefficients are positive, and the queries also have arity zero or one.
+        where the coefficents $\alpha_i$ are in $\Int$, and the queries $\varphi_i$ have arity zero or one. If all outputs of this function are non-negative, then there is another decomposition (possibly using other queries) in which the coefficients are positive, and the queries also have arity zero or one.
 \end{theorem}
 
 Theorem~\ref{thm:int-to-nat} is the last missing piece in the  implication \ref{it:unary-weighted-continuous}~$\Rightarrow$~\ref{it:unary-regular} from \cref{thm:unary-string-to-string}, as explained in the following diagram: 

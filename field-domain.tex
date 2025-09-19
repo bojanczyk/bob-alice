@@ -1,7 +1,6 @@
 \section{Field outputs}
 \label{sec:field-domain}
-In this section, we prove that if the output domain is a field, then our protocol has exactly the same expressive power as weighted automata.
-Recall that in a field domain, the operations are addition and multiplication. (We discuss division later in this section.)
+In this section, we discuss functions where the output domain is a field, equipped with addition and multiplication. We prove that protocols have  exactly the same expressive power as weighted automata.
 We begin by recalling the notion of weighted automata.
 
 \paragraph*{Weighted automata.}  A weighted automaton is a device that is used to compute a function from strings to a field (more generally, a semiring, but we consider the case of fields here). This model was originally introduced by \schutz~\cite{schutzenberger1961definition}. Essentially, this is a deterministic automaton where the state space is a vector space of finite dimension, and each input letter induces a linear map. Here is the formal definition. 
@@ -18,10 +17,9 @@ We begin by recalling the notion of weighted automata.
     \end{enumerate}
 \end{definition}
 
-A weighted automaton computes a function of type $\Sigma^* \to \domain$, which is defined in the same way as for a deterministic finite automaton: we begin in the initial state, then we apply the linear maps corresponding to the input letters, and finally we apply the final map.
-Sometimes weighted automata are presented differently, using a nondeterministic automaton with weights on transitions, but the presentation above is equivalent, see~\cite[Lemma 4.3]{bojanczyk_automata_2025}.
+A weighted automaton computes a function of type $\Sigma^* \to \domain$, which is defined in the same way as for a deterministic finite automaton: we begin in the initial state, then we apply the linear maps corresponding to the input letters, and finally we apply the final map. There is an alternative but equivalent way of describing weighted automata, which uses a nondeterministic automaton with weights on transitions. This viewpoint will be used later in this paper, see Definition~\ref{def:weighted-automaton-nondeterministic}.
 
-The main result of this section is that our protocol is equivalent to weighted automata, when the output domain is a field. This is in spite of the lack of explicit uniformity or computability constraints in the definition of the protocol. 
+The main result of this section is that our protocol is equivalent to weighted automata.
 
 \begin{theorem}\label{thm:field-domain}
     Assume that the domain is a field. Then a function 
@@ -30,24 +28,21 @@ The main result of this section is that our protocol is equivalent to weighted a
     \end{align*}  is computed by a protocol if and only if it is  computed by a weighted automaton.
 \end{theorem}
 
-The rest of this section is devoted to proving the theorem. Before proving it, we discuss the role of division.
+Weighted automata can be defined not just for fields, but also for rings and even semirings. We do not know how to prove the theorem for such generalisations, since the Fliess Theorem, which is used in the proof is only known for fields. Rings and semirings will be discussed in more detail in Section~\ref{sec:commutative-semirings}.
+The rest of this section is devoted to proving the theorem. Before proving it, we return to the issue of division, which was already discussed in Example~\ref{ex:division}.
 
-\begin{myexample}
-    Because it is undefined for zero, division is not a total operation, and therefore technically speaking it does not fall into our framework. We could, however try to incorporate it, by making the two parties responsible for avoiding division by zero. Under this framework, we could use a protocol to compute the function 
-    \begin{align*}
-    w \mapsto \frac 1 {|w|+1}.
-    \end{align*}
-    In the protocol, Alice sends 1 + her input length, Bob adds this to his length, and then takes the inverse. We claim that this function cannot be computed by a protocol, and therefore having division would strictly increase the expressive power. Indeed, if the function would be computed by a protocol, then it would be a weighted automaton, thanks to~\cref{thm:field-domain}. This function depends only on the input length, and therefore it can be thought of being a function of type $\Nat \to \Rat$. For such functions, weighted automata compute exactly the linear recurrence sequences. The inverse function, as in our example, is not a linear recurrence sequence.
+\begin{myexample}[Division, continued]\label{ex:division-continued}
+    Because it is undefined for zero, division is not a total operation, and therefore technically speaking it does not fall into our framework. We could, however try to incorporate it, by making the two parties responsible for avoiding division by zero. Under this framework, we could use a protocol to compute the function $1/|w|$ (a better choice would be $1/|w|+1$, since it would avoid problems with the empty string). As we have discussed in Example~\ref{ex:division}, such a function cannot be computed by a protocol that uses only addition and multiplication. We do not know what functions can be computed if division is also allowed.
 \end{myexample}
 
-For the right-to-left implication, there is little to do. Suppose that the function is computed by a weighted automaton, which uses  dimension $d$. Every input string $\Sigma^*$ induces a linear map of type $\domain^d \to \domain^d$, which is obtained by composing the linear maps for the individual letters in the string.  Such a linear map can be represented as a matrix, and therefore it can be output using $d^2$ messages.  In the protocol, Alice sends the matrix  which corresponds to her local string, and Bob sends the  matrix which corresponds to  his local string. These matrices are multiplied using the field operations, and then multiplied with the initial and final vectors. This protocol is signal-free, i.e.~no information is conveyed using signals.
+We now return to the proof of \cref{thm:field-domain}. The right-to-left implication says that every weighted automaton can be simulated by a protocol. This is proved essentially in the same way as in the Boolean case. Suppose that the function is computed by a weighted automaton, which uses  dimension $d$. Every input string $\Sigma^*$ induces a linear map of type $\domain^d \to \domain^d$, which is obtained by composing the linear maps for the individual letters in the string.  Such a linear map can be represented as a matrix, and therefore it can be output using $d^2$ messages.  In the protocol, Alice sends the matrix  which corresponds to her local string, and Bob sends the  matrix which corresponds to  his local string. These matrices are multiplied using the field operations, and then multiplied with the initial and final vectors. This protocol has one round and is signal-free, i.e.~no information is conveyed using signals.
 
-The rest of this proof is devoted to the left-to-right implication, i.e.~showing that every function computed by a protocol is computed by a weighted automaton. As in the Boolean case, we will do a sequence of reductions, such that the protocol becomes more and more restrictive. In particular, we will show that the protocol can be reduced to a version that is signal-free.
+The rest of this proof is devoted to the left-to-right implication, i.e.~showing that every function computed by a protocol is computed by a weighted automaton. As in the Boolean case, we will do a sequence of reductions, such that the protocol becomes more and more restrictive. In particular, we will show that the protocol can be reduced to a version that has one-round and  is signal-free.
 
 \subsection{Reduction to a scalar product protocol}
 \label{sec:reduction-to-scalar-product-protocols}
 
-In the first step, we show that each protocol can be constrained to have a special form, which has one round, and uses only the scalar product,  as explained in the following definition. 
+In the first step, we show that each protocol can be constrained to have a special form, which has one round and is signal-free. This protocol uses only the scalar product,  as explained in the following definition. 
 \begin{definition}[Scalar product protocol] \label{def:scalar-product-protocol}
     Assume that the output domain is a field.
     A scalar product protocol is defined as follows. First, each of the two parties uses their local string to  produce a vector of field elements, of some fixed dimension $d$, as expressed by two functions: 
@@ -57,7 +52,7 @@ In the first step, we show that each protocol can be constrained to have a speci
     Next, the output is defined to be the scalar product of the two vectors. 
 \end{definition}
 
-In \cref{lem:scalar-product-reduction}, we show that scalar product protocols have the same power as general protocols. 
+This protocol has the same power as general protocols. 
 
 \begin{lemma}\label{lem:scalar-product-reduction}
     Assume that the output domain is a field. 
@@ -77,49 +72,51 @@ In \cref{lem:scalar-product-reduction}, we show that scalar product protocols ha
     Assume that the output domain is a field. Then every one-round protocol is equivalent to a signal-free  protocol.
  \end{claim}
  \begin{proof} 
-    Consider a one-round protocol. Without loss of generality, we assume that both signal spaces $Q_A$ and $Q_B$ are the same space $Q$. (We can always use the larger signal space for both parties.) Assume that each of the parties sends $d$ field elements in the protocol. In other words, the protocol works as follows:
+    Consider a one-round protocol. Without loss of generality, we assume that both signal spaces $Q_A$ and $Q_B$ are the same space $Q$. (We can always use the union of two signal spaces for both parties.) Assume that each of the parties sends $d$ field elements in the protocol. In other words, the protocol works as follows:
     \begin{enumerate}
         \item Based on her local string, Alice chooses a message $(q_A,\bar x) \in Q \times \domain^d$;
         \item Based on his local string, Bob chooses a message $(q_B,\bar y) \in Q \times \domain^d$;
-        \item Based on the signals $q_A$ and $q_B$, a polynomial  with $2d$ variables is chosen, call it $p_{q_A,q_B}$, and the output is obtained by applying this polynomial to $(\bar x, \bar y).$
+        \item Based on the signals $q_A$ and $q_B$, a term operation  with $2d$ variables is chosen, call it $t_{q_A,q_B}$, and the output is obtained by applying this term operation to $(\bar x, \bar y).$
     \end{enumerate}
-    To prove the claim, we need to show that the protocol can be adapted so that always the same polynomial is chosen, i.e.~there is no dependence of this polynomial on the signals $q_A$ and $q_B$. This way the signals can be eliminated. To do this, we increase the dimension from $d$ to $d + |Q|$. 
-    This means that for each possible signal $q \in Q$, each party sends a field element corresponding to this signal. The idea is that instead of sending a signal $q \in Q$, each party will set the corresponding field element to $1$, and the remaining field elements to $0$. The corresponding polynomial is then 
+    To prove the claim, we need to show that the protocol can be adapted so that always the same term operation is chosen, i.e.~there is no dependence of this term operation on the signals $q_A$ and $q_B$. This way the signals can be eliminated. To do this, we increase the dimension from $d$ to $d + |Q|$. 
+    This means that for each possible signal $q \in Q$, each party sends a field element corresponding to this signal. The idea is that instead of sending a signal $q \in Q$, each party will set the corresponding field element to $1$, and the remaining field elements to $0$. The corresponding term operation is then 
     \begin{align*}
-    \sum_{\substack{q_A \in Q \\ q_B \in Q}} \myoverbrace{x_{q_A} \cdot y_{q_B}}{variables corresponding \\ to the messages $q_A$ and $q_B$, } \cdot p_{q_A,q_B}(\bar x, \bar y).
+    \sum_{\substack{q_A \in Q \\ q_B \in Q}} \myoverbrace{x_{q_A} \cdot y_{q_B}}{variables corresponding \\ to the messages $q_A$ and $q_B$, } \cdot t_{q_A,q_B}(\bar x, \bar y).
     \end{align*}
-    When evaluating this polynomial, the summands that do not correspond to the intended message $(q_A,q_B)$ will be eliminated, since they will contain a variable that is set to $0$. Only the summand corresponding to the intended message will be used, and thus the correct output will be produced. 
+    When evaluating this term operation, the summands that do not correspond to the intended message $(q_A,q_B)$ will be eliminated, since they will contain a variable that is set to $0$. Only the summand corresponding to the intended message will be used, and thus the correct output will be produced. 
  \end{proof}
 
- In the above claim, the only property of fields that was used is that there are elements $1$ and $0$ with the usual field properties, i.e.~$1$ is neutral for multiplication, while $0$ is neutral for addition and cancellative for multiplication.
+ In the above claim, the only property of fields that was used is that there are elements $1$ and $0$ with the usual field properties, i.e.~$1$ is neutral for multiplication, while $0$ is neutral for addition and cancellative for multiplication. Therefore, so far our proof would work in any semiring with such elements.
 
- \paragraph*{Step 3. Scalar product.} In the previous step, we have reduced the protocol to a special case, where Alice and Bob send vectors, call them $\bar x, \bar y \in \domain^d$, and then some fixed polynomial $p$ with $2d$ variables is applied to them. 
-  To complete the proof of the lemma, we show that the polynomial can be turned into a scalar product. Consider the monomials in the polynomial $p$. For each monomial, its contribution to the output has three is obtained by multiplying three numbers: (a) the product of the  variables in the polynomial that are contributed by Alice;  (b) the product of the variables in the polynomial that are contributed by Bob; and (c)  the scalar next to the monomial. We can redesign the protocol so that for each monomial, Alice sends the contribution (a), and Bob sends the product of the contributions (b) and (c). In the new protocol, the dimension is the number of monomials from the original protocol, and the polynomial is a scalar product. 
+ \paragraph*{Step 3. Scalar product.} In the previous step, we have reduced the protocol to a special case, where Alice and Bob send vectors, call them $\bar x, \bar y \in \domain^d$, and then some fixed term operation $t$ with $2d$ variables is applied to them. 
+  To complete the proof of the lemma, we show that the term operation can be turned into a scalar product. This term operation is a sum of monomials, with each monomial being a product of some variables. Consider the monomials in the term operation $t$. For each monomial, its contribution to the output has three is obtained by multiplying three numbers: (a) the product of the  variables in the term operation that are contributed by Alice; and   (b) the product of the variables in the term operation that are contributed by Bob. We can redesign the protocol so that for each monomial, Alice sends the contribution (a), and Bob sends the contribution (b). In the new protocol, the dimension is the number of monomials from the original protocol, and the term operation is a scalar product. 
 
-  This completes the third and final step in the proof. In this step, the only property of fields that was used is that multiplication is commutative, and therefore each monomial can be cleanly separated into two parts, one for Alice and one for Bob. Summing up, the entire lemma would work for commutative semirings, and just for fields. However, the second part of the proof of Theorem~\ref{thm:field-domain}, presented in Section~\ref{sec:from-scalar-product-protocol-to-weighted-automaton}, does use the assumption  that the output domain is a field, and therefore we do not discuss commutative semirings any more, and we talk only about fields.
+  This completes the third and final step in the proof. In this step, the only property of fields that was used is that multiplication is commutative, and therefore each monomial can be cleanly separated into two parts, one for Alice and one for Bob. Summing up, the entire lemma would work for commutative semirings, and just for fields. However, the second part of the proof of Theorem~\ref{thm:field-domain}, presented in Section~\ref{sec:from-scalar-product-protocol-to-weighted-automaton}, does use the assumption  that the output domain is a field.
 \end{proof}
 
 \subsection{From a scalar product protocol to a weighted automaton}
 \label{sec:from-scalar-product-protocol-to-weighted-automaton}
-In this section, we complete the proof of \cref{thm:field-domain}, by showing that scalar product protocols can be simulated by weighted automata. Similarly to the Boolean case, the proof will use a Myhill-Nerode characterization. In the case of weighted automata, this characterisation is the Fliess Theorem, which we describe below.
-
-\paragraph*{Fliess Theorem.} The Fliess Theorem characterises functions computed by weighted automata, in terms of a certain infinite matrix.
+In this section, we complete the proof of \cref{thm:field-domain}, by showing that scalar product protocols can be simulated by weighted automata. Similarly to the Boolean case, the proof  uses a Myhill-Nerode characterization. In the case of weighted automata, this characterisation is called  the Fliess Theorem. This theorem  characterises functions computed by weighted automata in terms of a certain infinite matrix.
 
 \begin{definition}[Hankel Matrix]\label{def:hankel-matrix}
     Let $\domain$ be a field. The Hankel matrix of a function 
     \begin{align*}
     f : \Sigma^* \to \domain
     \end{align*}  
-    is the matrix where rows are words in $\Sigma^*$; columns are words in $\Sigma^*$; and the entry corresponding to a row $u$ and a column $v$ is $f(uv)$.
+    is the matrix where rows are words in $\Sigma^*$, columns are words in $\Sigma^*$, and the entry corresponding to a row $u$ and a column $v$ is $f(uv)$.
 \end{definition}
 
-Another perspective on the Hankel matrix is that it describes the \emph{derivatives} of the function $f$. Each row in the Hanekel matrix can be seen as a function of type $\Sigma^* \to \domain$, which inputs columns (i.e.~strings) and outputs the corresponding entries in the Hankel matrix. If the row corresponds to a word $w$, then this function is
+Another perspective on the Hankel matrix is that it describes the \emph{derivatives} of the function $f$. Each row in the Hankel matrix can be seen as a function of type $\Sigma^* \to \domain$, which inputs columns (i.e.~strings) and outputs the corresponding entries in the Hankel matrix. If the row corresponds to a word $w$, then this function is
 \begin{align*}
 v \mapsto f(wv),
 \end{align*}
 which is called the \emph{left derivative} of $f$ with respect to $w$. Similarly, the columns of the Hankel matrix describe \emph{right derivatives} of $f$.
 
-The Fliess Theorem~\cite[Theorem 2.1.1]{fliess1974} states that a function $f$ is computed by a weighted automaton if and only if the Hankel matrix of $f$ has finite rank, i.e.~its rows (i.e.~the left derivatives) are spanned by a finite subset. (This is equivalent to saying that the columns, or right derivatives, have a finite spanning subset.) Therefore, to complete the proof of \cref{thm:field-domain}, it is enough to show the following lemma.
+The Fliess Theorem~\cite[Theorem 2.1.1]{fliess1974} states that a function 
+\begin{align*}
+f : \Sigma^* \to \domain
+\end{align*}
+is computed by a weighted automaton if and only if  its  Hankel matrix  has finite rank, i.e.~its rows (i.e.~the left derivatives) are spanned by a finite subset. (This is equivalent to saying that the columns, or right derivatives, have a finite spanning subset.) Therefore, to complete the proof of \cref{thm:field-domain}, it is enough to show the following lemma.
 
 \begin{lemma}\label{lem:hankel-finite-rank}
     If a function is computed by a scalar product protocol, then its Hankel matrix has finite rank.

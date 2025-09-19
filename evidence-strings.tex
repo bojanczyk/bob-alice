@@ -1,7 +1,11 @@
 \subsection{Evidence for the conjecture}
 \label{sec:continuity}
-The rest of Section~\ref{sec:string-outputs} is devoted to  evidence for Conjecture~\ref{conj:protocol-regular-string-to-string}.
-In this subsection, we show that the string-to-string functions computed by protocols share some of the good properties of regular functions, such as linear size outputs and computability. (A priori, it is not clear why the functions should be computable, since the protocols are non-uniform.) The point of departure is the following lemma, which connects weighted automata and string-to-string functions that can be computed in our protocol.
+In this subsection, we show that the string-to-string functions computed by protocols share some  good properties of regular functions, such as linear size outputs and computability. Even computability is not a priori obvious, due to the non-uniformity of the protocols. These results can be seen as evidence of the open implication 
+\begin{align*}
+\text{protocol} \implies \text{regular}
+\end{align*}
+in the conjecture. To prove these results, we will leverage the results on weighted automata from Section~\ref{sec:field-domain}.
+The point of departure is the following lemma, which connects weighted automata and string-to-string functions that can be computed in our protocol.
 
     \begin{lemma}
         \label{lem:postcomposition-weighted-automaton}
@@ -17,11 +21,10 @@ In this subsection, we show that the string-to-string functions computed by prot
         \domain,
         \end{tikzcd}
         \]
-        such that $f$ is computed by a protocol (with string outputs). If $g$  is computed by a weighted automaton, then the same is true for  $f;g$.
+        such that $f$ is computed by a protocol (with string outputs). If $g$  is computed by a weighted automaton, then the same is true for the composition  $f;g$.
     \end{lemma}
     \begin{proof}
-        We will show that the composition $f;g$ is. computed by a protocol (with field outputs). Thanks to \cref{thm:field-domain}, this will imply that $f;g$ is computed by a weighted automaton.
-
+        We will show that the composition $f;g$ is computed by a protocol (with field outputs). Thanks to \cref{thm:field-domain}, this will imply that $f;g$ is computed by a weighted automaton.
         For each string in $\Gamma^*$, the weighted automaton for $g$ has an associated matrix over the field $\domain$. We modify the protocol for $f$, so that it uses matrices instead of strings. During the execution, instead of sending strings in $\Gamma^*$, the parties send  the corresponding matrices. At the end, instead of concatenating the output strings, the matrices are multiplied, yielding a matrix for the entire output string. Finally, this matrix is applied to the initial state, and then the output function is applied to the resulting vector. All of this is done using addition and multiplication, which is legitimate in a protocol with the output domain $\domain$.
     \end{proof}
 
@@ -37,6 +40,10 @@ The above lemma establishes a property of $f$, namely that weighted automata (ov
 In the above definition, we only consider weighted automata over a field. The more general setting of semirings is dicussed in Section~\ref{sec:beyond-fields}.
 The name ``continuous'' is inspired by a similar terminology that is used in automata theory for functions that preserve regularity under inverse images, see~\cite[Theorem 4.1]{PinSilva05} or~\cite[Footnote 2]{continuity20}.  For the latter notion, we use the name \emph{Boolean continuity}.
 
+\begin{definition}[Boolean continuity]
+    A string-to-string function $f : \Sigma^* \to \Gamma^*$ is called \emph{Boolean continuous} if preimages of regular languages are regular.
+\end{definition}
+
 As we have shown in \cref{lem:postcomposition-weighted-automaton}, all string-to-string functions computed by protocols are field continuous. In particular, since every regular string-to-string function is computed by a protocol, it follows that every regular string-to-string function is field continuous\footnote{To the best of our knowledge, this is a new result. It can also be proved directly, without passing through protocols, and we present such a direct proof in Section~\ref{sec:beyond-fields}, for the more general setting of commutative semirings. In the more general case we need a direct proof, since \cref{thm:field-domain} is not known to be true for this case.}
 We conjecture that the converse is also true.
 
@@ -44,10 +51,14 @@ We conjecture that the converse is also true.
     A string-to-string function is field continuous if and only if it is regular.
 \end{conjecture}
 
-In Section~\ref{sec:beyond-fields}, we dicuss variants of the conjecture, and in particular we show that the conjecture becomes false if the left side is relaxed from field continuous to Boolean continuous.
-The above conjecture can be seen as  a machine independent characterisation of the regular string-to-string  functions. This would be a very valuable contribution. Almost all known characterisations of the regular string-to-string  functions have somewhat lengthy definitions, based on specific computational models, and it is something of a  miracle that all of these models are equivalent. A possible exception is the characterisation in~\cite{bojanczykTitoRegular23}, which does not use a machine model; however that characterisation uses the abstract language of category theory, and is less elementary than the one in Conjecture~\ref{conj:regular-continuous}.
+Later on, in Section~\ref{sec:beyond-fields}, we will dicuss variants of the conjecture, and in particular we show that the conjecture becomes false if the left side is relaxed from field continuous to Boolean continuous.
 
-As in Conjecture~\ref{conj:protocol-regular-string-to-string}, the content of the conjecture is the left-to-right implication. 
+Conjecture~\ref{conj:regular-continuous} can be seen as  a machine independent characterisation of the regular string-to-string  functions. This would be a very valuable contribution. Almost all known characterisations of the regular string-to-string  functions have somewhat lengthy definitions, based on specific computational models, and it is something of a  miracle that all of these models are equivalent. A possible exception is the characterisation in~\cite{bojanczykTitoRegular23}, which does not use a machine model; however that characterisation uses the abstract language of category theory, and is less elementary than the one in Conjecture~\ref{conj:regular-continuous}.
+
+As in Conjecture~\ref{conj:protocol-regular-string-to-string}, the content of Conjecture~\ref{conj:regular-continuous} is the left-to-right implication
+\begin{align*}
+\text{field continuous} \implies \text{regular}.
+\end{align*}
 Conjecture~\ref{conj:regular-continuous} is stronger than Conjecture~\ref{conj:protocol-regular-string-to-string}, as explained in the following diagram, which shows the known relations between three kinds of string-to-string functions:
 \[
 \begin{tikzcd}
@@ -64,7 +75,7 @@ Conjecture~\ref{conj:regular-continuous} is stronger than Conjecture~\ref{conj:p
 \]
 
 
-The following theorem gives some evidence for the stronger conjecture, by showing that the field coniniuous functions share some well-known properties of the regular string-to-string functions. 
+The following theorem gives some evidence for the stronger conjecture,  and therefore also the weaker one, by showing that the field coniniuous functions share some well-known properties of the regular string-to-string functions. 
 
 \begin{theorem}\label{thm:evidence-for-the-conjecture}
     If a function $f : \Sigma^* \to \Gamma^*$ is  field continuous, then:
@@ -80,7 +91,7 @@ The following theorem gives some evidence for the stronger conjecture, by showin
 
 \begin{proof}
     For properties~\ref{it:linear-size-outputs} and~\ref{it:linear-time-computable}, we embed strings into numbers. 
-    An output string over alphabet $\Gamma$ can be seen as a number in base $|\Gamma|$. To avoid with ambiguity that could result from leading zeros, we first prepend the string with the digit 1. Let 
+    An output string over alphabet $\Gamma$ can be seen as a number in base $|\Gamma|$. To avoid the ambiguity that could result from leading zeros, we first prepend the string with the digit 1. Let 
     \begin{align*}
     g : \Gamma^* \to \Nat \subseteq \Rat
     \end{align*} 
@@ -89,8 +100,7 @@ The following theorem gives some evidence for the stronger conjecture, by showin
         \item has a linear number of digits;
         \item can be computed in linear time.
     \end{enumerate}
-    These two claims yield the corresponding items in the statement of the theorem. The first claim, about a linear number of digits, is true because it is true for every weighted automaton over $\Int$. This is because applying a fixed linear map can only add a constant number of digits. THe second claim is also easy to see, since the weighted automaton can be evaluated in linear time (we assume that we work in a model where addition and subtraction of integers has unit cost). 
-
+    These two claims yield the corresponding items in the statement of the theorem. The first claim, about a linear number of digits, is true because it is true for every weighted automaton over $\Int$. This is because applying a fixed linear map can only add a constant number of digits. The second claim is also easy to see, since the weighted automaton can be evaluated in linear time (we assume that we work in a model where addition and subtraction of integers has unit cost). 
     We are left with property~\ref{it:regular-preimages}, about Boolean continuity.  This will follow from the special case of field continuity, where the field is  the two-element field.  This is because of  the following  folklore correspondence between regular languages and weighted automata over the two-element field. 
         
         \begin{claim}\label{claim:regular-weighted-automata}
@@ -103,7 +113,7 @@ The following theorem gives some evidence for the stronger conjecture, by showin
         In terms of the correspondence from the above claim, preimages of regular languages become precompositions of weighted automata over the two-element field. In particular, regularity is preserved. 
 \end{proof}
 
-One could think that already the two properties in the above theorem are not only necessary for field continuous functions, but also sufficient. This is not the case, as shown by the following example.
+One could think that already the three properties in the above theorem are not only necessary for regularity, but also sufficient. This is not the case, as shown by the following example.
 
 \begin{myexample}[Factorials]
     \label{ex:not-regular-but-continuous-over-finite-fields}
@@ -111,6 +121,6 @@ One could think that already the two properties in the above theorem are not onl
     \begin{align*}
     g : \Sigma^* \to \set{a}^*
     \end{align*}
-    where both the input and output alphabets are unary. A sufficient condition for regularity of such functions is given in  \cite[Example 2.12]{bojanczykTitoRegular23}, using \emph{factorials}, i.e.~numbers in the set $\setbuild{n!}{$n \in \Nat$}$. This sufficient condition is that: (a) every output string arises from finitely many inputs; and (b) every output string has length that is a factorial. 
-    It is not hard to come up with a function that has  properties (a) and (b), thus ensuring Boolean continuity, and which has furthermore linear size outputs and is computable in linear time. For example, the function could map an input string $w$ to the longest string of factorial length that is shorter than $w$. 
+    where both the input and output alphabets are unary. A sufficient condition for Boolean continuity of such functions is given in  \cite[Example 2.12]{bojanczykTitoRegular23}, using \emph{factorials}, i.e.~numbers in the set $\setbuild{n!}{$n \in \Nat$}$. This sufficient condition is that: (a) every output string arises from finitely many inputs; and (b) every output string has length that is a factorial. 
+    It is not hard to come up with a non-regular function that has  properties (a) and (b), thus ensuring Boolean continuity, and which has furthermore linear size outputs and is computable in linear time. For example, the function could map an input string $w$ to the longest string of factorial length that is shorter than $w$. 
 \end{myexample}

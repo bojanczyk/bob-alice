@@ -20,7 +20,9 @@
 \newcommand{\eqfun}[2]{ #1 \underset{\text{eq}}{\longrightarrow} #2}
 \newcommand{\fsfun}[2]{ #1 \underset{\text{fs}}{\longrightarrow} #2}
 \newcommand{\leftderivative}[2]{#1(#2\underline{\hspace{2mm}})}
-
+\newcommand{\rightderivative}[2]{#1(\underline{\hspace{2mm}}#2)}
+\newcommand{\twoderivative}[3]{#1 #2 #3}
+\newcommand{\termop}{ \underset{\text{term}}{\longrightarrow}}
 \begin{document}
 
 \title{Two-party computation for functions with string inputs}
@@ -32,7 +34,7 @@
 \end{abstract}
 
 
-
+\input{introduction}
 \input{boolean-domain}
 \input{general-domains}
 \input{field-domain}
