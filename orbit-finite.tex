@@ -17,6 +17,33 @@ There are many models for infinite alphabets in the literature,  including deter
 
 In this section, we describe a version of our two-party protocols that uses infinite alphabets. There are two sources of motivation for this study, namely: (a) a search for a canonical model of regular languages for infinite alphabets; and (b) mathematical interest. Regarding the point (a), we hope that the ready adaptability of two-party protocols to various settings will help us  find a canonical model of regular languages for infinite alphabets. This seems to be at least partially successful, since there is evidence -- which we present in this section -- that the protocols are equivalent to of the known automata models, namely unambiguous register automata. If true, this equivalence would be unexpected, since  there does not seem to be any direct connection between the two models. Regarding point (b), one of the exciting features of our protocol model for infinite alphabets is that the interaction between the two parties becomes essential, and the protocol cannot be reduced to the one-round case as in \cref{lemma:one-round-reduction-general}.
 
+\begin{figure}
+    \begin{enumerate}
+    \item deterministic register automata~\cite[Definition 3]{kaminskiFiniteMemoryAutomata1994}
+    \item nondeterministic register automata~\cite[Definition 1]{kaminskiFiniteMemoryAutomata1994}
+    \item nondeterministic register automata with guessing~\cite[Definition 2.7]{bojanczyk_slightly}
+    \item weighted register automata over the two-element field~\cite[Definition 3.1]{orbitFiniteVectorTheoretics}
+    \item two-way deterministic register automata~\cite[Definition 5]{kaminskiFiniteMemoryAutomata1994}
+    \item two-way nondeterministic register automata~\cite[Definition 2.1]{nevenFiniteStateMachines2004}
+    \item alternating register automata~\cite[p.~16:8]{lazicDemri09}
+    \item alternating register automata with one register~\cite[p.~16:19]{lazicDemri09}
+    \item unambiguous register automata~\cite[Section 5]{colcombet2015unambiguity}
+    \item register automata with pebbles~\cite[Section 2.2]{nevenFiniteStateMachines2004}
+    \item \label{it:single-use} single-use register automata~\cite[Definition 2]{bojanczykstefanski2020}
+    \item data automata~\cite[Section 4.2]{bojanczykTwovariableLogicData2011}
+    \item class automata~\cite[Section III]{bojanczykExtensionDataAutomata2010} 
+    \item regular expressions~\cite[Definition 2]{regexpKaminskiTan2004}
+    \item three other kinds of regular expressions~\cite[Sections 4, 5, 6]{regexpLibkin2015}
+    \item yet another kind of regular expressions~\cite[Section 5]{KleeneNominal2019}
+    \item monadic second-order logic with equality~\cite[Section 2.4]{nevenFiniteStateMachines2004}
+\end{enumerate}
+    \caption{A non-exhaustive list of models of automata for infinite alphabets. All models in the list are pairwise non-equivalent. In contrast, for finite alphabets, all models in this list are equivalent, and define exactly the regular languages. }
+    \label{fig:automata-infinite-alphabets}
+\end{figure}
+
+
+
+
 % . Regarding the point (b), we note that the theory of automata for infinite alphabets is closely related to the theory of orbit-finite sets~\cite{bojanczyk_slightly}, which builds on the ideas of nominal sets~\cite{PittsAM:nomsns}. This theory has many interesting mathematical aspects, and we hope that our model will be useful in this context.
 
 
@@ -41,14 +68,7 @@ Examples of equivariant languages include the languages in~\eqref{eq:first-last}
 
 The idea is to use the same kind of protocol as in Definition \ref{def:two-party-protocol-boolean}, except that apart from bits, the parties can also send letters  from the alphabet $\atoms$. Before giving a formal definition, let us consider some examples. 
 
-\begin{myexample}[First letter equals last letter]
-    Consider the language in~\eqref{eq:first-last}, i.e.~the language of strings whose first letter is equal to the last letter. This language can be computed by a two-round protocol. In  the first round, Alice sends the first letter of her local string, or the bit $0$ to indicate that her local string is empty. Bob uses this information to check membership in the language. 
-\end{myexample}
 
-\begin{myexample}[Some letter appears at least twice]
-    \label{ex:some-twice}
-    Consider the language in~\eqref{eq:some-twice}, i.e.~the language of strings where some letter appears at least twice. As we will see, this language cannot be computed by a protocol. The reason is that if Alice does not see a repetition in her part of the input string, then she should send all of her letters to Bob, since any of them could be repeated in Bob's part. However, Alice cannot send all of her letters, since there is a constant number of rounds. 
-\end{myexample}
 
 Let us give a more formal definition of the protocol. The input alphabet is $\atoms$, while the allowed messages are from the set $\set{0,1} + \atoms$, i.e.~the disjoint union of the Booleans and the input alphabet.
 There is a fixed number of rounds $k$. In round $i \in \set{1,\ldots,k}$, each of the two parties chooses a new message according to a strategy, which is a function of type
@@ -469,7 +489,7 @@ We begin with the first step, which can be seen as form of reduction to one roun
     By repeatedly applying the above claim, we can reduce the number of rounds to one, in which case we get a bilinear protocol, as required in the statement of the lemma. 
 \end{proof}
 
-The second step in the proof of \cref{thm:orbit-finite-protocol-to-weighted} is to show that orbit-finite bilinear protocols are equivalent to weighted orbit-finite automata.  This will be proved similarly to the finite case, see \cref{sec:from-scalar-product-protocol-to-weighted-automaton}, by appealing to the Fliess Theorem. However, we need an orbit-finite version of this theorem, so we need to prove that. 
+The second step in the proof of \cref{thm:orbit-finite-protocol-to-weighted} is to show that orbit-finite bilinear protocols are equivalent to weighted orbit-finite automata.  This will be proved similarly to the finite case, see \cref{sec:from-scalar-product-protocol-to-weighted-automaton}, by appealing to the Fliess Theorem. However, we first  need to prove the appropriate  orbit-finite generalisation  of this theorem.
 
 \subsubsection{Fliess Theorem}
 In this section, we prove an orbit-finite version of the Fliess Theorem, which characterises functions $\Sigma^* \to \domain$ that are computed by weighted orbit-finite automata. As in the original Fliess Theorem, we will be interested in derivatives of the function, which live in the space  

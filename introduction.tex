@@ -1,66 +1,109 @@
 \section{Introduction}
 \label{sec:introduction}
-This paper is motivated by the desire to understand the notion of  ``regularity''. We take the functional perspective, in which we consider functions that input strings, and output some values. 
-
-If the outputs are the Booleans, then such functions
+This paper is motivated by a desire to understand the notion of  ``regularity''. We take the functional perspective, in which we consider functions 
 \begin{align*}
-f : \Sigma^* \to \set{\text{yes, no}}
+f : \Sigma^* \to \domain
 \end{align*}
-are languages, and there is no question about which languages should be considered regular. There are tens -- if not hundreds -- of equivalent definitions of the regular languages, including regular expressions, monadic second-order logic, and finite automata in various forms (deterministic, nondeterministic, alternating, two-way, with pebbles, etc.).
+that input strings, and output values from some domain $\domain$. 
+If the output domain is the Booleans, then such functions
+are languages, and there is no question about which languages should be considered regular. There are tens -- if not hundreds -- of equivalent definitions of the regular languages, including regular expressions, finite automata in numerous forms, monoids, monadic second-order logic, and variants of $\lambda$-calculus. But what about other outputs? Let us review three examples where the nature of regularity is a topic of genuine  discussion.
 
-But what about other outputs? A notable example is when the outputs are other strings, i.e.~we are interested in string-to-string functions 
+\begin{enumerate}
+    \item \textbf{String outputs.}
+Consider string-to-string functions 
 \begin{align*}
 f : \Sigma^* \to \Gamma^*.
 \end{align*}
-There are numerous automata models for string-to-string functions (such models are typically called transducers), including the following non-equivalent  models, listed in increasing order of expressivity:  Mealy machines~\cite[Section 2.1]{mealy1955method}, rational functions~\cite[Chapter IX.8]{Eilenberg74}, (linear) regular functions~\cite[p.~217]{engelfrietMSODefinableString2001}, and the  polyregular functions~\cite[p.~2]{polyregular-survey}. The differences between these models are significant, and it is not clear which of these models, if any, should be considered ``the'' regular string-to-string functions? 
+Similarly to languages, the literature on automata theory offers countless  models. This time, however, not all of them are equivalent, but there is at least some semblance of order. Let us mention three classes of functions  of particular interest:  the \emph{rational}, \emph{regular}, and \emph{polyregular} functions. These classes are described in~\cref{fig:transducer-classes} in Section~\ref{sec:string-outputs}, with each one having at least five different characterisations, using models of varied origins, including logic, algebra and programming language theory. Which of these classes, if any, should be considered ``the'' regular string-to-string functions? We could simply go with the middle one, because  the word ``regular'' is traditionally used for it, but a more principled approach would be preferable.
 
+\item \textbf{Number outputs.}
+Consider string-to-number functions, say functions 
+\begin{align*}
+f : \Sigma^* \to \Rat
+\end{align*}
+that output rational numbers (more generally, the outputs could be in some field). Here, the literature offers two natural candidates, namely \emph{weighted automata}~\cite{schutzenberger1961definition}, and \emph{polynomial automata}~\cite[Section IV]{DBLP:conf/lics/BenediktDSW17}. In both cases, there is an automaton that reads the input string in one pass, and stores in its state a vector $\Rat^d$ of some fixed dimension. In weighted automata, this vector is updated using linear maps, while polynomial automata can use polynomial maps. These models are not equivalent -- polynomial automata are strictly more powerful -- but both have a good mathematical theory, one based on linear algebra, and the other based on algebraic geometry. Again, we might be tempted to ask: which one is ``the'' right one?
+
+\item \textbf{Infinite input alphabets.}
+Our final example is of a different kind than the previous ones. We return to functions with Boolean outputs, i.e.~languages
+\begin{align*}
+f : \Sigma^* \to \set{\text{true, false}},
+\end{align*}
+but this time the input alphabet is no longer required to be finite. Of course the infinity needs to be tamed somehow, and the standard approach to do this is to use an infinite alphabet where letters can only be compared for equality~\cite{kaminskiFiniteMemoryAutomata1994}. This allows for languages such as ``all letters are different'' or ``the first letter is equal to the last one'', but not for languages such as ``the letters are in increasing order'', since the letters are not equipped with a linear order, or any other kind of structure.
+The literature is rife with automata models for such languages, with seventeen examples listed in \cref{fig:automata-infinite-alphabets}, all describing pairiwse non-equivalent models. 
+ Again, we might be tempted to ask: which one is  ``the'' right one?
+\end{enumerate}
+
+This type of question can be asked in other settings, with   outputs such as  trees,  graphs or elements of some abstract semiring\footnote{One could also vary the inputs, and consider regularity for, say, graph-to-graph functions. However,  we refrain from considering general outputs in this paper, and we stay with string inputs, possibly over infinite alphabets.}.This paper is an attempt to provide a unified theory of regularity for such functions.   In our attempts to identify the ``right'' notion of regularity, we are guided by  the following principle, which we believe to be essential for regularity:
+\begin{description}
+    \item[Compositionality.]  If the input is split into parts, then only a constant amount of information  flows between them, as far as the output of the function is concerned.
+\end{description}
+This principle is only a vague guideline, since it does not identify what ``information flow'' means, or how to quantify its amount. For Boolean outputs, i.e.~languages, compositionality has a standard interpretation, which is the Myhill-Nerode Theorem, and it is known to correspond exactly to the regular languages. However, in the case of more complicated outputs, things are less clear.  For example, if the outputs of the function are rational numbers, then it should be legitimate for the information flow to contain some rational numbers. How should this be formalised?
+
+We propose a formalisation that is based on communication complexity, in which two parties, called Alice and Bob, cooperate to compute the output of the function. There are \textbf{no uniformity assumptions} and the  two parties have unrestricted computational power; the goal is to measure information and not computation.  Each of the two parties has access to part of the input string, according to a factorization $w = w_1 w_2$, and they exchange messages in order to compute the output of the  function. There must be a  \textbf{constant number of messages}, which means that the number of exchanged messages is bounded by a constant that depends only on the function and not on the input string. Also, the  output of the computation must be \textbf{split invariant}, which means that the output depends only on the input string $w$, and not on the split $w = w_1 w_2$ into parts of Alice and Bob. In the communication, there are two kinds of messages:  either bits in $\set{\text{true, false}}$  or elements of the output domain. For example, if the outputs are rational numbers, then the messages can contain rational numbers. However, there is a restriction on the access to messages from the output domain, which is called the \textbf{black box restriction}. This restriction is intended to prevent tricks such as Alice sending her input string to Bob encoded as a rational number. The black box restriction says that the parties cannot read the messages from the output domain, and they can only operate on them using predefined operations. For example, in the case of numbers, the operations are $+$ and $\times$.  A more detailed description of the model will be given later in the paper. 
+
+As we discover in all cases that are studied in this paper, the model, which we call \emph{protocols}, can only define well-behaved functions, despite its non-uniformity. In particular, in all cases that we have studied  these functions are: (1)  always  computable, even in linear time; and (2) the output size is always at most linear (with the size of a rational number measured by the number of bits needed to represent it).  This seems to indicate that the split invariance, together with a  constant number of messages under the black box restriction, has unexpected computational consequences, including linear size output. We do not really understand why this is so.
+Also, in all cases that we have studied,  the protocols coincide -- or is conjectured by us to coincide -- with existing automata models, some of which seem unrelated to the protocol, as explained in the following table: 
 \begin{center}
-    todo continue here
+    \begin{tabular}{ll}
+    \textbf{Output} & \textbf{Automata Model} \\
+    \hline
+    Boolean & Regular languages \\
+    Field & Weighted Automata \\
+    Strings & Regular functions (conjectured) \\
+    Boolean, but infinite input alphabet & Unambiguous  automata (conjectured) 
+\end{tabular}
 \end{center}
-
+For the results that are mere conjectures, we provide substantial evidence, in particular in the case of strings we prove the conjecture for unary output alphabets. In the remainder of this introduction, we give a more detailed review of the four rows in the above table. 
 \subsection{Protocols for Boolean outputs}
 \label{sec:intro-boolean}
-The first contribution of the paper is a new model of computation for languages, i.e.~functions with Boolean outputs
+The first contribution of the paper is a new model of computation for functions
 \begin{align*}
-f : \Sigma^* \to \set{\text{yes,no}}.
+f : \Sigma^* \to \set{\text{true, false}},
 \end{align*}
-The computation is distributed across two cooperating parties, called Alice and Bob. For an input string $w \in \Sigma^*$, an evil adversary chooses a factorization $w = w_1 w_2$  into two consecutive parts. The first part is sent to Alice, and the second part is sent to Bob. Next, Alice and Bob exchange messages  in order to determine if the word is in the language. The two crucial assumptions are:
+i.e.~languages, which involves two  cooperating parties called Alice and Bob. For an input string $w \in \Sigma^*$, an evil adversary chooses a factorization $w = w_1 w_2$  into two consecutive parts. The first part is sent to Alice, and the second part is sent to Bob. Next, Alice and Bob exchange messages  in order to determine if the word is in the language. Each message is a single bit, and the two crucial assumptions are:
 \begin{enumerate}
-  \item \textbf{Constant number of bits.} The number of exchanged bits is bounded by a constant  that depends only on the language and not on the input string.
+  \item \textbf{Constant  number of messages.} The number of exchanged messages is bounded by a constant  that depends only on the language and not on the input string.
   \item \textbf{Split invariance.} The output of the protocol depends only on the input string $w$, and not on its factorisation $w=w_1 w_2$.
 \end{enumerate}
 Similarly to the usual setup for communication complexity,  we do not make any assumptions about the computational power of Alice and Bob:
 \begin{enumerate}
-    \item[3.] \textbf{Non-uniformity.} The strategies of Alice and Bob need not be computable.
+    \item[3.] \textbf{Non-uniformity.} There are no computation restrictions on the strategies of Alice and Bob.
 \end{enumerate}
-
+For example, the first message sent by Alice could answer  some undecidable question.
 
 \begin{myexample}[First three equal last three]
-Suppose that the language is 
-\begin{align*}
-\setbuild{ w \in \set{a,b}^*}{the first three letters of $w$ are equal to the last three letters of $w$}.
-\end{align*}
-To decide this language, the parties can exchange a constant number of messages. For example, Alice can send the first three letters of her part to Bob (if Alice got less than three letters, she also needs to communicate this). Alternatively, Bob can send his first three letters, and other variants are possible as well. If we change the number three to some other constant, then the same kind of protocol can be used. If the constant is turned into a variable, e.g.~we care about words of the form $ww$ where $w$ is of arbitrary length, then there is no constant round protocol, as we will see later in this section. 
+    \label{ex:three-letters}
+Suppose that the language is ``the first three letters are equal to the last three letters'', over an input alphabet $\set{a,b}$.
+Alice can send her  first three letters to Bob (if Alice got less than three letters, she needs to communicate this), and Bob can use this information to determine membership in the language. Alternatively, Bob can send his first three letters, and other variants are possible as well. The same kind of  protocol will of course work for finite constants other than three. If the constant is turned into a variable, e.g.~we care about words of the form $ww$ where $w$ is of arbitrary length, then there is no  protocol, as we will see later in this section. 
 \end{myexample}
 
-The first result of this paper is \cref{thm:boolean-domain}, which says that these protocols compute exactly the regular languages, despite the non-uniformity. One implication is immediate: every regular language can be computed by a protocol, since Alice can send to Bob the state of a finite automaton that recognises the language. The other implication has two steps. In the first step, the protocol is reduced to a one-round non-interactive version, where each party independently sends a message with a constant number of bits, and the decision is then made based on these two messages. In the second step, we use the one-round protocol and the Myhill-Nerode Theorem to conclude that the language must necessarily be regular, since there is a constant amount of information that flows between the two parts of the input. 
+The first result of this paper  says that these protocols compute exactly the regular languages, despite the non-uniformity.
+\begin{restatable}{theorem}{booleandomain}
+     \label{thm:boolean-domain}
+  A language $L \subseteq \Sigma^*$ is computed by a protocol if and only if it is regular.
+\end{restatable}
+One implication is immediate: every regular language can be computed by a protocol.  Alice can send to Bob the state of a finite automaton that recognises the language. The other implication is proved in two steps, see Section~\ref{sec:boolean-domain} for more details. In the first step, the protocol is reduced to a one-round non-interactive version, where each party independently sends a message with a constant number of bits, and the decision is then made based on these two messages. In the second step, we use the one-round protocol and the Myhill-Nerode Theorem to conclude that the language must necessarily be regular. 
 
-Unlike in communication complexity, we are not interested in the exact number of exchanged bits. For our purposes, a protocol that exchanges $k$ bits is no different from a protocol that exchanges $2^k$ bits. We only care that this bound should be finite and independent of the input. One could investigate this constant in more detail, e.g.~how it depends on some parameters of the language, such as the number of states in an automaton that recognises it. We do not pursue this direction in this paper.
+% It is worth underlining that, unlike in communication complexity, we are not interested in the exact number of exchanged bits. For example, in the round reduction that is described in the previous paragraph, the number of exchanged bits increases exponentially. One could investigate the constant in more detail, e.g.~how it depends on some parameters of the language, such as the number of states in an automaton that recognises it. We do not pursue this direction in this paper.
 
 
-The result that protocols compute exactly the regular languages is not difficult to prove, and its main value lies in its role as an inspiration for other results in this paper. The model of protocols is easily be adapted to other output domains, beyond Booleans, such as  fields or strings. 
-As it turns out, in these cases  the protocols coincide -- or are conjectured to coincide -- with known finite-state models that seem to be completely unrelated to the protocols. Also, the results for various output domains draw on wide variety of techniques, with the only common thread being a reliance on linear algebra and representations of other objects inside linear algebra. These varied contributions are overviewed in the rest of this introduction, with references to the relevant sections of the paper.
+The above theorem is not difficult to prove, nor can it be called complemetely new.  Although we are not aware of an exact precedent for the theorem, the general idea of studying communication complexity for regular languages is not new in automata theory. This theme is called state complexity, and it is interested  in the number of states needed for a given language in a given automaton model, and how this number is affected by operations on languages or changes in the model. See  wikipedia~\cite{stateComplexityWiki} for a comprehensive summary with numerous references, or the recent paper~\cite{goosKiefer2022} which shows how to transfer lower bounds from communication complexity to state complexity of unambiguous automata. The work on state complexity is mainly about the exact number of states, which is of secondary concern to us. For our purposes, a protocol that exchanges $k$ bits is no different from a protocol that exchanges $2^k$ bits. We only care that this bound should be finite and independent of the input. 
+
+In light of the above discussion,
+the  main value of the protocol model lies in its role as an inspiration for other results in this paper, which use  other output domains  such as  fields or strings. 
+
 
 \subsection{Field outputs}
 \label{sec:intro-field}
 
 
 
-After the Booleans, we turn to functions with outputs in a field. For the sake of concreteness, consider the field of rationals, i.e.~we are interested in functions
+After the Booleans, we turn to functions with outputs in a field. For the sake of concreteness, let us  consider functions with outputs in the  field of rationals
 \begin{align*}
 f : \Sigma^* \to (\mathbb Q, +, \times).
 \end{align*}
-We propose a protocol model for computing such functions. Similarly to the Boolean case, the parties exchange messages. This time however, there are two kinds of messages: bits (as in the Boolean case), and  elements of the field.  The elements of the field can be added and multiplied.   Using only the bits, we can simulate the previous Boolean protocols, with $0$ and $1$ used instead of the Booleans. However, we can also compute other functions.
+We adapt the  protocol model to  compute such functions. Similarly to the Boolean case, the parties exchange messages. This time however, there are two kinds of messages: bits (as in the Boolean case), and  elements of the field.  The elements of the field can be added and multiplied.  (Division is discussed in Example~\ref{ex:division}.)  Using only messages that are bits, we can still recognise regular languages, or more formally their characteristic functions. 
+However, by using messages from the field, we can also compute new functions.
 
 \begin{myexample}[Length and exponential length]\label{ex:length}
     Consider the following two functions
@@ -71,47 +114,154 @@ To compute the length of the input string, Alice  sends the length of her part, 
 \end{myexample}
 
 
-Since the messages can include elements of the field, one needs to be careful about the design of the protocol. There are infinitely many rational numbers, and Alice could try to send her part of the input string in a single message, by encoding it as a rational. This would trivialise the model, since then every function could be computed. In order to avoid such tricks, we impose an additional restriction on the protocol:
+In the presence of an infinite message space, one needs to be careful about the design of the protocol. There are infinitely many rational numbers, and Alice could try to send her part of the input string in a single message by encoding it as a rational. This would trivialise the model, enabling every function to be computed. To prevent such tricks, we impose an additional restriction on the protocol\footnote{The black box postulate is related to  polymorphic parametricity from the theory of programming languages~\cite[Section 7]{reynolds1983types}, or to the recent algebraic group model in cryptography~\cite[Section 1.2]{fuchsbauer2018algebraic}. (An important difference with the algebraic group model is that our model does not allow for equality tests, see Example~\ref{ex:equality-tests} for a dicussion.)}:
 
 \begin{enumerate}
-    \item[4.] \textbf{Black box restriction.} The messages which contain parts of the output domain (in this case, rational numbers) cannot be read directly, but can only be acted on by the operations in the output domain (in this case addition and multiplication).
+    \item[4.] \textbf{Black box restriction.} The messages which use the output domain (in this case, rational numbers) cannot be read directly, but can only be acted on by the operations in the output domain (in this case addition and multiplication).
 \end{enumerate}
-We retain the other properties from the Boolean protocols, namely a constant number of messages (which are now bits or field elements), split invariance, and non-uniformity. A precise definition of the protocol is given in \cref{def:two-party-protocol-general}; in fact this definition uses a general output domain, and is not specific to fields.
+We retain the other properties from the Boolean protocols, namely a constant number of messages (which are now bits or field elements), split invariance, and non-uniformity. 
+ If the output domain is finite, e.g.~it is a finite field, then the black box restriction is irrelevant (which is why it was not mentioned when talking about Boolean outputs). This is because one can use bits to sent elements of a finite output domain, and the bits are a preferrable communication channel, since they can be read directly and are not subject to the black box restriction. The purpose of the black box restriction is to restrict the power of the protocol when the output domain is infinite, e.g.~the field of rationals.
+
+\paragraph*{Definition of the protocol model.} Since there might be some ambiguity as to what exactly is allowed in the protocol, let us give a more formal  definition. There is a finite input alphabet $\Sigma$, and a fixed number of rounds $k \in \set{1,2,\ldots}$, as per the consant message postulate. We assume that  Alice and Bob send messages in alternation, with Alice sending the first message\footnote{One could consider patterns of communication. In fact, in Section~\ref{sec:beyond-boolean-outputs} we use a more symmetric variant where both parties move in parallel in each round. These variants  do not change the expressive power of the model, only the constant that describes the  number of rounds.}. The messages are from 
+\begin{align*}
+\myunderbrace{\set{\text{true, false}} + \Rat}{disjoint union of bits and rational numbers}.
+\end{align*}
+When choosing their message in the $i$-th round, the corresponding  party (Alice in odd rounds, Bob in even rounds) has access to their part of the input string, and the  bits from previous messages. The numbers  are rationals, and cannot influence the decision, as per the black box restriction.  Therefore, the information available  in the $i$-th round is described by  the set 
+\begin{align}\label{eq:strategy-input}
+\myunderbrace{\Sigma^*}{part of the  input \\ string that is \\ known to the party}
+\qquad \times \qquad 
+\myunderbrace{\set{\text{true, false, ?}}^{i-1}}{messages received in \\ previous rounds, with \\ the numbers redacted}.
+\end{align}
+Based on this information, the corresponding party chooses a new message to  send, which is either a bit, or a number. The number can be produced in two ways: either  a  fresh number  is produced based on the available information, or otherwise two previously received numbers are combined using addition or multiplication.  Therefore, the possibilities for the message sent in the $i$-th round are described  the set 
+\begin{align}
+    \label{eq:strategy-output}
+\myunderbrace{\set{\text{true, false}}}{bits}
+\ + \ 
+\myunderbrace{\Rat}{fresh \\ numbers}
+\  + \ 
+\myunderbrace{\setbuild{(op,x,y)}{$op \in \set{+,\times}$ and $x,y \in \set{1,\ldots,i-1}$}}{addition or multiplication of previously received numbers}
+\end{align}
+If addition or multiplication is used, then the party sending the message is responsible for the operation to be well-defined, i.e.~the messages sent in rounds $x$ and $y$ must be numbers.
+Summing up, the strategy in round $i$ is a function which inputs an element of the set from \eqref{eq:strategy-input}, and outputs an element of the set from \eqref{eq:strategy-output}. This function need not be computable, as per the non-uniformity postulate. The protocol is then described by $k$ such strategies, one for each round $i \in \set{1,\ldots,k}$. We assume that the last message, sent in the $k$-th round, is a number and not a bit -- this number is defined to be the output of the protocol. 
+Finally, the protocol must be consistent with the split invariance postulate, i.e.~for every input string $w$, the same output must be produced regardless of the factorization $w = w_1 w_2$ into strings owned by Bob and Alice. This completes the definintion of the protocol model.
 
 
-The black box restriction is related to  polymorphic parametricity from the theory of programming languages~\cite[Section 7]{reynolds1983types}, or to the recently popular algebraic group model in cryptography~\cite[Section 1.2]{fuchsbauer2018algebraic}. However, an important difference with the algebraic group model is that our model does not allow for equality tests. When the output domain is finite, e.g.~it is a finite field, the black box restriction is irrelevant (which is why it was not mentioned when talking about Boolean outputs), since one can use bits to sent elements of a finite domain, and the bits are a preferrable communication channel, since they can be read directly. The purpose of the restriction is to restrict the power of the protocol when the output domain is infinite, e.g.~the field of rationals.
+\paragraph*{Equivalence with weighted automata.} In the case of field outputs,  our main result is the following theorem.
 
 
-Our result about protocols with field outputs  is \cref{thm:field-domain}, which says that when the output domain is a field, then the  protocols compute exactly the functions that can be computed by weighted automata~\cite{schutzenberger1961definition}, which are a standard automaton model for automata with numerical outputs. Since weighted automata are a well understood model, we oobtain a good understanding of the functions that can be computed by protocols. 
 
-\begin{myexample}[Division]\label{ex:division}
-    In the  two  examples of protocols that we have given above, namely length and exponential length, the output depended only on the input lenght. Therefore, these functions could be seen as having type $\Nat \to \Rat$. In such a type, weighted automata are the same as linear recurrence sequences. For example, the function $n \mapsto 1/n$ is not a linear recurrence sequence, and therefore it cannot be computed by a protocol. (To see that $1/n$ is not a linear recurrence sequence, one can use the exponential polynomial form, see~\cite[Theorem 2.1]{BerstelReutenauer08}). In particular, this shows that the choice of operations is important; we use a field, but we only allow the ring operations.
-\end{myexample}
+\begin{restatable}{theorem}{fielddomain}
+    \label{thm:field-domain}
+     Assume that the domain $\domain$ is a field. Then a function 
+    \begin{align*}
+    f : \Sigma^* \to \domain
+    \end{align*}  is computed by a protocol if and only if it is  computed by a weighted automaton.
+\end{restatable}
 
-Our proof of \cref{thm:field-domain} follows broadly a similar strategy to the one used for the case of Boolean outputs. 
 
-We first show that any protocol can be reduced to a special one-round form, which we call a \emph{scalar product protocol}. In this protocol, we Alice and Bob apply two functions 
+
+
+The theorem is proved in Section~\ref{sec:field-domain}, where we also give a formal definition of weighted automata.  This result might even seem surprising. Our protocol is designed to use polynomial operations on the output domain, and therefore one could expect the relevant automaton model to be also based on polynomials, such as the  polynomial automata of~\cite{DBLP:conf/lics/BenediktDSW17}. However,  the split invariance in the protocols  enforces linearity, and thus it excludes the general polynomials operations that are used in polynomial automata. The linearity phenomenon is true for outputs in a field -- because weighted automata are based on linear maps -- and it will also be true for other output domains, such as strings, see \cref{thm:evidence-for-the-conjecture}. We do not have a fully general understanding of this phenomenon.
+
+Let us briefly outline the proof of \cref{thm:field-domain}. It is  broadly similar  to the one used for the case of Boolean outputs, and has  two steps:
+
+\begin{enumerate}
+    \item We first show that any protocol can be reduced to a special  form, which we call a \emph{scalar product protocol}. In this protocol, Alice and Bob apply in parallel two functions 
 \begin{align*}
 \sigma_A, \sigma_B : \Sigma^* \to \Rat^d
 \end{align*}
-to their parts of the input string. Then, the output is defined to be the scalar product of the two $d$-dimensional vectors that arise this way.  These protocols are a special case of the general ones, in particular they have no interaction, and the messages are only field elements, not bits. 
+to their parts of the input string, where $d$ is some fixed finite dimension. Then, the resulting $d$-dimensional vectors are combined using scalar product, and this scalar product  is defined to be the output of the protocol. A scalar product protocol can be simulated by the general version of the protocol, but it is subject to certain restrictions: (a) there is no interaction; and (b) bits are not used, only the field elements. Since we prove that every product can be reduced to this scalar form, it follows that interaction and bit messages are not needed in the protocol. In fact, the interaction can be removed for all output domains, but the removal of bits is specific to fields. 
+\item After reducing to the scalar product protocols, the next step is to apply a version of the Myhill-Nerode Theorem for weighted automata. This is called the  Fliess Theorem~\cite{fliess1974}, and it says that recognisability by a weighted automaton is equivalent to having finite rank for a certain matrix, which is called the Hankel matrix. Roughly speaking, the rows in the Hankel matrix, in the context of our protocols, describe strategies of Alice, and the columns describe strategies of Bob. Therefore, it is not hard to show that in a scalar product protocol that uses vectors of dimension $d$, then the Hankel matrix has rank at most $d$. This, together with the Fliess Theorem, shows that protocols are equivalent to weighted automata. 
+\end{enumerate}
 
-After reducing to the scalar product protocols, the next step is to apply a version of the Myhill-Nerode Theorem for weighted automata, which is called the  Fliess Theorem~\cite{fliess1974}. In this theorem, recognisability by a weighted automaton is proved to be equivalent to having finite rank for a certain matrix, which is called the Hankel matrix. The rows in the Hankel matrix, in the context of our protocols, describe strategies of Alice, and the columns describe strategies of Bob. Therefore, it is not hard to show that in a scalar product protocol that uses vectors of dimension $d$, then the Hankel matrix has rank at most $d$. This, together with the Fliess Theorem, shows that protocols are equivalent to weighted automata. 
+ 
+
+
+
+
+\begin{myexample}[Division]\label{ex:division} What if we added division to the operations?  Consider the function where the output is $1/(|w|+1)$. This function can easily be defined using a protocol with division. We now argue that it cannot be done using addition and multiplication only, thus proving that division gives extra power. Since the function depends only on the length of the input, it can be seen as having type $\Nat \to \Rat$. In such a type, weighted automata are the same as linear recurrence sequences. The inverse function $1/(n+1)$ is not a  linear recurrence sequence, which can be shown using the exponential polynomial form~\cite[Theorem 2.1]{BerstelReutenauer08}. Summing up, the choice of operations is important; we use a field, but we only allow the ring operations.
+\end{myexample}
+
+\paragraph*{Related work.} \cref{thm:field-domain} can be seen as a machine independent characterisation of the weighted automata. This would not be the first such characterisation, e.g.~the Fliess Theorem itself can be seen as a machine independent characterisatisation. Other research related to the Fliess Theorem is the categorical approach to  minimialisation of weighted automata from~\cite{colcombetPetrisan2017}. We think that the value of our approach is that it places weighted automata in a broader context, which is defined purely in terms of communication, and in a way that is applicable to  other output domains, such as strings that will be considered next. As far as we know, the only  work  which takes such a broad view is the cost register automata of~\cite[Section C]{alurDantoniDeshmukhYuan2013}, which are an automaton model that describes functions with outputs in an arbitrary algebra. However, unlike our model, cost register automata are defined in terms of a certain finite state machine model, and as such they lack the abstract machine independent flavour of our approach.
 
 \subsection{String outputs}
 \label{sec:intro-strings}
 
-Our third group of results concerns functions with string outputs, i.e.~functions of type
+Our third group of results concerns string-to-string functions
 \begin{align*}
 f : \Sigma^* \to \Gamma^*.
 \end{align*}
-In the corresponding protocols, the two parties can send bits and pieces of the output string. The pieces of the output string can be concatenated, but the black box restriction prevents them from being read. 
+We  use the same kind of protocol as in the previous section, except that instead of numbers, the messages can contain strings from $\Gamma^*$, and instead of addition and multiplication, we have string concatenation.  
 
 \begin{myexample}[Reversal and duplication]\label{ex:reverse-duplicate}
-    A typical function that can be computed in this protocol is string reversal: Alice sends the reverse of her part of the input, Bob computes his part of the reverse, and the output is obtained by concatenating them in the right order. Another example is string duplication $w \mapsto ww$. 
+    Using the protocol, we can compute string reversal: Alice sends to Bob the reverse of her part of the input, and  Bob combines this with  his part of the reverse. Another string-to-string function that can be easily computed by a protocol is string duplication $w \mapsto ww$. 
 \end{myexample}
 
+The string-to-string case is of particular interest because, as we have mentioned earlier in the introduction, it is not clear which string-to-string functions should be considered regular. There numerous automata models to choose from, some of which are summarised in \cref{fig:transducer-classes}, which contains twenty models, grouped by equivalence into three classes. We can exclude the weakest class (the rational functions), since it is too weak: it  cannot compute the reverse or duplicate functions from Example~\ref{ex:reverse-duplicate}. We can also exclude the strongest class (the polyregular functions), since it is too strong: polyregular functions can have superlinear output size, and as we will see in a moment, protocols can only have linear output size. The remaining class from \cref{fig:transducer-classes} is the regular functions. These are the string-to-string functions that can be computed by deterministic two-way automata with output~\cite{shepherdson1959reduction}. We conjecture  that this is the correct answer: 
 
-\begin{center}
-    (todo continue here)
-\end{center}
+\begin{conjecture}\label{conj:protocol-regular-string-to-string}
+    A string-to-string function is computed by a protocol iff it is regular. 
+\end{conjecture}
+
+In Section~\ref{sec:string-outputs} we discuss this conjecture in detail, and provide evidence in its favour, including a proof of the  implication 
+\begin{align*}
+\text{protocol} \quad \impliedby \quad \text{regular},
+\end{align*} 
+This implication is rather easy, since a two-way automaton can be neatly simulated by the repeated interactions of the protocol. The content of the conjecture, and the subject of most of our technical results, is the $\implies$ implication. 
+Our first argument in favour of  the conjecture is the following result, which shows that functions computed  by protocols have many properties which are known to hold for regular functions.
+
+\begin{theorem}\label{thm:evidence-for-the-conjecture}
+    If a string-to-string function  is  computed by a protocol, then:
+    \begin{enumerate}
+        \item \label{it:linear-size-outputs} outputs have at most linear size;
+        \item \label{it:linear-time-computable} outputs can be   computed in linear time;
+        \item \label{it:regular-preimages} preimages of regular languages are regular.
+    \end{enumerate}
+\end{theorem}
+
+One can invent functions which satisfy the three conditions in the above theorem, but which are not regular, see Example~\ref{ex:not-regular-but-continuous-over-finite-fields}. However, all known examples of such functions  are artificial, and none can be computed by protocols (or any known transducer models).  The proof of \cref{thm:evidence-for-the-conjecture}, which is given in Section~\ref{sec:string-outputs}, uses a linear representation of strings as matrices, and then applies \cref{thm:field-domain} about protocols with field outputs. In fact, this technique suggest an alternative approach to regularity,  which connects string-to-string functions with the better understood case of string-to-field functions. This approach is dicussed in Section~\ref{sec:continuity}.
+
+Our second argument in favour of  the conjecture is that we can prove it in the special case when the output alphabet is unary, i.e.~it has only one letter. This is the content of Section~\ref{sec:unary-output-alphabet}. When the output alphabet is unary, the output strings are commutative, i.e.~the order of letters is irrelevant. Our proof of the conjecture in the unary case starts with the observations from \cref{thm:evidence-for-the-conjecture}, and then improves on them by leveraging the commutativity of the output strings. Along the way, we need to prove a new result about counting positions selected by \mso queries, see \cref{thm:int-to-nat}. This new result is possibly the most technical part of the paper, and it might be of independent interest.
+
+\paragraph*{Related work.} One of the consequences of the Myhill-Nerode theorem for string-to-Boolean functions, or the Fliess Theorem for string-to-number functions, is the existence of  canonical devices. There have been several attempts to generalise this to string-to-string functions, with a special emphasis the canonical devices. Before recalling this work, we observe that our approach seems to go in a  different direction. Although we think of Conjecture~\ref{conj:protocol-regular-string-to-string} as being a machine independent characterisation, it does not necessarily need to yield canonical devices. In particular, our proof of the conjecture for unary alphabets does not seem to yield a canonical device.
+
+Here is a summary of results on canonical devices for string-to-string transducers: they have been proposed for subsequential functions~\cite[Th\`eor\'eme 1.1]{choffrut1977}, rational functions in~\cite[Theorem 1]{reutenauerSchutzenberger1991},  and for rational functions on infinite words~\cite[Section 4]{canonicalRational2018}. A certain drawback of this line of work is that: (a) the canonical devices are relative to a given automaton model, which does not help in choosing one model over another; and (b) the ``canonical'' devices are not truly unique, since they depend on extra parameters, such as the output delay for subsequntial functions or the lookahead for rational ones. Let us now move to the larger class of regular functions, which is the subject of our conjecture. Here, one can obtain a canonical model and a machine independent characterisation, if one uses non-standard semantics, called origin semantics~\cite[Theorem 1]{bojanczykTransducersOriginInformation2014}. Another machine independent characterisation of the regular functions, see \cite[Theorem 3.2]{bojanczykTitoRegular23}, is also implicitly based on origin semantics. Without origins, there is no known machine independent characterisation of the regular functions. Finally, for the polyregular functions, the situation is of course even harder, and the only known results concern a unary output alphabet~\cite[Section IV]{Zpolyreg23}.
+
+
+\subsection{Infinite input alphabets}
+\label{sec:intro-infinite}
+Our final group of results is about languages over infinite input alphabets. This is a departure from the previous setting, where  the input alphabet was always finite. Folllowing the standard approach in automata theory,  we assume that letters can only be compared for equality. This is formalised by using invariance under  permutations of the alphabet, i.e.
+\begin{align*}
+w \in L 
+\quad \iff \quad
+\pi(w) \in L \qquad \text{for every permutation $\pi$ of the alphabet}.
+\end{align*}
+ As mentioned earlier in the introduction, there is a rich literature on automata for such languages, see the surveys~\cite{neven2003power,segoufin2006automata,bojanczykOrbitFiniteSetsTheir2017} or the lecture notes~\cite{bojanczyk_slightly}.  The  relevant automata models typically use registers to store some letters from the input, so that they can be compared to later letters. Essentially any automaton model for finite alphabets can be lifted this way to infinite alphabets~\cite[Figure 1]{neven2003power}, and there is even a systematic way to do this, which is based on the theory of orbit-finite sets~\cite[Chapter 2]{bojanczyk_slightly}. Unfortunately, after this lifting, previously equivalent models become non-equivalent.  This sad situation is illustrated in~\cref{fig:automata-infinite-alphabets}, which describes seventeen non-equivalent automata models for infinite alphabets; all of these models collapse to the regular languages when considered for finite alphabets. Equally sadly, there are almost no results in the literature on infinite alphabets that prove non-trivial equivalences of models. The only known cases of this kind are about the  weakest of the available models, namely orbit-finite monoids~\cite{bojanczykNominalMonoids2013}, which are known to be equivalent in expressive power to a certain variant of \mso~\cite[Theorems 4.2 and 5.1]{DBLP:journals/corr/ColcombetLP14}, and also to single-user register automata~\cite[Theorem 6]{bojanczykstefanski2020}.
+This situation desperately calls for some unifying principles. 
+
+Since protocols have successfuly identified important models in the previous cases, we try to see  what happens in the case of an infinite input alphabet.  When extending protocols to infinite input alphabets, we adapt them as follows: (1) messages can contain input letters; (2)  messages can only be compared for equality. Condition (2) is formalised by saying that the execution of the protocol is invariant under permutations of the input alphabet, similarly to the languages that we consider. As we will explain in a moment, the protocols  work their magic once again, and they point to (as we conjecture)  one of the models in the literature. Before revealing this model, let us give two examples.
+
+\begin{myexample}[First equals last]\label{ex:last-letter-does-not-appear-before}  A deterministic register automaton can be simulated by a protocol, similarly to the case of finite alphabets: Alice can send her state  to Bob, together with the values of the registers.  However,  protocols can do more. 
+    Consider the language ``the last letter doees not appear elsewhere in the string''. This language is not recognised by any deterministic register automaton, but it can be computed by a two-round protocol. In  the first round, Bob checks if the property is satisfied in his part of the input. If it is violated, he sends to Alice a Boolean value of ``false''. Otherwise, he sends to Alice his last letter, and she checks if the received letter appears in her part of the input string. 
+\end{myexample}
+
+In the previous example, we  excluded deterministic register automata as being too weak. We now exclude nondeterministic register automata as being too strong. 
+
+\begin{myexample}[All different]
+    \label{ex:some-twice}
+    Consider the language ``some letter appears twice''. This language can be recognised by a nondeterministic register automaton. However, as we will see later in the paper, it cannot be computed by a protocol. The  intuitive reason  is that if Alice does not see a repetition in her part of the input string, then she should send all of her letters to Bob, since any of them could be repeated in Bob's part. However, Alice cannot do this, since there is a constant number of messages. 
+\end{myexample}
+
+Which automaton model, if any, corresponds to protocols? As explained in the previous two examples, deterministic register automata are too weak, while nondeterministic register automata are too strong.
+We conjecture, see Conjecture~\ref{conj:protocols-unambiguous}, that the winner is a seemingly  unexpected candidate, namely unambiguous register automata~\cite[Section 5]{colcombet2015unambiguity}. This  is the special case of  nondeterministic register automaton, in which  for every  input string there is  at most  one accepting run. 
+
+
+Section~\ref{sec:infinite-alphabets} is devoted to our conjecture. We begin by proving one implication, namely 
+\begin{align*}
+\text{protocol} \quad \impliedby \quad \text{unambiguous automaton}.
+\end{align*}
+Contrary to  previous variants of this implication, the proof is non-trivial. The issue is with the nondeterminism of the automaton. One of  interesting phenomenon is that, in the case of infinite input alphabets, the interactive multi round nature of the protocols becomes essential, and protocols cannot be reduced to one round, as was the case for finite input alphabets. In our proof of the implication $\impliedby$, we design a protocol where  the two parties engage in interactive communication that progressively eliminates the uncertainty about letters used in the run of the automaton, until the unique accepting run is identified.
+ The proof uses a variant of the sunflower lemma. 
+
+Therefore,  the content of the conjecture is -- as in previous cases --  the other implication, namely that protocols can be simulated by unambiguous register automata. We provide evidence for this implication, using the recently developed theory of orbit-finite vector spaces~\cite{orbitFiniteVectorTheoretics}. We show that every function computed by a protocol can be computed by a weighted automaton with registers. This is almost like an unmabiguous automaton, except that some runs might have negative weights, and the weights always cancel out to give a final result that is either $0$ or $1$. In particular, the functions computed by protocols are computable, which is not a priori clear from the model. Along the way, we again need to develop some new theory, in particular an orbit-finite generalisation of the Fliess Theorem. 
+

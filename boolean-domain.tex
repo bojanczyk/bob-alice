@@ -3,8 +3,8 @@
 \label{sec:boolean-domain}
 In this section, we formally describe our model of computation for the simplest output domain, namely the Booleans, and we prove that it defines exactly the regular languages. 
 
-Our formal definition, see Definition~\ref{def:two-party-protocol-boolean} below, is slightly more elaborate than the informal description from the introduction. For example, the messages are not necessarily bits, but they can be elements of some finite sets, which are fixed in advance between the input is known. Also, the messages sent by Alice and Bob can come from different sets. 
- These generalisations do not change the expressive power of the protocol, but they will be useful in later sections, when we consider restrictions and generalisations.  Another design decision that we make is that in each round, the two parties send their messages simultaneously. One could imagine a variant where the two parties move in alternation. This variant would be equivalent, possibly with a change in the number of rounds.
+Our formal definition, see Definition~\ref{def:two-party-protocol-boolean} below has minor differences with respect to the informal description from the introduction. For example, the messages are not necessarily bits, but they can be elements of some finite sets, which are fixed in advance before the input is known. Also, the messages sent by Alice and Bob can come from different sets, and the two parties send their messages in parallel in each round. 
+ These generalisations do not change the expressive power of the protocol (they might influence the number of rounds), but they will be useful in later sections, when we consider restrictions and generalisations. 
 
 \begin{definition}[Boolean protocol]
     \label{def:two-party-protocol-boolean}
@@ -24,15 +24,14 @@ Our formal definition, see Definition~\ref{def:two-party-protocol-boolean} below
   \end{enumerate}
 \end{definition}
 
-Given a pair of input strings $(w_1,w_2)$, which are called the \emph{local strings} of Alice and Bob, respectively, the  protocol is run as follows. There are $k$ rounds. In each round, both parties send messages, and therefore after $i$ rounds are played, the communication history contains $i$ messages sent by Alice and $i$ messages sent by Bob.  In round  $i \in \set{1,\ldots,k}$,  each of the two parties  looks at their local string and the $i-1$ messages sent by the other party in the previous rounds (only the messages sent by the other party are needed, since the party knows their own messages). Based on this information, each party uses their strategy to produce a new message. At the end of the protocol, the output function is used to determine the value of the function, based on all messages in  the communication history. We say that the protocol computes a language $L \subseteq \Sigma^*$ if for every two strings $w_1,w_2$, the output of the protocol tells us if the concatenation $w_1w_2$ belongs to the language. This corresponds to the split invariance condition that was discussed in the introduction.  Also, the reader will recognise the restriction on the total number of bits (this is bounded by the number of rounds times the logarithm of the size of the message spaces), and the non-uniformity (there is no restriction on the strategies of Alice and Bob). By non-uniformity, the first message sent by Alice could contain an answer to some undecidable problem. However, as we will see, the split invariance restriction will make it impossible to use this information, since the protocol can only compute regular languages, as stated in the following theorem.
+Given a pair of input strings $(w_1,w_2)$, which are called the \emph{local strings} of Alice and Bob, respectively, the  protocol is run as follows. There are $k$ rounds. In each round, both parties send messages, and therefore after $i$ rounds are played, the communication history contains $i$ messages sent by Alice and $i$ messages sent by Bob.  In round  $i \in \set{1,\ldots,k}$,  each of the two parties  looks at their local string and the $i-1$ messages sent by the other party in the previous rounds (only the messages sent by the other party are needed, since the party knows their own messages). Based on this information, each party uses their strategy to produce a new message. At the end of the protocol, the output function is used to determine the value of the function, based on all messages in  the communication history. We say that the protocol computes a language $L \subseteq \Sigma^*$ if for every two strings $w_1,w_2$, the output of the protocol tells us if the concatenation $w_1w_2$ belongs to the language. This corresponds to the split invariance condition that was discussed in the introduction.  Also, the reader will recognise the restriction on the total number of bits (this is bounded by the number of rounds times the logarithm of the size of the message spaces), and the non-uniformity (there is no restriction on the strategies of Alice and Bob). By non-uniformity, the first message sent by Alice could contain an answer to some undecidable problem. However, as we will see, the split invariance restriction will make it impossible to use this information, since the protocol can only compute regular languages, as stated in the \cref{thm:boolean-domain} from the introduction, which we now recall.
+
+
+\booleandomain*
 
 
 
 
-\begin{theorem}
-  \label{thm:boolean-domain}
-  A language $L \subseteq \Sigma^*$ is computed by a protocol if and only if it is regular.
-\end{theorem}
 \begin{proof}
   We begin with the easier right-to-left implication, which says that the protocol can compute every regular language. Consider a regular language, which is recognised by a deterministic finite automaton with state space $Q$. To compute this language, we can use a  one-round protocol (as we will see in a moment, this is not a coincidence, since all protocols can be reduced to one round). Alice sends the state in $Q$ of the automaton after reading her local string, and Bob sends the dependency $Q \to \set{\text{yes, no}}$ which says how Alice's state determines acceptance. Once these two pieces of information are known, we can apply the function from Bob's message to the state in Alice's message to determine the output.
 
@@ -43,7 +42,7 @@ Given a pair of input strings $(w_1,w_2)$, which are called the \emph{local stri
     For every protocol, there is an equivalent one-round protocol. 
   \end{lemma}
   \begin{proof}
-    The general idea is that instead of engaging in interactive communication, each party sends the dependency of their message upon the unknown messages of the other party. Suppose that we are  Alice. The sequence of messages that we send will depend on our local string, and  the messages sent by Bob. One the local string is fixed, this dependency is captured by a function of type 
+    The general idea is that instead of engaging in interactive communication, each party sends the dependency of their message upon the unknown messages of the other party. Suppose that we are  Alice. The sequence of messages that we send will depend on our local string, and  the messages sent by Bob. Once the local string is fixed, this dependency is captured by a function of type 
     \begin{align*}
     (Q_B)^k \to (Q_A)^k.
     \end{align*}
@@ -60,7 +59,7 @@ Given a pair of input strings $(w_1,w_2)$, which are called the \emph{local stri
   \begin{align*}
   \sigma_A : \Sigma^* \to Q_A.
   \end{align*}
-  For all we know, this function is non-computable. However, it classifies all local strings into finitely many categories, with one category for each message in $Q_A$. Furthermore, if two strings $w_1$ and $w'_1$ are in the same category, then they are equivalent in the following sense: 
+  For all we know, this function could be non-computable. However, it classifies all local strings into finitely many categories, with one category for each message in $Q_A$. Furthermore, if two strings $w_1$ and $w'_1$ are in the same category, then they are equivalent in the following sense: 
   \begin{align}\label{eq:myhill-nerode-equivalence}
   w_1 w_2 \in L \Leftrightarrow w'_1 w_2 \in L 
   \qquad \text{for every $w_2 \in \Sigma^*$.}

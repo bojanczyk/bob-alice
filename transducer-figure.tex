@@ -1,0 +1,34 @@
+% this file gives contains only one thing: a figure that illustrates the rational, regular and polyregular functions
+
+
+% the following two macros are used only for one figure
+% a class of functions, decorated by a brace on the left
+\newcommand{\functionclass}[2]{
+    \text{#1} & 
+\left\{{\text{\begin{minipage}{11cm}
+    \small 
+#2
+\end{minipage}}}\right. 
+}
+
+% a vertical inclusion between classes 
+\newcommand{\vertinclusion}[1]{\\ &
+\mathrel{\rotatebox[origin=c]{270}{$\subsetneq$}}
+\text{\qquad \small(#1)}\\ \\ }
+
+\begin{figure}
+    \centering
+\begin{align*}
+    \functionclass{rational}{
+        unambiguous one-way automata with output~\cite[Chapter IX]{Eilenberg74}  =  Eilenberg bimachines~\cite[XI.7]{Eilenberg74} =  compositions of left-to-right and right-to-left sequential functions~\cite[Proposition 7.3]{elgot_relations_1965}   = \mso relabelings~\cite[p.~11]{bloem_comparison_2000} = a certain Myhill-Nerode style characterisation~\cite[Theorem 1]{reutenauerSchutzenberger1991}
+    } \\
+\vertinclusion{the reverse function is regular but not rational}
+\functionclass{regular}{ deterministic two-way automata with output~\cite[Note 4]{shepherdson1959reduction} = streaming string transducers~\cite[Theorems 1,2,3]{alurExpressivenessStreamingString2010} = certain regular expressions for transducers~\cite[Theorem 15]{alur2014regular}  = \mso transductions = a calculus based on combinators~\cite[Theorem 6.1]{bojanczykRegularFirstOrderList2018} = lambda calculus with a certain fold operator~\cite[Theorem VI.1]{polyregular-fold} =   a characterisation in terms of natural transformations~\cite[Theorem 3.2]{bojanczykTitoRegular23} = macro string transducers with linear sized outputs~\cite[Theorem 7.1]{engelfrietMacroTreeTranslations2003} = polyregular functions with linear sized outputs~\cite[Example 11]{polyregular-survey}= transducers with Church encodings of output strings~\cite[Theorem 1.1]{implicit2}  } \\
+\vertinclusion{regular functions have linear output size, unlike polyregular ones}
+\functionclass{polyregular}{
+deterministic pebble automata with output~\cite[p.~235]{engelfriet2002two} = for-transducers~\cite[Theorem 2.1]{polyregular-survey} = compositions of regular functions and squaring~\cite[Theorem 3.2]{polyregular-survey} = a functional programming language~\cite[Theorem 4.1]{polyregular-survey} = \mso interpretations~\cite[Theorem 7]{msoInterpretations} = lambda calculus with a more powerful fold operator~\cite[Theorem V.3]{polyregular-fold} 
+} 
+\end{align*}
+    \caption{Three important classes of string-to-string functions.}
+    \label{fig:transducer-classes}
+\end{figure}

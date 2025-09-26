@@ -13,7 +13,7 @@ An output domain is the same thing as a (non-indexed) algebra, in the sense of u
 The output domain might be infinite. In principle, the family of operations might be infinite as well, although any protocol will only use finitely many operations.
 By abuse of notation, we use the same symbol $\domain$ to denote the output domain and its underlying set, with the operations being implicit. Here are the output domains that will be studied in this paper: 
 \begin{itemize}
-    \item \textbf{Boolean domain.} The set is $\set{\text{yes, no}}$, and there are no basic operations. (We could add basic operations, such as the Boolean operations $\lor,\land$ and $\neg$, but this will not affect the expressive power of our protocol, so we choose to have no operations.)
+    \item \textbf{Boolean domain.} The set is $\set{\text{true, false}}$, and there are no basic operations. (We could add basic operations, such as the Boolean operations $\lor,\land$ and $\neg$, but this will not affect the expressive power of our protocol, so we choose to have no operations.)
     \item \textbf{Field domain.} The set is a field, such as the rationals or reals, and there are two operations for addition and multiplication. This is not one domain, but a family of domains, with one for each field.
     \item \textbf{String domain.} The set is $\Gamma^*$ for some finite alphabet $\Gamma$, and there is one basic operation, which is concatenation. Again, this is not one domain, but a family of domains, with one for each alphabet.
 \end{itemize}
@@ -55,19 +55,22 @@ where $\domain$ is some possibly infinite output domain. As in the Boolean versi
     \item a finite input alphabet $\Sigma$;
     \item a number of rounds $k \in \set{1,2,\ldots}$;
     \item signal spaces for Alice and Bob, which are finite sets $Q_A$ and $Q_B$;
+    \item an  dimension $d \in \set{0,1,\ldots}$;
     \item for each round $i \in \set{1,\ldots,k}$, a strategy
     \begin{align*}
-    \myoverbrace{\sigma_A^i : \myunderbrace{\Sigma^*}{Alice's \\ local\\ string} \times \myunderbrace{Q_B^{i-1}}{history of \\ signals \\ from Bob}  \to \myunderbrace{Q_A \times \domain}{new\\ message}}{stategy for Alice in the $i$-th round}
+    \myoverbrace{\sigma_A^i : \myunderbrace{\Sigma^*}{Alice's \\ local\\ string} \times \myunderbrace{Q_B^{i-1}}{history of \\ signals \\ from Bob}  \to \myunderbrace{Q_A \times \domain^d}{new\\ message}}{stategy for Alice in the $i$-th round}
     \qquad 
-        \myoverbrace{\sigma_B^i : \myunderbrace{\Sigma^*}{Bob's \\ local\\ string} \times \myunderbrace{Q_A^{i-1}}{hostory of \\ signals \\ from Alice}  \to \myunderbrace{Q_B \times \domain}{new\\ message}}{stategy for Bob in the $i$-th round}
+        \myoverbrace{\sigma_B^i : \myunderbrace{\Sigma^*}{Bob's \\ local\\ string} \times \myunderbrace{Q_A^{i-1}}{hostory of \\ signals \\ from Alice}  \to \myunderbrace{Q_B \times \domain^d}{new\\ message}}{stategy for Bob in the $i$-th round}
     \end{align*}
     \item an output function of type \begin{align*}
-    (Q_A \times Q_B)^{k} \to (\domain^{2k} \termop \domain).
+    (Q_A \times Q_B)^{k} \to (\domain^{2dk} \termop \domain).
     \end{align*}
   \end{enumerate}
 \end{definition}
 
-As in the Boolean case, the protocol is executed on a pair of strings $(w_1,w_2)$. In each round, each of the two parties  sends a message (which consists of a signal and an output) that is based on their local string and the history of signals coming from the other party. After all $k$ rounds have been executed, the joint signal history of both players is used, by the output function, to determine a term operation. This operation is then applied to the output history, yielding the final result of the protocol. As in the Boolean case, we are interested in protocols that are split invariant, which means that for every string $w \in \Sigma^*$, the same output is produced for every possible decomposition $w = w_1 w_2$. Such protocols compute a function of type $\Sigma^* \to \domain$. 
+As in the Boolean case, the above definition slightly deviates from the informal description in the introduction. In particular, a message can contain $d$ elements of the output domain. This does not affect the expressive power of the protocol, but it might affect the number of rounds, and the above definition will be more convenient later one, where we consider one-round protocols.
+
+The protocol is executed on a pair of strings $(w_1,w_2)$. In each round, each of the two parties  sends a message (which consists of a signal and an output) that is based on their local string and the history of signals coming from the other party. After all $k$ rounds have been executed, the joint signal history of both players is used, by the output function, to determine a term operation. This operation is then applied to the output history, yielding the final result of the protocol. As in the Boolean case, we are interested in protocols that are split invariant, which means that for every string $w \in \Sigma^*$, the same output is produced for every possible decomposition $w = w_1 w_2$. Such protocols compute a function of type $\Sigma^* \to \domain$. 
 
 \begin{myexample}[Boolean domain]
     Consider the Boolean output domain, or more generally a finite output domain. In this case, the distinction between output values and signals is irrelevant, since the output values can be sent as signals. Therefore, the general protocol coincides with the Boolean protocol from the previous section, and  can only compute regular languages. 
@@ -107,8 +110,7 @@ Other examples of output domains are fields and strings. These were discussed  b
 
 \subsection{One-round protocols}
 
-We have little say to say about our protocols in the case of a general output domain. The  general result that we have at this level of generality is a reduction to one-round protocols, similarly to the Boolean case.  For the reduction to work, we need a slightly more general notion of one-round protocol, where more than one element of the output domain can be sent in each round. More formally, we adapt Definition~\ref{def:two-party-protocol-general} so that there is an extra parameter $d \in \set{1,2,\ldots}$, and in each round both players send a message of the form $Q \times \domain^d$, instead of $Q \times \domain$. The output function is then a term operation in $2kd$ variables, instead of $2k$ variables. This generalisation does not affect the expressive power of the protocol, since each round in the new protocol can be simulated using $d$ rounds in the original protocol. However, if we care about the number of rounds, then there is a difference.  From now on, when we talk about a one-round protocol, we refer to the generalised version of the protocol. The following lemma, which is proved the same way as \cref{lem:one-round-reduction-boolean}, shows that  every protocol can be reduced to a one-round version.
-     \begin{lemma}\label{lemma:one-round-reduction-general}
+We have little say to say about  protocols in the case of a general output domain. The  only result that we have at this level of generality is a reduction to one-round protocols, similarly to the Boolean case.       \begin{lemma}\label{lemma:one-round-reduction-general}
         Every protocol is equivalent to a one-round protocol.
  \end{lemma}
  \begin{proof}
