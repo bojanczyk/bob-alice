@@ -1,9 +1,7 @@
 
 \section{Boolean outputs}
 \label{sec:boolean-domain}
-In this section, we formally describe our model of computation for the simplest output domain, namely the Booleans, and we prove that it defines exactly the regular languages. 
-
-Our formal definition, see Definition~\ref{def:two-party-protocol-boolean} below has minor differences with respect to the informal description from the introduction. For example, the messages are not necessarily bits, but they can be elements of some finite sets, which are fixed in advance before the input is known. Also, the messages sent by Alice and Bob can come from different sets, and the two parties send their messages in parallel in each round. 
+In this section, we formally describe our model of computation for the simplest output domain, namely the Booleans, and we prove that it defines exactly the regular languages.  The definition that we describe, see Definition~\ref{def:two-party-protocol-boolean} below, has minor differences with respect to the informal description from the introduction. For example, the messages are not necessarily bits, but they can be elements of some finite sets, which are fixed in advance before the input is known. Also, the messages sent by Alice and Bob can come from different sets, and the two parties send their messages in parallel in each round. 
  These generalisations do not change the expressive power of the protocol (they might influence the number of rounds), but they will be useful in later sections, when we consider restrictions and generalisations. 
 
 \begin{definition}[Boolean protocol]

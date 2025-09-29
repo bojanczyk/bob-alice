@@ -33,6 +33,8 @@
 *.bcf
 *.blx.bib
 
+!bob-alice.pdf
+
 # Mac OS specific files
 .DS_Store
 
