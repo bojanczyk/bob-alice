@@ -1,7 +1,7 @@
 
 \section{Boolean outputs}
 \label{sec:boolean-domain}
-In this section, we formally describe our model of computation for the simplest output domain, namely the Booleans, and we prove that it defines exactly the regular languages.  The definition that we describe, see Definition~\ref{def:two-party-protocol-boolean} below, has minor differences with respect to the informal description from the introduction. For example, the messages are not necessarily bits, but they can be elements of some finite sets, which are fixed in advance before the input is known. Also, the messages sent by Alice and Bob can come from different sets, and the two parties send their messages in parallel in each round. 
+In this section, we formally describe our model of computation for the simplest output domain, namely the Booleans, and we prove that it defines exactly the regular languages.  The definition that we describe, see Definition~\ref{def:two-party-protocol-boolean} below, has minor differences with respect to the informal description from the introduction. The messages are not necessarily bits, but they belong to some finite set, which is fixed in advance before the input is known. Also,  the two parties send their messages in parallel in each round. 
  These generalisations do not change the expressive power of the protocol (they might influence the number of rounds), but they will be useful in later sections, when we consider restrictions and generalisations. 
 
 \begin{definition}[Boolean protocol]
@@ -31,7 +31,7 @@ Given a pair of input strings $(w_1,w_2)$, which are called the \emph{local stri
 
 
 \begin{proof}
-  We begin with the easier right-to-left implication, which says that the protocol can compute every regular language. Consider a regular language, which is recognised by a deterministic finite automaton with state space $Q$. To compute this language, we can use a  one-round protocol (as we will see in a moment, this is not a coincidence, since all protocols can be reduced to one round). Alice sends the state in $Q$ of the automaton after reading her local string, and Bob sends the dependency $Q \to \set{\text{yes, no}}$ which says how Alice's state determines acceptance. Once these two pieces of information are known, we can apply the function from Bob's message to the state in Alice's message to determine the output.
+  We begin with the easier right-to-left implication, which says that the protocol can compute every regular language. If the language is  regular, then it  is recognised by a deterministic finite automaton, say  with state space $Q$. To compute the language, we can use a  one-round protocol (as we will see in a moment, this is not a coincidence, since all protocols can be reduced to one round). Alice sends the state in $Q$ of the automaton after reading her local string, and Bob sends the dependency $Q \to \set{\text{yes, no}}$ which says how Alice's state determines acceptance. Once these two pieces of information are known, we can apply the function from Bob's message to the state in Alice's message to determine the output.
 
   The rest of this proof is devoted to the left-to-right implication, i.e.~to showing that every language computed by the protocol is regular. This is the heart of the proof, and the place where we need to tame the non-uniformity of the protocol. 
   
@@ -51,7 +51,7 @@ Given a pair of input strings $(w_1,w_2)$, which are called the \emph{local stri
     which describes the dependency of his messages. Due to the causality constraints, the two functions combine to create a unique output in $(Q_A \times Q_B)^k$, which can be used to determine the output of the protocol.
   \end{proof}
 
-  Observe that the proof of the above lemma can, in general, incur an exponential cost in the size of the message spaces. This is of little concern to us, since we only care about the protocol having a constant number of rounds.
+The proof of the above lemma can incur an exponential cost in the size of the message spaces. This is of little concern to us, since we only care about the protocol having a constant number of rounds.
 
   To complete the proof of the theorem, we use the  Myhill-Nerode Theorem.  Indeed, consider the strategy of  Alice: 
   \begin{align*}

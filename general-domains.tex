@@ -1,7 +1,7 @@
 \section{Beyond Boolean outputs}
 \label{sec:beyond-boolean-outputs}
 
-In the previous section, we have defined a protocol to compute functions with string inputs and Boolean outputs. In this section, we consider a generalisation, with possibly infinite output domains. The inputs remain unchanged -- they will always be strings in this paper.  For the output domain, we use a very general notion, namely a set with some operations. 
+In the previous section, we considered Boolean outputs. In this section, we generalise protocols to account for an arbitrary output domain. The inputs remain unchanged -- they will always be strings in this paper.  For the output domain, we use a very general notion, namely a set with some operations. 
 \begin{definition}[Output domain]
     An \emph{output domain} consists of: 
     \begin{enumerate}
@@ -10,7 +10,7 @@ In the previous section, we have defined a protocol to compute functions with st
     \end{enumerate}
 \end{definition}
 An output domain is the same thing as a (non-indexed) algebra, in the sense of universal algebra~\cite[p.5]{hobby1988structure}. 
-The output domain might be infinite. In principle, the family of operations might be infinite as well, although any protocol will only use finitely many operations.
+The output domain will typically  be infinite. In principle, the family of operations might be infinite as well, although any protocol will only use finitely many operations.
 By abuse of notation, we use the same symbol $\domain$ to denote the output domain and its underlying set, with the operations being implicit. Here are the output domains that will be studied in this paper: 
 \begin{itemize}
     \item \textbf{Boolean domain.} The set is $\set{\text{true, false}}$, and there are no basic operations. (We could add basic operations, such as the Boolean operations $\lor,\land$ and $\neg$, but this will not affect the expressive power of our protocol, so we choose to have no operations.)
@@ -18,7 +18,7 @@ By abuse of notation, we use the same symbol $\domain$ to denote the output doma
     \item \textbf{String domain.} The set is $\Gamma^*$ for some finite alphabet $\Gamma$, and there is one basic operation, which is concatenation. Again, this is not one domain, but a family of domains, with one for each alphabet.
 \end{itemize}
 
-In the protocol, the output value will be constructed in a constant number of steps, by using operations from the output domain. Insofar as the protocols are concerned, we will not distinguish between the  operations that are in the output domain, and other operations that are derived by composing them, as described in the following definition.
+In the protocol, the output value will be constructed in a constant number of steps, by using operations from the output domain. We will not distinguish between the  operations that are in the output domain, and other operations that are derived by composing them, as described in the following definition.
 
 \begin{definition}[Term operation]\label{def:term-operations}
     Consider an output domain $\domain$. An operation 
@@ -33,7 +33,7 @@ In the protocol, the output value will be constructed in a constant number of st
 \end{definition}
 
 \begin{myexample}
-    If the operations are $+$ and $\times$, then after applying the usual distributivity laws,  a term operation becomes a special case of a polynomial with natural coefficients, such as 
+    If the operations are $+$ and $\times$, then after applying the usual distributivity laws,   term operations are the same as polynomials with natural coefficients, such as 
 \begin{align*}
 x_1x_2^2 + x_1x_2x_3^3  + \myunderbrace{2x_1}{same as $x_1 + x_1$}.
 \end{align*}
@@ -42,11 +42,11 @@ If the output domain is the Boolean domain, which has no operations, then the on
 
 
 
-In this section, we generalise the protocol to cover functions 
+We now generalise the protocol to cover functions 
 \begin{align*}
 f : \Sigma^* \to \domain,
 \end{align*}
-where $\domain$ is some possibly infinite output domain. As in the Boolean version of the protocol, the output value is constructed by Alice and Bob, as a result of an exchange of a constant number of messages. Each message has two parts, which are called the \emph{signal part} and the \emph{output part}. The signal part consists of a finite amount of information, and is used to exchange information between the two parties as in the Boolean protocol. The output part is an element of the output domain, and  is meant to be part of the output value. At the end of the protocol, the final output is constructed by applying some term operation to the output parts, with the term operation depending only on the signal parts. 
+where $\domain$ is some possibly infinite output domain. As in the Boolean version of the protocol, the output value is constructed by Alice and Bob, as a result of an exchange of a constant number of messages. Each message has two parts, which are called the \emph{signal part} and the \emph{output part}. The signal part consists of a finite amount of information, and is used to exchange information between the two parties as in the Boolean protocol. The output part is a list of elements from the  output domain, and  is meant to be part of the output value. As in the Boolean case, the above definition slightly deviates from the informal description in the introduction. In particular, a message can contain $d$ elements of the output domain. This does not affect the expressive power of the protocol, but it might affect the number of rounds, and the above definition will be more convenient later one, where we consider one-round protocols. Another important difference is that the operations from the output domain are only applied once at the end of the protocol. This, again does affect the expressive power, since the two parties can wait with their operations until all signals have been exchanged.  
 
 \begin{definition}\label{def:two-party-protocol-general} A two-party protocol   
    is given by the following ingredients: 
@@ -55,7 +55,7 @@ where $\domain$ is some possibly infinite output domain. As in the Boolean versi
     \item a finite input alphabet $\Sigma$;
     \item a number of rounds $k \in \set{1,2,\ldots}$;
     \item signal spaces for Alice and Bob, which are finite sets $Q_A$ and $Q_B$;
-    \item an  dimension $d \in \set{0,1,\ldots}$;
+    \item a  dimension $d \in \set{0,1,\ldots}$;
     \item for each round $i \in \set{1,\ldots,k}$, a strategy
     \begin{align*}
     \myoverbrace{\sigma_A^i : \myunderbrace{\Sigma^*}{Alice's \\ local\\ string} \times \myunderbrace{Q_B^{i-1}}{history of \\ signals \\ from Bob}  \to \myunderbrace{Q_A \times \domain^d}{new\\ message}}{stategy for Alice in the $i$-th round}
@@ -68,15 +68,17 @@ where $\domain$ is some possibly infinite output domain. As in the Boolean versi
   \end{enumerate}
 \end{definition}
 
-As in the Boolean case, the above definition slightly deviates from the informal description in the introduction. In particular, a message can contain $d$ elements of the output domain. This does not affect the expressive power of the protocol, but it might affect the number of rounds, and the above definition will be more convenient later one, where we consider one-round protocols.
 
-The protocol is executed on a pair of strings $(w_1,w_2)$. In each round, each of the two parties  sends a message (which consists of a signal and an output) that is based on their local string and the history of signals coming from the other party. After all $k$ rounds have been executed, the joint signal history of both players is used, by the output function, to determine a term operation. This operation is then applied to the output history, yielding the final result of the protocol. As in the Boolean case, we are interested in protocols that are split invariant, which means that for every string $w \in \Sigma^*$, the same output is produced for every possible decomposition $w = w_1 w_2$. Such protocols compute a function of type $\Sigma^* \to \domain$. 
+
+The protocol is executed on a pair of strings $(w_1,w_2)$. In each round, each of the two parties  sends a message (which consists of a signal and some elements of the output domain) that is based on their local string and the history of signals coming from the other party. After all $k$ rounds have been executed, the joint signal history of both players is used, by the output function, to determine a term operation. This operation is then applied to the output history, yielding the final result of the protocol. As in the Boolean case, we are interested in protocols that are split invariant, which means that for every string $w \in \Sigma^*$, the same output is produced for every possible decomposition $w = w_1 w_2$. Such protocols compute a function of type $\Sigma^* \to \domain$. 
 
 \begin{myexample}[Boolean domain]
-    Consider the Boolean output domain, or more generally a finite output domain. In this case, the distinction between output values and signals is irrelevant, since the output values can be sent as signals. Therefore, the general protocol coincides with the Boolean protocol from the previous section, and  can only compute regular languages. 
+    Consider the Boolean output domain. In this case, the distinction between output values and signals is irrelevant, since the output values can be sent as signals. Therefore, the general protocol coincides with the Boolean protocol from the previous section, and  can only compute regular languages.  The same remarks apply for a general but finite output domain -- a function $f : \Sigma^* \to \domain$ can be computed by a protocol if and only if for every $d \in \domain$, the inverse image $f^{-1}(d)$ is a regular language.
 \end{myexample}
 
-Other examples of output domains are fields and strings. These were discussed  briefly in the introduction in Sections~\ref{sec:intro-field} and~\ref{sec:intro-strings},  and will be discussed at length in Sections~\ref{sec:field-domain} and~\ref{sec:string-outputs}.  Nevertheless, we give here one example which concerns strings, and uses both signals and output values in the messages.
+Other examples of output domains are fields and strings. These were discussed  briefly in the introduction in Sections~\ref{sec:intro-field} and~\ref{sec:intro-strings},  and will be discussed at length in Sections~\ref{sec:field-domain} and~\ref{sec:string-outputs}.  
+
+% Nevertheless, we give here one example which concerns strings, and uses both signals and output values in the messages.
 
 % Here are two brief examples.
 % \begin{myexample}[Field domain] Assume that the output domain is a field, say the field of rationals, with the operations being addition and multiplication. 
@@ -98,13 +100,13 @@ Other examples of output domains are fields and strings. These were discussed  b
 % \end{myexample}
 
 
-\begin{myexample}[Conditional reverse]
-    In Example~\ref{ex:reverse-duplicate}, we explained a protocol for reversing the input string. Here is a variant of this protocol, which uses signals. Consider the 
-    \begin{align*}
-    f : \Sigma^* \to \Sigma^*
-    \end{align*}
-    which reverses the string if the first letter is $a$, and otherwise it leaves the string unchanged. To compute this function, Alice needs to send to Bob -- apart from her part of the output string -- a signal to Bob which tells him if the first letter is $a$.
-\end{myexample}
+% \begin{myexample}[Conditional reverse]
+%     In Example~\ref{ex:reverse-duplicate}, we explained a protocol for reversing the input string. Here is a variant of this protocol, which uses signals. Consider the 
+%     \begin{align*}
+%     f : \Sigma^* \to \Sigma^*
+%     \end{align*}
+%     which reverses the string if the first letter is $a$, and otherwise it leaves the string unchanged. To compute this function, Alice needs to send to Bob -- apart from her part of the output string -- a signal to Bob which tells him if the first letter is $a$.
+% \end{myexample}
 
 
 
