@@ -166,7 +166,7 @@ As we mentioned earlier in this section, deterministic and nondeterministic mode
 
 \begin{myexample}
     [Nondeterministic too strong] \label{ex:protocol-not-nofa}  
-    The language ``some letter appears at least twice'', from Example \ref{ex:some-twice}, can be recognised by a nondeterministic orbit-finite automaton, but cannot be computed by a protocol. We do not know yet if nondeterministic orbit-finite can simulate all protocols, and therefore for all we know the two models could be incmparable. However, as we will explain later in this section, we conjecture that there is indeed an inclusion, since we believe that protocols are equivalent to the special case of nondeterministic orbit-finite automata which are unambiguous.
+    The language ``some letter appears at least twice'', from Example \ref{ex:some-twice}, can be recognised by a nondeterministic orbit-finite automaton, but cannot be computed by a protocol. We do not know yet if nondeterministic orbit-finite can simulate all protocols, and therefore for all we know the two models could be incomparable. However, as we will explain later in this section, we conjecture that there is indeed an inclusion, since we believe that protocols are equivalent to the special case of nondeterministic orbit-finite automata which are unambiguous.
 \end{myexample}
 
 In Definition~\ref{def:orbit-finite-automata}, we have defined one-way orbit-finite automata, which read the input string from left to right.
@@ -346,7 +346,7 @@ The following theorem is the main result of Section~\ref{sec:weighted-automata-a
 \end{theorem}
 
 
-In the proof of the theorem, we use the recently developped theory of orbit-finite vector spaces. In order to streamline the development, we will work with a special case of these spaces, namely spaces which have an orbit-finite basis.
+In the proof of the theorem, we use the recently developed theory of orbit-finite vector spaces. In order to streamline the development, we will work with a special case of these spaces, namely spaces which have an orbit-finite basis.
 % \begin{definition}
 %     [Orbit-finite dimension] A \emph{vector space of orbit-finite dimension} is any vector space of the form $\lincomb X$, where $X$ is some orbit-finite set. 
 % \end{definition}
@@ -356,7 +356,7 @@ For an orbit-finite set $Q$, let us write $\lincomb Q$ for the vector space whic
 \end{align*}
 where the coefficients $\alpha_i$ are from the field, and the element $q_i$ (which can be seen as basis vectors) are from $Q$. Any space of the form $\lincomb Q$ is called a \emph{vector space of orbit-finite dimension}. Such a space has two kinds of structure: one can take linear combinations, and one can apply atom permutations. We will typically be interested in functions between such spaces that preserve both kinds of structure.
 
-In the proof of \cref{thm:orbit-finite-protocol-to-weighted}, we will use an orbit-finite version of the protocols that were developped in Section~\ref{sec:field-domain}. We could use a general version of the protocol, corresponding to an orbit-finite generalisation of Definition~\ref{def:two-party-protocol-general} with field outputs, and prove that it is equivalent to weighted orbit-finite automata. This is indeed true.  However, in order to streamline the exposition, we treat these protocols as a tool to prove \cref{thm:orbit-finite-protocol-to-weighted}, and not an object of independent interest. Therefore, we only define the simplest kind of protocol that is needed for our purposes, namely an orbit-finite variant of the scalar product protocol from Definition~\ref{def:scalar-product-protocol}. It will be more convenient to use a generalisation of scalar products, namely bilinear maps. Recall that a bilinear map inputs two vectors, and is linear in both arguments. 
+In the proof of \cref{thm:orbit-finite-protocol-to-weighted}, we will use an orbit-finite version of the protocols that were developed in Section~\ref{sec:field-domain}. We could use a general version of the protocol, corresponding to an orbit-finite generalisation of Definition~\ref{def:two-party-protocol-general} with field outputs, and prove that it is equivalent to weighted orbit-finite automata. This is indeed true.  However, in order to streamline the exposition, we treat these protocols as a tool to prove \cref{thm:orbit-finite-protocol-to-weighted}, and not an object of independent interest. Therefore, we only define the simplest kind of protocol that is needed for our purposes, namely an orbit-finite variant of the scalar product protocol from Definition~\ref{def:scalar-product-protocol}. It will be more convenient to use a generalisation of scalar products, namely bilinear maps. Recall that a bilinear map inputs two vectors, and is linear in both arguments. 
 
 % This space is equipped with a scalar product, 
 % \begin{align*}
@@ -413,7 +413,7 @@ We begin with the first step, which can be seen as form of reduction to one roun
 
 
 \begin{proof}
-    We first introduce a common generalisation of the two models in the lemma. This genneralisation is called \emph{hybrid protocols}, and it has both multiple rounds (as in the protocols from the assumption of the lemma) and linear combinations (as in the protocols from the  conclusion of the lemma). We then show that the multiple rounds can be eliminated, yielding a protocol as in the conclusion of the lemma. 
+    We first introduce a common generalisation of the two models in the lemma. This generalisation is called \emph{hybrid protocols}, and it has both multiple rounds (as in the protocols from the assumption of the lemma) and linear combinations (as in the protocols from the  conclusion of the lemma). We then show that the multiple rounds can be eliminated, yielding a protocol as in the conclusion of the lemma. 
 
     We begin by describing the hybrid protocols. The protocol has $k$ rounds.  In the first $k-1$ rounds, the two parties exchange messages  as in the orbit-finite protocol. Then, in the last round, they create two vectors, which are combined using a bilinear map to get the final number. 
     Here is a formal definition of the hybrid protocol. For each round $i \in \set{1,\ldots,k-1}$, the  parties exchange messages just as in an orbit-finite protocol, using message spaces $Q_A$ and $Q_B$ and strategies 
@@ -440,7 +440,7 @@ We begin with the first step, which can be seen as form of reduction to one roun
         For every $k > 1$, a hybrid protocol with $k$ rounds can be simulated by a hybrid protocol with $k-1$ rounds.
     \end{claim}
     \begin{proof}
-        We will to eliminate round $k-1$, where the last message is sent. Once Alice has recieved the first $k-2$ messages from Bob, here contribution to the rest of the protocol is described by an object of type 
+        We will to eliminate round $k-1$, where the last message is sent. Once Alice has received the first $k-2$ messages from Bob, her contribution to the rest of the protocol is described by an object of type 
           \begin{align}\label{eq:contribution-last-two-rounds}
             \myunderbrace{Q_A}{message \\ sent in \\ round $k-1$} \quad \times \quad  \myunderbrace{(\fsfun  {Q_B} {V_A})}{message sent in \\ round $k$, as a function \\ of the message sent \\ in  round $k-1$}
         \end{align}
@@ -557,7 +557,7 @@ Before proving this theorem, we use it to complete the proof of \cref{thm:orbit-
         The equivalence holds  because equivariance of $f$ ensures that  derivatives commute with atom permutations.
     \end{proof}        
 
-    Using the function $\delta$ from the abvove claim, we define a weighted orbit-finite automaton. The state space is the set $Q$. (We assume without loss of generality that $Q$ contains the empty string $\varepsilon$. This is not really necessary for the construction, but it makes more intuitive.) The weights are defined as follows: 
+    Using the function $\delta$ from the above claim, we define a weighted orbit-finite automaton. The state space is the set $Q$. (We assume without loss of generality that $Q$ contains the empty string $\varepsilon$. This is not really necessary for the construction, but it makes more intuitive.) The weights are defined as follows: 
     \begin{itemize}
         \item \textbf{Initial weights.} The initial weight of   $\varepsilon$ is $1$. All other states have initial weight $0$.
         \item \textbf{Transition weights.} The weight of a transition 
