@@ -161,12 +161,12 @@ As we mentioned earlier in this section, deterministic and nondeterministic mode
     [Deterministic too weak]\label{ex:protocol-not-dofa}
      Every determinstic orbit-finite automaton can be simulated by a protocol, in the same way as for finite alphabets. Alice sends her state to Bob, which will typically require sending some atoms. Bob then uses this state to continue the computation and report the answer. 
     
-    However, the inclusion is strict: there protocols are strictly more powerful than deterministic orbit-finite automata. One reason is that protocols are symmetric, i.e.~there is no difference between left-to-right and right-to-left. On the other hand, deterministic orbit-finite automata are not symmetric. For example, the language ``the first letter appears twice'' can be recognised by a deterministic orbit-finite automaton, but its reverse ``the last letter appears at least twice'' cannot. The latter language can be computed by a protocol, and hence witnesses that the two models are different. 
+    However, the inclusion is strict: protocols are strictly more powerful than deterministic orbit-finite automata. One reason is that protocols are symmetric, i.e.~there is no difference between left-to-right and right-to-left. On the other hand, deterministic orbit-finite automata are not symmetric. For example, the language ``the first letter appears twice'' can be recognised by a deterministic orbit-finite automaton, but its reverse ``the last letter appears at least twice'' cannot. The latter language can be computed by a protocol, and hence witnesses that the two models are different. 
 \end{myexample}
 
 \begin{myexample}
     [Nondeterministic too strong] \label{ex:protocol-not-nofa}  
-    The language ``some letter appears at least twice'', from Example \ref{ex:some-twice}, can be recognised by a nondeterministic orbit-finite automaton, but cannot be computed by a protocol. We do not know yet if nondeterministic orbit-finite can simulate all protocols, and therefore for all we know the two models could be incmparable. However, as we will explain later in this section, we conjecture that there is indeed an inclusion, since we believe that protocols are equivalent to the special case of nondeterministic orbit-finite automata which are unambiguous.
+    The language ``some letter appears at least twice'', from Example \ref{ex:some-twice}, can be recognised by a nondeterministic orbit-finite automaton, but cannot be computed by a protocol. We do not know yet if nondeterministic orbit-finite can simulate all protocols, and therefore for all we know the two models could be incomparable. However, as we will explain later in this section, we conjecture that there is indeed an inclusion, since we believe that protocols are equivalent to the special case of nondeterministic orbit-finite automata which are unambiguous.
 \end{myexample}
 
 In Definition~\ref{def:orbit-finite-automata}, we have defined one-way orbit-finite automata, which read the input string from left to right.
@@ -294,11 +294,11 @@ Induction on the  {dimension} of the orbit.
 \subsection{Weighted automata}
 \label{sec:weighted-automata-atoms}
 
-In \cref{thm:unambiguous-to-protocol}, we have shown one implication in Conjecture~\ref{conj:protocols-unambiguous}. This section is devoted to presenting some evidence for  the other implication, i.e.
+In \cref{thm:unambiguous-to-protocol}, we have shown one implication in Conjecture~\ref{conj:protocols-unambiguous}. This section is devoted to presenting some evidence for the other implication, i.e.
 \begin{align}\label{eq:missing-orbit-finite-implication}
 \text{protocol} \quad \implies \quad \text{unambiguous automaton}.
 \end{align}
- We begin by explaining why the techniques that we used to prove this implication in the finite case do not extend to  the orbit-finite case. 
+ We begin by explaining why the techniques that we used to prove this implication in the finite case do not extend to the orbit-finite case. 
 
 \paragraph*{What goes wrong in the orbit-finite case?}
 In the finite case, the proof had two parts: (a) a reduction to one-round protocols, and (b) the Myhill-Nerode Theorem. Part (b) does not seem to be problematic, as orbit-finite versions of the Myhill-Nerode Theorem are known in many variants, including monoids~\cite[Lemma 3.3]{bojanczykNominalMonoids2013}, automata~\cite[Section 3.2]{bojanczykAutomataTheoryNominal2014}, and -- as we will prove later in this section -- also for weighted automata. The problematic part is (a), in which the number of rounds is reduced to one. The key argument in this reduction  was that the sets of strategies 
@@ -342,8 +342,8 @@ For the purpose of this section, already the special case of the two-element fie
 The following theorem is the main result of Section~\ref{sec:weighted-automata-atoms}.
 \begin{theorem}\label{thm:orbit-finite-protocol-to-weighted}
     Let $\Sigma$ be an orbit-finite input alphabet, and let $\domain$ be a field.
-    If a language $L \subseteq \Sigma^*$ is computed by a protcol, then the corresponding characteristic function of type $\Sigma^* \to \set{0,1} \subseteq \domain$  is computed by a weighted orbit-finite automaton.
-\end{theorem}
+    If a language $L \subseteq \Sigma^*$ is computed by a protocol, then the corresponding characteristic function of type $\Sigma^* \to \set{0,1} \subseteq \domain$  is computed by a weighted orbit-finite automaton.
+\end{theorem>
 
 
 In the proof of the theorem, we use the recently developped theory of orbit-finite vector spaces. In order to streamline the development, we will work with a special case of these spaces, namely spaces which have an orbit-finite basis.
@@ -415,8 +415,8 @@ We begin with the first step, which can be seen as form of reduction to one roun
 \begin{proof}
     We first introduce a common generalisation of the two models in the lemma. This genneralisation is called \emph{hybrid protocols}, and it has both multiple rounds (as in the protocols from the assumption of the lemma) and linear combinations (as in the protocols from the  conclusion of the lemma). We then show that the multiple rounds can be eliminated, yielding a protocol as in the conclusion of the lemma. 
 
-    We begin by describing the hybrid protocols. The protocol has $k$ rounds.  In the first $k-1$ rounds, the two parties exchange messages  as in the orbit-finite protocol. Then, in the last round, they create two vectors, which are combined using a bilinear map to get the final number. 
-    Here is a formal definition of the hybrid protocol. For each round $i \in \set{1,\ldots,k-1}$, the  parties exchange messages just as in an orbit-finite protocol, using message spaces $Q_A$ and $Q_B$ and strategies 
+    We begin by describing the hybrid protocols. The protocol has $k$ rounds.  In the first $k-1$ rounds, the two parties exchange messages as in the orbit-finite protocol. Then, in the last round, they create two vectors, which are combined using a bilinear map to get the final number. 
+    Here is a formal definition of the hybrid protocol. For each round $i \in \set{1,\ldots,k-1}$, the parties exchange messages just as in an orbit-finite protocol, using message spaces $Q_A$ and $Q_B$ and strategies 
         \begin{align*}
         \sigma_{A,i} & : \Sigma^* \times (Q_B)^{i-1} \to Q_A\\
         \sigma_{B,i} & : \Sigma^* \times (Q_A)^{i-1} \to Q_B
@@ -440,7 +440,7 @@ We begin with the first step, which can be seen as form of reduction to one roun
         For every $k > 1$, a hybrid protocol with $k$ rounds can be simulated by a hybrid protocol with $k-1$ rounds.
     \end{claim}
     \begin{proof}
-        We will to eliminate round $k-1$, where the last message is sent. Once Alice has recieved the first $k-2$ messages from Bob, here contribution to the rest of the protocol is described by an object of type 
+        We will eliminate round $k-1$, where the last message is sent. Once Alice has received the first $k-2$ messages from Bob, her contribution to the rest of the protocol is described by an object of type 
           \begin{align}\label{eq:contribution-last-two-rounds}
             \myunderbrace{Q_A}{message \\ sent in \\ round $k-1$} \quad \times \quad  \myunderbrace{(\fsfun  {Q_B} {V_A})}{message sent in \\ round $k$, as a function \\ of the message sent \\ in  round $k-1$}
         \end{align}
@@ -557,7 +557,7 @@ Before proving this theorem, we use it to complete the proof of \cref{thm:orbit-
         The equivalence holds  because equivariance of $f$ ensures that  derivatives commute with atom permutations.
     \end{proof}        
 
-    Using the function $\delta$ from the abvove claim, we define a weighted orbit-finite automaton. The state space is the set $Q$. (We assume without loss of generality that $Q$ contains the empty string $\varepsilon$. This is not really necessary for the construction, but it makes more intuitive.) The weights are defined as follows: 
+    Using the function $\delta$ from the above claim, we define a weighted orbit-finite automaton. The state space is the set $Q$. (We assume without loss of generality that $Q$ contains the empty string $\varepsilon$. This is not really necessary for the construction, but it makes it more intuitive.) The weights are defined as follows: 
     \begin{itemize}
         \item \textbf{Initial weights.} The initial weight of   $\varepsilon$ is $1$. All other states have initial weight $0$.
         \item \textbf{Transition weights.} The weight of a transition 
