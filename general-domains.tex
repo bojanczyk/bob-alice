@@ -112,11 +112,15 @@ Other examples of output domains are fields and strings. These were discussed  b
 
 \subsection{One-round protocols}
 
-We have little say to say about  protocols in the case of a general output domain. The  only result that we have at this level of generality is a reduction to one-round protocols, similarly to the Boolean case.       \begin{lemma}\label{lemma:one-round-reduction-general}
-        Every protocol is equivalent to a one-round protocol.
- \end{lemma}
- \begin{proof}
-    Same proof as in \cref{lem:one-round-reduction-boolean}. 
- \end{proof}
+We have little say to say about  protocols in the case of a general output
+domain. The  only result that we have at this level of generality is a
+reduction to one-round protocols, similarly to the Boolean case.     
+
+\begin{lemma}\label{lemma:one-round-reduction-general}
+  Every protocol is equivalent to a one-round protocol.
+\end{lemma}
+\begin{proof}
+  Same proof as in \cref{lem:one-round-reduction-boolean}. 
+\end{proof}
 
  Later in this paper, we will study protocols for infinite input alphabets. Such protocols will not be a special case of the protocols developped so far, since the signal spaces will be infinite, albeit in a limited way (called orbit-finite).  As we will see, for such signal spaces the reduction to one round will no longer be valid, and the interactive nature of the protocols will be essential.

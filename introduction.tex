@@ -1,3 +1,4 @@
+% LTeX: language=en
 \section{Introduction}
 \label{sec:introduction}
 This paper is motivated by a desire to understand the notion of  regularity in formal language theory. We take the functional perspective, in which we consider functions 
@@ -37,12 +38,56 @@ This type of question can be asked in other settings, with   outputs such as  tr
 \begin{description}
     \item[Compositionality.]  If the input is split into parts, then only a constant amount of information  flows between them, as far as the output of the function is concerned.
 \end{description}
-This principle is only a vague guideline, since it does not identify what ``information flow'' means, or how to quantify its amount. For Boolean outputs, i.e.~languages, compositionality has a standard interpretation, which is the Myhill-Nerode Theorem, and it is known to correspond exactly to the regular languages. However, in the case of more complicated outputs, things are less clear.  For example, if the outputs of the function are rational numbers, then it should be legitimate for the information flow to contain some rational numbers. How should this be formalised?
+This principle is only a vague guideline, since it does not identify what
+``information flow'' means, or how to quantify its amount. For Boolean outputs,
+i.e.~languages, compositionality has a standard interpretation, which is the
+Myhill-Nerode Theorem, and it is known to
+correspond exactly to the regular languages. However, in the case of more
+complicated outputs, things are less clear.  For example, if the outputs of the
+function are rational numbers, then it should be legitimate for the information
+flow to contain some rational numbers. How should this be formalised?
 
-We propose a formalisation that is based on communication complexity, in which two parties, called Alice and Bob, cooperate to compute the output of the function. There are \textbf{no uniformity assumptions} and the  two parties have unrestricted computational power; the goal is to measure information and not computation.  The input string is split into two parts $w = w_1 w_2$, and Alice has access to $w_1$ while Bob has access to $w_2$. They exchange messages in order to compute the output of the  function. There must be a  \textbf{constant number of messages}, where the constant  depends only on the function and not on the input string. Also, the  output of the computation must be \textbf{split invariant}, which means that the output depends only on the input string $w$, and not on the split $w = w_1 w_2$. In the communication, there are two kinds of messages:  either bits in $\set{\text{true, false}}$  or elements of the output domain. For example, if the outputs are rational numbers, then the messages can contain rational numbers. However, there is a restriction on the access to messages from the output domain, which is called the \textbf{black box restriction}. This restriction (which will be formally defined later in the paper) is intended to prevent tricks such as Alice sending her input string to Bob encoded as a rational number. Intuitiviely speaking, the  black box restriction says that the parties cannot read the messages from the output domain, and they can only operate on them using predefined operations. For example, in the case of numbers, the operations are addition and multiplication.
+We propose a formalisation that is based on communication complexity, in which
+two parties, called Alice and Bob, cooperate to compute the output of the
+function. Note that a formal study of the communication complexity for
+functions of the form $f : \Sigma^* \times \Sigma^* \to \domain$ is well
+established since Yao's seminal paper \cite{YAO79}, and the more comprehensive
+treatment appearing in the standard text by Kushilevitz \cite{KUSH97}. We adapt
+this model to our purposes as follows.
 
-The model, which we call \emph{protocols}, can be applied to any output domain, and we study several examples in this paper. 
-As we discover, despite its non-uniformity, the model  can only define well-behaved functions. In particular, in all cases that we have studied  these functions are: (1)  always  computable, even in linear time; and (2) the output size is always at most linear (with the size of a rational number measured by the number of bits needed to represent it).  This seems to indicate that the split invariance, together with a  constant number of messages under the black box restriction, has unexpected computational consequences. In particular, in all cases that we have studied,  protocols coincide -- or are conjectured by us to coincide -- with existing automata models, some of which seem unrelated to the protocols, as explained in the following table: 
+There are \textbf{no uniformity assumptions} and the two parties
+have unrestricted computational power; the goal is to measure information and
+not computation.  The input string is split into two parts $w = w_1 w_2$, and
+Alice has access to $w_1$ while Bob has access to $w_2$. They exchange messages
+in order to compute the output of the  function. There must be a
+\textbf{constant number of messages}, where the constant  depends only on the
+protocol and not on the input string. Also, the  output of the computation must
+be \textbf{split invariant}, which means that the output depends only on the
+input string $w$, and not on the split $w = w_1 w_2$. In the communication,
+there are two kinds of messages:  either bits in $\set{\text{true, false}}$  or
+elements of the output domain. For example, if the outputs are rational
+numbers, then the messages can contain rational numbers. However, there is a
+restriction on the access to messages from the output domain, which is called
+the \textbf{black box restriction}. This restriction (which will be formally
+defined later in the paper) is intended to prevent tricks such as Alice sending
+her input string to Bob encoded as a rational number. Intuitively speaking,
+the  black box restriction says that the parties cannot read the messages from
+the output domain, and they can only operate on them using predefined
+operations. For example, in the case of numbers, the operations are addition
+and multiplication.
+
+The model, which we call \emph{protocols}, can be applied to any output domain,
+and we study several examples in this paper. As we discover, despite its
+non-uniformity, the model  can only define well-behaved functions. In
+particular, in all cases that we have studied  these functions are: (1)  always
+computable, even in linear time; and (2) the output size is always at most
+linear (with the size of a rational number measured by the number of bits
+needed to represent it).  This seems to indicate that the split invariance,
+together with a  constant number of messages under the black box restriction,
+has unexpected computational consequences. In particular, in all cases that we
+have studied,  protocols coincide -- or are conjectured by us to coincide --
+with existing automata models, some of which seem unrelated to the protocols,
+as explained in the following table: 
 \begin{center}
     \begin{tabular}{ll}
     \textbf{Output} & \textbf{Automata Model} \\
@@ -53,9 +98,15 @@ As we discover, despite its non-uniformity, the model  can only define well-beha
     Boolean, but infinite input alphabet & Unambiguous  automata (conjectured) 
 \end{tabular}
 \end{center}
-For the conjectured results, we provide substantial evidence, in particular for the third row in the table,  we prove the conjecture for output strings over an output alphabet with one letter. In the remainder of this introduction, we give a more detailed review of the four rows in the  table. 
+
+For the conjectured results, we provide substantial evidence, in particular for
+the third row in the table,  we prove the conjecture for output strings over an
+output alphabet with one letter. In the remainder of this introduction, we give
+a more detailed review of the four rows in the  table. 
+
 \subsection{Protocols for Boolean outputs}
 \label{sec:intro-boolean}
+
 The first contribution of the paper is a study of the protocol model for  functions
 \begin{align*}
 f : \Sigma^* \to \set{\text{true, false}},
