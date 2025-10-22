@@ -1,6 +1,13 @@
 \subsection{Unary output alphabet}
 \label{sec:unary-output-alphabet}
-In this section, we provide further evidence for Conjectures~\ref{conj:protocol-regular-string-to-string} and~\ref{conj:regular-continuous}, by showing that they are true for output alphabets with only one letter. From a technical point of view, this is the most involved result in the paper, since our proof uses a refined analysis of the expressive power of weighted automata that output natural numbers of linear size.
+
+In this section, we provide further evidence for
+Conjectures~\ref{conj:protocol-regular-string-to-string}
+and~\ref{conj:regular-continuous}, by showing that they are true for output
+alphabets with only one letter. From a technical point of view, this is the
+most involved result in the paper, since our proof uses a refined analysis of
+the expressive power of weighted automata that output natural numbers of linear
+size.
 
 \begin{theorem}\label{thm:unary-string-to-string}
     The following conditions are equivalent for  a string-to-string function where  the output alphabet  has only one letter:
@@ -10,90 +17,186 @@ In this section, we provide further evidence for Conjectures~\ref{conj:protocol-
         \item \label{it:unary-regular} regular.
     \end{enumerate}
 \end{theorem}
-\begin{proof}
-In light of Lemmas \ref{lem:from-regular-to-protocol} and \ref{lem:postcomposition-weighted-automaton},  the only missing implication is \ref{it:unary-weighted-continuous}~$\Rightarrow$~\ref{it:unary-regular}.  We begin with the following claim. 
 
-\begin{claim}\label{claim:unary-output-alphabet-basic-consequences}
-    If $f :\Sigma^* \to \Gamma^*$ is field continuous and has a unary output alphabet, then 
-        \begin{enumerate}
-        \item \label{it:unary-computed-by-weighted} the length of $f(w)$ is  computed by a weighted automaton over the field $\Rat$;
-        \item \label{it:unary-linear-output-size} the length of $f(w)$ is  at most linear in the length of the input string.
-    \end{enumerate}
-\end{claim}
+In light of Lemmas \ref{lem:from-regular-to-protocol} and
+\ref{lem:postcomposition-weighted-automaton}, the only missing implication is
+\ref{it:unary-weighted-continuous}~$\Rightarrow$~\ref{it:unary-regular},
+that is the content of \cref{lem:nat-protocols-regular} below.
+
+
+\begin{lemma}
+  \label{lem:nat-protocols-regular}
+  Let $f : \Sigma^* \to \{a\}^*$ be a function computed by a protocol
+  manipulating natural numbers. Then $f$ is a regular function.
+\end{lemma}
+
+
+Let us consider a "protocol" computing a function $f : \Sigma^* \to \{a\}^*$.
+Recall that one can assume that the protocol is one round
+(\cref{lemma:one-round-reduction-general}). Let us write $\sigma_A : \Sigma^*
+\to Q_A \times \domain^k$ for the strategy of Alice, $\sigma_B : \Sigma^*
+\times Q_A \to Q_B \times \domain^k$ for the strategy of Bob, and $\theta : Q_A
+\times Q_B \to (\domain^{2k} \to \domain)$ for the combining function, that can
+only use concatenation of registers.
+We can place a quasi-order on $Q_A \times \domain^k$, by saying that $(q,
+\vec{r}) \leq (q', \vec{r}')$ if $q = q'$ and for each $i \in \{1, \ldots, k\}$
+we have $|r_i|\leq |r_i'|$. This quasi-order on $Q_A \times
+\domain^k$ can be lifted to a quasi-order on strings in $\Sigma^*$, by saying
+that $u \leq v$ if $\sigma_A(u) \leq \sigma_A(v)$. A key property of 
+this ordering is the following:
+
+\begin{lemma}
+  \label{lemma:order-monotonicity-unary-output}
+  Let $u, v \in \Sigma^*$ be such that $u \leq v$. Then for every $w \in
+  \Sigma^*$, we have $|f(uw)| \leq |f(vw)|$. Furthermore, the function 
+  $\Delta_{u,v} : w \mapsto |f(vw)| - |f(uw)|$ is a bounded function, and for 
+  every $c \in \Nat$, the set $\{ w \in \Sigma^* : \Delta_{u,v}(w) = c\}$ is
+  a regular language.
+\end{lemma}
 \begin{proof}
-    The length function is computed by a weighted automaton over the field $\Rat$, and therefore we get the first item by appealing to field continuity. The second item was proved in \cref{thm:evidence-for-the-conjecture}.
+  Assume that $u \leq v$, and fix some $w \in \Sigma^*$.
+  Let $q \in Q_A$ be the state that Alice sends to Bob after reading $u$.
+  It is the same state after reading $v$. From the point of view of 
+  Bob, the two strings behave identically. Now, since the combining function
+  can only use concatenation of registers, and since the registers produced by
+  Bob on the split $(u, w)$ are the same as those produced on the split
+  $(v, w)$, the result follows by monotonicity of concatenation with respect to
+  length. Note that the difference in lengths is bounded by the difference 
+  between the lengths of the registers after Alice's turn, which does not 
+  depend on $w$, proving the boundedness.
+
+  Finally, the set $\{ w \in \Sigma^* : \Delta_{u,v}(w) = c\}$ is regular because it
+  can be computed by a Boolean Alice-Bob protocol: Alice simulates the original protocol
+  when prepending $u$ and $v$ to its input, sends the difference of the lengths 
+  of its registers (that is now a finite message, since the difference is bounded) to Bob,
+  who can then check whether the total difference is $c$.
+  Because of \cref{thm:boolean-domain}, we conclude that the language is in fact regular.
 \end{proof}
 
-We will show that the two items in the conclusion of the above claim are  enough to conclude that $f$ is  regular. Since the output alphabet is unary, i.e.~essentially it is the natural numbers, we can use an approach to regularity from~\cite{Zpolyreg23}, which is based counting positions selected by queries. Let us describe this approach.
+The second key property of the ordering is the following: it is in fact a
+""well-quasi-order"", meaning that for any infinite sequence $(q_i,
+\vec{r}_i)_{i \in \Nat}$, there are two indices $i < j$ such that $(q_i,
+\vec{r}_i) \leq (q_j, \vec{r}_j)$. 
 
-A \emph{query of arity $d \in \set{0,1,\ldots}$} 
-over an input alphabet $\Sigma$ is defined to be a function which inputs a string  $w \in \Sigma^*$ and output a subset of $d$-tuples of position   s in $w$.
- We will be interested mainly in the case where: (a) the arity is zero or one; and (b) the queries  can be defined in the logic \mso.  We assume that the reader is familiar with this logic, see~\cite[Section 2.1]{bojanczyk_recobook} for an introduction. 
-Definability in \mso means that there is an \mso formula $\varphi(x_1,\ldots,x_d)$, which tells us when a tuple of positions is selected by the query. 
-In the context of this paper, queries will be used to define string-to-number functions, by counting the number of selected tuples, as described in the  following definition, which is based on~\cite{Zpolyreg23}.
-
-
-\begin{definition}
-    [\mso counting functions]   For an \mso definable query $\varphi(x_1,\ldots,x_k)$ over input alphabet $\Sigma$, the corresponding \emph{counting function}, denoted by
-    \begin{align*}
-    \counter\varphi : \Sigma^* \to \Nat,
-    \end{align*}
-    is the function that outputs the number of selected tuples in the input string. Any function of this type is called a \emph{\mso counting function of arity $d$}.
-\end{definition}
-
-In this section, we will be interested in linear combinations of counting functions as in the above definition. The focus on the analysis will be on the kind of coefficents that can be used in such combinations, namely sometimes we will allow negative coefficients, and sometimes only non-negative ones. The following claim uses non-negative coefficients to characterise  regular string-to-string  functions with a unary output alphabet.
-    \begin{claim}\label{claim:mso-counting-regular}
-        Consider a function $f : \Sigma^* \to \Nat$. Then the corresponding string-to-string function with a unary output alphabet is regular if and only if $f$  can be decomposed as  a linear combination 
-        \begin{align*}
-        f = \alpha_1 \counter{\varphi_1} + \cdots +  \alpha_k \counter{\varphi_k},
-        \end{align*}        
-        where the coefficents $\alpha_i$ are in $\Nat$, and the queries $\varphi_i$ have arity zero or one.
-    \end{claim}
-    \begin{proof}
-        To prove this claim, we use the characterisation of regular functions in terms of \mso transductions from~\cite[Section 4]{engelfrietMSODefinableString2001}. If the output is unary, then the order on output positions is irrelevant, and only the number of output positions is relevant. In an \mso transduction, the output positions are defined using \mso formulas with at most one free variable, thus yielding the result. 
-    \end{proof}
-
-In light of the above claim, to complete the proof of the theorem it will be enough to show that if a function $f : \Sigma^* \to \Nat$ satisfies conditions~\ref{it:unary-computed-by-weighted} and~\ref{it:unary-linear-output-size} from \cref{claim:unary-output-alphabet-basic-consequences}, i.e.~it is computed by a weighted automaton over $\Rat$ and has linear output size, then it is a sum of \mso counting functions of arity zero or one. The first step in our construction will be to prove that there is such a decomposition, but possibly using negative coefficients.
-
-\begin{claim}\label{claim:mso-counting-regular-with-negative}
-    Consider a function $f : \Sigma^* \to \Nat$ which is computed by a weighted automaton over $\Rat$ and has linear output size. Then $f$ admits a decomposition 
-    \begin{align*}
-    f = \alpha_1 \counter{\varphi_1} + \cdots +  \alpha_k \counter{\varphi_k},
-    \end{align*}        
-        where the coefficents $\alpha_i$ are in $\Int$, and the queries $\varphi_i$ have arity zero or one.
-\end{claim}
+\begin{lemma}
+  \label{lemma:wqo-unary-output}
+  The quasi-order on $\Sigma^*$ defined above is a well-quasi-order.
+\end{lemma}
 \begin{proof}
-    In the proof, we use weighted automata over the integer ring $\Int$. A result that we have already used in the proof of \cref{thm:evidence-for-the-conjecture} is that if a function is computed by a weighted automaton over $\Rat$, and all of its outputs are integers,  then it is also computed by a weighted automaton over $\Int$. Therefore, we can assume that $f$ is computed by a weighted automaton over $\Int$.
-    As remarked in~\cite[Remark II.21]{Zpolyreg23}, if a function is computed by a weighted automaton over the $\Int$, and it has polynomial output size, then it can be obtained as a linear combination of \mso counting functions, possibly using negative coefficients. Furthermore, the cited remark can be strengthened, with the same proof, to a linear version: if the output is linear, then the \mso counting functions can be chosen to have arity zero or one, as required by the claim.
+  Because the order only compares words with respect to their image by
+  $\sigma_A$, it is enough to show that the quasi-order on $Q_A \times
+  \domain^k$ is a well-quasi-order.
+  Since $Q_A$ is finite, it is enough to show that for each $q \in Q_A$,
+  the quasi-order on $\{q\} \times \domain^k$ is a well-quasi-order.
+  This follows from Dickson's lemma, since $\domain = \{a\}^*$ is isomorphic
+  to $\Nat$ with addition, and since $\Nat^k$ with the product ordering is a
+  well-quasi-order by Dickson's lemma.
 \end{proof}
 
-To finish the proof of the theorem, we will show that negative coefficients are not necessary, assuming that the outputs are non-negative. This is stated in the following theorem, which is the technical heart of this section.
-\begin{theorem}\label{thm:int-to-nat}
-    Consider a function $f : \Sigma^* \to  \Int$ which admits a decomposition
-    \begin{align*}
- \alpha_1 \counter{\varphi_1} + \cdots +  \alpha_k \counter{\varphi_k},
-    \end{align*}        
-        where the coefficents $\alpha_i$ are in $\Int$, and the queries $\varphi_i$ have arity zero or one. If all outputs of this function are non-negative, then there is another decomposition (possibly using other queries) in which the coefficients are positive, and the queries also have arity zero or one.
+From the above two lemmas, we can conclude the proof of
+\cref{lem:nat-protocols-regular}. 
+
+\begin{proof}
+  We claim that there exists a finite set $L$ of words $u_1, \ldots, u_n \in
+  \Sigma^*$, closed under taking prefixes, and such that for every $u \in L$
+  and every letter $a \in \Sigma$, either $ua \in L$, or there is some $u_i \in
+  L$ such that $u_i \leq ua$. 
+  Such a finite set $L$ exists by \cref{lemma:wqo-unary-output}, since one can
+  extract a finite set of minimal elements for the quasi-order, and close it
+  under prefixes. 
+
+  We can now produce a left-to-right automaton that computes $f$ using regular
+  lookaheads as follows. The states of the automaton are the words in $L$.
+  The final output of a state $u_i \in L$ is $f(u_i)$.
+  The transition from a state $u_i$ on a letter $a$ is defined as follows:
+  \begin{itemize}
+    \item if $u_i a \in L$, then the transition goes to state $u_i a$;
+    \item otherwise, there is some $u_j \in L$ such that $u_j \leq u_i a$,
+      and the transition goes to state $u_j$ (this is a choice made uniformly).
+  \end{itemize}
+  The lookahead for the transition from $u_i$ on $a$ is the regular language
+  that tells the precise difference in size between $f(u_i a w)$ and $f(u_j w)$. By
+  \cref{lemma:order-monotonicity-unary-output}, this delay is bounded so there 
+  are finitely many possibilities, and the precise difference can be checked by a
+  regular property on $w$. The automaton outputs this difference on the
+  transition.
+
+  An immediate induction proves that this automaton with regular lookaheads
+  computes the same function as $f$, and it is a standard result that 
+  regular functions are closed under regular lookaheads,
+  concluding the proof.
+\end{proof}
+
+
+Let us now use \cref{lem:nat-protocols-regular} to prove a result on
+string-to-number functions. Remark that a string-to-string function with a
+unary output alphabet can be seen as a string-to-number function, by mapping
+the string $a^n$ to the number $n$. Concatenation becomes addition in this
+setting. The following theorem states that considering string-to-number
+protocols (keeping only addition as operation on numbers) does not change the
+class of functions if the outputs are non-negative.
+
+\begin{theorem}
+  \label{thm:string-to-number-protocols-nat}
+  Let $f : \Sigma^* \to \Nat$ be a function computed by a protocol
+  manipulating integers. Then, $f$ is also computed by a protocol
+  manipulating natural numbers.
 \end{theorem}
+\begin{proof}
+  Let us assume without loss of generality that $f$ is computed by a one-round
+  protocol. Furthermore, up to normalizing the protocol, we can assume that only one
+  register of Alice is used in the final computation, and that all registers of
+  Alice can be used in some computation. This can be ensured by a powerset
+  construction on Alice's side.
 
-Theorem~\ref{thm:int-to-nat} is the last missing piece in the  implication \ref{it:unary-weighted-continuous}~$\Rightarrow$~\ref{it:unary-regular} from \cref{thm:unary-string-to-string}, as explained in the following diagram: 
-\[
-\begin{tikzcd}
-\text{$f$ with a unary output alphabet is field continuous}
-\arrow[d, Rightarrow, "\text{\cref{claim:unary-output-alphabet-basic-consequences}}"]\\
-\text{$f$ satisfies the conclusions of \cref{claim:unary-output-alphabet-basic-consequences}}
-\arrow[d, Rightarrow, "\text{\cref{claim:mso-counting-regular-with-negative}}"] \\
-\text{$f$ is a linear combination of \mso counting functions with  coefficients in $\Int$}
-\arrow[d, Rightarrow, "\text{\cref{thm:int-to-nat}}"] \\
-\text{$f$ is a linear combination of \mso counting functions with  coefficients in $\Nat$}
-\arrow[d, Rightarrow, "\text{\cref{claim:mso-counting-regular}}"] \\
-\text{$f$ is regular}
-\end{tikzcd}
-\]
+  Let us prove the following intermediate claim: the registers of Alice are
+  uniformly bounded below. Assuming the contrary, there is a sequence of inputs
+  $(u_i)_{i \in \Nat}$ such that the value of some register $r$ of Alice after
+  reading $u_i$ tends to $-\infty$ as $i$ tends to infinity. Since there are
+  finitely many states of Alice, we can assume without loss of generality that
+  the state of Alice after reading $u_i$ is some fixed state $q$ for all $i$.
+  Now, there is a fixed word $v$ such that when Bob receives state $q$ from
+  Alice and reads $v$, the output of the protocol is the sum of register $r$ of
+  Alice and some value computed by Bob. Because $r$ tends to $-\infty$ on the
+  sequence $(u_i)_{i \in \Nat}$, the output of the protocol on inputs $u_i v$
+  is negative for sufficiently large $i$, which is absurd.
 
-Therefore, to complete the proof of \cref{thm:unary-string-to-string}, it remains to prove \cref{thm:int-to-nat}. Since the  proof  is long, we prove it in its own separate section,  in Section~\ref{sec:non-negative}.
+
+  Hence, one can define a new protocol computing $f$ as follows: Alice
+  computes as before, but truncates all registers to zero if they are
+  negative. As state, she sends to Bob her state together with the content of
+  the registers that were truncated, which is a finite information since we
+  have proved that the registers are uniformly bounded below. Bob can then
+  simulate the original protocol, if he wishes to use a truncated register,
+  he directly substracts the value from his own output. The result of Bob
+  remains non-negative, since the original protocol computed a non-negative
+  output.
 \end{proof}
 
-   
+This theorem allows us to derive a neat characterisation of functions 
+computed by weighted automata over $\Nat$ that have linear growth.
 
-\input{non-negative}
+\begin{corollary}
+  \label{cor:weighted-automata-nat-regular}
+  Let $f : \Sigma^* \to \Nat$ be a function computed by a weighted automaton
+  over the semiring $\Rat$, such that $f$ has linear growth. Then, $f$ is a regular function.
+\end{corollary}
+\begin{proof}
+  It is well-known that weighted automata over $\Rat$ computing integer values
+  can be simulated by weighted automata over the semiring $\Int$: this is
+  sometimes referred to as $\Rat$ being a "fatou extension" of $\Int$
+  \cite[p. 110]{BerstelReutenauer08}.
+  Therefore, we can assume without loss of generality that $f$ is computed by
+  a weighted automaton over $\Int$. Then, one can leverage a 
+  result from \cite{Zpolyreg23} stating that weighted automata over $\Int$
+  with linear growth can be computed as follows: first, a regular function $g : \Sigma^* \to
+  \{a,b\}^*$ is computed, then each letter $a$ is mapped to $+1$ and each 
+  letter $b$ is mapped to $-1$, and finally all values are summed up. 
+  For a precise statement, see \cite[Proposition II.13, Theorem III.3]{Zpolyreg23}.
+
+  Now, it is clear from the above description that $f$ can be computed by a protocol
+  manipulating integer values, and combining them only using addition. By
+  \cref{thm:string-to-number-protocols-nat}, $f$ can also be computed by a
+  protocol manipulating natural numbers. Finally, by \cref{thm:unary-string-to-string},
+  $f$ is a regular function.
+\end{proof}
