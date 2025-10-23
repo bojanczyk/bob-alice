@@ -44,7 +44,12 @@
 
 % infrastructure for theorem names, actual names configured below
 \usepackage{amsthm} 
-\usepackage{todonotes} % for TODOs
+
+% Knowledge 
+\usepackage[composition,hyperref,xcolor,cleveref]{knowledge}
+\knowledgeconfigure{notion}
+\input{knowledges.kl}
+
 
 % ********** configuration for various packages ************
 

@@ -1,4 +1,6 @@
 # LaTeX intermediate and output files
+*.kaux
+*.diagnose
 *.aux
 *.bbl
 *.blg
