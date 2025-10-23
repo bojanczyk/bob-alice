@@ -258,7 +258,14 @@ Our first argument in favour of  the conjecture is the following result, which s
 
 One can invent functions which satisfy the three conditions in the above theorem, but which are not regular, see Example~\ref{ex:not-regular-but-continuous-over-finite-fields}. However, all known examples of such functions  are artificial, and none can be computed by protocols (or any known transducer models).  The proof of \cref{thm:evidence-for-the-conjecture}, which is given in Section~\ref{sec:string-outputs}, uses a linear representation of strings as matrices, and then applies \cref{thm:field-domain} about protocols with field outputs. In fact, this technique suggest an alternative approach to regularity,  which connects string-to-string functions with the better understood case of string-to-field functions. This approach is dicussed in Section~\ref{sec:continuity}.
 
-Our second argument in favour of  the conjecture is that we can prove it in the special case when the output alphabet is unary, i.e.~it has only one letter. This is the content of Section~\ref{sec:unary-output-alphabet}. When the output alphabet is unary, the output strings are commutative, i.e.~the order of letters is irrelevant. Our proof of the conjecture in the unary case starts with the observations from \cref{thm:evidence-for-the-conjecture}, and then improves on them by leveraging the commutativity of the output strings. Along the way, we need to prove a new result about counting positions selected by \mso queries, see \cref{thm:int-to-nat}. This new result is possibly the most technical part of the paper, and might be of independent interest.
+Our second argument in favour of  the conjecture is that we can prove it in the
+special case when the output alphabet is unary, i.e.~it has only one letter.
+This is the content of Section~\ref{sec:unary-output-alphabet}. When the output
+alphabet is unary, the output strings are commutative, i.e.~the order of
+letters is irrelevant. Our proof of \cref{thm:unary-string-to-string}
+relies on this commutativity on the output side since it collapses
+the class of "linear regular functions" to the much simpler class of
+"rational functions" (\cref{lem:unary-linear-regular-rational}).
 
 \paragraph*{Related work.} One of the consequences of the Myhill-Nerode theorem for string-to-Boolean functions, or the Fliess Theorem for string-to-number functions, is the existence of  canonical devices. There have been several attempts to generalise this to string-to-string functions, with a special emphasis the canonical devices. Before recalling this work, we observe that our approach seems to go in a  different direction. Although we think of Conjecture~\ref{conj:protocol-regular-string-to-string} as being a machine independent characterisation, it does not necessarily  yield canonical devices. In particular, our proof of the conjecture for unary alphabets does not yield a canonical device.
 
