@@ -68,34 +68,34 @@ not computation.  The input string is split into two parts $w = w_1 w_2$, and
 Alice has access to $w_1$ while Bob has access to $w_2$. They exchange messages
 in order to compute the output of the  function. There must be a
 \textbf{constant number of messages}, where the constant  depends only on the
-protocol and not on the input string. Also, the  output of the computation must
-be \textbf{split invariant}, which means that the output depends only on the
+\kl{protocol} and not on the input string. Also, the  output of the computation must
+be \intro{split invariant}, which means that the output depends only on the
 input string $w$, and not on the split $w = w_1 w_2$. In the communication,
 there are two kinds of messages:  either bits in $\set{\text{true, false}}$  or
 elements of the output domain \omc{This may be my subjective view (as I mentioned before), but I don’t think it’s a good idea to describe the messages as bits in our paper. I understand that you did this because it’s the convention in the communication complexity community. However, I would prefer saying that either the message comes from a finite set, or … The reason is that, for detail-oriented readers within the communication complexity community, in this setting the parties should either alternate turns when sending messages to each other, or there should be a "Next" function specifying the next communicator based on communication history.
 
 Using a finite set instead of bits allows parties to send information that might require several rounds rather than just one. I suppose you wrote it this way to appeal to readers already familiar with communication complexity and to make the paper more attractive to them. If that’s the reason, then it makes sense to keep it as is. Otherwise, I think it would be better to take a consistent approach and use a finite set for the visible part of the messages.}. For example, if the outputs are rational
 numbers, then the messages can contain rational numbers. However, there is a
-restriction on the access to messages from the output domain, which is called
-the \textbf{black box restriction}. This restriction (which will be formally
+restriction on the access to messages from the \kl{output domain}, which is called
+the \intro{black box restriction}. This restriction (which will be formally
 defined later in the paper) is intended to prevent tricks such as Alice sending
 her input string to Bob encoded as a rational number. Intuitively speaking,
-the  black box restriction says that the parties cannot read the messages from
-the output domain, and they can only operate on them using predefined
+the  \kl{black box restriction} says that the parties cannot read the messages from
+the \kl{output domain}, and they can only operate on them using predefined
 operations. For example, in the case of numbers, the operations are addition
 and multiplication.
 
-The model, which we call \emph{protocols}, can be applied to any output domain,
+The model, which we call \intro{protocol}s, can be applied to any \kl{output domain},
 and we study several examples in this paper. As we discover, despite its
 non-uniformity, the model  can only define well-behaved functions. In
 particular, in all cases that we have studied  these functions are: (1)  always
 computable, even in linear time; and (2) the output size is always at most
 linear (with the size of a rational number measured by the number of bits
-needed to represent it).  This seems to indicate that the split invariance,
-together with a  constant number of messages under the black box restriction,
+needed to represent it).  This seems to indicate that the \kl{split invariance},
+together with a  constant number of messages under the \kl{black box restriction},
 has unexpected computational consequences. In particular, in all cases that we
-have studied,  protocols coincide -- or are conjectured by us to coincide --
-with existing automata models, some of which seem unrelated to the protocols,
+have studied,  \kl{protocol}s coincide -- or are conjectured by us to coincide --
+with existing automata models, some of which seem unrelated to the \kl{protocol}s,
 as explained in the following table: 
 \begin{center}
     \begin{tabular}{ll}

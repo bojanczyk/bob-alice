@@ -10,7 +10,7 @@ with respect to the informal description from the introduction. The messages
 are not necessarily bits, but they belong to some finite set, which is fixed in
 advance before the input is known. Also,  the two parties send their messages
 in parallel in each round. These generalisations do not change the expressive
-power of the protocol (they might influence the number of rounds), but they
+power of the \kl{protocol} (they might influence the number of rounds), but they
 will be useful in later sections, when we consider restrictions and
 generalisations. 
 
@@ -33,7 +33,7 @@ generalisations.
 \end{definition}
 
 Given a pair of input strings $(w_1,w_2)$, which are called the \emph{local
-strings} of Alice and Bob, respectively, the  protocol is run as follows. There
+strings} of Alice and Bob, respectively, the  \kl{protocol} is run as follows. There
 are $k$ rounds. In each round, both parties send messages, and therefore after
 $i$ rounds are played, the communication history contains $i$ messages sent by
 Alice and $i$ messages sent by Bob.  In round  $i \in \set{1,\ldots,k}$,  each
@@ -41,10 +41,10 @@ of the two parties  looks at their local string and the $i-1$ messages sent by
 the other party in the previous rounds (only the messages sent by the other
 party are needed, since the party knows their own messages). Based on this
 information, each party uses their strategy to produce a new message. At the
-end of the protocol, the output function is used to determine the value of the
+end of the \kl{protocol}, the output function is used to determine the value of the
 function, based on all messages in  the communication history. We say that the
-protocol computes a language $L \subseteq \Sigma^*$ if for every two strings
-$w_1,w_2$, the output of the protocol tells us if the concatenation $w_1w_2$
+\kl{protocol} computes a language $L \subseteq \Sigma^*$ if for every two strings
+$w_1,w_2$, the output of the \kl{protocol} tells us if the concatenation $w_1w_2$
 belongs to the language. This corresponds to the split invariance condition
 that was discussed in the introduction.  Also, the reader will recognise the
 restriction on the total number of bits (this is bounded by the number of
@@ -52,8 +52,8 @@ rounds times the logarithm of the size of the message spaces), and the
 non-uniformity (there is no restriction on the strategies of Alice and Bob). By
 non-uniformity, the first message sent by Alice could contain an answer to some
 undecidable problem. However, as we will see, the split invariance restriction
-will make it impossible to use this information, since the protocol can only
-compute regular languages, as stated in the \cref{thm:boolean-domain} from the
+will make it impossible to use this information, since the \kl{protocol} can only
+compute \kl{regular language}s, as stated in the \cref{thm:boolean-domain} from the
 introduction, which we now recall.
 
 
@@ -61,27 +61,27 @@ introduction, which we now recall.
 
 
 \begin{proof}
-  We begin with the easier right-to-left implication, which says that the protocol can compute every regular language. If the language is  regular, then it  is recognised by a deterministic finite automaton, say  with state space $Q$. To compute the language, we can use a  one-round protocol (as we will see in a moment, this is not a coincidence, since all protocols can be reduced to one round). Alice sends the state in $Q$ of the automaton after reading her local string, and Bob sends the dependency $Q \to \set{\text{yes, no}}$ which says how Alice's state determines acceptance. Once these two pieces of information are known, we can apply the function from Bob's message to the state in Alice's message to determine the output.
+  We begin with the easier right-to-left implication, which says that the \kl{protocol} can compute every \kl{regular language}. If the language is  \kl(language){regular}, then it  is recognised by a deterministic finite automaton, say  with state space $Q$. To compute the language, we can use a  \kl{one-round protocol} (as we will see in a moment, this is not a coincidence, since all \kl{protocol}s can be reduced to one round). Alice sends the state in $Q$ of the automaton after reading her local string, and Bob sends the dependency $Q \to \set{\text{yes, no}}$ which says how Alice's state determines acceptance. Once these two pieces of information are known, we can apply the function from Bob's message to the state in Alice's message to determine the output.
 
-  The rest of this proof is devoted to the left-to-right implication, i.e.~to showing that every language computed by the protocol is regular. This is the heart of the proof, and the place where we need to tame the non-uniformity of the protocol. 
+  The rest of this proof is devoted to the left-to-right implication, i.e.~to showing that every language computed by the \kl{protocol} is \kl(language){regular}. This is the heart of the proof, and the place where we need to tame the non-uniformity of the \kl{protocol}. 
   
-  Observe that in the right-to-left implication, we have proved that regular languages need only one round. Therefore, if we want to  prove that the protocol can only compute regular languages, then a by-product will be that the protocol collapses to the one-round case.  This is, in fact, the first step of our proof. 
+  Observe that in the right-to-left implication, we have proved that \kl{regular language}s need only one round. Therefore, if we want to  prove that the \kl{protocol} can only compute \kl{regular language}s, then a by-product will be that the \kl{protocol} collapses to the \kl{one-round} case.  This is, in fact, the first step of our proof. 
   \begin{lemma}\label{lem:one-round-reduction-boolean}
-    For every protocol, there is an equivalent one-round protocol. 
+    For every \kl{protocol}, there is an equivalent \kl{one-round protocol}. 
   \end{lemma}
   \begin{proof}
     The general idea is that instead of engaging in interactive communication, each party sends the dependency of their message upon the unknown messages of the other party. Suppose that we are  Alice. The sequence of messages that we send will depend on our local string, and  the messages sent by Bob. Once the local string is fixed, this dependency is captured by a function of type 
     \begin{align*}
     (Q_B)^k \to (Q_A)^k.
     \end{align*}
-    Instead of waiting for Bob's messages, Alice sends this function. (This function is not a general function, since it must satisfy the following \emph{causality} constraint: the $i$-th coordinate of the output depends only on the first $i-1$ input coordinates.) At the same time, Bob sends an analogous function of type 
+    Instead of waiting for Bob's messages, Alice sends this function. (This function is not a general function, since it must satisfy the following \intro{causality} constraint: the $i$-th coordinate of the output depends only on the first $i-1$ input coordinates.) At the same time, Bob sends an analogous function of type 
     \begin{align*}
     (Q_A)^k \to (Q_B)^k,
     \end{align*}
-    which describes the dependency of his messages. Due to the causality constraints, the two functions combine to create a unique output in $(Q_A \times Q_B)^k$, which can be used to determine the output of the protocol.
+    which describes the dependency of his messages. Due to the \kl{causality} constraints, the two functions combine to create a unique output in $(Q_A \times Q_B)^k$, which can be used to determine the output of the \kl{protocol}.
   \end{proof}
 
-The proof of the above lemma can incur an exponential cost in the size of the message spaces. This is of little concern to us, since we only care about the protocol having a constant number of rounds.
+The proof of the above lemma can incur an exponential cost in the size of the \kl{message space}s. This is of little concern to us, since we only care about the \kl{protocol} having a constant \kl{number of rounds}.
 
   To complete the proof of the theorem, we use the  Myhill-Nerode Theorem.  Indeed, consider the strategy of  Alice: 
   \begin{align*}
@@ -92,6 +92,6 @@ The proof of the above lemma can incur an exponential cost in the size of the me
   w_1 w_2 \in L \Leftrightarrow w'_1 w_2 \in L 
   \qquad \text{for every $w_2 \in \Sigma^*$.}
   \end{align}
-  The equivalence described above is the same equivalence as in the Myhill-Nerode Theorem. In particular, equivalence classes of this equivalence are the same as states of the minimal deterministic automaton. Since the number of possible messages in $Q_A$ is finite, it follows that the minimal automaton is finite, and therefore the language is regular.  (Observe that we have shown that the language has at most $Q_A$ equivalence classes of Myhill-Nerode equivalence, which gives an upper bound on the size of the minimal automaton recognizing the language.)
+  The equivalence described above is the same equivalence as in the Myhill-Nerode Theorem. In particular, equivalence classes of this equivalence are the same as states of the minimal deterministic automaton. Since the number of possible messages in $Q_A$ is finite, it follows that the minimal automaton is finite, and therefore the language is \kl(language){regular}.  (Observe that we have shown that the language has at most $Q_A$ equivalence classes of Myhill-Nerode equivalence, which gives an upper bound on the size of the minimal automaton recognizing the language.)
 \end{proof}
 
