@@ -96,7 +96,6 @@ as explained in the following table:
     \hline
     Boolean & Regular languages (\cref{thm:boolean-domain}) \\
     Field & Weighted Automata (\cref{thm:field-domain}) \\
-    Strings with origin information & Regular functions (proved) \\
     Strings & Regular functions (\cref{conj:protocol-regular-string-to-string}) \\
     Boolean, but infinite input alphabet & Unambiguous  automata (\cref{conj:protocols-unambiguous}) 
 \end{tabular}
@@ -106,8 +105,10 @@ as explained in the following table:
 
 For the conjectured results, we provide substantial evidence, in particular for
 the third row in the table,  we prove the conjecture for output strings over an
-output alphabet with one letter. In the remainder of this introduction, we give
-a more detailed review of the four rows in the  table. 
+output alphabet with one letter (\cref{thm:unary-string-to-string}), and in the
+case where the strings are considered under an additional \emph{origin
+semantics} (\cref{thm:origin-string-to-string}). In the remainder of this
+introduction, we give a more detailed review of the four rows in the table. 
 
 \subsection{Protocols for Boolean outputs}
 \label{sec:intro-boolean}
@@ -273,14 +274,23 @@ which connects string-to-string functions with the better understood case of
 string-to-field functions. This approach is discussed in
 Section~\ref{sec:continuity}.
 
-Our second argument in favour of  the conjecture is that we can prove it in the
-special case when the output alphabet is unary, i.e.~it has only one letter.
-This is the content of Section~\ref{sec:unary-output-alphabet}. When the output
-alphabet is unary, the output strings are commutative, i.e.~the order of
-letters is irrelevant. Our proof of \cref{thm:unary-string-to-string}
-relies on this commutativity on the output side since it collapses
-the class of "linear regular functions" to the much simpler class of
-"rational functions" (\cref{lem:unary-linear-regular-rational}).
+Our second argument in favour of the \cref{conj:regular-continuous} is that we
+can prove it in the special case when the output alphabet is unary, i.e.~it has
+only one letter. This is the content of
+Section~\ref{sec:unary-output-alphabet}. When the output alphabet is unary, the
+output strings are commutative, i.e.~the order of letters is irrelevant. Our
+proof of \cref{thm:unary-string-to-string} relies on this commutativity on the
+output side since it collapses the class of "linear regular functions" to the
+much simpler class of "rational functions"
+(\cref{lem:unary-linear-regular-rational}).
+
+Our third argument in favour of the \cref{conj:regular-continuous} is that we
+can prove it to be true when the functions are considered under the
+\emph{origin semantics} of~\cite{bojanczykTransducersOriginInformation2014}.
+That is, strings come with extra origin information, and the functions are
+required to explicit which part of the output originates from which part of the
+input. This is the content of Section~\ref{sec:origin-semantics}, and the
+result is stated in \cref{thm:origin-string-to-string}. 
 
 \paragraph*{Related work.} One of the consequences of the Myhill-Nerode theorem
 for string-to-Boolean functions, or the Fliess Theorem for string-to-number
