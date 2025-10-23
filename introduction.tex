@@ -246,19 +246,19 @@ We  use the same kind of protocol as in the previous section, except that instea
     Using the protocol, we can compute string reversal: Alice sends to Bob the reverse of her part of the input, and  Bob concatenates this with  his part of the reverse. Another string-to-string function that can be easily computed by a protocol is string duplication $w \mapsto ww$. 
 \end{myexample}
 
-The string-to-string case is of particular interest because, as we have mentioned earlier in the introduction, there is no general agreement as to  which string-to-string functions should be considered ``regular''. There are numerous automata models to choose from, some of which are summarised in \cref{fig:transducer-classes}, which contains twenty models, grouped by equivalence into three classes. We can exclude the weakest class (the rational functions), since it is too weak: it  cannot compute the reverse or duplicate functions from Example~\ref{ex:reverse-duplicate}. We can also exclude the strongest class (the polyregular functions), since it is too strong: polyregular functions can have superlinear output size, and as we will see in a moment, protocols can only have linear output size. The remaining class from \cref{fig:transducer-classes} is the middle class of functions. One of the models which defines this class is  deterministic two-way automata with output~\cite{shepherdson1959reduction}. We conjecture  that this class     is the correct answer: 
+The string-to-string case is of particular interest because, as we have mentioned earlier in the introduction, there is no general agreement as to  which string-to-string functions should be considered ``\kl(function){regular}''. There are numerous automata models to choose from, some of which are summarised in \cref{fig:transducer-classes}, which contains twenty models, grouped by equivalence into three classes. We can exclude the weakest class (the \kl{rational function}s), since it is too weak: it  cannot compute the reverse or duplicate functions from Example~\ref{ex:reverse-duplicate}. We can also exclude the strongest class (the \kl{polyregular function}s), since it is too strong: \kl{polyregular function}s can have superlinear output size, and as we will see in a moment, \kl{protocol}s can only have linear output size. The remaining class from \cref{fig:transducer-classes} is the middle class of functions. One of the models which defines this class is  \intro{deterministic two-way automaton} with output~\cite{shepherdson1959reduction}. We conjecture  that this class     is the correct answer: 
 
 \begin{conjecture}\label{conj:protocol-regular-string-to-string}
-    A string-to-string function is computed by a protocol iff it is computed by a deterministic two-way automaton with output.
+    A string-to-string function is computed by a \kl{protocol} iff it is computed by a \kl{deterministic two-way automaton} with output.
 \end{conjecture}
 
-The functions computed by deterministic two-way automata with output are traditionally called ``regular'', and the above conjecture could be seen as a justification for using this name.
+The functions computed by \kl{deterministic two-way automaton}s with output are traditionally called ``\kl(function){regular}'', and the above conjecture could be seen as a justification for using this name.
 In Section~\ref{sec:string-outputs} we discuss this conjecture in detail, and provide evidence in its favour, including a proof of the  implication 
 \begin{align*}
-\text{protocol} \quad \impliedby \quad \text{two-way automaton},
+\text{\kl{protocol}} \quad \impliedby \quad \text{\kl{two-way automaton}},
 \end{align*} 
-This implication is rather easy, since a two-way automaton can be neatly simulated by the repeated interactions of the protocol. The content of the conjecture, and the subject of most of our technical results, is the $\implies$ implication. 
-Our first argument in favour of  the conjecture is the following result, which shows that functions computed  by protocols have many properties which are known to hold for regular functions.
+This implication is rather easy, since a \kl{two-way automaton} can be neatly simulated by the repeated interactions of the \kl{protocol}. The content of the conjecture, and the subject of most of our technical results, is the $\implies$ implication. 
+Our first argument in favour of  the conjecture is the following result, which shows that functions computed  by \kl{protocol}s have many properties which are known to hold for \kl{regular function}s.
 
 \begin{theorem}\label{thm:evidence-for-the-conjecture}
     If a string-to-string function  is  computed by a \kl{protocol}, then:

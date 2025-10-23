@@ -90,13 +90,13 @@ the automaton does not halt.)
     The following lemma shows one of the implications in the conjecture.
 
 \begin{lemma}\label{lem:from-regular-to-protocol}
-    If a string-to-string function is regular, then it is computed by a protocol.
+    If a string-to-string function is \kl(function){regular}, then it is computed by a \kl{protocol}.
 \end{lemma}
 \begin{proof}
-    The two parties can simulate a two-way automaton with output. The execution
-    of the protocol describes the crossing sequence of the automaton, i.e.~how
-    it crosses the boundary between the two local strings of Alice and Bob.
-    Here is a picture: \mypic{1} More formally, the crossing sequence is
+    The two parties can simulate a \kl{two-way automaton} with output. The execution
+    of the \kl{protocol} describes the \intro{crossing sequence} of the automaton, i.e.~how
+    it crosses the boundary between the two \kl{local string}s of Alice and Bob.
+    Here is a picture: \mypic{1} More formally, the \kl{crossing sequence} is
     defined as follows, given  a split of the input string into two parts $w_1
     w_2$. We run the automaton until the first configuration which is in the
     word $w_2$. Then we run it until the first configuration which is in the
@@ -104,9 +104,9 @@ the automaton does not halt.)
     inside $w_1$ that end in  configurations from $w_2$, and even-numbered
     steps describing runs inside $w_2$ that end in a configuration from $w_1$.
     The last step is exceptional, since it ends with an accepting
-    configuration. The number of steps in a crossing sequence is bounded  the
+    configuration. The number of steps in a \kl{crossing sequence} is bounded  the
     number of states, since otherwise the automaton would enter an infinite
-    loop. This bound is the number of rounds in the protocol. In each round,
+    loop. This bound is the \kl{number of rounds} in the \kl{protocol}. In each round,
     the state corresponding to this round is sent as a signal, and the output
     value in the message is the  part of the output string that is produced in
     this  step. At the end of the protocol, the pieces of the output string are
