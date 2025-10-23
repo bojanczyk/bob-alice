@@ -29,23 +29,33 @@ The point of departure is the following lemma, which connects weighted automata 
     \end{proof}
 
 
-The above lemma establishes a property of $f$, namely that weighted automata (over a field) are closed under precomposition with $f$. We think that this is an important property, and therefore we give it a name.
+The above lemma establishes a property of $f$, namely that weighted automata
+(over a field) are closed under precomposition with $f$. We think that this is
+an important property, and therefore we give it a name.
 
 
 \begin{definition}[Field continuity]
     \label{def:weighted-continuity}
-    A string-to-string function $f : \Sigma^* \to \Gamma^*$ is called \emph{field continuous} if functions computed by weighted automata over a field are closed under precomposition with $f$.
+    A string-to-string function $f : \Sigma^* \to \Gamma^*$ is called \intro{field continuous} if functions computed by weighted automata over a field are closed under precomposition with $f$.
 \end{definition}
 
 In the above definition, we only consider weighted automata over a field. The more general setting of semirings is dicussed in Section~\ref{sec:beyond-fields}.
 The name ``continuous'' is inspired by a similar terminology that is used in automata theory for functions that preserve regularity under inverse images, see~\cite[Theorem 4.1]{PinSilva05} or~\cite[Footnote 2]{continuity20}.  For the latter notion, we use the name \emph{Boolean continuity}.
 
 \begin{definition}[Boolean continuity]
-    A string-to-string function $f : \Sigma^* \to \Gamma^*$ is called \emph{Boolean continuous} if preimages of regular languages are regular.
+    A string-to-string function $f : \Sigma^* \to \Gamma^*$ is called \intro{Boolean continuous} if preimages of regular languages are regular.
 \end{definition}
 
-As we have shown in \cref{lem:postcomposition-weighted-automaton}, all string-to-string functions computed by protocols are field continuous. In particular, since every regular string-to-string function is computed by a protocol, it follows that every regular string-to-string function is field continuous\footnote{To the best of our knowledge, this is a new result. It can also be proved directly, without passing through protocols, and we present such a direct proof in Section~\ref{sec:beyond-fields}, for the more general setting of commutative semirings. In the more general case we need a direct proof, since \cref{thm:field-domain} is not known to be true for this case.}
-We conjecture that the converse is also true.
+As we have shown in \cref{lem:postcomposition-weighted-automaton}, all
+string-to-string functions computed by protocols are field continuous. In
+particular, since every regular string-to-string function is computed by a
+protocol, it follows that every regular string-to-string function is field
+continuous\footnote{To the best of our knowledge, this is a new result. It can
+also be proved directly, without passing through protocols, and we present such
+a direct proof in Section~\ref{sec:beyond-fields}, for the more general setting
+of commutative semirings. In the more general case we need a direct proof,
+since \cref{thm:field-domain} is not known to be true for this case.} We
+conjecture that the converse is also true.
 
 \begin{conjecture}\label{conj:regular-continuous}
     A string-to-string function is field continuous if and only if it is regular.
@@ -53,7 +63,15 @@ We conjecture that the converse is also true.
 
 Later on, in Section~\ref{sec:beyond-fields}, we will discuss variants of the conjecture, and in particular we show that the conjecture becomes false if the left side is relaxed from field continuous to Boolean continuous.
 
-Conjecture~\ref{conj:regular-continuous} can be seen as  a machine independent characterisation of the regular string-to-string  functions. This would be a very valuable contribution. Almost all known characterisations of the regular string-to-string  functions have somewhat lengthy definitions, based on specific computational models, and it is something of a  miracle that all of these models are equivalent. A possible exception is the characterisation in~\cite{bojanczykTitoRegular23}, which does not use a machine model; however that characterisation uses the abstract language of category theory, and is less elementary than the one in Conjecture~\ref{conj:regular-continuous}.
+Conjecture~\ref{conj:regular-continuous} can be seen as  a machine independent
+characterisation of the \kl{regular string-to-string functions}. This would be a
+very valuable contribution. Almost all known characterisations of the regular
+string-to-string  functions have somewhat lengthy definitions, based on
+specific computational models, and it is something of a  miracle that all of
+these models are equivalent. A possible exception is the characterisation
+in~\cite{bojanczykTitoRegular23}, which does not use a machine model; however
+that characterisation uses the abstract language of category theory, and is
+less elementary than the one in Conjecture~\ref{conj:regular-continuous}.
 
 As in Conjecture~\ref{conj:protocol-regular-string-to-string}, the content of Conjecture~\ref{conj:regular-continuous} is the left-to-right implication
 \begin{align*}
@@ -83,8 +101,8 @@ share some well-known properties of the regular string-to-string functions.
     If a function $f : \Sigma^* \to \Gamma^*$ is  field continuous, then:
     \begin{enumerate}
         \item \label{it:linear-size-outputs} the outputs have at most linear size;
-        \item \label{it:linear-time-computable} the outputs can be   computed in linear time;
-        \item \label{it:regular-preimages} it is Boolean continuous, i.e.~preimages of regular languages are regular.
+        \item \label{it:linear-time-computable} the outputs can be computed in linear time;
+        \item \label{it:regular-preimages} it is \kl{Boolean continuous}, i.e.~preimages of regular languages are regular.
     \end{enumerate}
 \end{theorem}
 

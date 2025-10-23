@@ -1,13 +1,20 @@
 % LTeX: language=en
 \section{Introduction}
 \label{sec:introduction}
+
+\AP
 This paper is motivated by a desire to understand the notion of  regularity in formal language theory. We take the functional perspective, in which we consider functions 
 \begin{align*}
 f : \Sigma^* \to \domain
 \end{align*}
-that input strings, and output values from some domain $\domain$. 
-If the output domain is the Booleans, then such functions
-are languages, and there is no question about which languages should be considered regular. There are tens -- if not hundreds -- of equivalent definitions, including regular expressions, finite automata in numerous forms, monoids, monadic second-order logic, and variants of $\lambda$-calculus. But what about other outputs? Let us review three examples where the nature of regularity is a topic of genuine  discussion.
+that input strings, and output values from some domain $\domain$. If the output
+domain is the Booleans, then such functions are languages, and there is no
+question about which languages should be considered \intro(language){regular}. There are tens --
+if not hundreds -- of equivalent definitions, including regular expressions,
+finite automata in numerous forms, monoids, monadic second-order logic, and
+variants of $\lambda$-calculus. But what about other outputs? Let us review
+three examples where the nature of regularity is a topic of genuine
+discussion.
 
 \begin{enumerate}
     \item \textbf{String outputs.}
@@ -127,8 +134,9 @@ Alice can send her  first three letters to Bob (if Alice got less than three let
 
 The first result of this paper  says that these protocols compute exactly the regular languages, despite the non-uniformity.
 \begin{restatable}{theorem}{booleandomain}
-     \label{thm:boolean-domain}
-  A language $L \subseteq \Sigma^*$ is computed by a protocol if and only if it is regular.
+ \label{thm:boolean-domain}
+ A language $L \subseteq \Sigma^*$ is computed by a \kl[boolean protocol]{protocol} if and only if it is 
+ \kl(language){regular}.
 \end{restatable}
 One implication is immediate: every regular language can be computed by a protocol.  Alice can send to Bob the state of a finite automaton that recognises the language. The other implication is proved in two steps, see Section~\ref{sec:boolean-domain} for more details. In the first step, the protocol is reduced to a one-round non-interactive version, where each party independently sends a message with a constant number of bits, and the decision is then made based on these two messages. In the second step, we use the one-round protocol and the Myhill-Nerode Theorem to conclude that the language must necessarily be regular. 
 
@@ -253,7 +261,7 @@ This implication is rather easy, since a two-way automaton can be neatly simulat
 Our first argument in favour of  the conjecture is the following result, which shows that functions computed  by protocols have many properties which are known to hold for regular functions.
 
 \begin{theorem}\label{thm:evidence-for-the-conjecture}
-    If a string-to-string function  is  computed by a protocol, then:
+    If a string-to-string function  is  computed by a \kl{protocol}, then:
     \begin{enumerate}
         \item \label{it:linear-size-outputs} outputs have at most linear size;
         \item \label{it:linear-time-computable} outputs can be   computed in linear time;

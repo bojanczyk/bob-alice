@@ -4,10 +4,17 @@
  | protocol@boolean
  | Boolean protocol
 
+\knowledge{notion}
+ | regular language
+
+\knowledge{notion,scope=language,synonym={regular language}}
+ | regular
+
 
 % protocols for general domains
 \knowledge{notion}
  | protocol
+ | two-party protocol
  | general domain protocol
 
 \knowledge{notion}
@@ -78,6 +85,7 @@
 
 \knowledge{notion}
  | two-way automaton
+ | deterministic two-way automaton with output
  | two-way automata
  | deterministic two-way automaton
 
@@ -101,6 +109,9 @@
  | regular function
  | regular functions
  | regular string-to-string function
+ | regular string-to-string functions
+\knowledge{notion,scope=function,synonym={regular function}}
+ | regular
 
 \knowledge{notion}
  | polyregular
