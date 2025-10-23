@@ -36,7 +36,7 @@ The literature is rife with automata models for such languages, with seventeen e
 
 This type of question can be asked in other settings, with   outputs such as  trees,  graphs or elements of some abstract semiring\footnote{One could also vary the inputs, and consider regularity for, say, graph-to-graph functions. We refrain from considering general outputs in this paper, and we stay with string inputs, possibly over infinite alphabets.}. This paper attempts to provide a unified theory of regularity for such functions.   We are guided by  the following principle, which we believe to be essential for regularity:
 \begin{description}
-    \item[Compositionality.]  If the input is split into parts, then only a constant amount of information  flows between them, as far as the output of the function is concerned.
+    \item[Compositionality.] \omc{I don't think "compositionality" is the best name for this. Perhaps something more descriptive, such as "constant information flow."}  If the input is split into parts, then only a constant amount of information  flows between them, as far as the output of the function is concerned.
 \end{description}
 This principle is only a vague guideline, since it does not identify what
 ``information flow'' means, or how to quantify its amount. For Boolean outputs,
@@ -56,7 +56,7 @@ treatment appearing in the standard text by Kushilevitz \cite{KUSH97}. We adapt
 this model to our purposes as follows.
 
 There are \textbf{no uniformity assumptions} and the two parties
-have unrestricted computational power; the goal is to measure information and
+have unrestricted computational power; the goal is to measure information \omc{information flow instead of information ?} and
 not computation.  The input string is split into two parts $w = w_1 w_2$, and
 Alice has access to $w_1$ while Bob has access to $w_2$. They exchange messages
 in order to compute the output of the  function. There must be a
@@ -65,7 +65,9 @@ protocol and not on the input string. Also, the  output of the computation must
 be \textbf{split invariant}, which means that the output depends only on the
 input string $w$, and not on the split $w = w_1 w_2$. In the communication,
 there are two kinds of messages:  either bits in $\set{\text{true, false}}$  or
-elements of the output domain. For example, if the outputs are rational
+elements of the output domain \omc{This may be my subjective view (as I mentioned before), but I don’t think it’s a good idea to describe the messages as bits in our paper. I understand that you did this because it’s the convention in the communication complexity community. However, I would prefer saying that either the message comes from a finite set, or … The reason is that, for detail-oriented readers within the communication complexity community, in this setting the parties should either alternate turns when sending messages to each other, or there should be a "Next" function specifying the next communicator based on communication history.
+
+Using a finite set instead of bits allows parties to send information that might require several rounds rather than just one. I suppose you wrote it this way to appeal to readers already familiar with communication complexity and to make the paper more attractive to them. If that’s the reason, then it makes sense to keep it as is. Otherwise, I think it would be better to take a consistent approach and use a finite set for the visible part of the messages.}. For example, if the outputs are rational
 numbers, then the messages can contain rational numbers. However, there is a
 restriction on the access to messages from the output domain, which is called
 the \textbf{black box restriction}. This restriction (which will be formally
@@ -100,6 +102,8 @@ as explained in the following table:
 \end{tabular}
 \end{center}
 
+\omc{This table is inconsistent. In the second column, we have Automata Model, but in the first row, we list regular languages, which are a class of languages, not an automata model. In the second row, we have weighted automata, which is an automata model. Then, we have regular functions, which are a class of functions, followed by unambiguous automata, which again is a computational model. To make the table consistent, it should list: Finite Automata, Weighted Automata, and 2-way Deterministic Finite Transducers.}
+
 For the conjectured results, we provide substantial evidence, in particular for
 the third row in the table,  we prove the conjecture for output strings over an
 output alphabet with one letter. In the remainder of this introduction, we give
@@ -112,7 +116,7 @@ The first contribution of the paper is a study of the protocol model for  functi
 \begin{align*}
 f : \Sigma^* \to \set{\text{true, false}},
 \end{align*}
-i.e.~languages. In this case the two parties only exchange bits, and they need to decide if the input string is in the language or not. As mentioned before, the parties have unbounded computational power. For example, the first message sent by Alice could answer  some undecidable question.
+i.e.~languages. In this case the two parties only exchange bits \omc{I still think it’s better to say that the messages come from a finite set instead of bits.} , and they need to decide if the input string is in the language or not. As mentioned before, the parties have unbounded computational power. For example, the first message sent by Alice could answer  some undecidable question.
 
 \begin{myexample}[First three equal last three]
     \label{ex:three-letters}
@@ -130,7 +134,7 @@ One implication is immediate: every regular language can be computed by a protoc
 % It is worth underlining that, unlike in communication complexity, we are not interested in the exact number of exchanged bits. For example, in the round reduction that is described in the previous paragraph, the number of exchanged bits increases exponentially. One could investigate the constant in more detail, e.g.~how it depends on some parameters of the language, such as the number of states in an automaton that recognises it. We do not pursue this direction in this paper.
 
 
-The above theorem is not difficult to prove, nor can it be called completely new.  Although we are not aware of an exact precedent, the general idea of studying communication complexity for regular languages is not new in automata theory. This theme is called state complexity, and it is interested  in the number of states needed for a given language in a given automaton model, and how this number is affected by operations on languages or changes in the model. See  wikipedia~\cite{stateComplexityWiki} for a comprehensive summary with numerous references, or the recent paper~\cite{goosKiefer2022} which shows how to transfer lower bounds from communication complexity to state complexity of unambiguous automata. The work on state complexity is mainly about the exact number of states, which is of secondary concern to us. For our purposes, a protocol that exchanges $k$ bits is no different from a protocol that exchanges $2^k$ bits. We only care that this bound should be finite and independent of the input. 
+The above theorem is not difficult to prove, nor can it be called completely new.  Although we are not aware of an exact precedent, the general idea of studying communication complexity for regular languages is not new in automata theory. This theme is called state complexity, and it is interested  in the number of states needed for a given language in a given automaton model, and how this number is affected by operations on languages or changes in the model. See  wikipedia~\cite{stateComplexityWiki} for a comprehensive summary with numerous references, or the recent paper~\cite{goosKiefer2022} which shows how to transfer lower bounds from communication complexity to state complexity of unambiguous automata \omc{Remove the Wikipedia source and keep only the Goos and Kiefer (2022) reference. I think the Wikipedia source is redundant.}. The work on state complexity is mainly about the exact number of states, which is of secondary concern to us. For our purposes, a protocol that exchanges $k$ bits is no different from a protocol that exchanges $2^k$ bits. We only care that this bound should be finite and independent of the input. 
 
 Theorem~\ref{thm:boolean-domain} is  simple  technically, and its main value lies in its role as an inspiration for other results in this paper, which use  other output domains  such as  fields or strings. 
 
