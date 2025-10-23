@@ -12,11 +12,11 @@ In this section, we present a variant of our model which deals with an input alp
 \end{align}
 There are numerous models of automata for such languages, which typically involve some kind of finite memory and registers that store letters from $\atoms$. For example, the language~\eqref{eq:first-last} is recognised by an automaton which loads the first letter into a register, and then toggles acceptance depending on comparison of the register with the current input letter. On the other hand, the language~\eqref{eq:some-twice} is recognised by an automaton which nondeterministically guesses a position, puts its letter into a register, and then waits for this letter to appear again. 
 
-Numerous models for infinite alphabets have been proposed in the literature, such as deterministic and nondeterministic automata with registers~\cite[Section 2]{kaminskiFiniteMemoryAutomata1994}, two-way variants of these~\cite[Definition 2.1]{nevenFiniteStateMachines2004}, unambiguous register automata~\cite[Section 5]{colcombet2015unambiguity}, single-use register automata~\cite[Definition 3]{bojanczykstefanski2020}, alternating automata with registers~\cite[Section 2.5]{DBLP:journals/tocl/DemriL09}, data automata~\cite[Section 4.2]{bojanczykTwovariableLogicData2011}, or various kinds of regular expressions~\cite{regexpKaminskiTan2004,regexpLibkin2015,KleeneNominal2019} --- see Figure~\ref{fig:automata-infinite-alphabets} for a survey. Interestingly, all of those models are pairwise non-equivalent. This sharply contrasts with the finite-alphabet case, where virtually all models capture the regular languages.
+Numerous models for infinite alphabets have been proposed in the literature, such as deterministic and nondeterministic \kl{register automata}~\cite[Section 2]{kaminskiFiniteMemoryAutomata1994}, \kl{two-way} variants of these~\cite[Definition 2.1]{nevenFiniteStateMachines2004}, \kl{unambiguous register automata}~\cite[Section 5]{colcombet2015unambiguity}, single-use \kl{register automata}~\cite[Definition 3]{bojanczykstefanski2020}, alternating automata with registers~\cite[Section 2.5]{DBLP:journals/tocl/DemriL09}, data automata~\cite[Section 4.2]{bojanczykTwovariableLogicData2011}, or various kinds of regular expressions~\cite{regexpKaminskiTan2004,regexpLibkin2015,KleeneNominal2019} --- see Figure~\ref{fig:automata-infinite-alphabets} for a survey. Interestingly, all of those models are pairwise non-equivalent. This sharply contrasts with the finite-alphabet case, where virtually all models capture the \kl{regular language}s.
 %  One attempt to put order into the chaotic zoo of automata models for infinite alphabets is the theory of orbit-finite sets~\cite{bojanczyk_slightly}, which builds on the ideas of nominal sets~\cite{PittsAM:nomsns}. 
 
-In this section, we describe an infinite-alphabet version of our two-party protocols.
-The motivation for this study is twofold: (a) a search for a canonical model of regular languages for infinite alphabets; and (b) mathematical interest. Regarding the point (a), we hope that the adaptability of two-party protocols to various settings will help us  find a canonical model of regular languages for infinite alphabets. This seems to be at least partially successful, since there is evidence --- which we present in this section --- that the protocols are equivalent to an existing automaton models, namely the unambiguous register automaton. If true, this equivalence would be unexpected, since there does not seem to be any syntactic connection between the two models. Regarding point (b), one of the exciting features of our protocol model for infinite alphabets is that the interaction between the two parties becomes essential, and the protocol cannot be reduced to the one-round case as in \cref{lemma:one-round-reduction-general}.
+In this section, we describe an infinite-alphabet version of our \kl{two-party protocol}s.
+The motivation for this study is twofold: (a) a search for a canonical model of \kl{regular language}s for infinite alphabets; and (b) mathematical interest. Regarding the point (a), we hope that the adaptability of \kl{two-party protocol}s to various settings will help us  find a canonical model of \kl{regular language}s for infinite alphabets. This seems to be at least partially successful, since there is evidence --- which we present in this section --- that the \kl{protocol}s are equivalent to an existing automaton models, namely the \kl{unambiguous register automaton}. If true, this equivalence would be unexpected, since there does not seem to be any syntactic connection between the two models. Regarding point (b), one of the exciting features of our \kl{protocol} model for infinite alphabets is that the interaction between the two parties becomes essential, and the \kl{protocol} cannot be reduced to the \kl{one-round} case as in \cref{lemma:one-round-reduction-general}.
 
 \begin{figure}
     \begin{enumerate}
@@ -39,7 +39,7 @@ The motivation for this study is twofold: (a) a search for a canonical model of 
     \item monadic second-order logic with equality~\cite[Section 2.4]{nevenFiniteStateMachines2004}
     % \item session automata
 \end{enumerate}
-    \caption{A non-exhaustive list of models of automata for infinite alphabets. All models in the list are pairwise non-equivalent. In contrast, for finite alphabets, all models in this list are equivalent, and define exactly the regular languages. }
+    \caption{A non-exhaustive list of models of automata for infinite alphabets. All models in the list are pairwise non-equivalent. In contrast, for finite alphabets, all models in this list are equivalent, and define exactly the \kl{regular language}s. }
     \label{fig:automata-infinite-alphabets}
 \end{figure}
 
@@ -53,25 +53,25 @@ The motivation for this study is twofold: (a) a search for a canonical model of 
 \subsubsection{Protocols for an infinite alphabet}
 \label{sec:protocols-infinite-alphabet}
 We now give a more detailed description of our model. We start by explaining formally, what it means that the
-language can only refer to equality between letters. Following the literature on nominal and orbit-finite sets, this is formalised by requiring that the language is invariant under permutations of the alphabet, as described in the following definition.
+language can only refer to equality between letters. Following the literature on nominal and \kl{orbit-finite} sets, this is formalised by requiring that the language is invariant under permutations of the alphabet, as described in the following definition.
 
 \begin{definition}[Equivariant language] \label{def:equivariant-language}
-    A language $L \subseteq \atoms^*$ is called \emph{equivariant} if 
+    A language $L \subseteq \atoms^*$ is called \intro{equivariant} if 
     \begin{align*}
     w \in L \quad \iff \quad \pi(w) \in L
     \end{align*}
     holds for every permutation $\pi$ of the alphabet $\atoms$.
 \end{definition}
 
-Examples of equivariant languages include the languages in~\eqref{eq:first-last} and~\eqref{eq:some-twice}. On the other hand, the language ``the first letter is a vowel'' or ``the letters are strictly increasing'' are not equivariant, since there is no such thing as a vowel, or an ordering of the letters. The principle of equivariance will also be applied to protocols, as described below, by restricting the two parties to use only equivariant strategies.
+Examples of \kl{equivariant language}s include the languages in~\eqref{eq:first-last} and~\eqref{eq:some-twice}. On the other hand, the language ``the first letter is a vowel'' or ``the letters are strictly increasing'' are not \kl{equivariant}, since there is no such thing as a vowel, or an ordering of the letters. The principle of \kl{equivariant}ness will also be applied to \kl{protocol}s, as described below, by restricting the two parties to use only \kl{equivariant strategy}s.
 
 
 
 
 
-The idea is to use the same kind of protocol as in Definition \ref{def:two-party-protocol-boolean}, except that apart from bits, the parties can also send letters from the alphabet $\atoms$. It follows that the allowed set of messages is 
-$\set{0,1} + \atoms$, i.e.~the disjoint union of the Booleans and the input alphabet. Similarly, to Definition~\ref{def:two-party-protocol-boolean}, the number of rounds is a fixed number $k$ and in the $i$-th round each party chooses 
-a new message according a strategy which is a function of the following type: 
+The idea is to use the same kind of \kl{protocol} as in Definition \ref{def:two-party-protocol-boolean}, except that apart from bits, the parties can also send letters from the alphabet $\atoms$. It follows that the allowed set of messages is 
+$\set{0,1} + \atoms$, i.e.~the disjoint union of the Booleans and the input alphabet. Similarly, to Definition~\ref{def:two-party-protocol-boolean}, the \kl{number of rounds} is a fixed number $k$ and in the $i$-th round each party chooses 
+a new message according a \kl{strategy} which is a function of the following type: 
 
 \begin{align*}
 \myunderbrace{\atoms^*}{local \\ string} \times \myunderbrace{(\set{0,1} + \atoms)^{i-1}}{messages received \\ in previous rounds} 
