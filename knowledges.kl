@@ -49,3 +49,116 @@
 \knowledge{notion}
  | origin semantics
 
+% technical notions for protocols and automata
+
+\knowledge{notion}
+ | split invariant
+ | split invariance
+
+\knowledge{notion}
+ | black box
+ | black box restriction
+ | black box discipline
+
+\knowledge{notion}
+ | local string
+ | local strings
+
+\knowledge{notion}
+ | message space
+ | message spaces
+
+\knowledge{notion}
+ | one-round
+ | one-round protocol
+
+\knowledge{notion}
+ | term operation
+ | term operations
+
+\knowledge{notion}
+ | two-way automaton
+ | two-way automata
+ | deterministic two-way automaton
+
+\knowledge{notion}
+ | weighted automaton
+ | weighted automata
+
+\knowledge{notion}
+ | crossing sequence
+
+\knowledge{notion}
+ | run graph
+
+\knowledge{notion}
+ | causality
+ | causality constraint
+
+% string-to-string functions
+
+\knowledge{notion}
+ | regular function
+ | regular functions
+ | regular string-to-string function
+
+\knowledge{notion}
+ | polyregular
+ | polyregular function
+ | polyregular functions
+
+\knowledge{notion}
+ | rational function
+ | rational functions
+ | rational string-to-string function
+ | rational string-to-string relation
+
+% continuity notions
+
+\knowledge{notion}
+ | field continuous
+ | field continuity
+
+\knowledge{notion}
+ | Boolean continuous
+ | Boolean continuity
+
+% infinite alphabet notions
+
+\knowledge{notion}
+ | equivariant
+ | equivariant language
+ | equivariant strategy
+
+\knowledge{notion}
+ | unambiguous
+ | unambiguous register automaton
+
+\knowledge{notion}
+ | register automaton
+ | register automata
+
+% algebraic notions
+
+\knowledge{notion}
+ | linear map
+
+\knowledge{notion}
+ | final map
+
+\knowledge{notion}
+ | orbit-finite
+ | orbit-finitely
+
+% query-related notions
+
+\knowledge{notion}
+ | query counting
+ | query counting function
+
+\knowledge{notion}
+ | monoid homomorphism
+
+\knowledge{notion}
+ | leftmost factorisation
+
