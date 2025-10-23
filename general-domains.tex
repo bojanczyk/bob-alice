@@ -13,10 +13,10 @@ An output domain is the same thing as a (non-indexed) algebra, in the sense of u
 The output domain will typically  be infinite. In principle, the family of operations might be infinite as well, although any protocol will only use finitely many operations.
 By abuse of notation, we use the same symbol $\domain$ to denote the output domain and its underlying set, with the operations being implicit. Here are the output domains that will be studied in this paper: 
 \begin{itemize}
-    \item \textbf{Boolean domain.} The set is $\set{\text{true, false}}$, and there are no basic operations. (We could add basic operations, such as the Boolean operations $\lor,\land$ and $\neg$, but this will not affect the expressive power of our protocol, so we choose to have no operations.)
-    \item \textbf{Field domain.} The set is a field, such as the rationals or reals, and there are two operations for addition and multiplication. This is not one domain, but a family of domains, with one for each field.
-    \item \textbf{Monoid domain.} The set is a commutative monoid $(M,+,0)$, and there is one basic operation, which is the binary operation $+$. Again, this is not one domain, but a family of domains, with one for each commutative monoid.
-    \item \textbf{String domain.} This is a special case of the monoid domain, where the set is $\Gamma^*$ for some finite alphabet $\Gamma$, and the operation is string concatenation.
+    \item \intro{Boolean domain} The set is $\set{\text{true, false}}$, and there are no basic operations. (We could add basic operations, such as the Boolean operations $\lor,\land$ and $\neg$, but this will not affect the expressive power of our protocol, so we choose to have no operations.)
+    \item \intro{Field domain} The set is a field, such as the rationals or reals, and there are two operations for addition and multiplication. This is not one domain, but a family of domains, with one for each field.
+    \item \intro{Monoid domain} The set is a commutative monoid $(M,+,0)$, and there is one basic operation, which is the binary operation $+$. Again, this is not one domain, but a family of domains, with one for each commutative monoid.
+    \item \intro{String domain} This is a special case of the monoid domain, where the set is $\Gamma^*$ for some finite alphabet $\Gamma$, and the operation is string concatenation.
 \end{itemize}
 
 In the protocol, the output value will be constructed in a constant number of
@@ -50,27 +50,46 @@ We now generalise the protocol to cover functions
 \begin{align*}
 f : \Sigma^* \to \domain,
 \end{align*}
-where $\domain$ is some possibly infinite output domain. As in the Boolean version of the protocol, the output value is constructed by Alice and Bob, as a result of an exchange of a constant number of messages. Each message has two parts, which are called the \emph{signal part} and the \emph{output part}. The signal part consists of a finite amount of information, and is used to exchange information between the two parties as in the Boolean protocol. The output part is a list of elements from the  output domain, and  is meant to be part of the output value. As in the Boolean case, the above definition slightly deviates from the informal description in the introduction. In particular, a message can contain $d$ elements of the output domain. This does not affect the expressive power of the protocol, but it might affect the number of rounds, and the above definition will be more convenient later one, where we consider one-round protocols. Another important difference is that the operations from the output domain are only applied once at the end of the protocol. This, again does affect the expressive power, since the two parties can wait with their operations until all signals have been exchanged.  
+where $\domain$ is some possibly infinite output domain. As in the Boolean
+version of the protocol, the output value is constructed by Alice and Bob, as a
+result of an exchange of a constant number of messages. Each message has two
+parts, which are called the \emph{signal part} and the \emph{output part}. The
+signal part consists of a finite amount of information, and is used to exchange
+information between the two parties as in the Boolean protocol. The output part
+is a list of elements from the  output domain, and  is meant to be part of the
+output value. As in the Boolean case, the above definition slightly deviates
+from the informal description in the introduction. In particular, a message can
+contain $d$ elements of the output domain. This does not affect the expressive
+power of the protocol, but it might affect the number of rounds, and the above
+definition will be more convenient later one, where we consider one-round
+protocols. Another important difference is that the operations from the output
+domain are only applied once at the end of the protocol. This, again does
+affect the expressive power, since the two parties can wait with their
+operations until all signals have been exchanged.  
 
 \begin{definition}\label{def:two-party-protocol-general} A two-party protocol   
    is given by the following ingredients: 
   \begin{enumerate}
-    \item an output domain $\domain$;
+    \item an \kl{output domain} $\domain$;
     \item a finite input alphabet $\Sigma$;
-    \item a number of rounds $k \in \set{1,2,\ldots}$;
-    \item signal spaces for Alice and Bob, which are finite sets $Q_A$ and $Q_B$;
-    \item a  dimension $d \in \set{0,1,\ldots}$;
-    \item for each round $i \in \set{1,\ldots,k}$, a strategy
+    \item a \intro{number of rounds} $k \in \set{1,2,\ldots}$;
+    \item \intro{signal spaces} for Alice and Bob, which are finite sets $Q_A$ and $Q_B$;
+    \item a \intro(protocol){dimension} $d \in \set{0,1,\ldots}$;
+    \item for each round $i \in \set{1,\ldots,k}$, a \intro{strategy}
     \begin{align*}
     \myoverbrace{\sigma_A^i : \myunderbrace{\Sigma^*}{Alice's \\ local\\ string} \times \myunderbrace{Q_B^{i-1}}{history of \\ signals \\ from Bob}  \to \myunderbrace{Q_A \times \domain^d}{new\\ message}}{stategy for Alice in the $i$-th round}
     \qquad 
         \myoverbrace{\sigma_B^i : \myunderbrace{\Sigma^*}{Bob's \\ local\\ string} \times \myunderbrace{Q_A^{i-1}}{history of \\ signals \\ from Alice}  \to \myunderbrace{Q_B \times \domain^d}{new\\ message}}{stategy for Bob in the $i$-th round}
     \end{align*}
-    \item an output function of type \begin{align*}
+    \item an \intro[output function@protocol]{output function} of type \begin{align*}
     (Q_A \times Q_B)^{k} \to (\domain^{2dk} \termop \domain).
     \end{align*}
   \end{enumerate}
 \end{definition}
+
+\alc{Maybe we should use uniform strategies that take the history $Q_B^{*}$ and
+$Q_A^{*}$ instead of fixed number of rounds? This is just to simplify
+notations.}
 
 
 

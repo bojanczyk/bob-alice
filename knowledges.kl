@@ -1,0 +1,51 @@
+% protocols for boolan 
+\knowledge{notion}
+ | boolean protocol
+ | protocol@boolean
+ | Boolean protocol
+
+
+% protocols for general domains
+\knowledge{notion}
+ | protocol
+ | general domain protocol
+
+\knowledge{notion}
+ | output function@protocol
+\knowledge{notion}
+ | signal space
+ | signal spaces
+\knowledge{notion}
+ | strategies
+ | strategy 
+
+\knowledge{notion}
+ | output domain
+\knowledge{notion}
+ | number of rounds
+
+\knowledge{notion,scope=protocol}
+ | dimension
+
+% Output domains for the protocols 
+
+\knowledge{notion}
+ | Boolean@output
+ | Boolean domain
+
+\knowledge{notion}
+ | Field domain
+ | Field@output
+
+\knowledge{notion}
+ | Monoid domain
+
+\knowledge{notion}
+ | Strings@output
+ | String domain
+
+% origin semantics
+
+\knowledge{notion}
+ | origin semantics
+

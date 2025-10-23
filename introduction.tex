@@ -94,10 +94,10 @@ as explained in the following table:
     \begin{tabular}{ll}
     \textbf{Output} & \textbf{Automata Model} \\
     \hline
-    Boolean & Regular languages (\cref{thm:boolean-domain}) \\
-    Field & Weighted Automata (\cref{thm:field-domain}) \\
-    Strings & Regular functions (\cref{conj:protocol-regular-string-to-string}) \\
-    Boolean, but infinite input alphabet & Unambiguous  automata (\cref{conj:protocols-unambiguous}) 
+    \kl[Boolean domain]{Booleans} & Regular languages (\cref{thm:boolean-domain}) \\
+    \kl[String domain]{Field}   & Weighted Automata (\cref{thm:field-domain}) \\
+    \kl[String domain]{Strings} & Regular functions (\cref{conj:protocol-regular-string-to-string}) \\
+    Boolean, but infinite input alphabet & Unambiguous automata (\cref{conj:protocols-unambiguous}) 
 \end{tabular}
 \end{center}
 
@@ -106,7 +106,7 @@ as explained in the following table:
 For the conjectured results, we provide substantial evidence, in particular for
 the third row in the table,  we prove the conjecture for output strings over an
 output alphabet with one letter (\cref{thm:unary-string-to-string}), and in the
-case where the strings are considered under an additional \emph{origin
+case where the strings are considered under an additional \kl{origin
 semantics} (\cref{thm:origin-string-to-string}). In the remainder of this
 introduction, we give a more detailed review of the four rows in the table. 
 
