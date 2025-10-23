@@ -15,10 +15,14 @@ By abuse of notation, we use the same symbol $\domain$ to denote the output doma
 \begin{itemize}
     \item \textbf{Boolean domain.} The set is $\set{\text{true, false}}$, and there are no basic operations. (We could add basic operations, such as the Boolean operations $\lor,\land$ and $\neg$, but this will not affect the expressive power of our protocol, so we choose to have no operations.)
     \item \textbf{Field domain.} The set is a field, such as the rationals or reals, and there are two operations for addition and multiplication. This is not one domain, but a family of domains, with one for each field.
-    \item \textbf{String domain.} The set is $\Gamma^*$ for some finite alphabet $\Gamma$, and there is one basic operation, which is concatenation. Again, this is not one domain, but a family of domains, with one for each alphabet.
+    \item \textbf{Monoid domain.} The set is a commutative monoid $(M,+,0)$, and there is one basic operation, which is the binary operation $+$. Again, this is not one domain, but a family of domains, with one for each commutative monoid.
+    \item \textbf{String domain.} This is a special case of the monoid domain, where the set is $\Gamma^*$ for some finite alphabet $\Gamma$, and the operation is string concatenation.
 \end{itemize}
 
-In the protocol, the output value will be constructed in a constant number of steps, by using operations from the output domain. We will not distinguish between the  operations that are in the output domain, and other operations that are derived by composing them, as described in the following definition.
+In the protocol, the output value will be constructed in a constant number of
+steps, by using operations from the output domain. We will not distinguish
+between the operations that are in the output domain, and other operations
+that are derived by composing them, as described in the following definition.
 
 \begin{definition}[Term operation]\label{def:term-operations}
     Consider an output domain $\domain$. An operation 
