@@ -260,7 +260,18 @@ Our first argument in favour of  the conjecture is the following result, which s
     \end{enumerate}
 \end{theorem}
 
-One can invent functions which satisfy the three conditions in the above theorem, but which are not regular, see Example~\ref{ex:not-regular-but-continuous-over-finite-fields}. However, all known examples of such functions  are artificial, and none can be computed by protocols (or any known transducer models).  The proof of \cref{thm:evidence-for-the-conjecture}, which is given in Section~\ref{sec:string-outputs}, uses a linear representation of strings as matrices, and then applies \cref{thm:field-domain} about protocols with field outputs. In fact, this technique suggest an alternative approach to regularity,  which connects string-to-string functions with the better understood case of string-to-field functions. This approach is dicussed in Section~\ref{sec:continuity}.
+One can invent functions which satisfy the three conditions in the above
+theorem, but which are not regular, see
+Example~\ref{ex:not-regular-but-continuous-over-finite-fields}. However, all
+known examples of such functions  are artificial, and none can be computed by
+protocols (or any known transducer models).  The proof of
+\cref{thm:evidence-for-the-conjecture}, which is given in
+Section~\ref{sec:string-outputs}, uses a linear representation of strings as
+matrices, and then applies \cref{thm:field-domain} about protocols with field
+outputs. In fact, this technique suggest an alternative approach to regularity,
+which connects string-to-string functions with the better understood case of
+string-to-field functions. This approach is discussed in
+Section~\ref{sec:continuity}.
 
 Our second argument in favour of  the conjecture is that we can prove it in the
 special case when the output alphabet is unary, i.e.~it has only one letter.
@@ -271,7 +282,16 @@ relies on this commutativity on the output side since it collapses
 the class of "linear regular functions" to the much simpler class of
 "rational functions" (\cref{lem:unary-linear-regular-rational}).
 
-\paragraph*{Related work.} One of the consequences of the Myhill-Nerode theorem for string-to-Boolean functions, or the Fliess Theorem for string-to-number functions, is the existence of  canonical devices. There have been several attempts to generalise this to string-to-string functions, with a special emphasis the canonical devices. Before recalling this work, we observe that our approach seems to go in a  different direction. Although we think of Conjecture~\ref{conj:protocol-regular-string-to-string} as being a machine independent characterisation, it does not necessarily  yield canonical devices. In particular, our proof of the conjecture for unary alphabets does not yield a canonical device.
+\paragraph*{Related work.} One of the consequences of the Myhill-Nerode theorem
+for string-to-Boolean functions, or the Fliess Theorem for string-to-number
+functions, is the existence of  canonical devices. There have been several
+attempts to generalise this to string-to-string functions, with a special
+emphasis the canonical devices. Before recalling this work, we observe that our
+approach seems to go in a  different direction. Although we think of
+Conjecture~\ref{conj:protocol-regular-string-to-string} as being a machine
+independent characterisation, it does not necessarily  yield canonical devices.
+In particular, our proof of the conjecture for unary alphabets does not yield a
+canonical device.
 
 Here is a summary of results on canonical devices for string-to-string
 transducers: they have been proposed for subsequential functions~\cite[Théorème
@@ -307,7 +327,15 @@ An example of such a language is ``all letters are different''.
  As mentioned earlier in the introduction, there is a rich literature on automata for such languages, see the surveys~\cite{neven2003power,segoufin2006automata,bojanczykOrbitFiniteSetsTheir2017} or the lecture notes~\cite{bojanczyk_slightly}.  The  relevant automata models typically use registers to store some letters from the input, so that they can be compared to later letters. Essentially any automaton model for finite alphabets can be lifted this way to infinite alphabets~\cite[Figure 1]{neven2003power}, and there is even a systematic way to do this, which is based on the theory of orbit-finite sets~\cite[Chapter 2]{bojanczyk_slightly}. Unfortunately, after this lifting, previously equivalent models become non-equivalent.  This sad situation is illustrated in~\cref{fig:automata-infinite-alphabets}, which describes seventeen non-equivalent automata models for infinite alphabets; all of these models collapse to the regular languages when considered for finite alphabets. Equally sadly, there are almost no results in the literature on infinite alphabets that prove non-trivial equivalences of models. The only known cases of this kind are about the  weakest of the available models, namely orbit-finite monoids~\cite{bojanczykNominalMonoids2013}, which are known to be equivalent in expressive power to a certain variant of \mso~\cite[Theorems 4.2 and 5.1]{DBLP:journals/corr/ColcombetLP14}, and also to single-user register automata~\cite[Theorem 6]{bojanczykstefanski2020}.
 This situation desperately calls for some unifying principles. 
 
-Since protocols have successfuly identified important models in the previous cases, we try to see  what happens in the case of an infinite input alphabet.  When extending protocols to infinite input alphabets, we adapt them as follows: (1) messages can contain input letters; (2)  messages can only be compared for equality. Condition (2) is formalised by saying that the execution of the protocol is invariant under permutations of the input alphabet, similarly to the languages that we consider. The protocols  work their magic once again, and they point to (as we conjecture)  one of the models in the literature. Before revealing this model, let us give two examples.
+Since protocols have successfully identified important models in the previous
+cases, we try to see  what happens in the case of an infinite input alphabet.
+When extending protocols to infinite input alphabets, we adapt them as follows:
+(1) messages can contain input letters; (2)  messages can only be compared for
+equality. Condition (2) is formalised by saying that the execution of the
+protocol is invariant under permutations of the input alphabet, similarly to
+the languages that we consider. The protocols  work their magic once again, and
+they point to (as we conjecture)  one of the models in the literature. Before
+revealing this model, let us give two examples.
 
 \begin{myexample}[Deterministic too weak]\label{ex:last-letter-does-not-appear-before} Consider the language ``the first letter does not appear elsewhere in the string''. This language can be computed by a protocol, in which Alice checks the condition on her side, and then sends the first letter to Bob, so that he can check the condition on his side. More generally, a protocol can simulate any  deterministic register automaton~\cite[Definition 3]{kaminskiFiniteMemoryAutomata1994}, using the same idea as for  finite alphabets: Alice  sends her state  to Bob, together with the values of the registers.  However,  protocols can do more. In particular, they are under reversing the input string, and therefore they can compute all reverses of languages recognised by deterministic register automata. Since deterministic register automata are not closed under reversal, it follows  that protocols are strictly more powerful than deterministic register automata. 
 \end{myexample}
