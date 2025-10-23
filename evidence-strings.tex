@@ -51,7 +51,7 @@ We conjecture that the converse is also true.
     A string-to-string function is field continuous if and only if it is regular.
 \end{conjecture}
 
-Later on, in Section~\ref{sec:beyond-fields}, we will dicuss variants of the conjecture, and in particular we show that the conjecture becomes false if the left side is relaxed from field continuous to Boolean continuous.
+Later on, in Section~\ref{sec:beyond-fields}, we will discuss variants of the conjecture, and in particular we show that the conjecture becomes false if the left side is relaxed from field continuous to Boolean continuous.
 
 Conjecture~\ref{conj:regular-continuous} can be seen as  a machine independent characterisation of the regular string-to-string  functions. This would be a very valuable contribution. Almost all known characterisations of the regular string-to-string  functions have somewhat lengthy definitions, based on specific computational models, and it is something of a  miracle that all of these models are equivalent. A possible exception is the characterisation in~\cite{bojanczykTitoRegular23}, which does not use a machine model; however that characterisation uses the abstract language of category theory, and is less elementary than the one in Conjecture~\ref{conj:regular-continuous}.
 
@@ -107,7 +107,7 @@ The following theorem gives some evidence for the stronger conjecture,  and ther
             A language $L \subseteq \Gamma^*$ is regular iff its characteristic function $\Gamma^* \to \set{0,1}$ is computed by a weighted automaton over the two-element field 
         \end{claim}
         \begin{proof}
-            For the lef-to-right implication, we observe that a weighted automaton over a finite field can be simulated by a deterministic finite automaton. For the other direction, we observe that a weighted automaton can count the parity of  the number of runs in a finite automaton, and if the automaton is deterministic then the number of runs is either zero or one, and thus the parity gives the right answer.
+            For the left-to-right implication, we observe that a weighted automaton over a finite field can be simulated by a deterministic finite automaton. For the other direction, we observe that a weighted automaton can count the parity of  the number of runs in a finite automaton, and if the automaton is deterministic then the number of runs is either zero or one, and thus the parity gives the right answer.
         \end{proof}
 
         In terms of the correspondence from the above claim, preimages of regular languages become precompositions of weighted automata over the two-element field. In particular, regularity is preserved. 
