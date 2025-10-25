@@ -39,33 +39,31 @@ that are derived by composing them, as described in the following definition.
 \end{definition}
 
 \begin{myexample}
-    If the operations are $+$ and $\times$, then after applying the usual distributivity laws,   term operations are the same as polynomials with natural coefficients, such as 
+    If the operations are $+$ and $\times$, then after applying the usual distributivity laws,   \kl{term operation}s are the same as polynomials with natural coefficients, such as 
 \begin{align*}
 x_1x_2^2 + x_1x_2x_3^3  + \myunderbrace{2x_1}{same as $x_1 + x_1$}.
 \end{align*}
-If the output domain is the Boolean domain, which has no operations, then the only kind of term operation is a single variable, e.g.~$x_2$.  In the case of a string domain, a term operation is some concatenation of the variables, such as $x_1 x_3 x_1 x_2$.
+If the \kl{output domain} is the \kl{Boolean domain}, which has no operations, then the only kind of \kl{term operation} is a single variable, e.g.~$x_2$.  In the case of a \kl{String domain}, a \kl{term operation} is some concatenation of the variables, such as $x_1 x_3 x_1 x_2$.
 \end{myexample}
 
 
 
-We now generalise the protocol to cover functions 
+We now generalise the \kl{protocol} to cover functions 
 \begin{align*}
 f : \Sigma^* \to \domain,
 \end{align*}
-where $\domain$ is some possibly infinite output domain. As in the Boolean
-version of the protocol, the output value is constructed by Alice and Bob, as a
+where $\domain$ is some possibly infinite \kl{output domain}. As in the Boolean
+version of the \kl{protocol}, the output value is constructed by Alice and Bob, as a
 result of an exchange of a constant number of messages. Each message has two
-parts, which are called the \emph{signal part} and the \emph{output part}. The
-signal part consists of a finite amount of information, and is used to exchange
-information between the two parties as in the Boolean protocol. The output part
-is a list of elements from the  output domain, and  is meant to be part of the
+parts, which are called the \intro{signal part} and the \intro{output part}. The
+\kl{signal part} consists of a finite amount of information, and is used to exchange
+information between the two parties as in the \kl{Boolean protocol}. The \kl{output part}
+is a list of elements from the  \kl{output domain}, and  is meant to be part of the
 output value. As in the Boolean case, the above definition slightly deviates
 from the informal description in the introduction. In particular, a message can
-contain $d$ elements of the output domain. This does not affect the expressive
-power of the protocol, but it might affect the number of rounds, and the above
-definition will be more convenient later one, where we consider one-round
-protocols. Another important difference is that the operations from the output
-domain are only applied once at the end of the protocol. This, again does
+contain $d$ elements of the \kl{output domain}. This does not affect the expressive
+power of the \kl{protocol}, but it might affect the \kl{number of rounds}, and the above
+definition will be more convenient later one, where we consider \kl{one-round protocol}s. Another important difference is that the operations from the \kl{output domain} are only applied once at the end of the \kl{protocol}. This, again does
 affect the expressive power, since the two parties can wait with their
 operations until all signals have been exchanged.  
 
@@ -83,7 +81,7 @@ operations until all signals have been exchanged.
     \qquad 
         \myoverbrace{\sigma_B^i : \myunderbrace{\Sigma^*}{Bob's \\ local\\ string} \times \myunderbrace{Q_A^{i-1}}{history of \\ signals \\ from Alice}  \to \myunderbrace{Q_B \times \domain^d}{new\\ message}}{stategy for Bob in the $i$-th round}
     \end{align*}
-    \item an \intro[output function@protocol]{output function} of type \begin{align*}
+    \item a \intro[output function@protocol]{output function} of type \begin{align*}
     (Q_A \times Q_B)^{k} \to (\domain^{2dk} \termop \domain).
     \end{align*}
   \end{enumerate}
@@ -95,7 +93,7 @@ notations.}
 
 
 
-The protocol is executed on a pair of strings $(w_1,w_2)$. In each round, each of the two parties  sends a message (which consists of a signal and some elements of the output domain) that is based on their local string and the history of signals coming from the other party. After all $k$ rounds have been executed, the joint signal history of both players is used, by the output function, to determine a term operation. This operation is then applied to the output history, yielding the final result of the protocol. As in the Boolean case, we are interested in protocols that are split invariant, which means that for every string $w \in \Sigma^*$, the same output is produced for every possible decomposition $w = w_1 w_2$. Such protocols compute a function of type $\Sigma^* \to \domain$. 
+The \kl{protocol} is executed on a pair of strings $(w_1,w_2)$. In each round, each of the two parties  sends a message (which consists of a signal and some elements of the \kl{output domain}) that is based on their \intro{local string} and the history of signals coming from the other party. After all $k$ rounds have been executed, the joint signal history of both players is used, by the \kl[output function@protocol]{output function}, to determine a \kl{term operation}. This operation is then applied to the output history, yielding the final result of the \kl{protocol}. As in the Boolean case, we are interested in \kl{protocol}s that are \intro{split invariant}, which means that for every string $w \in \Sigma^*$, the same output is produced for every possible decomposition $w = w_1 w_2$. Such \kl{protocol}s compute a function of type $\Sigma^* \to \domain$. 
 
 \begin{myexample}[Boolean domain]
     Consider the Boolean output domain. In this case, the distinction between output values and signals is irrelevant, since the output values can be sent as signals. Therefore, the general protocol coincides with the Boolean protocol from the previous section, and  can only compute regular languages.  The same remarks apply for a general but finite output domain -- a function $f : \Sigma^* \to \domain$ can be computed by a protocol if and only if for every $d \in \domain$, the inverse image $f^{-1}(d)$ is a regular language.
@@ -137,16 +135,15 @@ Other examples of output domains are fields and strings. These were discussed  b
 
 \subsection{One-round protocols}
 
-We have little say to say about  protocols in the case of a general output
-domain. The  only result that we have at this level of generality is a
-reduction to one-round protocols, similarly to the Boolean case.
+We have little say to say about  \kl{protocol}s in the case of a general \kl{output domain}. The  only result that we have at this level of generality is a
+reduction to \kl{one-round protocol}s, similarly to the Boolean case.
 
 \begin{lemma}
 \label{lemma:one-round-reduction-general}
-  Every protocol is equivalent to a one-round protocol.
+  Every \kl{protocol} is equivalent to a \kl{one-round protocol}.
 \end{lemma}
 \begin{proof}
   Same proof as in \cref{lem:one-round-reduction-boolean}. 
 \end{proof}
 
- Later in this paper, we will study protocols for infinite input alphabets. Such protocols will not be a special case of the protocols developped so far, since the signal spaces will be infinite, albeit in a limited way (called orbit-finite).  As we will see, for such signal spaces the reduction to one round will no longer be valid, and the interactive nature of the protocols will be essential.
+ Later in this paper, we will study \kl{protocol}s for infinite input alphabets. Such \kl{protocol}s will not be a special case of the \kl{protocol}s developped so far, since the \kl{signal space}s will be infinite, albeit in a limited way (called \kl{orbit-finite}).  As we will see, for such \kl{signal space}s the reduction to one round will no longer be valid, and the interactive nature of the \kl{protocol}s will be essential.

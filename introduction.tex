@@ -68,34 +68,34 @@ not computation.  The input string is split into two parts $w = w_1 w_2$, and
 Alice has access to $w_1$ while Bob has access to $w_2$. They exchange messages
 in order to compute the output of the  function. There must be a
 \textbf{constant number of messages}, where the constant  depends only on the
-protocol and not on the input string. Also, the  output of the computation must
-be \textbf{split invariant}, which means that the output depends only on the
+\kl{protocol} and not on the input string. Also, the  output of the computation must
+be \intro{split invariant}, which means that the output depends only on the
 input string $w$, and not on the split $w = w_1 w_2$. In the communication,
 there are two kinds of messages:  either bits in $\set{\text{true, false}}$  or
 elements of the output domain \omc{This may be my subjective view (as I mentioned before), but I don’t think it’s a good idea to describe the messages as bits in our paper. I understand that you did this because it’s the convention in the communication complexity community. However, I would prefer saying that either the message comes from a finite set, or … The reason is that, for detail-oriented readers within the communication complexity community, in this setting the parties should either alternate turns when sending messages to each other, or there should be a "Next" function specifying the next communicator based on communication history.
 
 Using a finite set instead of bits allows parties to send information that might require several rounds rather than just one. I suppose you wrote it this way to appeal to readers already familiar with communication complexity and to make the paper more attractive to them. If that’s the reason, then it makes sense to keep it as is. Otherwise, I think it would be better to take a consistent approach and use a finite set for the visible part of the messages.}. For example, if the outputs are rational
 numbers, then the messages can contain rational numbers. However, there is a
-restriction on the access to messages from the output domain, which is called
-the \textbf{black box restriction}. This restriction (which will be formally
+restriction on the access to messages from the \kl{output domain}, which is called
+the \intro{black box restriction}. This restriction (which will be formally
 defined later in the paper) is intended to prevent tricks such as Alice sending
 her input string to Bob encoded as a rational number. Intuitively speaking,
-the  black box restriction says that the parties cannot read the messages from
-the output domain, and they can only operate on them using predefined
+the  \kl{black box restriction} says that the parties cannot read the messages from
+the \kl{output domain}, and they can only operate on them using predefined
 operations. For example, in the case of numbers, the operations are addition
 and multiplication.
 
-The model, which we call \emph{protocols}, can be applied to any output domain,
+The model, which we call \intro{protocol}s, can be applied to any \kl{output domain},
 and we study several examples in this paper. As we discover, despite its
 non-uniformity, the model  can only define well-behaved functions. In
 particular, in all cases that we have studied  these functions are: (1)  always
 computable, even in linear time; and (2) the output size is always at most
 linear (with the size of a rational number measured by the number of bits
-needed to represent it).  This seems to indicate that the split invariance,
-together with a  constant number of messages under the black box restriction,
+needed to represent it).  This seems to indicate that the \kl{split invariance},
+together with a  constant number of messages under the \kl{black box restriction},
 has unexpected computational consequences. In particular, in all cases that we
-have studied,  protocols coincide -- or are conjectured by us to coincide --
-with existing automata models, some of which seem unrelated to the protocols,
+have studied,  \kl{protocol}s coincide -- or are conjectured by us to coincide --
+with existing automata models, some of which seem unrelated to the \kl{protocol}s,
 as explained in the following table: 
 \begin{center}
     \begin{tabular}{ll}
@@ -246,19 +246,19 @@ We  use the same kind of protocol as in the previous section, except that instea
     Using the protocol, we can compute string reversal: Alice sends to Bob the reverse of her part of the input, and  Bob concatenates this with  his part of the reverse. Another string-to-string function that can be easily computed by a protocol is string duplication $w \mapsto ww$. 
 \end{myexample}
 
-The string-to-string case is of particular interest because, as we have mentioned earlier in the introduction, there is no general agreement as to  which string-to-string functions should be considered ``regular''. There are numerous automata models to choose from, some of which are summarised in \cref{fig:transducer-classes}, which contains twenty models, grouped by equivalence into three classes. We can exclude the weakest class (the rational functions), since it is too weak: it  cannot compute the reverse or duplicate functions from Example~\ref{ex:reverse-duplicate}. We can also exclude the strongest class (the polyregular functions), since it is too strong: polyregular functions can have superlinear output size, and as we will see in a moment, protocols can only have linear output size. The remaining class from \cref{fig:transducer-classes} is the middle class of functions. One of the models which defines this class is  deterministic two-way automata with output~\cite{shepherdson1959reduction}. We conjecture  that this class     is the correct answer: 
+The string-to-string case is of particular interest because, as we have mentioned earlier in the introduction, there is no general agreement as to  which string-to-string functions should be considered ``\kl(function){regular}''. There are numerous automata models to choose from, some of which are summarised in \cref{fig:transducer-classes}, which contains twenty models, grouped by equivalence into three classes. We can exclude the weakest class (the \kl{rational function}s), since it is too weak: it  cannot compute the reverse or duplicate functions from Example~\ref{ex:reverse-duplicate}. We can also exclude the strongest class (the \kl{polyregular function}s), since it is too strong: \kl{polyregular function}s can have superlinear output size, and as we will see in a moment, \kl{protocol}s can only have linear output size. The remaining class from \cref{fig:transducer-classes} is the middle class of functions. One of the models which defines this class is  \intro{deterministic two-way automaton} with output~\cite{shepherdson1959reduction}. We conjecture  that this class     is the correct answer: 
 
 \begin{conjecture}\label{conj:protocol-regular-string-to-string}
-    A string-to-string function is computed by a protocol iff it is computed by a deterministic two-way automaton with output.
+    A string-to-string function is computed by a \kl{protocol} iff it is computed by a \kl{deterministic two-way automaton} with output.
 \end{conjecture}
 
-The functions computed by deterministic two-way automata with output are traditionally called ``regular'', and the above conjecture could be seen as a justification for using this name.
+The functions computed by \kl{deterministic two-way automaton}s with output are traditionally called ``\kl(function){regular}'', and the above conjecture could be seen as a justification for using this name.
 In Section~\ref{sec:string-outputs} we discuss this conjecture in detail, and provide evidence in its favour, including a proof of the  implication 
 \begin{align*}
-\text{protocol} \quad \impliedby \quad \text{two-way automaton},
+\text{\kl{protocol}} \quad \impliedby \quad \text{\kl{two-way automaton}},
 \end{align*} 
-This implication is rather easy, since a two-way automaton can be neatly simulated by the repeated interactions of the protocol. The content of the conjecture, and the subject of most of our technical results, is the $\implies$ implication. 
-Our first argument in favour of  the conjecture is the following result, which shows that functions computed  by protocols have many properties which are known to hold for regular functions.
+This implication is rather easy, since a \kl{two-way automaton} can be neatly simulated by the repeated interactions of the \kl{protocol}. The content of the conjecture, and the subject of most of our technical results, is the $\implies$ implication. 
+Our first argument in favour of  the conjecture is the following result, which shows that functions computed  by \kl{protocol}s have many properties which are known to hold for \kl{regular function}s.
 
 \begin{theorem}\label{thm:evidence-for-the-conjecture}
     If a string-to-string function  is  computed by a \kl{protocol}, then:

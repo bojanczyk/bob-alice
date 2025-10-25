@@ -1,11 +1,11 @@
 \subsection{Evidence for the conjecture}
 \label{sec:continuity}
-In this subsection, we show that the string-to-string functions computed by protocols share some  good properties of regular functions, such as linear size outputs and computability. Even computability is not a priori obvious, due to the non-uniformity of the protocols. These results can be seen as evidence of the open implication 
+In this subsection, we show that the string-to-string functions computed by \kl{protocol}s share some  good properties of \kl{regular function}s, such as linear size outputs and computability. Even computability is not a priori obvious, due to the non-uniformity of the \kl{protocol}s. These results can be seen as evidence of the open implication 
 \begin{align*}
-\text{protocol} \implies \text{regular}
+\text{\kl{protocol}} \implies \text{\kl(function){regular}}
 \end{align*}
-in the conjecture. To prove these results, we will leverage the results on weighted automata from Section~\ref{sec:field-domain}.
-The point of departure is the following lemma, which connects weighted automata and string-to-string functions that can be computed in our protocol.
+in the conjecture. To prove these results, we will leverage the results on \kl{weighted automata} from Section~\ref{sec:field-domain}.
+The point of departure is the following lemma, which connects \kl{weighted automata} and string-to-string functions that can be computed in our \kl{protocol}.
 
     \begin{lemma}
         \label{lem:postcomposition-weighted-automaton}
@@ -21,15 +21,15 @@ The point of departure is the following lemma, which connects weighted automata 
         \domain,
         \end{tikzcd}
         \]
-        such that $f$ is computed by a protocol (with string outputs). If $g$  is computed by a weighted automaton, then the same is true for the composition  $f;g$.
+        such that $f$ is computed by a \kl{protocol} (with string outputs). If $g$  is computed by a \kl{weighted automaton}, then the same is true for the composition  $f;g$.
     \end{lemma}
     \begin{proof}
-        We will show that the composition $f;g$ is computed by a protocol (with field outputs). Thanks to \cref{thm:field-domain}, this will imply that $f;g$ is computed by a weighted automaton.
-        For each string in $\Gamma^*$, the weighted automaton for $g$ has an associated matrix over the field $\domain$. We modify the protocol for $f$, so that it uses matrices instead of strings. During the execution, instead of sending strings in $\Gamma^*$, the parties send  the corresponding matrices. At the end, instead of concatenating the output strings, the matrices are multiplied, yielding a matrix for the entire output string. Finally, this matrix is applied to the initial state, and then the output function is applied to the resulting vector. All of this is done using addition and multiplication, which is legitimate in a protocol with the output domain $\domain$.
+        We will show that the composition $f;g$ is computed by a \kl{protocol} (with field outputs). Thanks to \cref{thm:field-domain}, this will imply that $f;g$ is computed by a \kl{weighted automaton}.
+        For each string in $\Gamma^*$, the \kl{weighted automaton} for $g$ has an associated matrix over the field $\domain$. We modify the \kl{protocol} for $f$, so that it uses matrices instead of strings. During the execution, instead of sending strings in $\Gamma^*$, the parties send  the corresponding matrices. At the end, instead of concatenating the output strings, the matrices are multiplied, yielding a matrix for the entire output string. Finally, this matrix is applied to the initial state, and then the \kl[output function@protocol]{output function} is applied to the resulting vector. All of this is done using addition and multiplication, which is legitimate in a \kl{protocol} with the \kl{output domain} $\domain$.
     \end{proof}
 
 
-The above lemma establishes a property of $f$, namely that weighted automata
+The above lemma establishes a property of $f$, namely that \kl{weighted automata}
 (over a field) are closed under precomposition with $f$. We think that this is
 an important property, and therefore we give it a name.
 
@@ -39,15 +39,15 @@ an important property, and therefore we give it a name.
     A string-to-string function $f : \Sigma^* \to \Gamma^*$ is called \intro{field continuous} if functions computed by weighted automata over a field are closed under precomposition with $f$.
 \end{definition}
 
-In the above definition, we only consider weighted automata over a field. The more general setting of semirings is dicussed in Section~\ref{sec:beyond-fields}.
-The name ``continuous'' is inspired by a similar terminology that is used in automata theory for functions that preserve regularity under inverse images, see~\cite[Theorem 4.1]{PinSilva05} or~\cite[Footnote 2]{continuity20}.  For the latter notion, we use the name \emph{Boolean continuity}.
+In the above definition, we only consider \kl{weighted automata} over a field. The more general setting of semirings is dicussed in Section~\ref{sec:beyond-fields}.
+The name ``continuous'' is inspired by a similar terminology that is used in automata theory for functions that preserve regularity under inverse images, see~\cite[Theorem 4.1]{PinSilva05} or~\cite[Footnote 2]{continuity20}.  For the latter notion, we use the name \emph{\kl{Boolean continuous}ity}.
 
 \begin{definition}[Boolean continuity]
     A string-to-string function $f : \Sigma^* \to \Gamma^*$ is called \intro{Boolean continuous} if preimages of regular languages are regular.
 \end{definition}
 
 As we have shown in \cref{lem:postcomposition-weighted-automaton}, all
-string-to-string functions computed by protocols are field continuous. In
+string-to-string functions computed by \kl{protocol}s are \kl{field continuous}. In
 particular, since every regular string-to-string function is computed by a
 protocol, it follows that every regular string-to-string function is field
 continuous\footnote{To the best of our knowledge, this is a new result. It can

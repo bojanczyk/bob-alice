@@ -1,14 +1,14 @@
 \section{String outputs}
 \label{sec:string-outputs}
 
-In this section, we consider the case where the output domain is strings over
+In this section, we consider the case where the \kl{output domain} is strings over
 some finite alphabet. We use the name \emph{string-to-string function} for any
 function of type $\Sigma^* \to \Gamma^*$, where both alphabets $\Sigma$ and
-$\Gamma$ are finite. For such functions, the protocols are assumed to use the
-output domain of strings $\Gamma^*$ equipped with concatenation. In the case of
+$\Gamma$ are finite. For such functions, the \kl{protocol}s are assumed to use the
+\kl{output domain} of strings $\Gamma^*$ equipped with concatenation. In the case of
 string-to-string functions, we conjectured, see
-Conjecture~\ref{conj:protocol-regular-string-to-string},  that protocols define
-exactly the so-called regular functions, which will be formally defined in
+Conjecture~\ref{conj:protocol-regular-string-to-string},  that \kl{protocol}s define
+exactly the so-called \kl{regular function}s, which will be formally defined in
 Section~\ref{sec:regular-string-to-string-functions} below.
  
 \input{transducer-figure}
@@ -16,15 +16,15 @@ Section~\ref{sec:regular-string-to-string-functions} below.
 
 
 The content of this section is an extended discussion of this conjecture.
-In Section~\ref{sec:regular-string-to-string-functions} we  formally  define the regular functions and  prove the implication 
+In Section~\ref{sec:regular-string-to-string-functions} we  formally  define the \kl{regular function}s and  prove the implication 
 \begin{align*}
-\text{protocol} \impliedby \text{regular}.
+\text{\kl{protocol}} \impliedby \text{\kl(function){regular}}.
 \end{align*}
 The content of the conjecture is therefore the implication 
 \begin{align*}
-\text{protocol} \implies \text{regular}.
+\text{\kl{protocol}} \implies \text{\kl(function){regular}}.
 \end{align*}
-In Section~\ref{sec:continuity}, we present some evidence for this implication. We  show that string-to-string functions computed by protocols share many good properties of the regular functions, such as linear output size and computability. In Section~\ref{sec:unary-output-alphabet}, we present further evidence for the implication, namely we  prove it in the special case where the output alphabet has only one letter (the remaining case is two output letters, since more letters do not change the situation). Finally, in Section~\ref{sec:beyond-fields}, we discuss variants of the conjecture that are related to weighted automata which are not over a field, but over an arbitrary semiring. 
+In Section~\ref{sec:continuity}, we present some evidence for this implication. We  show that string-to-string functions computed by \kl{protocol}s share many good properties of the \kl{regular function}s, such as linear output size and computability. In Section~\ref{sec:unary-output-alphabet}, we present further evidence for the implication, namely we  prove it in the special case where the output alphabet has only one letter (the remaining case is two output letters, since more letters do not change the situation). Finally, in Section~\ref{sec:beyond-fields}, we discuss variants of the conjecture that are related to \kl{weighted automata} which are not over a field, but over an arbitrary semiring. 
 
 \input{regular-string-to-string}
 \input{evidence-strings}
