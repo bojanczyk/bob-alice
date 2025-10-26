@@ -97,6 +97,9 @@ Below we show that: (1) the rational string-to-string functions are a strict sub
 
 
 \subsubsection{Commutative semirings}
+
+\omc{Add one evidence that protocols over commutative semirings are computable by weighted automata over same semirings: In the case of \((\mathbb{N},+,.)\) support of the output in both cases is regular. This is because in protocols, here we have one-round reduction as we had in fields, and observe that the scalar product of two vectors in \(\mathbb{N}^k\) is non-zero iff there is an index where both vectors are non-zero. Thus the support of the output can be computed by a Boolean protocol, and hence is regular. On the other hand, weighted automata over \((\mathbb{N},+,.)\) also have regular support.}
+
 We finish this section by discussing one more kind of continuity, namely continuity over all commutative semirings. We conjecture that this continuity is also the same as regularity, but we are able to prove only one implication.
 \label{sec:commutative-semirings}
 \begin{theorem}\label{thm:regular-continuous-commutative-semirings}
