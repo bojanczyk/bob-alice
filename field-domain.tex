@@ -56,7 +56,11 @@ Weighted automata can be defined not just for fields, but also for rings and eve
     \begin{align*}
     w \mapsto \set{\text{reverse of $w$}} \in \domain.
     \end{align*}
-    This function can be computed by a protocol, using the same idea as in Example~\ref{ex:reverse-duplicate}. This function, however, is not a rational relation, and therefore it is not computed by a weighted automaton over $\domain$. One could perhaps conjecture that the appropriate model here is two-way weighted automata (for commutative semirings, two-way weighted automata are equivalent to one-way weighted automata, see~\cite[Theorem 1]{anselmo1990two}), but we have not investigated this direction further.
+    This function can be computed by a protocol, using the same idea as in Example~\ref{ex:reverse-duplicate}. This function, however, is not a rational relation, and therefore it is not computed by a weighted automaton over $\domain$. 
+    \omc{I think the conjecture could be about two-way weighted automata over semirings. First, observe that every function computed by a two-way weighted automaton can be computed by a protocol, and then conjecture that the converse also holds. So, I’ll include the following part (which you wrote) in the comment section.}
+    \omc{
+        remove this?
+    "So what exactly can be computed by protocols with outputs in the semiring $\domain$? We do not know the answer to this question, although it is plausible that there is some suitable nondeterministic transducer model."}
     We know more in the case of singleton functions. In this case, all messages sent during the protocol must be singletons (this is because once a non-singleton is produced, it can never be turned into a singleton). Therefore, the operation $+$ can never be used in a non-trivial way, and thus the protocol can only use muliplication. This means that it coincides with the protocols with outputs that are strings with concatenation, as discussed in Section~\ref{sec:string-outputs}. According to Conjecture~\ref{conj:protocol-regular-string-to-string}, the singleton functions are therefore exactly the regular functions.
 \end{myexample}
 
@@ -120,7 +124,7 @@ This protocol has the same power as general protocols.
 
 
  \paragraph*{Step 2. Signal-free protocol.}  We say that a protocol is \emph{signal-free} if both of the sets $Q_A$ and $Q_B$ have one element each. In other words, the signals do not convey any information, and the only messaging activity consists of sending elements of the output domain. In a signal-free protocol, the concept of rounds is irrelevant, since the behaviour of one party is not influenced by the communication from the other party.
-
+\omc{Usually we have signal-free protocols when corresponding Machine model expressive power does not increase when we add two-wayness. Here we have one-way weighted automata, in sequential model also we have one-wayness (it can considered as signal-free because consider algebra to be semiring with concatenation and union and one element for zero, then it is signal-free), in commutative semiring the conjecture is having one-way weighted automat, is it worth mentioning that? Answer my comment wehenever you see it pelase.}
  \begin{claim}
     \label{claim:trivial-messages}
     Assume that the output domain is a field. Then every one-round protocol is equivalent to a signal-free  protocol.

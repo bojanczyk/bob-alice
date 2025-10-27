@@ -2,7 +2,7 @@
 \label{sec:infinite-alphabets}
 
 
-In this section, we present a variant of our model which deals with an input alphabet. This direction is rooted in the tradition of language theory for infinite alphabets, which dates back to the work of Kaminski and Francez~\cite{kaminskiFiniteMemoryAutomata1994}, and has been developed in many subsequent papers, see e.g.~the survey~\cite{bojanczykOrbitFiniteSetsTheir2017}. The general idea is that we have an infinite alphabet $\atoms$ (whose elements are called atoms), and the languages that we care about refer only to equality between letters, as in the following examples
+In this section, we present a variant of our model which deals with an input alphabet. This direction is rooted in the tradition of language theory for infinite alphabets, which dates back to the work of Kaminski and Francez~\cite{kaminskiFiniteMemoryAutomata1994}, and has been developed in many subsequent papers, see e.g.~the survey~\cite{bojanczykOrbitFiniteSetsTheir2017}. The general idea is that we have an infinite alphabet $\atoms$ (whose elements are called atoms), and the languages  refer only to equality between letters, as in the following examples
 \begin{align}
 \setbuild{ w \in \atoms^*}{the first letter is equal to the last letter}
 \label{eq:first-last}
@@ -10,13 +10,12 @@ In this section, we present a variant of our model which deals with an input alp
 \setbuild{ w \in \atoms^*}{some letter appears at least twice}
 \label{eq:some-twice}
 \end{align}
-There are numerous models of automata for such languages, which typically involve some kind of finite memory and registers that store letters from $\atoms$. For example, the language~\eqref{eq:first-last} is recognised by an automaton which loads the first letter into a register, and then toggles acceptance depending on comparison of the register with the current input letter. On the other hand, the language~\eqref{eq:some-twice} is recognised by an automaton which nondeterministically guesses a position, puts its letter into a register, and then waits for this letter to appear again. 
+There are numerous models of automata for such languages, which typically involve some kind of finite memory, as well as registers that store letters from $\atoms$. For example, the language~\eqref{eq:first-last} is recognised by an automaton which loads the first letter into a register, and then toggles acceptance depending on comparison of the register with the current input letter. The language~\eqref{eq:some-twice} is recognised by an automaton which nondeterministically guesses a position, puts its letter into a register, and then waits for this letter to appear again. 
 
-Numerous models for infinite alphabets have been proposed in the literature, such as deterministic and nondeterministic automata with registers~\cite[Section 2]{kaminskiFiniteMemoryAutomata1994}, two-way variants of these~\cite[Definition 2.1]{nevenFiniteStateMachines2004}, unambiguous register automata~\cite[Section 5]{colcombet2015unambiguity}, single-use register automata~\cite[Definition 3]{bojanczykstefanski2020}, alternating automata with registers~\cite[Section 2.5]{DBLP:journals/tocl/DemriL09}, data automata~\cite[Section 4.2]{bojanczykTwovariableLogicData2011}, or various kinds of regular expressions~\cite{regexpKaminskiTan2004,regexpLibkin2015,KleeneNominal2019} --- see Figure~\ref{fig:automata-infinite-alphabets} for a survey. Interestingly, all of those models are pairwise non-equivalent. This sharply contrasts with the finite-alphabet case, where virtually all models capture the regular languages.
-%  One attempt to put order into the chaotic zoo of automata models for infinite alphabets is the theory of orbit-finite sets~\cite{bojanczyk_slightly}, which builds on the ideas of nominal sets~\cite{PittsAM:nomsns}. 
+Numerous models for infinite alphabets have been proposed in the literature,  see Figure~\ref{fig:automata-infinite-alphabets} which contains a sample of seventeen models. Interestingly, all of those models are pairwise non-equivalent. This sharply contrasts with the finite-alphabet case, where virtually all models coincide and capture the regular languages. 
 
 In this section, we describe an infinite-alphabet version of our two-party protocols.
-The motivation for this study is twofold: (a) a search for a canonical model of regular languages for infinite alphabets; and (b) mathematical interest. Regarding the point (a), we hope that the adaptability of two-party protocols to various settings will help us  find a canonical model of regular languages for infinite alphabets. This seems to be at least partially successful, since there is evidence --- which we present in this section --- that the protocols are equivalent to an existing automaton models, namely the unambiguous register automaton. If true, this equivalence would be unexpected, since there does not seem to be any syntactic connection between the two models. Regarding point (b), one of the exciting features of our protocol model for infinite alphabets is that the interaction between the two parties becomes essential, and the protocol cannot be reduced to the one-round case as in \cref{lemma:one-round-reduction-general}.
+The motivation for this study is twofold: (a) a search for a canonical model of regular languages for infinite alphabets; and (b) mathematical interest. Regarding the point (a), we hope that the adaptability of two-party protocols to various settings will help us  find a canonical model of regular languages for infinite alphabets. This seems to be at least partially successful, since there is evidence --- which we present in this section --- that the protocols are equivalent to one of the existing automaton models, namely unambiguous register automata, see item~\ref{it:orbit-finite-unamb} in Figure~\ref{fig:automata-infinite-alphabets}. (This way hope to avoid the situation from XKCD comic proliferation of standards.) If true, this equivalence would be unexpected, since there does not seem to be any syntactic connection between unambiguous register automata and protocols. Regarding point (b), one of the exciting features of our protocol model for infinite alphabets is that the interaction between the two parties becomes essential, and the protocol cannot be reduced to the one-round case as in \cref{lemma:one-round-reduction-general}.
 
 \begin{figure}
     \begin{enumerate}
@@ -28,7 +27,7 @@ The motivation for this study is twofold: (a) a search for a canonical model of 
     \item two-way nondeterministic register automata~\cite[Definition 2.1]{nevenFiniteStateMachines2004}
     \item alternating register automata~\cite[p.~16:8]{lazicDemri09}
     \item alternating register automata with one register~\cite[p.~16:19]{lazicDemri09}
-    \item unambiguous register automata~\cite[Section 5]{colcombet2015unambiguity}
+    \item \label{it:orbit-finite-unamb} unambiguous register automata~\cite[Section 5]{colcombet2015unambiguity}
     \item register automata with pebbles~\cite[Section 2.2]{nevenFiniteStateMachines2004}
     \item \label{it:single-use} single-use register automata~\cite[Definition 2]{bojanczykstefanski2020}
     \item data automata~\cite[Section 4.2]{bojanczykTwovariableLogicData2011}
@@ -52,8 +51,7 @@ The motivation for this study is twofold: (a) a search for a canonical model of 
 
 \subsubsection{Protocols for an infinite alphabet}
 \label{sec:protocols-infinite-alphabet}
-We now give a more detailed description of our model. We start by explaining formally, what it means that the
-language can only refer to equality between letters. Following the literature on nominal and orbit-finite sets, this is formalised by requiring that the language is invariant under permutations of the alphabet, as described in the following definition.
+We now give a more detailed description of our model. As explained in the introduction, we only care about languages that are closed under permutations of the alphabet, according to the following definition. 
 
 \begin{definition}[Equivariant language] \label{def:equivariant-language}
     A language $L \subseteq \atoms^*$ is called \emph{equivariant} if 
@@ -70,46 +68,47 @@ Examples of equivariant languages include the languages in~\eqref{eq:first-last}
 
 
 The idea is to use the same kind of protocol as in Definition \ref{def:two-party-protocol-boolean}, except that apart from bits, the parties can also send letters from the alphabet $\atoms$. It follows that the allowed set of messages is 
-$\set{0,1} + \atoms$, i.e.~the disjoint union of the Booleans and the input alphabet. Similarly, to Definition~\ref{def:two-party-protocol-boolean}, the number of rounds is a fixed number $k$ and in the $i$-th round each party chooses 
+$\set{\text{true, false}} + \atoms$, i.e.~the disjoint union of the Booleans and the input alphabet. Similarly, to Definition~\ref{def:two-party-protocol-boolean}, the number of rounds is a fixed number $k$ and in the $i$-th round each party chooses 
 a new message according a strategy which is a function of the following type: 
 
 \begin{align*}
-\myunderbrace{\atoms^*}{local \\ string} \times \myunderbrace{(\set{0,1} + \atoms)^{i-1}}{messages received \\ in previous rounds} 
+\myunderbrace{\atoms^*}{local \\ string} \times \myunderbrace{(\set{\text{true, false}} + \atoms)^{i-1}}{messages received \\ in previous rounds} 
 \to
-\myunderbrace{\set{0,1} + \atoms}{message sent \\ in this round}
+\myunderbrace{\set{\text{true, false}} + \atoms}{message sent \\ in this round}
 \end{align*}
 In the last round, Bob must send a bit, and this bit is the output of the protocol.
-An important restriction of the protocol is that the strategies of both parties must be \emph{equivariant} in the following sense: 
+An important restriction in the protocol is that the strategies of both parties must be \emph{equivariant} in the following sense: 
 a strategy $\sigma$ is equivariant if for every permutation $\pi$ of $\atoms$ and for every $i$, it satisfies the following condition:
 \begin{align*}
 \sigma(w, m_1, \ldots, m_{i-1}) = m_i 
 \quad \Rightarrow \quad
 \sigma(\pi(w), \pi(m_1), \ldots, \pi(m_{i-1})) = \pi(m_i).
 \end{align*}
-In the above, $\pi$ is applied to messages in the natural way -- it modifes the atoms and leaves bits unchanged.
+In the above, $\pi$ is applied to messages in the natural way -- it modifes the atoms and leaves the Booleans unchanged.
 
 \begin{myexample}[Repetitions cannot be detected]
-    Let us formalise the claim from Example \ref{ex:some-twice} that the language ``some letter appears at least twice'' cannot be computed by a protocol. Suppose, towards a contradiction, that there is a protocol with $k$ rounds that computes this language. Consider an input string with $2k+2$ pairwise different letters, split in a way that Alice and Bob get $k+1$ letters each. In the execution of the protocol there are at most $k$ atoms which are sent as messages. In particular, there must be some atom $a$ that appears in Alice's part of the input string, but is not sent as a message, and similarly there must be some atom $b$ that appears in Bob's part of the input string, but is not sent as a message. Consider an atom permutation $\pi$ which swaps $a$ with $b$. If we apply this atom permutation to Alice's part of the string (but not Bob's), then the communication history will remain unchanged. In particular, the output of the protocol will be the same on both inputs. However, after applying this permutation, the input string has a repetition, unlike the original one. 
+    Let us formalise the claim from Example \ref{ex:some-twice} that the language ``some letter appears at least twice'' cannot be computed by a protocol. Suppose, towards a contradiction, that there is a protocol with $k$ rounds that computes this language. Consider an input string with $2k+2$ pairwise different letters, split so that Alice and Bob get $k+1$ letters each. In the execution of the protocol there are at most $k$ atoms which are sent as messages. In particular, there must be some atom $a$ that appears in Alice's part of the input string, but is not sent as a message, and similarly there must be some atom $b$ that appears in Bob's part of the input string, but is not sent as a message. Consider an atom permutation $\pi$ which swaps $a$ with $b$. If we apply this atom permutation to Alice's part of the string (but not Bob's), then the communication history will remain unchanged. In particular, the output of the protocol will be the same on both inputs. However, after applying this permutation, the input string has a repetition, unlike the original one. 
 \end{myexample}
 
 
 \subsubsection{Orbit-finite sets}
 \label{sec:orbit-finite-sets}
-In this section, we do a more systematic analysis of automata models for infinite alphabets, and their relationship to our protocols. As an organising principle, we use the approach of~\cite{bojanczykOrbitFiniteSetsTheir2017}, which defines a generalization of finite sets
-suitable for infinite alphabets, called orbit-finite sets. Using this notion, we can lift any model of computation that uses finite sets, to a model that uses orbit-finite sets, which allows us for a clean comparison of the two setting.
-%  To simplify the exposition, instead of the fully general notion of orbit-finite sets, we use a special case, which is called \emph{polynomial orbit-finite sets}. This special case has a more concrete defnition, and is sufficient for our purposes. 
+In this section, we do a more systematic analysis of automata models for infinite alphabets, and their relationship to our protocols. As an organising principle, we use the approach of orbit-finite sets, see~\cite{bojanczykOrbitFiniteSetsTheir2017} for a longer survey, which is a generalization of finite sets
+suitable for infinite alphabets sets. Using this notion, we can lift any model of computation that uses finite sets, to a model that uses orbit-finite sets, which allows us for a clean comparison of the two setting. For the purposes of this paper, we use a simplified definition of orbit-finite sets, which is sufficient for our purposes
+\footnote{
+Definition~\ref{def:orbit-finite-sets} is weaker than the usual notion of orbit-finite sets~\cite[Section 5]{bojanczyk_slightly}; in fact it is the special case of the usual notion that is called \emph{polynomial orbit-finite sets} in~\cite[Section 1]{bojanczyk_slightly}.
+The stronger  notion that is usually used  allows for two extra features: (a) restricting to equivariant subsets (e.g.~one could limit $\atoms^2$ to pairs which are non-repeating); and (b)  symmetries (e.g.~one could identify pairs in $\atoms^2$ if they agree up to swapping of coordinates, thus yielding unordered pairs). In some cases, the extra features are desirable, in particular they establish a connection with set theory~\cite{blassDedekind2016} and  nominal sets~\cite[Section 5]{PittsAM:nomsns}. However, they do not play any role in the analysis of protocols and automata and, to avoid some technicalities, we use the simpler polynomial version from Definition~\ref{def:orbit-finite-sets}. This simplification is purely technical --- all results would continue to hold for the usual notion of orbit-finite sets.
+}.
+%   instead of the fully general notion of orbit-finite sets, we use a special case, which is called \emph{polynomial orbit-finite sets}. This special case has a more concrete defnition, and is sufficient for our purposes. 
 \begin{definition}[Orbit-finite sets] \label{def:orbit-finite-sets}
-    An orbit-finite set\footnote{
-This definition is weaker than the usual notion of orbit-finite sets~\cite[Section 5]{bojanczyk_slightly}; in fact it is the special case of the usual notion that is called \emph{polynomial orbit-finite sets} in~\cite[Section 1]{bojanczyk_slightly}.
-The usual notion  allows for two extra features: (a) restricting to equivariant subsets (e.g.~one could limit $\atoms^2$ to pairs which are non-repeating); and (b)  symmetries (e.g.~one could identify pairs in $\atoms^2$ if they agree up to swapping of coordinates, thus yielding unordered pairs). In some cases, the extra features are desirable, in particular they establish a connection with set theory~\cite{blassDedekind2016} and  nominal sets~\cite[Section 5]{PittsAM:nomsns}. However, they do not play any role in the analysis of protocols and automata and, to avoid some technicalities, we use the simpler polynomial version. This simplification is purely technical --- all results would continue to hold for the usual notion of orbit-finite sets.
-} is any set of the form 
+    An orbit-finite set is any set of the form 
     \begin{align*}
     \atoms^{d_1} + \cdots + \atoms^{d_n},
     \end{align*}
     for some natural numbers $d_1,\ldots,d_n \in \set{0,1,\ldots}$. 
 \end{definition}
 
-The special case of $\atoms^0$ describes a set with exactly one element, namely the empty tuple. Therefore, orbit-finite sets generalise finite sets, since a  finite set with $n$ elements can be seen as the orbit-finite set which has $n$ disjoint copies of $\atoms^0$. We will only be interested in properties that are equivariant, i.e.~invariant under permutations of the atoms, in the following sense:
+When a summand $\atoms^{d_i}$ uses $d_i =0$, then it  describes a set with exactly one element, namely the empty tuple. Therefore, orbit-finite sets generalise finite sets, since a  finite set with $n$ elements can be seen as the orbit-finite set which has $n$ disjoint copies of $\atoms^0$. We will only be interested in subsets of orbit-finite sets and functions between them that are equivariant, i.e.~invariant under permutations of the atoms, in the following sense:
 \begin{align*}
 \myunderbrace{x \in X \iff \pi(x) \in X}{equivariant subset $X$ \\ of an orbit-finite set}
 \qquad 
@@ -156,7 +155,7 @@ Orbit-finiteness can also be used to define automata. The following definition h
 A deterministic orbit-finite automaton is the special case which has exactly one initial state, and where the transition relation is a function.
 \end{definition}
 
-As stated in Figure~\ref{fig:automata-infinite-alphabets}, deterministic and nondeterministic orbit-finite automata have different expressive power. Moreover, none of these models is equivalent to orbit-finite protocols: deterministic automata are too weak, and nondeterministic automata are too strong:
+As stated in Figure~\ref{fig:automata-infinite-alphabets}, deterministic and nondeterministic orbit-finite automata have different expressive power. Moreover, none of these models is equivalent to orbit-finite protocols: deterministic automata are too weak, and nondeterministic automata are too strong, as explained in the following examples.
 
 \begin{myexample}
     [Deterministic too weak]\label{ex:protocol-not-dofa}
@@ -171,14 +170,14 @@ As stated in Figure~\ref{fig:automata-infinite-alphabets}, deterministic and non
 \end{myexample}
 
 In Definition~\ref{def:orbit-finite-automata}, we have defined one-way orbit-finite automata, which read the input string from left to right. A natural extension are the two-way automata, which can move their reading head in both directions according to their transition
-function. However, in the orbit-finite setting, two-way automata are very strong:
+function. This extension is particularly natural in the context of protocols, with their two-way interaction between the communicating parties.  However, in the orbit-finite setting, two-way automata are very strong:
 
 \begin{myexample}[Two-way too strong]\label{ex:protocol-not-2dofa}
     The language ``some letter appears at least twice'' can also be recognised by a deterministic two-way orbit-finite automaton~\cite[Example 18]{bojanczyk_slightly}. Therefore, this automaton model cannot be simulated by protocols.
 
-    The reason why two-way orbit-finite automata are so strong is that they can make an unbounded number of visits to any given position -- for example the automaton that checks if some letter appears at least will visit the last position a linear number of times
+    The reason why two-way orbit-finite automata are so strong is that they can make an unbounded number of visits to any given position -- for example the automaton for the language ``some letter appears at least twice'' will visit the last position a linear number of times
     (the length of its run is quadratic). One idea to tame this power is to consider the bounded-crossing variant of two-way automaton, 
-    which has a fix bound $k$ on the number of times that the automaton can visit a position \cite[p.~92]{neven2003power}.
+    which has a fixed bound $k$ on the number of times that the automaton can visit a position \cite[p.~92]{neven2003power}.
     We believe that this model can actually be equivalent to the protocols. However, in our conjecture, we will focus on the 
     better studied model presented in the following section.
 \end{myexample}
@@ -191,9 +190,9 @@ As we have shown in Examples~\ref{ex:protocol-not-dofa}, \ref{ex:protocol-not-no
     \label{conj:protocols-unambiguous} A language over an orbit-finite alphabet is computed by an orbit-finite protocol if and only if it is recognised by an unambiguous orbit-finite automaton.
 \end{conjecture}
 
-One corollary of this conjecture would be that unambiguous orbit-finite automata are closed under complement, since protocols can be complemented by flipping the output bit. This corollary has been conjectured in~\cite[p.9]{colcombet2012forms}, and to the best of our knowledge remains open, despite claims to the contrary in~\cite[Footnote 5]{colcombet2015unambiguity}.
+One corollary of this conjecture would be that unambiguous orbit-finite automata are closed under complement, since protocols can be complemented by flipping the output bit. This corollary has been conjectured in~\cite[p.9]{colcombet2012forms}, and to the best of our knowledge remains open, despite apparent claims to the contrary in~\cite[Footnote 5]{colcombet2015unambiguity}.
 
-In this section, we prove implication $\impliedby$ in the conjecture, i.e.~we show that orbit-finite protocols can simulate  unambiguous orbit-finite automata. Unlike similar results earlier in this paper, this simulation is non-trivial. Also, despite the one-way nature of the automata, the simulation crucially depends on the interactive nature of protocols, i.e.~it requires more than one round of communication. In particular multi-rounds protocols cannot be reduced to one round, as was the case for finite alphabets
+In this section, we prove implication $\impliedby$ in the conjecture, i.e.~we show that orbit-finite protocols can simulate  unambiguous orbit-finite automata. Unlike similar results earlier in this paper, this simulation is non-trivial. Also, despite the one-way nature of the automata, the simulation crucially depends on the interactive nature of protocols, i.e.~it requires more than one round of communication. In particular multi-round protocols cannot be reduced to one round, as was the case for finite alphabets
 (i.e.~\cref{lemma:one-round-reduction-general} is no longer true for the orbit-finite case).
 
 \begin{theorem}
@@ -203,7 +202,7 @@ In this section, we prove implication $\impliedby$ in the conjecture, i.e.~we sh
 \begin{proof}
 For the rest of this proof fix an unambiguous orbit-finite automaton, whose state space is the orbit-finite set $Q$.
 Suppose that the input string is factorized as $w = w_1 w_2$. The general idea of the protocol is that Alice and Bob will jointly
-compute the intermediate state, i.e.~the state $q$ which satisfies:
+compute the the intermediate state (if it exists), i.e.~the state $q$ which satisfies:
 \begin{align*}
 \myunderbrace{I \xrightarrow{w_1}q}{there is a run over $w_1$\\ from an initial state to $q$} \qquad \text{and} \qquad
 \myunderbrace{q \xrightarrow{w_2} F}{there is a run over $w_2$\\ from $q$ to a final state.}
@@ -211,15 +210,22 @@ compute the intermediate state, i.e.~the state $q$ which satisfies:
 By unambiguity, there is at most one intermediate state, and it exists if and only if the string is accepted.
 
 Observe that Alice can compute
-the set of states that are reachable from an initial state by reading $w_1$, and Bob can compute the set of states from which a final state is reachable by reading $w_2$. 
-So, the challenge is to compute their intersection, which is either a singleton with the intermediate state, or the empty set. Before, we explain how to do this,
-let us first explain why this is non-trivial, i.e. why Alice cannot send her set to Bob, or vice versa. The problem is that the set of all reachable subsets of $Q$ is not-orbit finite.
-For example, if we consider the automaton for the language ``the last letter appears at least twice'' that non-deterministically guesses the penultimate appearance of the last letter, 
-then the set of all reachable states after reading $w_1$ contains all the atoms that appear in $w_1$, which is unbounded (as it can grow with the length of $w_1$). It follows
+the set of states that are reachable from an initial state by reading her string $w_1$, and Bob can compute the set of states from which a final state is reachable by reading his string $w_2$. 
+So, the challenge is to compute their intersection, which is either a singleton with the intermediate state, or the empty set. Before we explain how to do this,
+let us first explain why this is non-trivial, i.e. why Alice cannot send her set of states to Bob, or vice versa. The problem is that the set of all reachable subsets of $Q$ is not-orbit finite, and therefore it cannot be sent in a constant number of messages. This issue is illustrated in the following example.
+
+\begin{myexample}
+    \mb{rozwinac to tutaj}
+    For example, if we consider the automaton for the language ``the last letter appears at least twice'' that non-deterministically guesses the penultimate appearance of the last letter, 
+then the set of all reachable states after reading $w_1$ contains all the atoms that appear in $w_1$, which is unbounded (as it can grow with the length of $w_1$).
+ It follows
 that the set of all reachable subsets of $Q$ is orbit-infinite\footnote{
 This observation can be summarized by saying that orbit-finiteness
 is not preserved by the powerset construction. Is one of the main obstacles when working with orbit-finite sets. For example, it is the reason why nondeterministic orbit-finite automata are more powerful than deterministic ones.}
-Instead, to determine their common state, will narrow down the set of possible candidates, by storing a list of possible orbits:
+\end{myexample}
+
+To work around the issue explained above, Alice and Bob will engage in interactive communication, which will narrow down the set of possible candidates. At each stage, the set of possible candidates will be represented using orbits, as defined below.
+
 \begin{definition}[Orbit] \label{def:orbit}
     For a finite set $S \subseteq \atoms$, the $S$-orbit of $q \in Q$ is the following set:
     \begin{align*}
@@ -242,21 +248,22 @@ The set $S$ is called the \emph{support} of the orbit.
 \end{myexample}
 
  As the support increases, the orbit becomes smaller; in particular the biggest orbits are the ones with empty support, i.e.
- the $\emptyset$-orbits, or the equivariant orbits. It is not hard to see that every orbit-finite set has a finite number of equivariant orbits~\cite[Lemma 1.4]{bojanczyk_slightly}; in fact this is the reason for the name.  
-Each orbit in an orbit-finite set is a subset of $\atoms^d$ for some $d$. In such an orbit, we partition the coordinates $\set{1,\ldots,d}$ into two parts: the \emph{fixed coordinates}, which used the atoms from the support, and the \emph{free coordinates}, which do not use these atoms. In Example~\ref{ex:tau-disjoint}, the fixed coordinates are  the first and last ones, while the free coordinates are the middle three. The \emph{dimension} of an orbit is the number of distinct atoms in the free coordinates. In Example~\ref{ex:tau-disjoint}, the dimension is two, corresponding to the atoms $a$ and $b$. 
-An important special case is then the dimension is zero; in this case the orbit contains only one state.
+ the $\emptyset$-orbits, which we call the equivariant orbits. It is not hard to see that every orbit-finite set has a finite number of equivariant orbits~\cite[Lemma 1.4]{bojanczyk_slightly}; in fact this is the reason for the name.  
+Each orbit in an orbit-finite set is a subset of $\atoms^d$ for some $d$. In such an orbit, we partition the coordinates $\set{1,\ldots,d}$ into two parts: the \emph{fixed coordinates}, which use the atoms from the support, and the \emph{free coordinates}, which do not use these atoms. In Example~\ref{ex:tau-disjoint}, the fixed coordinates are  the first and last ones, while the free coordinates are the middle three. The \emph{dimension} of an orbit is the number of distinct atoms in the free coordinates. In Example~\ref{ex:tau-disjoint}, the dimension is two, corresponding to the atoms $a$ and $b$. 
+An important special case is when the dimension is zero; in this case the orbit contains only one state.
 
-In the protocol, Alice and Bob will jointly maintain a set $S \subseteq \atoms$ and list of $S$-orbits which may contain the intermediate state (starting with $S = \emptyset$ the list of all $\emptyset$-orbits).
-The goal is to decrease the dimension of these orbits until they become zero-dimensional, by gradually computing the set $S$ of atoms that appear in the intermediate state. Once their orbits become zero-dimensional, they will contain only a finite (and bounded) number of the candidates
-for the intermediate states. At this point, Alice can compute which of these candidates are reachable from an initial state over $w_1$ and send this (bounded) information to Bob, who can then check if one of these candidates can reach a final state over $w_2$. To decrease the dimension and increase $S$, we will use the following lemma.
+In the protocol, Alice and Bob will jointly maintain a set $S \subseteq \atoms$ and list of $S$-orbits which may contain the intermediate state (starting with $S = \emptyset$ the list of all $\emptyset$-orbits). They will ensure that if the intermediate state exists, i.e.~if the input string is accepted,  then the intermediate state is contained in one of the orbits on the list.
+The goal is to decrease the dimension of the orbits on the list until they become zero-dimensional, by gradually computing the set $S$ of atoms that appear in the intermediate state. Once the orbits become zero-dimensional, they will contain only a finite (and bounded) number of the candidates. At this point, Alice can compute which of these candidates are reachable from an initial state over $w_1$ and send this (bounded) information to Bob, who can then check if one of these candidates can reach a final state over $w_2$. 
+
+To decrease the dimension and increase $S$, we will use the following lemma.
 \begin{lemma}\label{lem:fixed-atoms}
         Let $S \subset \atoms$ be a finite set, and let $\varphi \subseteq Q$ be an infinite $S$-orbit 
         of dimension $k$. 
         Consider an input string $w = w_1 w_2$, and the sets:
         \begin{align*}
-        X_1 = \setbuild{ q \in \varphi}{$ I \xrightarrow{w_1} q$}
+        \myunderbrace{X_1 = \setbuild{ q \in \varphi}{$ I \xrightarrow{w_1} q$}}{states reachable on Alice's side}
         \qquad
-        X_2 = \setbuild{ q \in \varphi}{$ q \xrightarrow{w_2} F$}.
+        \myunderbrace{X_2 = \setbuild{ q \in \varphi}{$ q \xrightarrow{w_2} F$}}{states reachable on Bob's side}
         \end{align*}
         There is a set $T \subseteq \atoms$ of size at most $k$, such that either: 
 \begin{enumerate}
@@ -266,7 +273,12 @@ for the intermediate states. At this point, Alice can compute which of these can
     \end{lemma}
     \begin{proof}
  In the proof of the lemma, we use an analysis of disjointness, which is inspired by the sunflower lemma.
- We say that two states $p,q$ in an  $S$-orbit are $S$-disjoint if the intersection of atoms that appear in $p$ and $q$ is contained in $S$.
+ We say that two states $p,q$ in an  $S$-orbit are $S$-disjoint if 
+ \begin{align*}
+    \forall a \in \atoms 
+    \qquad 
+ \text{$a$ appears in both $p$ and $q$} \quad \Rightarrow \quad a \in S.
+ \end{align*}
  For example, if we take the $\{\textrm{John}, \textrm{Eve}\}$-orbit from Example~\ref{ex:tau-disjoint}, then the two states
 \begin{center}
     (\red{John}, Tom, Mary, Tom, \red{Eve}) \qquad
@@ -328,7 +340,7 @@ In \cref{thm:unambiguous-to-protocol}, we have proved one implication in Conject
 \begin{align}\label{eq:missing-orbit-finite-implication}
 \text{protocol} \quad \implies \quad \text{unambiguous automaton}.
 \end{align}
- We begin by explaining why the techniques that we used to prove this implication in the finite case do not extend to the orbit-finite case. 
+ We begin by explaining why the  orbit-finite case cannot be handled using the techniques that were used to prove this implication in the finite case.
 
 \paragraph*{What goes wrong in the orbit-finite case?}
 In the finite case, the proof had two parts: (a) a reduction to one-round protocols, and (b) the Myhill-Nerode Theorem. Part (b) does not seem to be problematic, as orbit-finite versions of the Myhill-Nerode Theorem are known in many variants, including monoids~\cite[Lemma 3.3]{bojanczykNominalMonoids2013}, automata~\cite[Section 3.2]{bojanczykAutomataTheoryNominal2014}, and -- as we will prove later in this section -- also for weighted automata. The problematic part is (a), in which the number of rounds is reduced to one. The key argument in this reduction  was that the sets of strategies 
@@ -353,7 +365,7 @@ In light of the above example, it is no longer surprising that the proof of \cre
 \paragraph*{Weighted orbit-finite automata.} In the reminder of this section, we present some evidence for the missing implication
 in Conjecture~\ref{conj:protocols-unambiguous}, using the orbit-finite version of weighted automata. Namely, we will prove
 \cref{thm:orbit-finite-protocol-to-weighted}, which states that every language computed by an orbit-finite protocol is also recognised by a weighted orbit-finite automaton over the two-element field.
-For finite alphabets, this would be enough to ensure regularity, see \cref{claim:regular-weighted-automata}. This is no longer true in the orbit-finite case, and therefore \cref{thm:orbit-finite-protocol-to-weighted} can only be considered as evidence for the conjecture. However, at the very least it shows that languages computed by orbit-finite protocols are decidable, which was not a priori clear from the definition.
+For finite alphabets, this would be enough to ensure regularity, see \cref{claim:regular-weighted-automata}. This claim is no longer true in the orbit-finite case, see Example~\ref{ex:weighted-vs-nondet-orbit-finite}, and therefore \cref{thm:orbit-finite-protocol-to-weighted} can only be considered as evidence for the conjecture. However, at the very least it shows that languages computed by orbit-finite protocols are decidable, which was not a priori clear from the definition.
 
 Let us begin by defining the orbit-finite version of weighted automata. 
 \begin{definition}[Weighted orbit-finite automata]
@@ -361,15 +373,15 @@ Let us begin by defining the orbit-finite version of weighted automata.
     A weighted orbit-finite automaton over a semiring $\domain$ is defined in the same way as in Definition~\ref{def:weighted-automaton-nondeterministic}, except that:
     \begin{enumerate}
         \item the input alphabet and state space are orbit-finite, instead of finite;
-        \item the weight functions are equivariant.
+        \item the functions in~\eqref{eq:weight-functions} are equivariant.
     \end{enumerate}
      We require that for every input string, there are only finitely many runs with non-zero weight.
 \end{definition}
 
 For the purpose of this section, already the special case of the two-element field $\set{0,1}$ is interesting. In this case, the automaton defines a function $\Sigma^* \to \set{0,1}$, which can be seen as the characteristic function of a language. Therefore, we can compare weighted orbit-finite automata to other models, such as nondeterministic orbit-finite automata. The following example shows that these two  models are incomparable. 
 
-\begin{myexample}
-    The language ``some letter appears twice'' is recognised by a nondeterministic orbit-finite automaton, but its characteristic function cannot be  recognised by a weighted orbit-finite automaton over the two-element field. The non-expressivity can be proved using the orbit-finite version of the Fliess Theorem, see \cref{thm:orbit-finite-fliess}. On the other hand, the  language ``the number of distinct letters is even'' is not recognised by a nondeterministic orbit-finite automaton, but its characterisatic function can  be computed by a weighted orbit-finite automaton, see~\cite[Example 3.2]{orbitFiniteVectorTheoretics}. On the other hand, for every language recognised by an unambiguous orbit-finite automaton, its characteristic function is computed by a weighted orbit-finite automaton, since for unambiguous automata, counting the runs modulo two gives the same result as checking if a run exists. This discussion is summed up in the following picture:
+\begin{myexample}\label{ex:weighted-vs-nondet-orbit-finite}
+    The language ``some letter appears twice'' is recognised by a nondeterministic orbit-finite automaton, but its characteristic function cannot be  recognised by a weighted orbit-finite automaton over the two-element field. The non-expressivity can be proved using the orbit-finite version of the Fliess Theorem, see \cref{thm:orbit-finite-fliess}. On the other hand, the  language ``an even number of distinct letters'' is not recognised by a nondeterministic orbit-finite automaton, while its characterisatic function can  be computed by a weighted orbit-finite automaton, see~\cite[Example 3.2]{orbitFiniteVectorTheoretics}. Therefore, the two models -- nondeterministic and weighted in the two-element field -- are incomparable. Inside the intersection of these two classes we will find the unambiguous automata, since for unambiguous automata, counting the runs modulo two gives the same result as checking if a run exists. This discussion is summed up in the following picture:
     \mypic{2}
 \end{myexample}
 
@@ -452,7 +464,7 @@ Let us go back to the proof of \cref{thm:orbit-finite-protocol-to-weighted}. The
 \end{tikzcd}
 \]
 
-We begin with the first step, which can be seen as form of reduction to one round. Recall that without vector spaces, a reduction to one round was not possible, see Example~\ref{ex:no-one-round-reduction}. This phenomenon is connected to closure under taking function spaces: orbit-finite sets are not closed under taking function spaces, but this closure is recovered once one moves to vector spaces, see~\cite[Section 8.3]{bojanczyk_slightly}.\rs{Maybe add an explicit claim?}
+We begin with the first step, which can be seen as form of reduction to one round. Recall that without vector spaces, a reduction to one round was not possible, see Example~\ref{ex:no-one-round-reduction}. This phenomenon is connected to closure under taking function spaces: orbit-finite sets are not closed under taking function spaces, but this closure is recovered once one moves to vector spaces, see~\cite[Section 8.3]{bojanczyk_slightly}. 
 
 \begin{lemma}\label{lem:orbit-finite-protocol-to-scalar}
     If $L \subseteq \Sigma^*$ is computed by an orbit-finite protocol, then its characteristic function is computed by an orbit-finite scalar product protocol, over any field.
