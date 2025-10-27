@@ -15,13 +15,14 @@ However, for the purposes of this section, it  will be more convenient to work w
     [Weighted automaton, nondeterministic presentation] 
     \label{def:weighted-automaton-nondeterministic}
     A \emph{weighted automaton} consists of a finite input alphabet $\Sigma$,  a finite set of states $Q$, and functions: 
-    \begin{align*}
+    \begin{align}
+        \label{eq:weight-functions}
     \myunderbrace{I : Q \to \domain}{initial}
     \quad
     \myunderbrace{F : Q \to \domain}{final}
     \quad
-    \myunderbrace{\Delta : Q \times \Gamma \times Q \to \domain}{transitions}.
-    \end{align*}
+    \myunderbrace{\Delta : Q \times \Sigma \times Q \to \domain}{transitions}.
+    \end{align}
 \end{definition}
  A run of this automaton is defined in the usual way: it is a sequence of transitions, one for each input letter, such that consecutive transitions agree on the connecting states. The weight of a run is the product of: (1) the initial weight of its source state; (2) the weights used by its transitions; and (3) the final weight of its target state. If the semiring is non-commutative, the order of multiplication is  important, and transitions are multiplied in the order corresponding to the input string. For an input string, the output of the automaton is the sum of weights of all runs over this automaton (sum is always commutative).  The model from Definition~\ref{def:weighted-automaton-nondeterministic}  defines the same functions as the model from Definition~\ref{def:weighted-automaton}, with the appropriate semiring modifications that were described earlier in this section, see~\cite[Lemma 8.3]{bojanczyk_automata_2025}. For the purposes of this seciton, we use the nondeterministic  model described from Definition~\ref{def:weighted-automaton-nondeterministic}.
 
