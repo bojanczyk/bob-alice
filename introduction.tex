@@ -1,13 +1,20 @@
 % LTeX: language=en
 \section{Introduction}
 \label{sec:introduction}
+
+\AP
 This paper is motivated by a desire to understand the notion of  regularity in formal language theory. We take the functional perspective, in which we consider functions 
 \begin{align*}
 f : \Sigma^* \to \domain
 \end{align*}
-that input strings, and output values from some domain $\domain$. 
-If the output domain is the Booleans, then such functions
-are languages, and there is no question about which languages should be considered regular. There are tens -- if not hundreds -- of equivalent definitions, including regular expressions, finite automata in numerous forms, monoids, monadic second-order logic, and variants of $\lambda$-calculus. But what about other outputs? Let us review three examples where the nature of regularity is a topic of genuine  discussion.
+that input strings, and output values from some domain $\domain$. If the output
+domain is the Booleans, then such functions are languages, and there is no
+question about which languages should be considered \intro(language){regular}. There are tens --
+if not hundreds -- of equivalent definitions, including regular expressions,
+finite automata in numerous forms, monoids, monadic second-order logic, and
+variants of $\lambda$-calculus. But what about other outputs? Let us review
+three examples where the nature of regularity is a topic of genuine
+discussion.
 
 \begin{enumerate}
     \item \textbf{String outputs.}
@@ -36,11 +43,11 @@ The literature is rife with automata models for such languages, with seventeen e
 
 This type of question can be asked in other settings, with   outputs such as  trees,  graphs or elements of some abstract semiring\footnote{One could also vary the inputs, and consider regularity for, say, graph-to-graph functions. We refrain from considering general outputs in this paper, and we stay with string inputs, possibly over infinite alphabets.}. This paper attempts to provide a unified theory of regularity for such functions.   We are guided by  the following principle, which we believe to be essential for regularity:
 \begin{description}
-    \item[Compositionality.]  If the input is split into parts, then only a constant amount of information  flows between them, as far as the output of the function is concerned.
+    \item[Constant information flow.]   If the input is split into parts, then only a constant amount of information  flows between them, as far as the output of the function is concerned.
 \end{description}
 This principle is only a vague guideline, since it does not identify what
 ``information flow'' means, or how to quantify its amount. For Boolean outputs,
-i.e.~languages, compositionality has a standard interpretation, which is the
+i.e.~languages, constant information flow has a standard interpretation, which is the
 Myhill-Nerode Theorem, and it is known to
 correspond exactly to the regular languages. However, in the case of more
 complicated outputs, things are less clear.  For example, if the outputs of the
@@ -52,11 +59,16 @@ two parties, called Alice and Bob, cooperate to compute the output of the
 function. Note that a formal study of the communication complexity for
 functions of the form $f : \Sigma^* \times \Sigma^* \to \domain$ is well
 established since Yao's seminal paper \cite{YAO79}, and the more comprehensive
-treatment appearing in the standard text by Kushilevitz \cite{KUSH97}. We adapt
+treatment appearing in the standard text by Kushilevitz \cite{KUSH97}.
+\mb{I think that these references should be made precise. What is it that is there and is not there?}
+We adapt
 this model to our purposes as follows.
 
 There are \textbf{no uniformity assumptions} and the two parties
-have unrestricted computational power; the goal is to measure information and
+have unrestricted computational power; the goal is to measure information 
+% \omc{information flow instead of information ?}
+% it is a bit of a wordplay on the name of the journal Information and Computation :)
+and
 not computation.  The input string is split into two parts $w = w_1 w_2$, and
 Alice has access to $w_1$ while Bob has access to $w_2$. They exchange messages
 in order to compute the output of the  function. There must be a
@@ -65,14 +77,18 @@ protocol and not on the input string. Also, the  output of the computation must
 be \textbf{split invariant}, which means that the output depends only on the
 input string $w$, and not on the split $w = w_1 w_2$. In the communication,
 there are two kinds of messages:  either bits in $\set{\text{true, false}}$  or
-elements of the output domain. For example, if the outputs are rational
+elements of the output domain.
+% \omc{This may be my subjective view (as I mentioned before), but I don’t think it’s a good idea to describe the messages as bits in our paper. I understand that you did this because it’s the convention in the communication complexity community. However, I would prefer saying that either the message comes from a finite set, or … The reason is that, for detail-oriented readers within the communication complexity community, in this setting the parties should either alternate turns when sending messages to each other, or there should be a "Next" function specifying the next communicator based on communication history.
+% Using a finite set instead of bits allows parties to send information that might require several rounds rather than just one. I suppose you wrote it this way to appeal to readers already familiar with communication complexity and to make the paper more attractive to them. If that’s the reason, then it makes sense to keep it as is. Otherwise, I think it would be better to take a consistent approach and use a finite set for the visible part of the messages.}. 
+% Thanks Omid! I understand your point. However, I did indeed want to start with the more standard terminology in the introduction; and later start using the terminology for our paper.
+For example, if the outputs are rational
 numbers, then the messages can contain rational numbers. However, there is a
 restriction on the access to messages from the output domain, which is called
 the \textbf{black box restriction}. This restriction (which will be formally
 defined later in the paper) is intended to prevent tricks such as Alice sending
 her input string to Bob encoded as a rational number. Intuitively speaking,
 the  black box restriction says that the parties cannot read the messages from
-the output domain, and they can only operate on them using predefined
+the output domain, and instead they can only operate on them using predefined
 operations. For example, in the case of numbers, the operations are addition
 and multiplication.
 
@@ -92,17 +108,20 @@ as explained in the following table:
     \begin{tabular}{ll}
     \textbf{Output} & \textbf{Automata Model} \\
     \hline
-    Boolean & Regular languages (proved) \\
-    Field & Weighted Automata (proved)\\
-    Strings & Regular functions (conjectured) \\
-    Boolean, but infinite input alphabet & Unambiguous  automata (conjectured) 
+    \kl[Boolean domain]{Booleans} & Finite automata (\cref{thm:boolean-domain}) \\
+    \kl[String domain]{Field}   & Weighted automata (\cref{thm:field-domain}) \\
+    \kl[String domain]{Strings} & Two-way automat with output (\cref{conj:protocol-regular-string-to-string}) \\
+    Boolean, but infinite input alphabet & Unambiguous automata (\cref{conj:protocols-unambiguous}) 
 \end{tabular}
 \end{center}
 
+
 For the conjectured results, we provide substantial evidence, in particular for
 the third row in the table,  we prove the conjecture for output strings over an
-output alphabet with one letter. In the remainder of this introduction, we give
-a more detailed review of the four rows in the  table. 
+output alphabet with one letter (\cref{thm:unary-string-to-string}), and in the
+case where the strings are considered under an additional \kl{origin
+semantics} (\cref{thm:origin-string-to-string}). In the remainder of this
+introduction, we give a more detailed review of the four rows in the table. 
 
 \subsection{Protocols for Boolean outputs}
 \label{sec:intro-boolean}
@@ -111,7 +130,9 @@ The first contribution of the paper is a study of the protocol model for  functi
 \begin{align*}
 f : \Sigma^* \to \set{\text{true, false}},
 \end{align*}
-i.e.~languages. In this case the two parties only exchange bits, and they need to decide if the input string is in the language or not. As mentioned before, the parties have unbounded computational power. For example, the first message sent by Alice could answer  some undecidable question.
+i.e.~languages. In this case the two parties only exchange bits, 
+% \omc{I still think it’s better to say that the messages come from a finite set instead of bits.} 
+and they need to decide if the input string is in the language or not. As mentioned before, the parties have unbounded computational power. For example, the first message sent by Alice could answer  some undecidable question.
 
 \begin{myexample}[First three equal last three]
     \label{ex:three-letters}
@@ -121,15 +142,19 @@ Alice can send her  first three letters to Bob (if Alice got less than three let
 
 The first result of this paper  says that these protocols compute exactly the regular languages, despite the non-uniformity.
 \begin{restatable}{theorem}{booleandomain}
-     \label{thm:boolean-domain}
-  A language $L \subseteq \Sigma^*$ is computed by a protocol if and only if it is regular.
+ \label{thm:boolean-domain}
+ A language $L \subseteq \Sigma^*$ is computed by a \kl[boolean protocol]{protocol} if and only if it is 
+ \kl(language){regular}.
 \end{restatable}
 One implication is immediate: every regular language can be computed by a protocol.  Alice can send to Bob the state of a finite automaton that recognises the language. The other implication is proved in two steps, see Section~\ref{sec:boolean-domain} for more details. In the first step, the protocol is reduced to a one-round non-interactive version, where each party independently sends a message with a constant number of bits, and the decision is then made based on these two messages. In the second step, we use the one-round protocol and the Myhill-Nerode Theorem to conclude that the language must necessarily be regular. 
 
 % It is worth underlining that, unlike in communication complexity, we are not interested in the exact number of exchanged bits. For example, in the round reduction that is described in the previous paragraph, the number of exchanged bits increases exponentially. One could investigate the constant in more detail, e.g.~how it depends on some parameters of the language, such as the number of states in an automaton that recognises it. We do not pursue this direction in this paper.
 
 
-The above theorem is not difficult to prove, nor can it be called completely new.  Although we are not aware of an exact precedent, the general idea of studying communication complexity for regular languages is not new in automata theory. This theme is called state complexity, and it is interested  in the number of states needed for a given language in a given automaton model, and how this number is affected by operations on languages or changes in the model. See  wikipedia~\cite{stateComplexityWiki} for a comprehensive summary with numerous references, or the recent paper~\cite{goosKiefer2022} which shows how to transfer lower bounds from communication complexity to state complexity of unambiguous automata. The work on state complexity is mainly about the exact number of states, which is of secondary concern to us. For our purposes, a protocol that exchanges $k$ bits is no different from a protocol that exchanges $2^k$ bits. We only care that this bound should be finite and independent of the input. 
+The above theorem is not difficult to prove, nor can it be called completely new.  Although we are not aware of an exact precedent, the general idea of studying communication complexity for regular languages is not new in automata theory. This theme is called state complexity, and it is interested  in the number of states needed for a given language in a given automaton model, and how this number is affected by operations on languages or changes in the model. See  Wikipedia~\cite{stateComplexityWiki} for a comprehensive summary with numerous references, or the recent paper~\cite{goosKiefer2022} which shows how to transfer lower bounds from communication complexity to state complexity of unambiguous automata. 
+% \omc{Remove the Wikipedia source and keep only the Goos and Kiefer (2022) reference. I think the Wikipedia source is redundant.}
+% MB: I think that the Wikipedia source contains a lot useful references, more so than the Good and Kiefer paper. I would keep it.
+ The work on state complexity is mainly about the exact number of states, which is of secondary concern to us. For our purposes, a protocol that exchanges $k$ bits is no different from a protocol that exchanges $2^k$ bits. We only care that this bound should be finite and independent of the input. 
 
 Theorem~\ref{thm:boolean-domain} is  simple  technically, and its main value lies in its role as an inspiration for other results in this paper, which use  other output domains  such as  fields or strings. 
 
@@ -247,7 +272,7 @@ This implication is rather easy, since a two-way automaton can be neatly simulat
 Our first argument in favour of  the conjecture is the following result, which shows that functions computed  by protocols have many properties which are known to hold for regular functions.
 
 \begin{theorem}\label{thm:evidence-for-the-conjecture}
-    If a string-to-string function  is  computed by a protocol, then:
+    If a string-to-string function  is  computed by a \kl{protocol}, then:
     \begin{enumerate}
         \item \label{it:linear-size-outputs} outputs have at most linear size;
         \item \label{it:linear-time-computable} outputs can be   computed in linear time;
@@ -255,13 +280,68 @@ Our first argument in favour of  the conjecture is the following result, which s
     \end{enumerate}
 \end{theorem}
 
-One can invent functions which satisfy the three conditions in the above theorem, but which are not regular, see Example~\ref{ex:not-regular-but-continuous-over-finite-fields}. However, all known examples of such functions  are artificial, and none can be computed by protocols (or any known transducer models).  The proof of \cref{thm:evidence-for-the-conjecture}, which is given in Section~\ref{sec:string-outputs}, uses a linear representation of strings as matrices, and then applies \cref{thm:field-domain} about protocols with field outputs. In fact, this technique suggest an alternative approach to regularity,  which connects string-to-string functions with the better understood case of string-to-field functions. This approach is dicussed in Section~\ref{sec:continuity}.
+One can invent functions which satisfy the three conditions in the above
+theorem, but which are not regular, see
+Example~\ref{ex:not-regular-but-continuous-over-finite-fields}. However, all
+known examples of such functions  are artificial, and none can be computed by
+protocols (or any known transducer models).  The proof of
+\cref{thm:evidence-for-the-conjecture}, which is given in
+Section~\ref{sec:string-outputs}, uses a linear representation of strings as
+matrices, and then applies \cref{thm:field-domain} about protocols with field
+outputs. In fact, this technique suggest an alternative approach to regularity,
+which connects string-to-string functions with the better understood case of
+string-to-field functions. This approach is discussed in
+Section~\ref{sec:continuity}.
 
-Our second argument in favour of  the conjecture is that we can prove it in the special case when the output alphabet is unary, i.e.~it has only one letter. This is the content of Section~\ref{sec:unary-output-alphabet}. When the output alphabet is unary, the output strings are commutative, i.e.~the order of letters is irrelevant. Our proof of the conjecture in the unary case starts with the observations from \cref{thm:evidence-for-the-conjecture}, and then improves on them by leveraging the commutativity of the output strings. Along the way, we need to prove a new result about counting positions selected by \mso queries, see \cref{thm:int-to-nat}. This new result is possibly the most technical part of the paper, and might be of independent interest.
+Our second argument in favour of the \cref{conj:regular-continuous} is that we
+can prove it in the special case when the output alphabet is unary, i.e.~it has
+only one letter. This is the content of
+Section~\ref{sec:unary-output-alphabet}. When the output alphabet is unary, the
+output strings are commutative, i.e.~the order of letters is irrelevant. Our
+proof of \cref{thm:unary-string-to-string} relies on this commutativity on the
+output side since it collapses the class of "linear regular functions" to the
+much simpler class of "rational functions"
+(\cref{lem:unary-linear-regular-rational}).
 
-\paragraph*{Related work.} One of the consequences of the Myhill-Nerode theorem for string-to-Boolean functions, or the Fliess Theorem for string-to-number functions, is the existence of  canonical devices. There have been several attempts to generalise this to string-to-string functions, with a special emphasis the canonical devices. Before recalling this work, we observe that our approach seems to go in a  different direction. Although we think of Conjecture~\ref{conj:protocol-regular-string-to-string} as being a machine independent characterisation, it does not necessarily  yield canonical devices. In particular, our proof of the conjecture for unary alphabets does not yield a canonical device.
+Our third argument in favour of the \cref{conj:regular-continuous} is that we
+can prove it to be true when the functions are considered under the
+\emph{origin semantics} of~\cite{bojanczykTransducersOriginInformation2014}.
+That is, strings come with extra origin information, and the functions are
+required to explicit which part of the output originates from which part of the
+input. This is the content of Section~\ref{sec:origin-semantics}, and the
+result is stated in \cref{thm:origin-string-to-string}. 
 
-Here is a summary of results on canonical devices for string-to-string transducers: they have been proposed for subsequential functions~\cite[Th\`eor\'eme 1.1]{choffrut1977}, rational functions in~\cite[Theorem 1]{reutenauerSchutzenberger1991},  and for rational functions on infinite words~\cite[Section 4]{canonicalRational2018}. A certain drawback of this line of work is that: (a) the canonical devices are relative to a given automaton model, which does not help in choosing one model over another; and (b) the ``canonical'' devices are not truly unique, since they depend on extra parameters, such as the output delay for subsequntial functions or the lookahead for rational ones. Let us now move to the larger class of regular functions, which is the subject of our conjecture. Here,  canonical model are unkown, and the only known way to recover them uses non-standard semantics, called origin semantics~\cite[Theorem 1]{bojanczykTransducersOriginInformation2014}. Another result of this kind, which is a machine independent characterisation of the regular functions that does not yield canonical devices, see \cite[Theorem 3.2]{bojanczykTitoRegular23}, is also implicitly based on origin semantics.  Finally, for the polyregular functions, the situation is of course even harder, and the only known results concern a unary output alphabet~\cite[Section IV]{Zpolyreg23}.
+\paragraph*{Related work.} One of the consequences of the Myhill-Nerode theorem
+for string-to-Boolean functions, or the Fliess Theorem for string-to-number
+functions, is the existence of  canonical devices. There have been several
+attempts to generalise this to string-to-string functions, with a special
+emphasis the canonical devices. Before recalling this work, we observe that our
+approach seems to go in a  different direction. Although we think of
+Conjecture~\ref{conj:protocol-regular-string-to-string} as being a machine
+independent characterisation, it does not necessarily  yield canonical devices.
+In particular, our proof of the conjecture for unary alphabets does not yield a
+canonical device.
+
+Here is a summary of results on canonical devices for string-to-string
+transducers: they have been proposed for subsequential functions~\cite[Théorème
+1.1]{choffrut1977}, rational functions in~\cite[Theorem
+1]{reutenauerSchutzenberger1991},  and for rational functions on infinite
+words~\cite[Section 4]{canonicalRational2018}. A certain drawback of this line
+of work is that: (a) the canonical devices are relative to a given automaton
+model, which does not help in choosing one model over another; and (b) the
+``canonical'' devices are not truly unique, since they depend on extra
+parameters, such as the output delay for subsequntial functions or the
+lookahead for rational ones. Let us now move to the larger class of regular
+functions, which is the subject of our conjecture. Here,  canonical model are
+unknown, and the only known way to recover them uses non-standard semantics,
+called origin semantics~\cite[Theorem
+1]{bojanczykTransducersOriginInformation2014}. Another result of this kind,
+which is a machine independent characterisation of the regular functions that
+does not yield canonical devices, see \cite[Theorem
+3.2]{bojanczykTitoRegular23}, is also implicitly based on origin semantics.
+Finally, for the polyregular functions, the situation is of course even harder,
+and the only known results concern a unary output alphabet~\cite[Section
+IV]{Zpolyreg23}.
 
 
 \subsection{Infinite input alphabets}
@@ -273,10 +353,18 @@ w \in L
 \pi(w) \in L \qquad \text{for every permutation $\pi$ of the alphabet}.
 \end{align*}
 An example of such a language is ``all letters are different''.
- As mentioned earlier in the introduction, there is a rich literature on automata for such languages, see the surveys~\cite{neven2003power,segoufin2006automata,bojanczykOrbitFiniteSetsTheir2017} or the lecture notes~\cite{bojanczyk_slightly}.  The  relevant automata models typically use registers to store some letters from the input, so that they can be compared to later letters. Essentially any automaton model for finite alphabets can be lifted this way to infinite alphabets~\cite[Figure 1]{neven2003power}, and there is even a systematic way to do this, which is based on the theory of orbit-finite sets~\cite[Chapter 2]{bojanczyk_slightly}. Unfortunately, after this lifting, previously equivalent models become non-equivalent.  This sad situation is illustrated in~\cref{fig:automata-infinite-alphabets}, which describes seventeen non-equivalent automata models for infinite alphabets; all of these models collapse to the regular languages when considered for finite alphabets. Equally sadly, there are almost no results in the literature on infinite alphabets that prove non-trivial equivalences of models. The only known cases of this kind are about the  weakest of the available models, namely orbit-finite monoids~\cite{bojanczykNominalMonoids2013}, which are known to be equivalent in expressive power to a certain variant of \mso~\cite[Theorems 4.2 and 5.1]{DBLP:journals/corr/ColcombetLP14}, and also to single-user register automata~\cite[Theorem 6]{bojanczykstefanski2020}.
+ As mentioned earlier in the introduction, there is a rich literature on automata for such languages, see the surveys~\cite{neven2003power,segoufin2006automata,bojanczykOrbitFiniteSetsTheir2017} or the lecture notes~\cite{bojanczyk_slightly}.  The  relevant automata models typically use registers to store some letters from the input, so that they can be compared to later letters. Essentially any automaton model for finite alphabets can be lifted this way to infinite alphabets~\cite[Figure 1]{neven2003power}, and there is even a systematic way to do this, which is based on the theory of orbit-finite sets~\cite[Chapter 2]{bojanczyk_slightly}. Unfortunately, after this lifting, previously equivalent models become non-equivalent.  This sad situation is illustrated in~\cref{fig:automata-infinite-alphabets}, which describes seventeen non-equivalent automata models for infinite alphabets; all of these models collapse to the regular languages when considered for finite alphabets. Equally sadly, there are almost no results in the literature on infinite alphabets that prove non-trivial equivalences of models. The only known cases of this kind are about the  weakest of the available models, namely orbit-finite monoids~\cite{bojanczykNominalMonoids2013}, which are known to be equivalent in expressive power to a certain variant of \mso~\cite[Theorems 4.2 and 5.1]{DBLP:journals/corr/ColcombetLP14}, and also to single-use register automata~\cite[Theorem 6]{bojanczykstefanski2020}.
 This situation desperately calls for some unifying principles. 
 
-Since protocols have successfuly identified important models in the previous cases, we try to see  what happens in the case of an infinite input alphabet.  When extending protocols to infinite input alphabets, we adapt them as follows: (1) messages can contain input letters; (2)  messages can only be compared for equality. Condition (2) is formalised by saying that the execution of the protocol is invariant under permutations of the input alphabet, similarly to the languages that we consider. The protocols  work their magic once again, and they point to (as we conjecture)  one of the models in the literature. Before revealing this model, let us give two examples.
+Since protocols have successfully identified important models in the previous
+cases, we try to see  what happens in the case of an infinite input alphabet.
+When extending protocols to infinite input alphabets, we adapt them as follows:
+(1) messages can contain input letters; (2)  messages can only be compared for
+equality. Condition (2) is formalised by saying that the execution of the
+protocol is invariant under permutations of the input alphabet, similarly to
+the languages that we consider. The protocols  work their magic once again, and
+they point to (as we conjecture)  one of the models in the literature. Before
+revealing this model, let us give two examples.
 
 \begin{myexample}[Deterministic too weak]\label{ex:last-letter-does-not-appear-before} Consider the language ``the first letter does not appear elsewhere in the string''. This language can be computed by a protocol, in which Alice checks the condition on her side, and then sends the first letter to Bob, so that he can check the condition on his side. More generally, a protocol can simulate any  deterministic register automaton~\cite[Definition 3]{kaminskiFiniteMemoryAutomata1994}, using the same idea as for  finite alphabets: Alice  sends her state  to Bob, together with the values of the registers.  However,  protocols can do more. In particular, they are under reversing the input string, and therefore they can compute all reverses of languages recognised by deterministic register automata. Since deterministic register automata are not closed under reversal, it follows  that protocols are strictly more powerful than deterministic register automata. 
 \end{myexample}

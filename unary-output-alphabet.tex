@@ -30,6 +30,37 @@ that is the content of \cref{lem:nat-protocols-regular} below.
   manipulating natural numbers. Then $f$ is a regular function.
 \end{lemma}
 
+Let us first remark that under the assumption that the output is unary,
+the class of "rational" and "linear regular functions" coincide.
+
+\begin{lemma}
+  \label{lem:unary-linear-regular-rational}
+  Let $f : \Sigma^* \to \{a\}^*$ be a function. The following conditions are
+  equivalent:
+  \begin{enumerate}
+    \item \label{it:unary-rational}
+      $f$ is a rational function;
+    \item \label{it:unary-linear-regular}
+        $f$ is a linear regular function.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  The implication \ref{it:unary-rational}~$\Rightarrow$~\ref{it:unary-linear-regular}
+  is immediate  and holds even without the assumption on the 
+  unary output from \cref{fig:transducer-classes}.
+
+  For the converse implication, assume that $f$ is rational. Then it is
+  computed by a two-way transducer with outputs. However, this transduction can
+  be decomposed into a two step process: first, a rational function computes
+  the crossing sequences of the transducer on every letter of the input, and
+  then, a two-way transducer that simply follows these crossing sequences to
+  produce the output in the correct order. Since the order of the output does
+  not matter in the unary case, the second step can be performed in a
+  block-wise fashion, producing all outputs corresponding to a letter
+  immediately after reading it. This second step is therefore also a rational
+  function, and since those are closed under composition, we conclude that $f$ is
+  a rational function.
+\end{proof}
 
 Let us consider a "protocol" computing a function $f : \Sigma^* \to \{a\}^*$.
 Recall that one can assume that the protocol is one round
@@ -37,13 +68,12 @@ Recall that one can assume that the protocol is one round
 \to Q_A \times \domain^k$ for the strategy of Alice, $\sigma_B : \Sigma^*
 \times Q_A \to Q_B \times \domain^k$ for the strategy of Bob, and $\theta : Q_A
 \times Q_B \to (\domain^{2k} \to \domain)$ for the combining function, that can
-only use concatenation of registers.
-We can place a quasi-order on $Q_A \times \domain^k$, by saying that $(q,
-\vec{r}) \leq (q', \vec{r}')$ if $q = q'$ and for each $i \in \{1, \ldots, k\}$
-we have $|r_i|\leq |r_i'|$. This quasi-order on $Q_A \times
-\domain^k$ can be lifted to a quasi-order on strings in $\Sigma^*$, by saying
-that $u \leq v$ if $\sigma_A(u) \leq \sigma_A(v)$. A key property of 
-this ordering is the following:
+only use concatenation of registers. We can place a quasi-order on $Q_A \times
+\domain^k$, by saying that $(q, \vec{r}) \leq (q', \vec{r}')$ if $q = q'$ and
+for each $i \in \{1, \ldots, k\}$ we have $|r_i|\leq |r_i'|$. This quasi-order
+on $Q_A \times \domain^k$ can be lifted to a quasi-order on strings in
+$\Sigma^*$, by saying that $u \leq v$ if $\sigma_A(u) \leq \sigma_A(v)$. A key
+property of this ordering is the following:
 
 \begin{lemma}
   \label{lemma:order-monotonicity-unary-output}
@@ -200,3 +230,17 @@ computed by weighted automata over $\Nat$ that have linear growth.
   protocol manipulating natural numbers. Finally, by \cref{thm:unary-string-to-string},
   $f$ is a regular function.
 \end{proof}
+
+Let us conclude this section with an example showing that
+\cref{cor:weighted-automata-nat-regular} cannot be extended to weighted
+automata over $\Int$ with arbitrary growth.
+
+\begin{myexample}[Quadratic counterexample]\label{ex:quadratic-counterexample}
+     We show  a function which: (a) is a linear combination of \mso  counting functions of arity two, with negative coefficients; (b) has only non-negative outputs; and (c) cannot be presented as linear combination with positive coefficients. The idea, which is based on~\cite[Example 2.1]{BerstelReutenauer08}, is to trivially ensure non-negativity by squaring. Take the function
+\begin{align*}
+w \in \set{a,b}^* 
+\quad \mapsto \quad 
+(\text{(number of $a$'s in $w$)} - \text{(number of $b$'s in $w$)})^2.
+\end{align*}
+This function clearly satisfies (a) and (b). As explained in \cite[p.3]{Zpolyreg23}, it also satisfies (c), since the inverse image of $0$ is not a regular language, as would be the case if only positive coefficients were used.
+\end{myexample}

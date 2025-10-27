@@ -1,12 +1,22 @@
 
 \section{Boolean outputs}
 \label{sec:boolean-domain}
-In this section, we formally describe our model of computation for the simplest output domain, namely the Booleans, and we prove that it defines exactly the regular languages.  The definition that we describe, see Definition~\ref{def:two-party-protocol-boolean} below, has minor differences with respect to the informal description from the introduction. The messages are not necessarily bits, but they belong to some finite set, which is fixed in advance before the input is known. Also,  the two parties send their messages in parallel in each round. 
- These generalisations do not change the expressive power of the protocol (they might influence the number of rounds), but they will be useful in later sections, when we consider restrictions and generalisations. 
+
+In this section, we formally describe our model of computation for the simplest
+output domain, namely the Booleans, and we prove that it defines exactly the
+regular languages.  The definition that we describe, see
+Definition~\ref{def:two-party-protocol-boolean} below, has minor differences
+with respect to the informal description from the introduction. The messages
+are not necessarily bits, but they belong to some finite set, which is fixed in
+advance before the input is known. Also,  the two parties send their messages
+in parallel in each round. These generalisations do not change the expressive
+power of the protocol (they might influence the number of rounds), but they
+will be useful in later sections, when we consider restrictions and
+generalisations. 
 
 \begin{definition}[Boolean protocol]
     \label{def:two-party-protocol-boolean}
-  A Boolean protocol 
+   A \intro{Boolean protocol}
    is given by the following ingredients: 
   \begin{enumerate}
     \item a finite input alphabet $\Sigma$;
@@ -22,12 +32,32 @@ In this section, we formally describe our model of computation for the simplest 
   \end{enumerate}
 \end{definition}
 
-Given a pair of input strings $(w_1,w_2)$, which are called the \emph{local strings} of Alice and Bob, respectively, the  protocol is run as follows. There are $k$ rounds. In each round, both parties send messages, and therefore after $i$ rounds are played, the communication history contains $i$ messages sent by Alice and $i$ messages sent by Bob.  In round  $i \in \set{1,\ldots,k}$,  each of the two parties  looks at their local string and the $i-1$ messages sent by the other party in the previous rounds (only the messages sent by the other party are needed, since the party knows their own messages). Based on this information, each party uses their strategy to produce a new message. At the end of the protocol, the output function is used to determine the value of the function, based on all messages in  the communication history. We say that the protocol computes a language $L \subseteq \Sigma^*$ if for every two strings $w_1,w_2$, the output of the protocol tells us if the concatenation $w_1w_2$ belongs to the language. This corresponds to the split invariance condition that was discussed in the introduction.  Also, the reader will recognise the restriction on the total number of bits (this is bounded by the number of rounds times the logarithm of the size of the message spaces), and the non-uniformity (there is no restriction on the strategies of Alice and Bob). By non-uniformity, the first message sent by Alice could contain an answer to some undecidable problem. However, as we will see, the split invariance restriction will make it impossible to use this information, since the protocol can only compute regular languages, as stated in the \cref{thm:boolean-domain} from the introduction, which we now recall.
+Given a pair of input strings $(w_1,w_2)$, which are called the \emph{local
+strings} of Alice and Bob, respectively, the  protocol is run as follows. There
+are $k$ rounds. In each round, both parties send messages, and therefore after
+$i$ rounds are played, the communication history contains $i$ messages sent by
+Alice and $i$ messages sent by Bob.  In round  $i \in \set{1,\ldots,k}$,  each
+of the two parties  looks at their local string and the $i-1$ messages sent by
+the other party in the previous rounds (only the messages sent by the other
+party are needed, since the party knows their own messages). Based on this
+information, each party uses their strategy to produce a new message. At the
+end of the protocol, the output function is used to determine the value of the
+function, based on all messages in  the communication history. We say that the
+protocol computes a language $L \subseteq \Sigma^*$ if for every two strings
+$w_1,w_2$, the output of the protocol tells us if the concatenation $w_1w_2$
+belongs to the language. This corresponds to the split invariance condition
+that was discussed in the introduction.  Also, the reader will recognise the
+restriction on the total number of bits (this is bounded by the number of
+rounds times the logarithm of the size of the message spaces), and the
+non-uniformity (there is no restriction on the strategies of Alice and Bob). By
+non-uniformity, the first message sent by Alice could contain an answer to some
+undecidable problem. However, as we will see, the split invariance restriction
+will make it impossible to use this information, since the protocol can only
+compute regular languages, as stated in the \cref{thm:boolean-domain} from the
+introduction, which we now recall.
 
 
 \booleandomain*
-
-
 
 
 \begin{proof}

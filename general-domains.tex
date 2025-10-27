@@ -10,15 +10,25 @@ In the previous section, we considered Boolean outputs. In this section, we gene
     \end{enumerate}
 \end{definition}
 An output domain is the same thing as a (non-indexed) algebra, in the sense of universal algebra~\cite[p.5]{hobby1988structure}. 
-The output domain will typically  be infinite. In principle, the family of operations might be infinite as well, although any protocol will only use finitely many operations.
+The output domain will typically  be infinite. In principle, the family of operations might be infinite as well,
+%  \omc{This is another subjective view: the possibility of having infinitely many operations for the algebra does not seem to be useful anywhere in the paper and makes things more complicated than necessary.}
+% MB: it is true for the paper, but I think that: (1) finiteness of the set of operations does not simply anything; (2) there will be infinitely many operations in some algebras that we want to study, e.g. the lambda calculus. So I would keep it this way.
+although any protocol will only use finitely many operations.
 By abuse of notation, we use the same symbol $\domain$ to denote the output domain and its underlying set, with the operations being implicit. Here are the output domains that will be studied in this paper: 
 \begin{itemize}
-    \item \textbf{Boolean domain.} The set is $\set{\text{true, false}}$, and there are no basic operations. (We could add basic operations, such as the Boolean operations $\lor,\land$ and $\neg$, but this will not affect the expressive power of our protocol, so we choose to have no operations.)
-    \item \textbf{Field domain.} The set is a field, such as the rationals or reals, and there are two operations for addition and multiplication. This is not one domain, but a family of domains, with one for each field.
-    \item \textbf{String domain.} The set is $\Gamma^*$ for some finite alphabet $\Gamma$, and there is one basic operation, which is concatenation. Again, this is not one domain, but a family of domains, with one for each alphabet.
+    \item \intro{Boolean domain} The set is $\set{\text{true, false}}$, and there are no basic operations. (We could add basic operations, such as the Boolean operations $\lor,\land$ and $\neg$, but this will not affect the expressive power of our protocol, so we choose to have no operations.)
+    \item \intro{Field domain} The set is a field, such as the rationals or reals, and there are two operations for addition and multiplication. This is not one domain, but a family of domains, with one for each field.
+    \item \intro{Monoid domain} The set is a commutative monoid $(M,+,0)$, and there is one basic operation, which is the binary operation $+$. Again, this is not one domain, but a family of domains, with one for each commutative monoid.
+    \omc{The text states, “Here are the output domains that will be studied in this paper:” followed by “commutative monoid.” I think it would be better to explain the relationship between this and the unary output alphabet; otherwise, it is unclear how the commutative monoid part is connected to the rest of the paper.}
+    \mb{I'm not sure what happened here, I think somebody added the commutative monoids. To be discussed.}
+    \item \intro{String domain} This is a special case of the monoid domain, where the set is $\Gamma^*$ for some finite alphabet $\Gamma$, and the operation is string concatenation.
+    \omc{You wrote "commutative monoid" above, while the title is just Monoid. Then here you mention that this is a special case of a monoid. That’s fine, but shouldn’t we remove the word commutative from the previous part?}
 \end{itemize}
 
-In the protocol, the output value will be constructed in a constant number of steps, by using operations from the output domain. We will not distinguish between the  operations that are in the output domain, and other operations that are derived by composing them, as described in the following definition.
+In the protocol, the output value will be constructed in a constant number of
+steps, by using operations from the output domain. We will not distinguish
+between the operations that are in the output domain, and other operations
+that are derived by composing them, as described in the following definition.
 
 \begin{definition}[Term operation]\label{def:term-operations}
     Consider an output domain $\domain$. An operation 
@@ -46,28 +56,47 @@ We now generalise the protocol to cover functions
 \begin{align*}
 f : \Sigma^* \to \domain,
 \end{align*}
-where $\domain$ is some possibly infinite output domain. As in the Boolean version of the protocol, the output value is constructed by Alice and Bob, as a result of an exchange of a constant number of messages. Each message has two parts, which are called the \emph{signal part} and the \emph{output part}. The signal part consists of a finite amount of information, and is used to exchange information between the two parties as in the Boolean protocol. The output part is a list of elements from the  output domain, and  is meant to be part of the output value. As in the Boolean case, the above definition slightly deviates from the informal description in the introduction. In particular, a message can contain $d$ elements of the output domain. This does not affect the expressive power of the protocol, but it might affect the number of rounds, and the above definition will be more convenient later one, where we consider one-round protocols. Another important difference is that the operations from the output domain are only applied once at the end of the protocol. This, again does affect the expressive power, since the two parties can wait with their operations until all signals have been exchanged.  
+where $\domain$ is some possibly infinite output domain. As in the Boolean
+version of the protocol, the output value is constructed by Alice and Bob, as a
+result of an exchange of a constant number of messages. Each message has two
+parts, which are called the \emph{signal part} and the \emph{output part}. The
+signal part consists of a finite amount of information, and is used to exchange
+information between the two parties as in the Boolean protocol. The output part
+is a list of elements from the  output domain, and  is meant to be part of the
+output value. As in the Boolean case, the above definition slightly deviates
+from the informal description in the introduction. In particular, a message can
+contain $d$ elements of the output domain. This does not affect the expressive
+power of the protocol, but it might affect the number of rounds, and the above
+definition will be more convenient later one, where we consider one-round
+protocols. Another important difference is that the operations from the output
+domain are only applied once at the end of the protocol. This, again does
+affect the expressive power, since the two parties can wait with their
+operations until all signals have been exchanged.  
 
-\begin{definition}\label{def:two-party-protocol-general} A two-party protocol   
+\begin{definition}\label{def:two-party-protocol-general} A \intro{two-party protocol}
    is given by the following ingredients: 
   \begin{enumerate}
-    \item an output domain $\domain$;
+    \item an \kl{output domain} $\domain$;
     \item a finite input alphabet $\Sigma$;
-    \item a number of rounds $k \in \set{1,2,\ldots}$;
-    \item signal spaces for Alice and Bob, which are finite sets $Q_A$ and $Q_B$;
-    \item a  dimension $d \in \set{0,1,\ldots}$;
-    \item for each round $i \in \set{1,\ldots,k}$, a strategy
+    \item a \intro{number of rounds} $k \in \set{1,2,\ldots}$;
+    \item \intro{signal spaces} for Alice and Bob, which are finite sets $Q_A$ and $Q_B$;
+    \item a \intro(protocol){dimension} $d \in \set{0,1,\ldots}$;
+    \item for each round $i \in \set{1,\ldots,k}$, a \intro{strategy}
     \begin{align*}
     \myoverbrace{\sigma_A^i : \myunderbrace{\Sigma^*}{Alice's \\ local\\ string} \times \myunderbrace{Q_B^{i-1}}{history of \\ signals \\ from Bob}  \to \myunderbrace{Q_A \times \domain^d}{new\\ message}}{stategy for Alice in the $i$-th round}
     \qquad 
         \myoverbrace{\sigma_B^i : \myunderbrace{\Sigma^*}{Bob's \\ local\\ string} \times \myunderbrace{Q_A^{i-1}}{history of \\ signals \\ from Alice}  \to \myunderbrace{Q_B \times \domain^d}{new\\ message}}{stategy for Bob in the $i$-th round}
     \end{align*}
-    \item an output function of type \begin{align*}
+    \item an \intro[output function@protocol]{output function} of type \begin{align*}
     (Q_A \times Q_B)^{k} \to (\domain^{2dk} \termop \domain).
     \end{align*}
   \end{enumerate}
 \end{definition}
 
+% \alc{Maybe we should use uniform strategies that take the history $Q_B^{*}$ and
+% $Q_A^{*}$ instead of fixed number of rounds? This is just to simplify
+% notations.}
+% I would keep the stronger typing, since it explains what is happening
 
 
 The protocol is executed on a pair of strings $(w_1,w_2)$. In each round, each of the two parties  sends a message (which consists of a signal and some elements of the output domain) that is based on their local string and the history of signals coming from the other party. After all $k$ rounds have been executed, the joint signal history of both players is used, by the output function, to determine a term operation. This operation is then applied to the output history, yielding the final result of the protocol. As in the Boolean case, we are interested in protocols that are split invariant, which means that for every string $w \in \Sigma^*$, the same output is produced for every possible decomposition $w = w_1 w_2$. Such protocols compute a function of type $\Sigma^* \to \domain$. 
@@ -122,6 +151,8 @@ reduction to one-round protocols, similarly to the Boolean case.
 \end{lemma}
 \begin{proof}
   Same proof as in \cref{lem:one-round-reduction-boolean}. 
+  \omc {The idea of the proof is the same but some details are different because of the output part of the messages. should I rewrite the proof to reflect these differences? or just mention that the proof is similar with minor changes?}
+ \mb{If you want to add a short proof, that would be nice! But we can still keep the sentence that it is the same proof.}
 \end{proof}
 
  Later in this paper, we will study protocols for infinite input alphabets. Such protocols will not be a special case of the protocols developped so far, since the signal spaces will be infinite, albeit in a limited way (called orbit-finite).  As we will see, for such signal spaces the reduction to one round will no longer be valid, and the interactive nature of the protocols will be essential.
