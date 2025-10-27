@@ -375,7 +375,7 @@ Let us begin by defining the orbit-finite version of weighted automata.
         \item the input alphabet and state space are orbit-finite, instead of finite;
         \item the functions in~\eqref{eq:weight-functions} are equivariant.
     \end{enumerate}
-     We require that for every input string, there are finitely many runs with non-zero weight.
+     We require that for every input string, there are only finitely many runs with non-zero weight.
 \end{definition}
 
 For the purpose of this section, already the special case of the two-element field $\set{0,1}$ is interesting. In this case, the automaton defines a function $\Sigma^* \to \set{0,1}$, which can be seen as the characteristic function of a language. Therefore, we can compare weighted orbit-finite automata to other models, such as nondeterministic orbit-finite automata. The following example shows that these two  models are incomparable. 
@@ -391,18 +391,30 @@ The following theorem is the main result of Section~\ref{sec:weighted-automata-a
     If a language $L \subseteq \Sigma^*$ is computed by a protocol, then the corresponding characteristic function of type $\Sigma^* \to \set{0,1} \subseteq \domain$  is computed by a weighted orbit-finite automaton.
 \end{theorem}
 
+In the proof of the theorem, we use the recently developed theory of orbit-finite vector spaces \cite{orbitFiniteVectorTheoretics}.
+To streamline the presentation, we will use a special case of these spaces, namely those that have an orbit-finite basis.
+We begin by summarizing the necessary background.
 
-In the proof of the theorem, we use the recently developed theory of orbit-finite vector spaces. In order to streamline the development, we will work with a special case of these spaces, namely spaces which have an orbit-finite basis.
-% \begin{definition}
-%     [Orbit-finite dimension] A \emph{vector space of orbit-finite dimension} is any vector space of the form $\lincomb X$, where $X$ is some orbit-finite set. 
-% \end{definition}
 For an orbit-finite set $Q$, let us write $\lincomb Q$ for the vector space which consists of finite formal linear combinations of elements of $Q$. In other words, an element of this space is a vector of the form 
 \begin{align*}
 \alpha_1 q_1 + \cdots + \alpha_n q_n,
 \end{align*}
-where the coefficients $\alpha_i$ are from the field, and the elements $q_i$ (which can be seen as basis vectors) are from $Q$. Any space of the form $\lincomb Q$ is called a \emph{vector space of orbit-finite dimension}. Such a space has two kinds of structure: one can take linear combinations, and one can apply atom permutations. We will  be interested in functions between such spaces that preserve both kinds of structure.
+where the coefficients $\alpha_i$ are from the field, and the element $q_i$ (which can be seen as basis vectors) are from $Q$. Any space of the form $\lincomb Q$ is called a \emph{vector space of orbit-finite dimension}. Such a space is equipped with two structures: as a vector space it is closed under linear combinations, and as a set with atoms it is closed under applying atom permutations.
+We will typically be interested in functions between such spaces that preserve both of those structures.
 
-In the proof of \cref{thm:orbit-finite-protocol-to-weighted}, we will use a common generalisation of the  orbit-finite protocols from Definition~\ref{def:orbit-finite-protocol} and the protocols with vield outputs from  Section~\ref{sec:field-domain}.  In order to streamline the exposition, we treat this generalisation protocols as a tool to prove \cref{thm:orbit-finite-protocol-to-weighted}, and not an object of independent interest. Therefore, we only define the simplest kind of protocol that is needed for our purposes, namely an orbit-finite variant of the scalar product protocol from Definition~\ref{def:scalar-product-protocol}. It will be more convenient to use a generalisation of scalar products, namely bilinear maps. Recall that a bilinear map inputs two vectors, and is linear in both arguments. 
+In the proof of \cref{thm:orbit-finite-protocol-to-weighted}, we will use an orbit-finite version of protocols with field outputs. 
+Recall that there are two variants: the general version from Section~\ref{sec:intro-field} and the simpler scalar-product protocols 
+from Section~\ref{sec:field-domain}. We could begin with the general version and show that it is equivalent to the scalar-product one --
+this is indeed the case. However, to keep the exposition concise, we treat orbit-finite protocols with field outputs merely as a tool 
+for proving \cref{thm:orbit-finite-protocol-to-weighted}, rather than as an object of independent interest. Therefore, we focus on the 
+simplest form of protocol required for the proof, namely the orbit-finite scalar-product protocol. However, it will be more 
+convenient to generalize scalar products to arbitrary bilinear maps\footnote{
+    It is technically possible to define orbit-finite scalar product protocols,
+    but it is quite hard to work with. In particular, the only proof of equivalence
+    between orbit-finite scalar product protocols and orbit-finite bilinear protocols
+    that we are aware of is that both models are equivalent to weighted orbit-finite automata
+    (as we will show later in this section).
+}. Recall that a bilinear map takes two vectors as input and is linear in each argument.
 
 % This space is equipped with a scalar product, 
 % \begin{align*}
@@ -410,14 +422,12 @@ In the proof of \cref{thm:orbit-finite-protocol-to-weighted}, we will use a comm
 % \end{align*}
 % The sum in the above definition is in fact finite, since only finitely many basis vectors will have nonzero coefficients. Using this scalar product, we can define an orbit-finite version of the scalar product protocols from Definition~\ref{def:scalar-product-protocol}.
 
-
-
 \begin{definition}
     [Orbit-finite bilinear protocol] 
     \label{def:orbit-finite-scalar-product-protocol}
-    An orbit-finite bilinear protocol is given by:
+    An orbit-finite bilinear protocol consists of:
     \begin{enumerate}
-        \item two vector spaces $V_A$ and $V_B$ of orbit-finite dimension  and two strategies, which are  equivariant functions
+        \item two vector spaces of orbit-finite dimension $V_A$ and $V_B$ and two strategies, which are equivariant functions
         \begin{align*}
         \sigma_A : \Sigma^* \to V_A 
         \quad \text{and} \quad
@@ -429,24 +439,26 @@ In the proof of \cref{thm:orbit-finite-protocol-to-weighted}, we will use a comm
         \end{align*}
     \end{enumerate}
 \end{definition}
-The output of the protocol is defined in the expected way. Alice and Bob apply their strategies to their local strings, yielding two vectors, and the output of the protocol is obtained using the output map. As usual, we require split invariance, i.e.~the output of the protocol should depend only on the input string $w$ and not on its factorisation $w = w_1 w_2$ into local strings. 
+The output of the protocol is defined in the natural way: Alice and Bob apply their strategies to their local strings, yielding two vectors, and the output of the protocol is obtained using the output map. As usual, we require split invariance, i.e.~the output of the protocol should depend only on the input string $w$ and not on its factorisation $w = w_1 w_2$.
 
-Before continuing, let us comment on the difference between scalar products and bilinear maps. Scalar protducts can be extended to vector spaces of orbit-finite dimension in the obvious way, namely
-\begin{align*}
-\langle v, w \rangle = \sum_{q} (\text{coefficient of $q$ in $v$}) \cdot ( \text{coefficient of $q$ in $w$}),
-\end{align*}
-where the sum ranges over basis vectors. This sum is in fact finite, since each of the vectors $v$ and $w$ involves only finitely many basis vectors with non-zero coefficients.
-Scalar products are a special case of bilinear maps, and therefore every scalar product protocol is a special case of a bilinear protocol. In the context of finite dimension (and not orbit-finite) dimension, using bilinear maps instead of scalar products does not increase the expressive power of the protocols, since bilinear maps are still a special case of the general version from Definition~\ref{def:two-party-protocol-general}. Also in the orbit-finite setting, bilinear maps can be replaced by scalar products, but we do not know a direct proof of this result, other than showing that both models are equivalent to weighted orbit-finite automata, as we will show later in this section. For this reason, we will work with the more general bilinear maps. 
+% Before continuing with the proof, let us briefly use explain why we chose to work with bilinear maps instead of scalar products.
+% First, let us observe that scalar products can be defined in the orbit-finite in a natural way:
+% \begin{align*}
+% \langle v, w \rangle = \sum_{q} (\text{coefficient of $q$ in $v$}) \cdot ( \text{coefficient of $q$ in $w$}),
+% \end{align*}
+% where the sum ranges over basis vectors. Observe that this sum is in fact finite, since each of the vectors $v$ and $w$ involves only finitely many basis vectors with non-zero coefficients.
+% Scalar products are a special case of bilinear maps, and therefore every scalar product protocol is a special case of a bilinear protocol. In the finite case it is easy to show
+% directly that bilinear protocols are equivalent to scalar product protocols. In the orbit-finite case the picture is a bit more complex, the two models are still equivalent,
+% but we are no aware of a direct proof -- the equivalence follows from the fact that both models are equivalent to weighted orbit-finite automata as we will show later in this section.
 
-Having defined the bilinear protocols, we resume the proof of \cref{thm:orbit-finite-protocol-to-weighted}. The proof has two steps, as described in the following diagram.
+Let us go back to the proof of \cref{thm:orbit-finite-protocol-to-weighted}. The proof has two steps, as described in the following diagram.
 \[
 \begin{tikzcd}
 \text{orbit-finite protocol}
 \ar[d,Rightarrow,"\text{Lemma~\ref{lem:orbit-finite-protocol-to-scalar}}"]
 \\
 \text{orbit-finite bilinear protocol}
-%\omc{Here one lemma is missing}
-\ar[d,Rightarrow, "\text{\cref{thm:orbit-finite-fliess}}"]
+\ar[d,Rightarrow, "\text{Lemma~\ref{claim:bilinear-prot-to-of-automaton}}"]
 \\
 \text{orbit-finite weighted automaton}
 \end{tikzcd}
@@ -460,15 +472,18 @@ We begin with the first step, which can be seen as form of reduction to one roun
 
 
 \begin{proof}
-    We first introduce a common generalisation of the two models in the lemma. This genneralisation is called \emph{hybrid protocols}, and it has both multiple rounds (as in the protocols from the assumption of the lemma) and linear combinations (as in the protocols from the  conclusion of the lemma). We then show that the multiple rounds can be eliminated, yielding a protocol as in the conclusion of the lemma. 
-
-    We begin by describing the hybrid protocols. The protocol has $k$ rounds.  In the first $k-1$ rounds, the two parties exchange messages as in the orbit-finite protocol. Then, in the last round, they create two vectors, which are combined using a bilinear map to get the final number. 
-    Here is a formal definition of the hybrid protocol. For each round $i \in \set{1,\ldots,k-1}$, the parties exchange messages just as in an orbit-finite protocol, using message spaces $Q_A$ and $Q_B$ and strategies 
+    We first introduce a common generalisation of the two models called \emph{hybrid protocols}. They consists of multiple rounds
+    followed by a bilinear operation. We will show that the multiple rounds can be eliminated,
+    yielding a plain orbit-finite bilinear protocol. 
+    
+    Here is the formal definition of the hybrid protocol: For each round $i \in \set{1, \ldots, k-1}$, the parties exchange messages just as in an orbit-finite
+    protocol, using message spaces $Q_A$ and $Q_B$ and strategies of the following types: 
         \begin{align*}
         \sigma_{A,i} & : \Sigma^* \times (Q_B)^{i-1} \to Q_A\\
         \sigma_{B,i} & : \Sigma^* \times (Q_A)^{i-1} \to Q_B
         \end{align*}
     Then, in  the last $k$-th round, the message histories are used to produce vectors in two vector spaces $V_A$ and $V_B$ of orbit-finite dimension, using strategies 
+    of types
     \begin{align*}
         \sigma_{A,k} & : \Sigma^* \times (Q_B)^{k-1} \to V_A\\
         \sigma_{B,k} & : \Sigma^* \times (Q_A)^{k-1} \to V_B.
@@ -479,7 +494,7 @@ We begin with the first step, which can be seen as form of reduction to one roun
     \end{align*}
     
 
-    The hybrid protocol is meant to generalise both orbit-finite protocols and orbit-finite bilinear protocols. For the latter, this is clear: we simply use $k=1$ and there is no message exchange. For the former, we proceed as follows. We use  trivial vector spaces, i.e.~both vector spaces are the field. The bilinear map is multiplication. Once the two parties have agreed on a Boolean decision, they can both send $1$ (in the case of a ``yes'' decision) or $0$ (in the case of a ``no'' decision), and the bilinear map will give the correct output. 
+    The hybrid protocol generalizes both orbit-finite protocols and orbit-finite bilinear protocols. For the latter, this is clear: we simply use $k=1$ and there is no message exchange. For the former, we proceed as follows. We use  trivial vector spaces, i.e.~both $V_A$ and $V_B$ are the field. The bilinear map is multiplication. Once the two parties have agreed on a Boolean decision, they can both send $1$ (in the case of a ``yes'' decision) or $0$ (in the case of a ``no'' decision), and the bilinear map will give the correct output. 
     
     In order to complete the proof of the lemma, we will show that the number of rounds can always be reduced to one, thus yielding a bilinear protocol. 
 
@@ -499,29 +514,34 @@ We begin with the first step, which can be seen as form of reduction to one roun
         \begin{align*}
            W_A =  (\lincomb Q_A) \otimes (\lincomb F_A).
         \end{align*}
-        We can do the same thing for Bob, thus giving a vector space 
+        We can do the same thing for Bob, obtaining a vector space
         \begin{align*}
            W_B =  (\lincomb Q_B) \otimes (\lincomb F_B),
         \end{align*}
-        where $F_B$ is an orbit-finite basis of the vector space $\fsfun  {Q_A} {V_B}$. Define a linear map
+        where $F_B$ is an orbit-finite basis of the vector space $\fsfun  {Q_A} {V_B}$.
+        In order to define an equivariant bilinear map of type
+        \begin{align*}
+        \varphi : W_A \times W_B \to \domain
+        \end{align*}
+        it is enough to define an equivariant linear map of type 
         \begin{align*}
         \varphi : W_A \otimes W_B \to \domain
         \end{align*}
-        as follows. A basis of the input space for $\varphi$ is 
+        for which it is enough to define an equivariant function on its basis
         \begin{align*}
-        Q_A \times F_B \times Q_B \times F_A,
+        Q_A \times F_B \times Q_B \times F_A \to \domain
         \end{align*}
-        and therefore it is enough to define the map $\varphi$ on the basis. (We want $\varphi$ to be equivariant, and therefore the definition on the basis will need to be equivariant as well.) This definition is the only one that types, namely 
+        This definition is the only one that types, namely 
         \begin{align*}
         (q_A, f_B, q_B, f_A) \quad 
         \mapsto \quad 
         \text{out}(f_A(q_B), f_B(q_A)).
         \end{align*}
-        The map $\varphi$ is a linear map with domain $W_A \otimes W_B$, and therefore it is a bilinear map with domain $W_A \times W_B$. Because the output map is bilinear, one can check that $\varphi$ defined this way is consistent with the original protocol, i.e.~if we take functions 
+        Because the output map is bilinear, one can check that $\varphi$ defined this way is consistent with the original protocol, i.e.~if we take functions 
         \begin{align*}
         f_A : Q_B \to V_A \qquad \text{and} \qquad f_B : Q_A \to V_B,
         \end{align*}
-        which are not necessariy basis vectors from $F_A$ and $F_B$, then we have 
+        which are not necessarily basis vectors from $F_A$ and $F_B$, then we have 
         \begin{align*}
         \text{out}(f_A(q_B), f_B(q_A)) = \varphi((q_A, f_B), (q_B, f_A)).
         \end{align*}
@@ -538,7 +558,7 @@ We begin with the first step, which can be seen as form of reduction to one roun
 
 The second step in the proof of \cref{thm:orbit-finite-protocol-to-weighted} is to show that orbit-finite bilinear protocols are equivalent to weighted orbit-finite automata.  This will be proved similarly to the finite case, see \cref{sec:from-scalar-product-protocol-to-weighted-automaton}, by appealing to the Fliess Theorem. However, we first  need to prove the appropriate  orbit-finite generalisation  of this theorem.
 
-\subsubsection{Fliess Theorem}
+\subsubsection{Orbit-Finite Fliess Theorem}
 In this section, we prove an orbit-finite version of the Fliess Theorem, which characterises functions $\Sigma^* \to \domain$ that are computed by weighted orbit-finite automata. As in the original Fliess Theorem, we will be interested in derivatives of the function, which live in the space  
 \begin{align*}
 \Sigma^* \to \domain.
@@ -547,12 +567,10 @@ This set has three kinds of structure, all of which will are used in the Fliess 
 
 We say that a subset  $U \subseteq \Sigma^* \to \domain$  is \emph{orbit-finitely spanned} if there is some orbit-finite set $Q$, such that  every element of $U$ is a finite linear combination of elements from $Q$. We do not require the linear combination to be unique, i.e.~we do not require $Q$ to be a basis. (Choosing a basis can be problematic in the context of orbit-finite sets, see~\cite[Example 77]{bojanczyk_slightly}.) We are now ready to state the orbit-finite version of the Fliess Theorem.
 
-\begin{theorem}[Orbit-finite Fliess Theorem]\label{thm:orbit-finite-fliess}
-    The following conditions are equivalent for every  function
-    \begin{align*}
-    f : \Sigma^* \to \domain,
-    \end{align*}
-    where $\Sigma^*$ is an orbit-finite alphabet, and $\domain$ is a field: 
+\begin{theorem}[Orbit-Finite Fliess Theorem]\label{thm:orbit-finite-fliess}
+    The following two conditions are equivalent for every function
+    $f : \Sigma^* \to \domain$
+    where $\Sigma$ is an orbit-finite alphabet and $\domain$ is a field.
     \begin{enumerate}
         \item \label{it:fliess-weighted} $f$ is computed by a weighted orbit-finite automaton;
         \item \label{it:fliess-derivatives} $f$ is equivariant and its set of derivatives is orbit-finitely spanned.
@@ -563,10 +581,7 @@ We say that a subset  $U \subseteq \Sigma^* \to \domain$  is \emph{orbit-finitel
         % where each $\alpha_i$ is in the field, each $\pi_i$ is an atom permutation, and each $f_i$ is in $\Gamma$.
     \end{enumerate}
 \end{theorem}
-
-Before proving this theorem, we use it to complete the proof of \cref{thm:orbit-finite-protocol-to-weighted}. In light of  \cref{lem:orbit-finite-protocol-to-scalar}, it is enough to show that if (the characteristic function of) a  language is computed by an orbit-finite bilinear protocol, then it has  an orbit-finite space of left derivatives. This is explained in the same way as in Section~\ref{sec:beyond-fields}: the vector produced by Alice in a bilinear protocol uniquely determines the left derivative of her part of the input. 
-
-\begin{proof}[Proof of orbit-finite Fliess Theorem] In this proof, the orbit-finite generalisation is proved in the same way as the original theorem, without any significant changes.
+\begin{proof} Our proof follows the lines of the original theorem, without any significant changes.
 
     We begin with the implication \ref{it:fliess-weighted} $\implies$ \ref{it:fliess-derivatives}. Consider a weighted orbit-finite automaton with state space $Q$. 
     Define the \emph{pre-weight} of a run in the same way as its weight, except that we do not use the final weight. In other words, this is the product of: (1) the initial weight of the first state; and (2) the weights of all transitions. Consider an input string $w$. Define the \emph{configuration} of $w$ to be the linear combination
@@ -574,14 +589,15 @@ Before proving this theorem, we use it to complete the proof of \cref{thm:orbit-
         \label{eq:configuration-wa}
         \sum_\rho \alpha_\rho \cdot q_\rho,
     \end{align}
-    where $\rho$ ranges over runs that have input $w$ and non-zero pre-weight, $\alpha_\rho$ is the pre-weight of the run $\rho$, and $q_\rho$ is the last state in this run (this state is a string, since states are strings). By the assumption that each input string has finitely many runs with non-zero weight, the configuration is a finite sum, i.e.~it belongs to the vector space $\lincomb Q$. The left derivative which corresponds to the input string is uniquely determined by this configuration, and the space of configurations is orbit-finitely spanned. Hence, we get~\ref{it:fliess-derivatives}.
+    where $\rho$ ranges over runs that have input $w$ and non-zero pre-weight, $\alpha_\rho$ is the pre-weight of the run $\rho$, and $q_\rho$ is the last state in this run. By the assumption that each input string has finitely many runs with non-zero weight, the configuration is a finite sum, i.e.~it belongs to the vector space $\lincomb Q$. The left derivative which corresponds to the input string is uniquely determined by this configuration, and the space of configurations is orbit-finitely spanned. Hence, we get~\ref{it:fliess-derivatives}.
 
     We now prove the other implication, \ref{it:fliess-derivatives} $\implies$ \ref{it:fliess-weighted}. Assume~\ref{it:fliess-weighted}, which means that   there is an orbit-finite set $Q \subseteq \Sigma^*$ such that every derivative of $f$ can be decomposed as a finite linear combination of left derivatives
     \begin{align*}
             \sum_i \alpha_i \leftderivative{f}{w_i},
-        \end{align*}
-        where each string $w_i$ is in $Q$. The following claim discusses this decomposition for strings that are obtained by taking a string in $Q$ and appending one letter. 
-        \begin{claim}
+    \end{align*}
+    where each string $w_i$ is in $Q$. The following claim shows that strings obtained by taking elements of $Q$ and appending one letter
+    (i.e. strings of the form $Q \cdot \Sigma$) can be decomposed in an equivariant way:
+    \begin{claim}
             There is an equivariant function 
         \begin{align*}
        \delta :  Q \times \Sigma \to \lincomb Q
@@ -593,15 +609,26 @@ Before proving this theorem, we use it to complete the proof of \cref{thm:orbit-
         \qquad \Rightarrow \qquad 
         \leftderivative f {wa} = \sum_i \alpha_i \leftderivative{f}{w_i}.
         \end{align*}
-        \end{claim}
+    \end{claim}
     \begin{proof}
-        Condition~\ref{it:fliess-derivatives} in the theorem says that there is such a function, not necessarily equivariant. The content of the claim is to show that this function can be assumed to be equivariant. Indeed, we can start with any function $\delta$, which is not necessarily equivariant, and then improve it as follows:  for every orbit in $Q \times \Sigma$,  pick a representative $(w,a)$, apply the original function to it, and then extend the result to the whole orbit by equivariance. This improvement  procedure is legitimate thanks to the following equivalence: 
+        Observe that Condition~\ref{it:fliess-derivatives} in the theorem's statement already asserts that there exists such a function $\delta$,
+        possibly non-equivariant. In this proof we show how to modify it so that it becomes equivariant
+        while still satisfying other requirements of the claim. We construct this modified function $\delta'$ as follows:
+        for every orbit $Q \times \Sigma$ pick its representative $(w, a)$ and then extend the result to the whole orbit by equivariance:
+        \begin{align*}
+        \delta'(\pi(w), \pi(a)) := \pi(\delta(w, a))
+        \end{align*}
+        The new function $\delta'$ is equivariant by construction, and it keeps satisfying other requirements of the claim because
+        $f$ is an equivariant function, so its derivatives commute with atom permutation:
+        \begin{align*}
+        \leftderivative{f}{\pi(w)}= \pi(\leftderivative{f}{w})
+        \end{align*}
+        Giving us that:
         \begin{align*}
                     \leftderivative{f}{wa} = \sum_i \alpha_i \leftderivative{f}{w_i}
                     \quad \iff \quad 
-                            \leftderivative{f}{\pi(wa)} = \sum_i \alpha_i \leftderivative{f}{\pi(w_i)},
+                            \leftderivative{f}{\pi(wa)} = \sum_i \alpha_i \leftderivative{f}{\pi(w_i)}.
         \end{align*}
-        The equivalence holds  because equivariance of $f$ ensures that  derivatives commute with atom permutations.
     \end{proof}        
 
     Using the function $\delta$ from the above claim, we define a weighted orbit-finite automaton. The state space is the set $Q$. (We assume without loss of generality that $Q$ contains the empty string $\varepsilon$. This is not really necessary for the construction, but it makes it more intuitive.) The weights are defined as follows: 
@@ -614,7 +641,8 @@ Before proving this theorem, we use it to complete the proof of \cref{thm:orbit-
     is the coefficient next $v$ in the linear decomposition $\delta(w,a)$.
         \item \textbf{Final weights.} The final weight of a state $w \in Q$ is $f(w)$.
     \end{itemize}
-    In order for this to be a well-defined automaton, there need to be  finitely many runs with non-zero weight for every input string. This is because all linear combinations are finite, which ensures that for each state $w$ there are finitely many outgoing transitions over any input letter $a$ that have nonzero weight.
+    Remember that orbit-finite weighted automata can only admit finitely many runs for each input word.
+    Our automaton satisfies this requirement, as all linear combinations returned by $\delta$ are finite. 
 
     Finally, we justify why this automaton computes the function $f$.   A simple inductive proof shows that  
     \begin{align*}
@@ -626,3 +654,14 @@ Before proving this theorem, we use it to complete the proof of \cref{thm:orbit-
     By choice of final weights,  the output of the automaton is equal to $f(w)$. 
 \end{proof}
 
+We are now ready to complete the proof of \cref{thm:orbit-finite-protocol-to-weighted} by showing the missing link:
+\begin{claim}
+\label{claim:bilinear-prot-to-of-automaton}
+    If a function $\Sigma^* \to D$ is computed by an orbit-finite bilinear protocol, it can also be computed by an 
+    orbit-finite weighted automaton. 
+\end{claim}
+\begin{proof}
+    Thanks to the Orbit-Finite Fliess Theorem it is enough to show that if a function is computed by an orbit-finite linear 
+    protocol than it has an orbit-finite space of left derivatives. This follows from the same argument as in Section~\ref{sec:beyond-fields}:
+    the vector produced by Alice in a bilinear protocol uniquely determines the left derivative of her part of the input. 
+\end{proof}
