@@ -1,8 +1,17 @@
+
+\knowledge{notion}
+ | string-to-string function
+ | string-to-string functions
+
 % protocols for boolan 
 \knowledge{notion}
  | boolean protocol
  | protocol@boolean
  | Boolean protocol
+
+\knowledge{notion}
+ | scalar product protocols
+ | scalar product protocol
 
 \knowledge{notion}
  | regular language
@@ -14,8 +23,13 @@
 % protocols for general domains
 \knowledge{notion}
  | protocol
+ | general protocols
+ | protocols
  | two-party protocol
  | general domain protocol
+
+\knowledge{notion}
+ | protocols for infinite input alphabets
 
 \knowledge{notion}
  | output function@protocol
@@ -28,10 +42,13 @@
 
 \knowledge{notion}
  | output domain
+ | output domains
 \knowledge{notion}
  | number of rounds
 
-\knowledge{notion,scope=protocol}
+\knowledge{notion}
+ | protocol dimension
+\knowledge{notion,scope=protocol,synonym={protocol dimension}}
  | dimension
 
 % Output domains for the protocols 
@@ -50,6 +67,21 @@
 \knowledge{notion}
  | Strings@output
  | String domain
+ | string domain
+ 
+
+\knowledge{notion}
+ | signal part
+ | signals
+\knowledge{notion}
+ | signal-free
+\knowledge{notion}
+ | signal-free protocol
+ | signal-free protocols
+\knowledge{notion}
+ | output values
+\knowledge{notion}
+ | output part
 
 % origin semantics
 
@@ -85,13 +117,41 @@
 
 \knowledge{notion}
  | two-way automaton
+ | two-way automaton with output
  | deterministic two-way automaton with output
+ | deterministic two-way automata with output
  | two-way automata
  | deterministic two-way automaton
 
 \knowledge{notion}
  | weighted automaton
  | weighted automata
+ | Weighted automata
+
+\knowledge{notion}
+ | nondeterministic weighted automaton
+ | wa-nfa
+\knowledge{notion,scope=nondet,synonym={nondeterministic weighted automaton}}
+ | weighted automaton
+\knowledge{notion,scope=nfa,synonym={nondeterministic weighted automaton}}
+ | weighted automata
+ | weighted automaton
+
+\knowledge{notion,scope=wa}
+ | dimension
+\knowledge{notion,scope=wa}
+ | final map
+
+\knowledge{notion}
+ | Hankel matrix
+\knowledge{notion}
+ | derivatives
+\knowledge{notion}
+ | left derivative
+ | left derivatives
+\knowledge{notion}
+ | right derivatives
+ | right derivative
 
 \knowledge{notion}
  | crossing sequence
@@ -112,6 +172,7 @@
  | regular string-to-string functions
 \knowledge{notion,scope=function,synonym={regular function}}
  | regular
+ | regularity
 
 \knowledge{notion}
  | polyregular
@@ -123,6 +184,12 @@
  | rational functions
  | rational string-to-string function
  | rational string-to-string relation
+ | rational string-to-string functions
+\knowledge{notion,scope=function,synonym={rational function}}
+ | rational
+
+\knowledge{notion}
+ | (one-way) nondeterministic automata with output
 
 % continuity notions
 
@@ -133,6 +200,15 @@
 \knowledge{notion}
  | Boolean continuous
  | Boolean continuity
+
+\knowledge{notion}
+ | continuity over a class of algebras
+ | continuity over $\algclass $
+ | continuous@alg
+
+\knowledge{notion,scope=alg,synonym={continuity over a class of algebras}}
+ | continuity
+ | continuous
 
 % infinite alphabet notions
 

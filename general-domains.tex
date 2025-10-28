@@ -16,13 +16,9 @@ The output domain will typically  be infinite. In principle, the family of opera
 although any protocol will only use finitely many operations.
 By abuse of notation, we use the same symbol $\domain$ to denote the output domain and its underlying set, with the operations being implicit. Here are the output domains that will be studied in this paper: 
 \begin{itemize}
-    \item \intro{Boolean domain} The set is $\set{\text{true, false}}$, and there are no basic operations. (We could add basic operations, such as the Boolean operations $\lor,\land$ and $\neg$, but this will not affect the expressive power of our protocol, so we choose to have no operations.)
-    \item \intro{Field domain} The set is a field, such as the rationals or reals, and there are two operations for addition and multiplication. This is not one domain, but a family of domains, with one for each field.
-    \item \intro{Monoid domain} The set is a commutative monoid $(M,+,0)$, and there is one basic operation, which is the binary operation $+$. Again, this is not one domain, but a family of domains, with one for each commutative monoid.
-    \omc{The text states, “Here are the output domains that will be studied in this paper:” followed by “commutative monoid.” I think it would be better to explain the relationship between this and the unary output alphabet; otherwise, it is unclear how the commutative monoid part is connected to the rest of the paper.}
-    \mb{I'm not sure what happened here, I think somebody added the commutative monoids. To be discussed.}
-    \item \intro{String domain} This is a special case of the monoid domain, where the set is $\Gamma^*$ for some finite alphabet $\Gamma$, and the operation is string concatenation.
-    \omc{You wrote "commutative monoid" above, while the title is just Monoid. Then here you mention that this is a special case of a monoid. That’s fine, but shouldn’t we remove the word commutative from the previous part?}
+    \item \intro{Boolean domain}. The set is $\set{\text{true, false}}$, and there are no basic operations. (We could add basic operations, such as the Boolean operations $\lor,\land$ and $\neg$, but this will not affect the expressive power of our protocol, so we choose to have no operations.)
+    \item \intro{Field domain}. The set is a field, such as the rationals or reals, and there are two operations for addition and multiplication. This is not one domain, but a family of domains, with one for each field.
+    \item \intro{String domain}. The set is $\Gamma^*$ for some finite alphabet $\Gamma$, and the operation is string concatenation.
 \end{itemize}
 
 In the protocol, the output value will be constructed in a constant number of
@@ -35,7 +31,7 @@ that are derived by composing them, as described in the following definition.
     \begin{align*}
     t : \domain^n \to \domain
     \end{align*}
-    is called a \emph{term operation} if it can be obtained by applying the operations in the domain to variables $x_1,\ldots,x_n$. Each variable can be used multiple times, or not at all.  We write 
+    is called a \intro{term operation} if it can be obtained by applying the operations in the domain to variables $x_1,\ldots,x_n$. Each variable can be used multiple times, or not at all.  We write 
     \begin{align*}
     \domain^n \termop \domain
     \end{align*}
@@ -43,25 +39,26 @@ that are derived by composing them, as described in the following definition.
 \end{definition}
 
 \begin{myexample}
-    If the operations are $+$ and $\times$, then after applying the usual distributivity laws,   term operations are the same as polynomials with natural coefficients, such as 
+  If the operations are $+$ and $\times$, then after applying the usual distributivity laws,  \kl{term operations} are the same as polynomials with natural coefficients, such as 
 \begin{align*}
 x_1x_2^2 + x_1x_2x_3^3  + \myunderbrace{2x_1}{same as $x_1 + x_1$}.
 \end{align*}
-If the output domain is the Boolean domain, which has no operations, then the only kind of term operation is a single variable, e.g.~$x_2$.  In the case of a string domain, a term operation is some concatenation of the variables, such as $x_1 x_3 x_1 x_2$.
+If the output domain is the \kl{Boolean domain}, which has no operations, then the only kind of \kl{term operation} is a single variable, e.g.~$x_2$.  In the case of a \kl{string domain}, a \kl{term operation} is some concatenation of the variables, such as $x_1 x_3 x_1 x_2$.
 \end{myexample}
 
 
 
-We now generalise the protocol to cover functions 
+\AP
+We now generalise the \kl[boolean protocol]{protocol} to cover functions 
 \begin{align*}
 f : \Sigma^* \to \domain,
 \end{align*}
 where $\domain$ is some possibly infinite output domain. As in the Boolean
 version of the protocol, the output value is constructed by Alice and Bob, as a
 result of an exchange of a constant number of messages. Each message has two
-parts, which are called the \emph{signal part} and the \emph{output part}. The
+parts, which are called the \intro{signal part} and the \intro{output part}. The
 signal part consists of a finite amount of information, and is used to exchange
-information between the two parties as in the Boolean protocol. The output part
+information between the two parties as in the \kl{Boolean protocol}. The \kl{output part}
 is a list of elements from the  output domain, and  is meant to be part of the
 output value. As in the Boolean case, the above definition slightly deviates
 from the informal description in the introduction. In particular, a message can
@@ -71,7 +68,7 @@ definition will be more convenient later one, where we consider one-round
 protocols. Another important difference is that the operations from the output
 domain are only applied once at the end of the protocol. This, again does
 affect the expressive power, since the two parties can wait with their
-operations until all signals have been exchanged.  
+operations until all \kl[signal part]{signals} have been exchanged.  
 
 \begin{definition}\label{def:two-party-protocol-general} A \intro{two-party protocol}
    is given by the following ingredients: 
@@ -93,19 +90,35 @@ operations until all signals have been exchanged.
   \end{enumerate}
 \end{definition}
 
-% \alc{Maybe we should use uniform strategies that take the history $Q_B^{*}$ and
-% $Q_A^{*}$ instead of fixed number of rounds? This is just to simplify
-% notations.}
-% I would keep the stronger typing, since it explains what is happening
 
-
-The protocol is executed on a pair of strings $(w_1,w_2)$. In each round, each of the two parties  sends a message (which consists of a signal and some elements of the output domain) that is based on their local string and the history of signals coming from the other party. After all $k$ rounds have been executed, the joint signal history of both players is used, by the output function, to determine a term operation. This operation is then applied to the output history, yielding the final result of the protocol. As in the Boolean case, we are interested in protocols that are split invariant, which means that for every string $w \in \Sigma^*$, the same output is produced for every possible decomposition $w = w_1 w_2$. Such protocols compute a function of type $\Sigma^* \to \domain$. 
+\AP
+The \kl{protocol} is executed on a pair of strings $(w_1,w_2)$. In each round, each
+of the two parties  sends a message (which consists of a signal and some
+elements of the output domain) that is based on their local string and the
+history of signals coming from the other party. After all $k$ rounds have been
+executed, the joint signal history of both players is used, by the output
+function, to determine a term operation. This operation is then applied to the
+output history, yielding the final result of the protocol. As in the Boolean
+case, we are interested in protocols that are \intro{split invariant}, which means that
+for every string $w \in \Sigma^*$, the same output is produced for every
+possible decomposition $w = w_1 w_2$. Such protocols compute a function of type
+$\Sigma^* \to \domain$. 
 
 \begin{myexample}[Boolean domain]
-    Consider the Boolean output domain. In this case, the distinction between output values and signals is irrelevant, since the output values can be sent as signals. Therefore, the general protocol coincides with the Boolean protocol from the previous section, and  can only compute regular languages.  The same remarks apply for a general but finite output domain -- a function $f : \Sigma^* \to \domain$ can be computed by a protocol if and only if for every $d \in \domain$, the inverse image $f^{-1}(d)$ is a regular language.
+    Consider the Boolean output domain. In this case, the distinction between
+    \kl{output values} and \kl{signals} is irrelevant, since the output values
+    can be sent as signals. Therefore, the general protocol coincides with the
+    \kl{Boolean protocol} from the previous section, and  can only compute regular
+    languages.  The same remarks apply for a general but finite output domain
+    -- a function $f : \Sigma^* \to \domain$ can be computed by a \kl{protocol} if
+    and only if for every $d \in \domain$, the inverse image $f^{-1}(d)$ is a
+    regular language.
 \end{myexample}
 
-Other examples of output domains are fields and strings. These were discussed  briefly in the introduction in Sections~\ref{sec:intro-field} and~\ref{sec:intro-strings},  and will be discussed at length in Sections~\ref{sec:field-domain} and~\ref{sec:string-outputs}.  
+Other examples of output domains are fields and strings. These were discussed
+briefly in the introduction in Sections~\ref{sec:intro-field}
+and~\ref{sec:intro-strings},  and will be discussed at length in
+Sections~\ref{sec:field-domain} and~\ref{sec:string-outputs}.  
 
 % Nevertheless, we give here one example which concerns strings, and uses both signals and output values in the messages.
 
@@ -141,13 +154,14 @@ Other examples of output domains are fields and strings. These were discussed  b
 
 \subsection{One-round protocols}
 
-We have little say to say about  protocols in the case of a general output
+We have little say to say about \kl{protocols} in the case of a general output
 domain. The  only result that we have at this level of generality is a
-reduction to one-round protocols, similarly to the Boolean case.
+reduction to one-round protocols, similarly to the \kl[Boolean
+protocol]{Boolean case}.
 
 \begin{lemma}
 \label{lemma:one-round-reduction-general}
-  Every protocol is equivalent to a one-round protocol.
+  Every \kl{protocol} is equivalent to a one-round \kl{protocol}.
 \end{lemma}
 \begin{proof}
   Same proof as in \cref{lem:one-round-reduction-boolean}. 
@@ -155,4 +169,9 @@ reduction to one-round protocols, similarly to the Boolean case.
  \mb{If you want to add a short proof, that would be nice! But we can still keep the sentence that it is the same proof.}
 \end{proof}
 
- Later in this paper, we will study protocols for infinite input alphabets. Such protocols will not be a special case of the protocols developped so far, since the signal spaces will be infinite, albeit in a limited way (called orbit-finite).  As we will see, for such signal spaces the reduction to one round will no longer be valid, and the interactive nature of the protocols will be essential.
+Later in this paper, we will study \kl{protocols for infinite input alphabets}.
+Such protocols will not be a special case of the \kl{protocols} developed so far,
+since the signal spaces will be infinite, albeit in a limited way (called
+\kl{orbit-finite}).  As we will see, for such signal spaces the reduction to
+one round will no longer be valid, and the interactive nature of the protocols
+will be essential.

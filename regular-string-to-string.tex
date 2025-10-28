@@ -1,16 +1,18 @@
-
+% LTeX: language=en
 \subsection{Regular string-to-string functions}
 \label{sec:regular-string-to-string-functions}
-
-In this section, we define the class of regular string-to-string functions, and
+\AP
+In this section, we define the class of \kl{regular string-to-string functions}, and
 we prove the implication $\impliedby$ in the conjecture. Historically, class of
-regular string-to-string  functions was first defined in terms of deterministic
-two-way automata with output~\cite[Note 4]{shepherdson1959reduction}. Although
+regular string-to-string  functions was first defined in terms of \kl{deterministic
+two-way automata with output}~\cite[Note 4]{shepherdson1959reduction}. Although
 numerous equivalent definitions appeared later on, we will use the original
 definition.
 
  \begin{definition}[Two-way automaton]
-   A \intro{deterministic two-way automaton with output} is given by the following ingredients:
+   \AP
+   A \intro{deterministic two-way automaton with output} is
+   given by the following ingredients:
     \begin{enumerate}
         \item a finite input alphabet $\Sigma$;
         \item a finite output alphabet $\Gamma$;
@@ -28,6 +30,7 @@ definition.
     \end{enumerate}
  \end{definition}
 
+\AP
 The automaton works as follows. The input string $w$ is placed on a tape,
 with the left end marked by $\vdash$ and the right end marked by $\dashv$.
 The automaton starts in state $q_0$, with its head on the left end of the
@@ -46,11 +49,14 @@ the function would be partial, since it would be undefined for inputs where
 the automaton does not halt.)
 
     \begin{myexample}[Reverse]
-        For each input alphabet $\Sigma$, the reverse function of type $\Sigma^* \to \Sigma^*$ is computed by a  two-way automaton, which first moves its head to the end of the string, and then starts copying it to the output while moving in the left direction.
+        For each input alphabet $\Sigma$, the reverse function of type
+        $\Sigma^* \to \Sigma^*$ is computed by a \kl{two-way automaton}, which
+        first moves its head to the end of the string, and then starts copying
+        it to the output while moving in the left direction.
     \end{myexample}
 
-    The class of functions computed by two-way automata has a remarkable number
-    of equivalent descriptions,  originating in different fields, including:
+    The class of functions computed by \kl{two-way automata} has a remarkable number
+    of equivalent descriptions, originating in different fields, including:
     monadic second-order transductions~\cite[Section
     4]{engelfrietMSODefinableString2001}, streaming string
     transducers~\cite[Section 3]{alurExpressivenessStreamingString2010},
@@ -70,18 +76,18 @@ the automaton does not halt.)
 
     \begin{definition}[Regular string-to-string function]
         \label{def:regular-string-to-string}
-        A string-to-string function is called \intro(function){regular}
+        A \kl{string-to-string function} is called \intro(function){regular}
         if it is computed by a \kl{deterministic two-way automaton with output}.
     \end{definition}
     
     
-    One good  property of the regular string-to-string functions is that they
-    are closed under composition~\cite[Theorem
+    One good  property of the \kl{regular string-to-string functions} is that
+    they are closed under composition~\cite[Theorem
     2]{chytilSerialComposition2Way1977}. In particular,
     Conjecture~\ref{conj:protocol-regular-string-to-string} would imply that
-    the same is true for functions computed by protocols. Without proving the
-    conjecture, we do not see any direct way of proving composition for
-    protocols. The  regular string-to-string functions have other good
+    the same is true for functions computed by \kl{protocols}. Without proving
+    the conjecture, we do not see any direct way of proving composition for
+    protocols. The  \kl{regular string-to-string functions} have other good
     properties, such as decidable equivalence~\cite[Theorem
     1]{gurariEquivalenceProblemDeterministic1982}, but we do not discuss these
     in more detail, since they seem to have little direct bearing on protocols.
@@ -90,10 +96,11 @@ the automaton does not halt.)
     The following lemma shows one of the implications in the conjecture.
 
 \begin{lemma}\label{lem:from-regular-to-protocol}
-    If a string-to-string function is regular, then it is computed by a protocol.
+    If a \kl{string-to-string function} is \kl(function){regular}, 
+    then it is computed by a \kl{protocol}.
 \end{lemma}
 \begin{proof}
-    The two parties can simulate a two-way automaton with output. The execution
+    The two parties can simulate a \kl{two-way automaton with output}. The execution
     of the protocol describes the crossing sequence of the automaton, i.e.~how
     it crosses the boundary between the two local strings of Alice and Bob.
     Here is a picture: \mypic{1} More formally, the crossing sequence is
