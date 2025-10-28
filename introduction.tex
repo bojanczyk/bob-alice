@@ -9,7 +9,7 @@ f : \Sigma^* \to \domain
 \end{align*}
 that input strings, and output values from some domain $\domain$. If the output
 domain is the Booleans, then such functions are languages, and there is no
-question about which languages should be considered \intro(language){regular}. There are tens --
+question about which languages should be considered \intro[regular language]{regular}. There are tens --
 if not hundreds -- of equivalent definitions, including regular expressions,
 finite automata in numerous forms, monoids, monadic second-order logic, and
 variants of $\lambda$-calculus. But what about other outputs? Let us review
@@ -64,6 +64,7 @@ treatment appearing in the standard text by Kushilevitz \cite{KUSH97}.
 We adapt
 this model to our purposes as follows.
 
+\AP
 There are \textbf{no uniformity assumptions} and the two parties
 have unrestricted computational power; the goal is to measure information 
 % \omc{information flow instead of information ?}
@@ -84,7 +85,7 @@ elements of the output domain.
 For example, if the outputs are rational
 numbers, then the messages can contain rational numbers. However, there is a
 restriction on the access to messages from the output domain, which is called
-the \textbf{black box restriction}. This restriction (which will be formally
+the \textbf{\intro{black box restriction}}. This restriction (which will be formally
 defined later in the paper) is intended to prevent tricks such as Alice sending
 her input string to Bob encoded as a rational number. Intuitively speaking,
 the  black box restriction says that the parties cannot read the messages from
@@ -126,7 +127,7 @@ of \emph{unary} output alphabets (\cref{thm:unary-string-to-string}).
 \subsection{Protocols for Boolean outputs}
 \label{sec:intro-boolean}
 
-The first contribution of the paper is a study of the protocol model for  functions
+We begin by studying the protocol model for  functions
 \begin{align*}
 f : \Sigma^* \to \set{\text{true, false}},
 \end{align*}
@@ -135,35 +136,33 @@ i.e.~languages. In this case the two parties only exchange bits,
 and they need to decide if the input string is in the language or not.
 Here is an example of a simple language that can be computed by a protocol:
 
-\begin{myexample}[First three equal last three]
+\begin{myexample}[Parity]
     \label{ex:three-letters}
-The language ``the first three letters are equal to the last three letters'' over an input alphabet $\set{a,b}$ can be computed by the following protocol:
-Alice sends her first three letters to Bob (if Alice got less than three letters, she needs to communicate this), and Bob uses this information to determine membership in the language. Alternatively, Bob can send his last three letters, and other variants are possible as well. A similar protocol will work for constants other than three. However, if the constant is turned into a variable, e.g.~we care about words of the form $ww$ where $w$ is of arbitrary length, then there is no protocol
-(by \cref{thm:boolean-domain})
+Suppose that the language is ``the string has even length''. In a protocol for this language, Alice sends the parity for her part of the input (one bit), and Bob uses this bit to return the final answer.  
 \end{myexample}
 
 As mentioned before, the parties have unbounded computational power, which means they their messages
 can contain answers to potentially undecidable questions about their parts of the input.
-The first result of this paper says that these protocols compute exactly the regular languages, despite this non-uniformity:
+Interestingly, despite this non-uniformity, the protocols compute exactly the regular languages.
+This fact was proven in~\cite[Theorem 5]{hauser1989}, but we restate it here for completeness.
 
 \begin{restatable}{theorem}{booleandomain}
- \label{thm:boolean-domain}
+ \label{thm:boolean-domain} \cite[Theorem 5]{hauser1989}
  A language $L \subseteq \Sigma^*$ is computed by a \kl[boolean protocol]{protocol} if and only if it is 
- \kl(language){regular}.
+ \kl[regular language]{regular}.
 \end{restatable}
-One implication is immediate: every regular language can be computed by a protocol. Alice can run an automaton on her part of the input and 
-send the intermediate state to Bob who can continue the run on his part. The other implication is proved in Section~\ref{sec:boolean-domain} in two steps. 
-In the first step, the protocol is reduced to a one-round non-interactive version, where each party independently sends a message with a constant number of bits, and the decision is then made based on these two messages. In the second step, we use Myhill-Nerode theorem to conclude that any language computed by a one-round protocol must necessarily be regular. 
+One implication is immediate: every regular language can be computed by a protocol.  Alice can send to Bob the state of a finite automaton that recognises the language. The other implication is proved in two steps, see Section~\ref{sec:boolean-domain} for more details. In the first step, the protocol is reduced to a one-round non-interactive version, where each party independently sends a message with a constant number of bits, and the decision is then made based on these two messages. In the second step,  the Myhill-Nerode Theorem is used to show that the language must necessarily be regular. 
+
+Theorem~\ref{thm:boolean-domain} is  simple  technically, and its main value for us lies in its role as an inspiration for other results, which use  other output domains  such as  fields or strings. 
+
 
 % It is worth underlining that, unlike in communication complexity, we are not interested in the exact number of exchanged bits. For example, in the round reduction that is described in the previous paragraph, the number of exchanged bits increases exponentially. One could investigate the constant in more detail, e.g.~how it depends on some parameters of the language, such as the number of states in an automaton that recognises it. We do not pursue this direction in this paper.
 
-
-\cref{thm:boolean-domain} is not difficult to prove, nor can it be called completely new. However, it serves as an inspiration for other results in this paper,
- concerning other output domains such as fields or strings. Before continuing with those results, let us briefly discuss the related work.
-Although we are not aware of an exact precedent for \cref{thm:boolean-domain}, the general idea of studying communication complexity for regular languages is not new in automata theory. This theme is called state complexity, and it is interested  in the number of states needed for a given language in a given automaton model, and how this number is affected by operations on languages or changes in the model. See  Wikipedia~\cite{stateComplexityWiki} for a comprehensive summary with numerous references, or the recent paper~\cite{goosKiefer2022} which shows how to transfer lower bounds from communication complexity to state complexity of unambiguous automata. 
+Before moving to the other output domains, let us comment on other related work that connects communication complexity with automata in the case of Boolean outputs.  Much of this work is related to \emph{state complexity}, where one studies  the number of states needed for a given language in a given automaton model, and how this number is affected by operations on languages or changes in the model. See  Wikipedia~\cite{stateComplexityWiki} for a comprehensive summary with numerous references, or the recent paper~\cite{goosKiefer2022} which shows how to transfer lower bounds from communication complexity to state complexity of unambiguous automata. 
 % \omc{Remove the Wikipedia source and keep only the Goos and Kiefer (2022) reference. I think the Wikipedia source is redundant.}
 % MB: I think that the Wikipedia source contains a lot useful references, more so than the Good and Kiefer paper. I would keep it.
  The work on state complexity is mainly about the exact number of states, which is of secondary concern to us. For our purposes, a protocol that exchanges $k$ bits is no different from a protocol that exchanges $2^k$ bits. We only care that this bound should be finite and independent of the input.
+
 
 
 \subsection{Field outputs}

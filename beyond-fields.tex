@@ -36,7 +36,7 @@ as defined below.
     [Weighted automaton, nondeterministic presentation] 
     \label{def:weighted-automaton-nondeterministic}
     \AP
-    A \intro(nondet){weighted automaton} consists of a finite input alphabet $\Sigma$,  a finite set of states $Q$, and functions: 
+    A \intro[wa-nfa]{weighted automaton} consists of a finite input alphabet $\Sigma$,  a finite set of states $Q$, and functions: 
     \begin{align}
         \label{eq:weight-functions}
     \myunderbrace{I : Q \to \domain}{initial}
@@ -65,7 +65,7 @@ Definition~\ref{def:weighted-automaton-nondeterministic}.
 
 \AP
 Recall Conjecture~\ref{conj:regular-continuous}, which says that a
-\kl{string-to-string function} is \kl(function){regular} if and only if it is
+\kl{string-to-string function} is \kl[regular function]{function} if and only if it is
 \kl{field continuous}. One could consider variants of this conjecture for
 semirings.  For a class $\algclass$ of semirings, let us define
 \intro{continuity over $\algclass$} to be the same as in
@@ -156,17 +156,17 @@ of rational functions, which consists of fractions of polynomials.)
 
 \AP
 Below we show that: (1) the \kl{rational string-to-string functions} are a
-strict subset of the \kl(function){regular} ones; and (2) they are exactly the
+strict subset of the \kl[regular function]{function} ones; and (2) they are exactly the
 functions that are \kl[continuous@alg]{continuous} over all semirings. Both results are
 straightforward and could be called folklore.
 
 \begin{myexample}
     [Rational is weaker than regular]
-    For the separation between \kl(function){rational} and 
-    \kl(function){regular}, a short argument is given in 
+    For the separation between \kl[rational function]{function} and 
+    \kl[regular function]{function}, a short argument is given in 
     \cite[p. 218]{engelfrietMSODefinableString2001}. 
-    The duplicating function $w \mapsto ww$ is \kl(function){regular}.
-    It cannot be \kl(function){rational} 
+    The duplicating function $w \mapsto ww$ is \kl[regular function]{function}.
+    It cannot be \kl[rational function]{function} 
     however, since its image is not a regular language, 
     while rational relations have regular images~\cite[Theorem IX.3.1]{Eilenberg74}.
 \end{myexample}
@@ -188,7 +188,7 @@ straightforward and could be called folklore.
     \end{align*}
     i.e.~finite sets of output strings, with the addition being union and
     multiplication being concatenation. Essentially by comparing the
-    definitions, one sees that a string-to-string relation is \kl(function){regular}
+    definitions, one sees that a string-to-string relation is \kl[regular function]{function}
     if and only if it is computed by a \kl[wa-nfa]{weighted automaton} over this semiring. 
 
     This observation gives us the right-to-left implication in the theorem.
