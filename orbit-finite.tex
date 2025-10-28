@@ -8,7 +8,7 @@ infinite alphabets, which dates back to the work of Kaminski and
 Francez~\cite{kaminskiFiniteMemoryAutomata1994}, and has been developed in many
 subsequent papers, see e.g.~the
 survey~\cite{bojanczykOrbitFiniteSetsTheir2017}. The general idea is that we
-have an infinite alphabet $\atoms$ (whose elements are called atoms), and the
+have an infinite alphabet $\atoms$ (whose elements are called \intro{atoms}), and the
 languages  refer only to equality between letters, as in the following examples
 \begin{align}
 \setbuild{ w \in \atoms^*}{the first letter is equal to the last letter}
@@ -89,7 +89,7 @@ protocol cannot be reduced to the one-round case as in
 \AP
 We now give a more detailed description of our model. 
 As explained in the introduction, we only care about languages that are closed 
-under permutations of the alphabet, according to the following definition. 
+under \intro{permutations of the alphabet}, according to the following definition. 
 
 \begin{definition}[Equivariant language] \label{def:equivariant-language}
   \AP
@@ -143,11 +143,11 @@ it modifies the \kl{atoms} and leaves the Booleans unchanged.
     $2k+2$ pairwise different letters, split so that Alice and Bob get $k+1$
     letters each. In the execution of the protocol there are at most $k$ \kl{atoms}
     which are sent as messages. In particular, there must be some atom $a$ that
-    appears in Alice's part of the input string, but is not sent as a \kl{message},
+    appears in Alice's part of the input string, but is not sent as a message,
     and similarly there must be some atom $b$ that appears in Bob's part of the
     input string, but is not sent as a message. Consider an \kl{atom permutation}
     $\pi$ which swaps $a$ with $b$. If we apply this atom permutation to
-    Alice's part of the string (but not Bob's), then the \kl{communication history}
+    Alice's part of the string (but not Bob's), then the communication history
     will remain unchanged. In particular, the output of the protocol will be
     the same on both inputs. However, after applying this permutation, the
     input string has a repetition, unlike the original one. 
@@ -260,19 +260,19 @@ is the special case which has exactly one initial state, and where the transitio
 As stated in Figure~\ref{fig:automata-infinite-alphabets}, deterministic and
 nondeterministic orbit-finite automata have different expressive power.
 Moreover, none of these models is equivalent to \kl{orbit-finite protocols}:
-\kl(orbit-finite){deterministic automata} are too weak, and 
-\kl(orbit-finite){nondeterministic automata} are too
+\kl[of dfa]{deterministic automata} are too weak, and 
+\kl[of nfa]{nondeterministic automata} are too
 strong, as explained in the following examples.
 
 \begin{myexample}
     [Deterministic too weak]\label{ex:protocol-not-dofa}
   Every \kl{deterministic orbit-finite automaton} can be simulated by a 
-  \kl(orbit-finite){protocol},
+  \kl[of protocol]{protocol},
   in the same way as for finite alphabets. Alice sends her state to Bob,
   which will typically require sending some atoms. Bob then uses this state
   to continue the computation and report the answer. 
     
-  However, the inclusion is strict: \kl(orbit-finite){protocols} are more powerful than
+  However, the inclusion is strict: \kl[of protocol]{protocols} are more powerful than
   \kl{deterministic orbit-finite automata}. One reason is that protocols are
   symmetric, -- if a language can be computed by a protocol, then so can its
   reverse. On the other hand, deterministic orbit-finite automata are not
@@ -287,13 +287,13 @@ strong, as explained in the following examples.
     [Nondeterministic too strong] \label{ex:protocol-not-nofa}  
     The language ``some letter appears at least twice'', from Example
     \ref{ex:some-twice}, can be recognised by a \kl{nondeterministic orbit-finite
-    automaton}, but cannot be computed by a \kl(orbit-finite){protocol}.
+    automaton}, but cannot be computed by a \kl[of protocol]{protocol}.
     We do not know yet if
-    \kl{nondeterministic orbit-finite automata} can simulate all \kl(orbit-finite){protocols}, 
+    \kl{nondeterministic orbit-finite automata} can simulate all \kl[of protocol]{protocols}, 
     and therefore for
     all we know the two models could be incomparable. However, as we will
     explain later in this section, we conjecture that there is indeed an
-    inclusion, since we believe that \kl(orbit-finite){protocols}
+    inclusion, since we believe that \kl[of protocol]{protocols}
     are equivalent to a special case
     of \kl{nondeterministic orbit-finite automata} -- see
     Conjecture~\ref{conj:protocols-unambiguous}.
@@ -330,7 +330,7 @@ setting, two-way automata are very strong:
 \AP
 As we have shown in Examples~\ref{ex:protocol-not-dofa},
 \ref{ex:protocol-not-nofa} and \ref{ex:protocol-not-2dofa},
-\kl(orbit-finite){protocols} are not equivalent to one-way deterministic or
+\kl[of protocol]{protocols} are not equivalent to one-way deterministic or
 nondeterministic orbit-finite automata, or their two-way variants automata. So
 what is the right automaton model?  We conjecture that the answer is
 \intro{unambiguous orbit-finite automata}, i.e.~the special case of
@@ -344,7 +344,7 @@ every input string.
 \end{conjecture}
 
 One corollary of this conjecture would be that \kl{unambiguous orbit-finite
-automata} are closed under complement, since \kl(orbit-finite){protocols} can
+automata} are closed under complement, since \kl[of protocol]{protocols} can
 be complemented by flipping the output bit. This corollary has been conjectured
 in~\cite[p.9]{colcombet2012forms}, and to the best of our knowledge remains
 open, despite apparent claims to the contrary in~\cite[Footnote
@@ -438,7 +438,7 @@ Example~\ref{ex:tau-disjoint}, the \kl[orbit dimension]{dimension} is two,
 corresponding to the atoms $a$ and $b$. An important special case is when the
 \kl[orbit dimension]{dimension} is zero; in this case the orbit contains only one state.
 
-In the \kl(orbit-finite){protocol}, Alice and Bob will jointly maintain a set
+In the \kl[of protocol]{protocol}, Alice and Bob will jointly maintain a set
 $S \subseteq \atoms$ and list of \kl{$S$-orbits} which may contain the
 intermediate state (starting with $S = \emptyset$ the list of all
 $\emptyset$-orbits). They will ensure that if the intermediate state exists,
@@ -511,7 +511,7 @@ through $q_1$ and one that passes through $q_2$), contradicting the \kl{unambigu
 assumption. 
 \end{proof}
 
-Using the above lemma, we will construct a \kl(orbit-finite){protocol} that
+Using the above lemma, we will construct a \kl[of protocol]{protocol} that
 simulates the automaton. As explained before, the idea is to narrow down orbit
 which contains the intermediate state. This idea is formalised in the following
 lemma. 
@@ -547,7 +547,7 @@ also constant. It remains to prove the lemma.
   set $T$ to the other party. This is possible since the size of $T$ is
   bounded by the \kl[orbit dimension]{dimension} of $X$. 
   The orbit $X$ splits into finitely many
-  orbits $X_1,\ldots,X_n$ with the larger \kl(orbit){support} $S \cup T$, see~\cite[Lemma
+  orbits $X_1,\ldots,X_n$ with the larger \kl[of support]{support} $S \cup T$, see~\cite[Lemma
   10.9]{bojanczyk_slightly}. The number $n$ depends only on the \kl[orbit dimension]{dimension} 
   of $X$ (as the size of $T$ is bounded by the dimension of $X$).
 
@@ -555,7 +555,7 @@ also constant. It remains to prove the lemma.
   we are only interested in the orbits among $X_1,\ldots,X_n$ which use at
   least one atom from $T$ on a coordinate that was \kl[free coordinate]{free} in $X$. 
   These orbits
-  have lower \kl(orbit){dimension}, so the parties can sequentially apply the induction
+  have lower \kl[of dimension]{dimension}, so the parties can sequentially apply the induction
   assumption to check if the intermediate state belongs to any of these
   orbits. This completes the proof of the lemma, and therefore also of
   \cref{thm:unambiguous-to-protocol}.
@@ -602,7 +602,7 @@ is indeed impossible in the orbit-finite case.
     3.2]{bojanczykAutomataTheoryNominal2014} that $L$ is also recognised by a
     \kl{deterministic orbit-finite automaton}. As we have seen in
     Example~\ref{ex:protocol-not-dofa}, such automata are not strong enough to
-    capture all \kl(orbit-finite){protocols}.
+    capture all \kl[of protocol]{protocols}.
     %In fact, the reasoning in this example shows that a language is recognised by a one-round orbit-finite protocol if and only if it is recognised by a deterministic orbit-finite automaton in both directions, i.e.~both the language and its reverse are recognised by deterministic orbit-finite automata. 
 \end{myexample}
 

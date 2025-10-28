@@ -16,9 +16,7 @@
 
 \knowledge{notion}
  | regular language
-
-\knowledge{notion,scope=language,synonym={regular language}}
- | regular
+ | regular languages
 
 
 % protocols for general domains
@@ -29,8 +27,6 @@
  | two-party protocol
  | general domain protocol
 
-\knowledge{notion}
- | protocols for infinite input alphabets
 
 \knowledge{notion}
  | output function@protocol
@@ -38,23 +34,19 @@
  | signal space
  | signal spaces
 \knowledge{notion}
- | message
-\knowledge{notion}
  | strategies
  | strategy 
 
 \knowledge{notion}
  | output domain
+ | output values
  | output domains
 \knowledge{notion}
  | number of rounds
 
 \knowledge{notion}
  | protocol dimension
-\knowledge{notion,scope=protocol,synonym={protocol dimension}}
- | dimension
-\knowledge{notion}
- | communication history
+ | dimension@protocol
 
 % Output domains for the protocols 
 
@@ -80,11 +72,8 @@
  | signals
 \knowledge{notion}
  | signal-free
-\knowledge{notion}
  | signal-free protocol
  | signal-free protocols
-\knowledge{notion}
- | output values
 \knowledge{notion}
  | output part
 
@@ -108,9 +97,6 @@
  | local string
  | local strings
 
-\knowledge{notion}
- | message space
- | message spaces
 
 \knowledge{notion}
  | one-round
@@ -137,11 +123,8 @@
 \knowledge{notion}
  | nondeterministic weighted automaton
  | wa-nfa
-\knowledge{notion,scope=nondet,synonym={nondeterministic weighted automaton}}
- | weighted automaton
-\knowledge{notion,scope=nfa,synonym={nondeterministic weighted automaton}}
- | weighted automata
- | weighted automaton
+ | weighted automata@nfa
+ | weighted automaton@nfa
 
 \knowledge{notion,scope=wa}
  | dimension
@@ -176,9 +159,6 @@
  | regular functions
  | regular string-to-string function
  | regular string-to-string functions
-\knowledge{notion,scope=function,synonym={regular function}}
- | regular
- | regularity
 
 \knowledge{notion}
  | polyregular
@@ -191,9 +171,6 @@
  | rational string-to-string function
  | rational string-to-string relation
  | rational string-to-string functions
-\knowledge{notion,scope=function,synonym={rational function}}
- | rational
-
 \knowledge{notion}
  | (one-way) nondeterministic automata with output
 
@@ -230,13 +207,11 @@
  | one-way orbit-finite automata
  | nondeterministic orbit-finite automata
  | nondeterministic orbit-finite automaton
-\knowledge{notion,scope={orbit-finite},synonym={nondeterministic orbit-finite automata}}
- | nondeterministic automata
+ | of nfa
 \knowledge{notion}
  | deterministic orbit-finite automaton
  | deterministic orbit-finite automata
-\knowledge{notion,scope={orbit-finite},synonym={deterministic orbit-finite automata}}
- | deterministic automata
+ | of dfa
 
 \knowledge{notion}
  | unambiguous
@@ -264,6 +239,7 @@
  | atoms
 \knowledge{notion}
  | atom permutation
+ | permutations of the alphabet
 \knowledge{notion}
  | orbit
  | orbits
@@ -280,14 +256,11 @@
  | free coordinate
 \knowledge{notion}
  | support
- | support@orbit
-\knowledge{notion,scope={orbit},synonym={support}}
- | support
+ | of support
 \knowledge{notion}
  | orbit dimension
  | dimension of the orbit
-\knowledge{notion,scope={orbit},synonym={orbit dimension}}
- | dimension
+ | of dimension
 \knowledge{notion}
  | $S$-disjoint
 
@@ -295,10 +268,7 @@
  | orbit-finite protocols
  | orbit-finite Boolean two-party protocol
  | orbit-finite protocol
-\knowledge{notion,scope={orbit-finite},synonym={orbit-finite protocols}}
- | protocols
-\knowledge{notion,scope={orbit-finite},synonym={orbit-finite protocols}}
- | protocol
+ | of protocol
 
 
 

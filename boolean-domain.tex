@@ -31,7 +31,7 @@ generalisations.
     \item an output function of type $(Q_A \times Q_B)^{k} \to \set{\text{yes, no}}$.
   \end{enumerate}
 \end{definition}
-
+\AP
 Given a pair of input strings $(w_1,w_2)$, which are called the \emph{local
 strings} of Alice and Bob, respectively, the  protocol is run as follows. There
 are $k$ rounds. In each round, both parties send messages, and therefore after
@@ -59,9 +59,10 @@ introduction, which we now recall.
 
 \booleandomain*
 
-
 \begin{proof}
-  We begin with the easier right-to-left implication, which says that the protocol can compute every regular language. If the language is  regular, then it  is recognised by a deterministic finite automaton, say  with state space $Q$. To compute the language, we can use a  one-round protocol (as we will see in a moment, this is not a coincidence, since all protocols can be reduced to one round). Alice sends the state in $Q$ of the automaton after reading her local string, and Bob sends the dependency $Q \to \set{\text{yes, no}}$ which says how Alice's state determines acceptance. Once these two pieces of information are known, we can apply the function from Bob's message to the state in Alice's message to determine the output.
+\AP
+  We begin with the easier right-to-left implication, which says that the protocol can compute every regular language. If the language is  regular, then it  is recognised by a deterministic finite automaton, say  with state space $Q$. To compute the language, we can use a
+  \intro{one-round protocol} (as we will see in a moment, this is not a coincidence, since all protocols can be reduced to one round). Alice sends the state in $Q$ of the automaton after reading her local string, and Bob sends the dependency $Q \to \set{\text{yes, no}}$ which says how Alice's state determines acceptance. Once these two pieces of information are known, we can apply the function from Bob's message to the state in Alice's message to determine the output.
 
   The rest of this proof is devoted to the left-to-right implication, i.e.~to showing that every language computed by the protocol is regular. This is the heart of the proof, and the place where we need to tame the non-uniformity of the protocol. 
   
