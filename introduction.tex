@@ -125,37 +125,37 @@ in the table.
 \subsection{Protocols for Boolean outputs}
 \label{sec:intro-boolean}
 
-The first contribution of the paper is a study of the protocol model for  functions
+We begin by studying the protocol model for  functions
 \begin{align*}
 f : \Sigma^* \to \set{\text{true, false}},
 \end{align*}
 i.e.~languages. In this case the two parties only exchange bits, 
 % \omc{I still think it’s better to say that the messages come from a finite set instead of bits.} 
-and they need to decide if the input string is in the language or not. As mentioned before, the parties have unbounded computational power. For example, the first message sent by Alice could answer  some undecidable question.
+and they need to decide if the input string is in the language or not. As mentioned before, the parties have unbounded computational power. For example, the first message sent by Alice could answer  some undecidable question. This case has already been studied before, and the fact that it computes exactly the regular languages, see~\cref{thm:boolean-domain} below, is already known~\cite[Theorem 5]{hauser1989}.
 
-\begin{myexample}[First three equal last three]
+\begin{myexample}[Parity]
     \label{ex:three-letters}
-Suppose that the language is ``the first three letters are equal to the last three letters'', over an input alphabet $\set{a,b}$.
-Alice can send her  first three letters to Bob (if Alice got less than three letters, she needs to communicate this), and Bob can use this information to determine membership in the language. Alternatively, Bob can send his first three letters, and other variants are possible as well. The same kind of  protocol will of course work for finite constants other than three. If the constant is turned into a variable, e.g.~we care about words of the form $ww$ where $w$ is of arbitrary length, then there is no  protocol, as we will see later in this section. 
+Suppose that the language is ``the string has even length''. In a protocol for this language, Alice sends the parity for her part of the input (one bit), and Bob uses this bit to return the final answer.  
 \end{myexample}
 
-The first result of this paper  says that these protocols compute exactly the regular languages, despite the non-uniformity.
+
 \begin{restatable}{theorem}{booleandomain}
- \label{thm:boolean-domain}
+ \label{thm:boolean-domain} \cite[Theorem 5]{hauser1989}
  A language $L \subseteq \Sigma^*$ is computed by a \kl[boolean protocol]{protocol} if and only if it is 
  \kl(language){regular}.
 \end{restatable}
-One implication is immediate: every regular language can be computed by a protocol.  Alice can send to Bob the state of a finite automaton that recognises the language. The other implication is proved in two steps, see Section~\ref{sec:boolean-domain} for more details. In the first step, the protocol is reduced to a one-round non-interactive version, where each party independently sends a message with a constant number of bits, and the decision is then made based on these two messages. In the second step, we use the one-round protocol and the Myhill-Nerode Theorem to conclude that the language must necessarily be regular. 
+One implication is immediate: every regular language can be computed by a protocol.  Alice can send to Bob the state of a finite automaton that recognises the language. The other implication is proved in two steps, see Section~\ref{sec:boolean-domain} for more details. In the first step, the protocol is reduced to a one-round non-interactive version, where each party independently sends a message with a constant number of bits, and the decision is then made based on these two messages. In the second step,  the Myhill-Nerode Theorem is used to show that the language must necessarily be regular. 
+
+Theorem~\ref{thm:boolean-domain} is  simple  technically, and its main value for us lies in its role as an inspiration for other results, which use  other output domains  such as  fields or strings. 
+
 
 % It is worth underlining that, unlike in communication complexity, we are not interested in the exact number of exchanged bits. For example, in the round reduction that is described in the previous paragraph, the number of exchanged bits increases exponentially. One could investigate the constant in more detail, e.g.~how it depends on some parameters of the language, such as the number of states in an automaton that recognises it. We do not pursue this direction in this paper.
 
-
-The above theorem is not difficult to prove, nor can it be called completely new.  Although we are not aware of an exact precedent, the general idea of studying communication complexity for regular languages is not new in automata theory. This theme is called state complexity, and it is interested  in the number of states needed for a given language in a given automaton model, and how this number is affected by operations on languages or changes in the model. See  Wikipedia~\cite{stateComplexityWiki} for a comprehensive summary with numerous references, or the recent paper~\cite{goosKiefer2022} which shows how to transfer lower bounds from communication complexity to state complexity of unambiguous automata. 
+Before moving to the other output domains, let us comment on other related work that connects communication complexity with automata in the case of Boolean outputs.  Much of this work is related to \emph{state complexity}, where one studies  the number of states needed for a given language in a given automaton model, and how this number is affected by operations on languages or changes in the model. See  Wikipedia~\cite{stateComplexityWiki} for a comprehensive summary with numerous references, or the recent paper~\cite{goosKiefer2022} which shows how to transfer lower bounds from communication complexity to state complexity of unambiguous automata. 
 % \omc{Remove the Wikipedia source and keep only the Goos and Kiefer (2022) reference. I think the Wikipedia source is redundant.}
 % MB: I think that the Wikipedia source contains a lot useful references, more so than the Good and Kiefer paper. I would keep it.
  The work on state complexity is mainly about the exact number of states, which is of secondary concern to us. For our purposes, a protocol that exchanges $k$ bits is no different from a protocol that exchanges $2^k$ bits. We only care that this bound should be finite and independent of the input. 
 
-Theorem~\ref{thm:boolean-domain} is  simple  technically, and its main value lies in its role as an inspiration for other results in this paper, which use  other output domains  such as  fields or strings. 
 
 
 \subsection{Field outputs}
