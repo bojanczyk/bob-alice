@@ -7,35 +7,71 @@ We begin by recalling the notion of weighted automata.
 \paragraph*{Weighted automata.} \AP A \kl{weighted automaton} is a device that
 is used to compute a function from strings to a field (more generally, a
 semiring, but we consider the case of fields here). This model was originally
-introduced by \schutz~\cite{schutzenberger1961definition}. Essentially, this is
-a deterministic automaton where the state space is a vector space of finite
-dimension, and each input letter induces a linear map. Here is the formal
-definition. 
-
-\begin{definition}[Weighted automaton]
-    \label{def:weighted-automaton}
+introduced by \schutz~\cite{schutzenberger1961definition}. A weighted automaton is defined like a nondeterministic automaton, except that the transitions have weights in the field, and instead of choosing subsets of initial and final states, we also have assignments of weights. A weighted automaton makes sense not only for fields, but also for semirings, so we define it that way. 
+\begin{definition}
+    [Weighted automaton] 
+    \label{def:weighted-automaton-nondeterministic}
     \AP
-    A \intro{weighted automaton} over a field $\domain$ is given by: 
-    \begin{enumerate}
-        \item a finite input alphabet $\Sigma$;
-        \item a \intro(wa){dimension} $d \in \set{0,1,\ldots}$;
-        \item an initial state $q_0 \in \domain^d$;
-        \item \label{it:weighted-definition-transitions} 
-          for each letter $a \in \Sigma$, a 
-          corresponding linear map of type $\domain^d \to \domain^d$;
-        \item \label{it:weighted-definition-final} a \intro(wa){final map},
-          which is a linear map of type $\domain^d \to \domain$. 
-    \end{enumerate}
+    A \intro[wa-nfa]{weighted automaton} over a semiring $\domain$ consists of a finite input alphabet $\Sigma$,  a finite set of states $Q$, and functions: 
+    \begin{align}
+        \label{eq:weight-functions}
+    \myunderbrace{I : Q \to \domain}{initial}
+    \quad
+    \myunderbrace{F : Q \to \domain}{final}
+    \quad
+    \myunderbrace{\Delta : Q \times \Sigma \times Q \to \domain}{transitions}.
+    \end{align}
 \end{definition}
+A run of this automaton is defined in the usual way: it is a sequence of
+transitions, one for each input letter, such that consecutive transitions
+agree on the connecting states. The weight of a run is the product of: (1) the
+initial weight of its source state; (2) the weights used by its transitions;
+and (3) the final weight of its target state. If the semiring is
+non-commutative, the order of multiplication is  important, and transitions
+are multiplied in the order corresponding to the input string. For an input
+string, the output of the automaton is the sum of weights of all runs over
+this automaton (sum is always commutative). 
 
-A \kl{weighted automaton} computes a function of type $\Sigma^* \to \domain$,
-which is defined in the same way as for a deterministic finite automaton: we
-begin in the initial state, then we apply the linear maps corresponding to the
-input letters, and finally we apply the \kl(wa){final map}. There is an
-alternative but equivalent way of describing weighted automata, which uses a
-nondeterministic automaton with weights on transitions. This viewpoint will be
-used later in this paper, see
-Definition~\ref{def:weighted-automaton-nondeterministic}.
+% The model from
+% Definition~\ref{def:weighted-automaton-nondeterministic}  defines the same
+% functions as the model from Definition~\ref{def:weighted-automaton}, with the
+% appropriate semiring modifications that were described earlier in this
+% section, see~\cite[Lemma 8.3]{bojanczyk_automata_2025}. For the purposes of
+% this section, we use the nondeterministic  model described from
+% Definition~\ref{def:weighted-automaton-nondeterministic}.
+
+
+% Essentially, this is
+% a deterministic automaton where the state space is a vector space of finite
+% dimension, and each input letter induces a linear map. Here is the formal
+% definition. 
+
+% \ref{def:weighted-automaton-nondeterministic}
+
+% \begin{definition}[Weighted automaton]
+%     \label{def:weighted-automaton}
+%     \AP
+%     A \intro{weighted automaton} over a field $\domain$ is given by: 
+%     \begin{enumerate}
+%         \item a finite input alphabet $\Sigma$;
+%         \item a \intro(wa){dimension} $d \in \set{0,1,\ldots}$;
+%         \item an initial state $q_0 \in \domain^d$;
+%         \item \label{it:weighted-definition-transitions} 
+%           for each letter $a \in \Sigma$, a 
+%           corresponding linear map of type $\domain^d \to \domain^d$;
+%         \item \label{it:weighted-definition-final} a \intro(wa){final map},
+%           which is a linear map of type $\domain^d \to \domain$. 
+%     \end{enumerate}
+% \end{definition}
+
+% A \kl{weighted automaton} computes a function of type $\Sigma^* \to \domain$,
+% which is defined in the same way as for a deterministic finite automaton: we
+% begin in the initial state, then we apply the linear maps corresponding to the
+% input letters, and finally we apply the \kl(wa){final map}. There is an
+% alternative but equivalent way of describing weighted automata, which uses a
+% nondeterministic automaton with weights on transitions. This viewpoint will be
+% used later in this paper, see
+% Definition~\ref{def:weighted-automaton-nondeterministic}.
 
 The main result of this section is that our protocol is equivalent to weighted automata, as stated in the following theorem from the introduction, which we now recall:
 \fielddomain*
@@ -47,11 +83,7 @@ The main result of this section is that our protocol is equivalent to weighted a
 %     \end{align*}  is computed by a protocol if and only if it is  computed by a weighted automaton.
 % \end{theorem}
 
-\kl{Weighted automata} can be defined not just for fields, but also for rings and
-even semirings. We do not know how to prove the theorem for such
-generalisations, since the Fliess Theorem, which is used in the proof is only
-known for fields. Rings and semirings will be discussed in more detail in
-Section~\ref{sec:commutative-semirings}. Before proving the theorem in
+As we will see in Example~\ref{ex:non-commutative-semirings} below, the theorem is false for general semirings that are not fields. It is possible that it is true for commutative semirings, but this is only a conjecture at this point. The problem with such generalisations is that our proof uses the  Fliess Theorem, which is only known  for fields.  Before proving the theorem in
 Section~\ref{sec:proof-of-thm-field-domain}, we return to the issue of
 division, which was already discussed in Example~\ref{ex:division}.
 
@@ -102,10 +134,7 @@ division, which was already discussed in Example~\ref{ex:division}.
     This function can be computed by a \kl{protocol}, using the same idea as in 
     Example~\ref{ex:reverse-duplicate}. This function, however, is not
     a rational relation, and therefore it is not computed by a weighted automaton over $\domain$. 
-    \omc{I think the conjecture could be about two-way weighted automata over semirings. First, observe that every function computed by a two-way weighted automaton can be computed by a protocol, and then conjecture that the converse also holds. So, I’ll include the following part (which you wrote) in the comment section.}
-    \omc{
-        remove this?
-    "So what exactly can be computed by protocols with outputs in the semiring $\domain$? We do not know the answer to this question, although it is plausible that there is some suitable nondeterministic transducer model."}
+
     We know more in the case of singleton functions. In this case, all messages sent during the protocol must be singletons (this is because once a non-singleton is produced, it can never be turned into a singleton). Therefore, the operation $+$ can never be used in a non-trivial way, and thus the protocol can only use muliplication. This means that it coincides with the protocols with outputs that are strings with concatenation, as discussed in Section~\ref{sec:string-outputs}. According to Conjecture~\ref{conj:protocol-regular-string-to-string}, the singleton functions are therefore exactly the \kl{regular functions}.
 \end{myexample}
 
@@ -160,16 +189,16 @@ Since we strive for protocols that describe ``regular'' functions, and such func
 \AP
 We now return to the proof of \cref{thm:field-domain}. The right-to-left
 implication says that every \kl{weighted automaton} can be simulated by a \kl{protocol}.
-This is proved essentially in the same way as in the \kl[Boolean protocol]{Boolean case}. 
+This is proved essentially in the same way as in the \kl[Boolean protocol]{Boolean case}, and the proof is valid for all semirings and not just fields. 
 Suppose that
-the function is computed by a \kl{weighted automaton}, which uses \kl(wa){dimension} $d$.
-Every input string $\Sigma^*$ induces a linear map of type $\domain^d \to
-\domain^d$, which is obtained by composing the linear maps for the individual
-letters in the string.  Such a linear map can be represented as a matrix, and
-therefore it can be output using $d^2$ messages.  In the \kl{protocol}, Alice sends
+the function is computed by a \kl{weighted automaton}, which has state space $Q$. To every input string $w \in \Sigma^*$, we can associate a $Q \times Q$ matrix over the semiring. This matrix is defined by 
+\begin{align*}
+M[p,q] = \sum_\rho \text{product of weights of transitions used by $\rho$},
+\end{align*}
+where $\rho$ ranges over runs of the weighte automaton that start in state $p$, read the input string $w$, and end in state $q$. This map is a homomorphism from strings to matrices, i.e.~the matrix corresponding to a string $w_1 w_2$ is obtained by multiplying the matrices corresponding to $w_1$ and $w_2$. In the \kl{protocol}, Alice sends
 the matrix  which corresponds to her local string, and Bob sends the  matrix
 which corresponds to  his local string. These matrices are multiplied using the
-field operations, and then multiplied with the initial and final vectors. This
+semiring operations, and then multiplied with vectors that represent the initial and final weights of states. This
 protocol has one round and is \kl{signal-free}, i.e.~no information is conveyed
 using signals.
 
@@ -200,10 +229,10 @@ the scalar product,  as explained in the following definition.
 \end{definition}
 
 This \kl[scalar product protocol]{protocol} has the same power as \kl{general
-protocols}.
+protocols}. Furthermore, the proof works not only for fields, but also for the more general case of commutative semirings (these are semirings where both addition and muliplication are commutative, in contrast to general semirings, where only addition is assumed to be commutative). The assumption that the output domain is a field, and not just a commutative semiring, will be used at a later stage, when we apply the Fliess Theorem.
 
 \begin{lemma}\label{lem:scalar-product-reduction}
-  Assume that the \kl{output domain} is a field. 
+  Assume that the \kl{output domain} is a commutative semiring. 
   If a function is computed by a \kl{protocol}, 
   then it is computed by a \kl{scalar product protocol}.
 \end{lemma}
@@ -223,22 +252,22 @@ protocols}.
  In other words, the signals do not convey any information, and the only
  messaging activity consists of sending elements of the \kl{output domain}. In a
  \kl{signal-free protocol}, the concept of rounds is irrelevant, since the behaviour
- of one party is not influenced by the communication from the other party.
+ of one party is not influenced by the communication from the other party. The following claim shows that every protocol can be made signal-free, even if the semiring is not necessarily commutative. 
 
 % \omc{Usually we have signal-free protocols when corresponding Machine model expressive power does not increase when we add two-wayness. Here we have one-way weighted automata, in sequential model also we have one-wayness (it can considered as signal-free because consider algebra to be semiring with concatenation and union and one element for zero, then it is signal-free), in commutative semiring the conjecture is having one-way weighted automat, is it worth mentioning that? Answer my comment wehenever you see it pelase.}
 % MB: This is not necessarily true, I think. In a non-commutative semiring, two-way ≠ one-way, and yet we can still have signal-free protocols, by using zero, I think.
-\omc{I saw you answer comment about non-commutative semiring, thanks. But we can not have scalar product protocol since multiplication is not commutative. Simmulating signals by increasing number of matrices is something else. but never mind, ignore this comment, just wanted to clarify.}
+
 
  \begin{claim}
     \label{claim:trivial-messages}
-    Assume that the \kl{output domain} is a field. 
+    Assume that the \kl{output domain} is a semiring, not necessarily commutative. 
     Then every one-round protocol is equivalent to a \kl{signal-free protocol}.
  \end{claim}
  \begin{proof} 
     Consider a one-round protocol. Without loss of generality, we assume that
     both signal spaces $Q_A$ and $Q_B$ are the same space $Q$. (We can always
     use the union of two signal spaces for both parties.) Assume that each of
-    the parties sends $d$ field elements in the protocol. In other words, the
+    the parties sends $d$ semiring elements in the protocol. In other words, the
     protocol works as follows:
     \begin{enumerate}
         \item Based on her local string, Alice chooses a message $(q_A,\bar x) \in Q \times \domain^d$;
@@ -252,9 +281,9 @@ protocols}.
     |Q|$. 
 
     This means that for each possible signal $q \in Q$, each party sends a
-    field element corresponding to this signal. The idea is that instead of
-    sending a signal $q \in Q$, each party will set the corresponding field
-    element to $1$, and the remaining field elements to $0$. The corresponding
+    semiring element corresponding to this signal. This element will be either $0$ or $1$, which are elements that need to exist in every semiring (see~\cite[p.7]{handbook2009} for a formal definition of semirings). The idea is that instead of
+    sending a signal $q \in Q$, each party will set the corresponding semiring
+    element to $1$, and the remaining semiring elements to $0$. The corresponding
     \kl{term operation} is then 
     \begin{align*}
     \sum_{\substack{q_A \in Q \\ q_B \in Q}} \myoverbrace{x_{q_A} \cdot y_{q_B}}{variables corresponding \\ to the messages $q_A$ and $q_B$, } \cdot t_{q_A,q_B}(\bar x, \bar y).
@@ -266,11 +295,7 @@ protocols}.
     and thus the correct output will be produced. 
  \end{proof}
 
- In the above claim, the only property of fields that was used is that there
- are elements $1$ and $0$ with the usual field properties, i.e.~$1$ is neutral
- for multiplication, while $0$ is neutral for addition and cancellative for
- multiplication. Therefore, so far our proof would work in any semiring with
- such elements.
+
 
  \paragraph*{Step 3. Scalar product.}
  In the previous step, we have reduced the \kl{protocol} to a special case, where
@@ -278,8 +303,10 @@ protocols}.
  some fixed \kl{term operation} $t$ with $2d$ variables is applied to them. To
  complete the proof of the lemma, we show that the term operation can be turned
  into a scalar product. This term operation is a sum of monomials, with each
- monomial being a product of some variables. Consider the monomials in the term
- operation $t$. For each monomial, its contribution to the output  is obtained
+ monomial being a product of some variables. This part of the proof will work for commutative semirings (the previous step worked for all semirings). 
+ 
+ Consider the monomials in the term
+ operation $t$. Since muliplication is assumed to be  commutative, for each monomial, its contribution to the output  is obtained
  by multiplying two numbers: (a) the product of the  variables in the term
  operation that are contributed by Alice; and   (b) the product of the
  variables in the term operation that are contributed by Bob. We can redesign
@@ -287,15 +314,6 @@ protocols}.
  Bob sends the contribution (b). In the new protocol, the dimension is the
  number of monomials from the original protocol, and the term operation is a
  scalar product. 
-
-  This completes the third and final step in the proof. In this step, the only
-  property of fields that was used is that multiplication is commutative, and
-  therefore each monomial can be cleanly separated into two parts, one for
-  Alice and one for Bob. Summing up, the entire lemma would work for
-  commutative semirings, and just for fields. However, the second part of the
-  proof of Theorem~\ref{thm:field-domain}, presented in
-  Section~\ref{sec:from-scalar-product-protocol-to-weighted-automaton}, does
-  use the assumption  that the output domain is a field.
 \end{proof}
 
 \subsubsection{From a scalar product protocol to a weighted automaton}
@@ -306,7 +324,7 @@ that \kl{scalar product protocols} can be simulated by \kl{weighted automata}.
 Similarly to the \kl[boolean protocol]{Boolean case}, the proof uses a
 Myhill-Nerode characterization. In the case of \kl{weighted automata}, this
 characterization is called  the Fliess Theorem, which characterizes
-functions computed by weighted automata in terms of a certain infinite matrix.
+functions computed by weighted automata in terms of a certain infinite matrix. It is here where we use the assumption that the output domain is a field, and not just a commutative semiring.
 
 
 \begin{definition}[Hankel Matrix]\label{def:hankel-matrix}

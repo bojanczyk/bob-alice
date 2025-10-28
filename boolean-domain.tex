@@ -64,9 +64,8 @@ introduction, which we now recall.
   We begin with the easier right-to-left implication, which says that the protocol can compute every regular language. If the language is  regular, then it  is recognised by a deterministic finite automaton, say  with state space $Q$. To compute the language, we can use a
   \intro{one-round protocol} (as we will see in a moment, this is not a coincidence, since all protocols can be reduced to one round). Alice sends the state in $Q$ of the automaton after reading her local string, and Bob sends the dependency $Q \to \set{\text{yes, no}}$ which says how Alice's state determines acceptance. Once these two pieces of information are known, we can apply the function from Bob's message to the state in Alice's message to determine the output.
 
-  The rest of this proof is devoted to the left-to-right implication, i.e.~to showing that every language computed by the protocol is regular. This is the heart of the proof, and the place where we need to tame the non-uniformity of the protocol. 
-  
-  Observe that in the right-to-left implication, we have proved that regular languages need only one round. Therefore, if we want to  prove that the protocol can only compute regular languages, then a by-product will be that the protocol collapses to the one-round case.  This is, in fact, the first step of our proof. 
+  The rest of this proof is devoted to the left-to-right implication, i.e.~to showing that every language computed by the protocol is regular. 
+  Observe that in the right-to-left implication, we have proved that regular languages need only one round. Therefore, if we want to  prove that the protocol can only compute regular languages, then a by-product will be that the protocol collapses to the one-round case.  This is, in fact, the first step. 
   \begin{lemma}\label{lem:one-round-reduction-boolean}
     For every protocol, there is an equivalent one-round protocol. 
   \end{lemma}
@@ -83,7 +82,6 @@ introduction, which we now recall.
   \end{proof}
 
 The proof of the above lemma can incur an exponential cost in the size of the message spaces. This is of little concern to us, since we only care about the protocol having a constant number of rounds.
-
   To complete the proof of the theorem, we use the  Myhill-Nerode Theorem.  Indeed, consider the strategy of  Alice: 
   \begin{align*}
   \sigma_A : \Sigma^* \to Q_A.
