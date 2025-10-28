@@ -6,6 +6,7 @@
 % protocols for boolan 
 \knowledge{notion}
  | boolean protocol
+ | Boolean protocols
  | protocol@boolean
  | Boolean protocol
 
@@ -37,6 +38,8 @@
  | signal space
  | signal spaces
 \knowledge{notion}
+ | message
+\knowledge{notion}
  | strategies
  | strategy 
 
@@ -50,6 +53,8 @@
  | protocol dimension
 \knowledge{notion,scope=protocol,synonym={protocol dimension}}
  | dimension
+\knowledge{notion}
+ | communication history
 
 % Output domains for the protocols 
 
@@ -109,6 +114,7 @@
 
 \knowledge{notion}
  | one-round
+ | one-round protocols
  | one-round protocol
 
 \knowledge{notion}
@@ -213,39 +219,86 @@
 % infinite alphabet notions
 
 \knowledge{notion}
- | equivariant
  | equivariant language
+ | equivariant languages
  | equivariant strategy
 
 \knowledge{notion}
+ | equivariant
+
+\knowledge{notion}
+ | one-way orbit-finite automata
+ | nondeterministic orbit-finite automata
+ | nondeterministic orbit-finite automaton
+\knowledge{notion,scope={orbit-finite},synonym={nondeterministic orbit-finite automata}}
+ | nondeterministic automata
+\knowledge{notion}
+ | deterministic orbit-finite automaton
+ | deterministic orbit-finite automata
+\knowledge{notion,scope={orbit-finite},synonym={deterministic orbit-finite automata}}
+ | deterministic automata
+
+\knowledge{notion}
  | unambiguous
- | unambiguous register automaton
+ | an unambiguous orbit-finite automaton
+ | unambiguous orbit-finite automata
+ | unambiguous orbit-finite automaton
+ | unambiguity
+
+
 
 \knowledge{notion}
- | register automaton
- | register automata
+ | (simple) equivariant protocols
+ | simple equivariant protocol
+ | simple equivariant protocols
 
-% algebraic notions
-
-\knowledge{notion}
- | linear map
-
-\knowledge{notion}
- | final map
 
 \knowledge{notion}
  | orbit-finite
  | orbit-finitely
-
-% query-related notions
-
-\knowledge{notion}
- | query counting
- | query counting function
+ | orbit-finite set
+ | orbit-finite sets
 
 \knowledge{notion}
- | monoid homomorphism
+ | atom
+ | atoms
+\knowledge{notion}
+ | atom permutation
+\knowledge{notion}
+ | orbit
+ | orbits
+ | $S$-orbit
+ | $S$-orbits
+\knowledge{notion}
+ | equivariant orbits
+ | equivariant orbit
+ | zero-dimensional
+\knowledge{notion}
+ | fixed coordinates
+\knowledge{notion}
+ | free coordinates
+ | free coordinate
+\knowledge{notion}
+ | support
+ | support@orbit
+\knowledge{notion,scope={orbit},synonym={support}}
+ | support
+\knowledge{notion}
+ | orbit dimension
+ | dimension of the orbit
+\knowledge{notion,scope={orbit},synonym={orbit dimension}}
+ | dimension
+\knowledge{notion}
+ | $S$-disjoint
 
 \knowledge{notion}
- | leftmost factorisation
+ | orbit-finite protocols
+ | orbit-finite Boolean two-party protocol
+ | orbit-finite protocol
+\knowledge{notion,scope={orbit-finite},synonym={orbit-finite protocols}}
+ | protocols
+\knowledge{notion,scope={orbit-finite},synonym={orbit-finite protocols}}
+ | protocol
+
+
 
