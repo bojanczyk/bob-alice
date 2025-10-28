@@ -101,9 +101,11 @@ linear (with the size of a rational number measured by the number of bits
 needed to represent it).  This seems to indicate that the split invariance,
 together with a  constant number of messages under the black box restriction,
 has unexpected computational consequences. In particular, in all cases that we
-have studied,  protocols coincide -- or are conjectured by us to coincide --
-with existing automata models, some of which seem unrelated to the protocols,
-as explained in the following table: 
+have studied, protocols coincide -- or are conjectured by us to coincide --
+with existing automata models. Since automata are conceptually very different 
+than protocols, we believe that those equivalences, summarized in the table below,
+justify the protocol-based approach to regularity.
+
 \begin{center}
     \begin{tabular}{ll}
     \textbf{Output} & \textbf{Automata Model} \\
@@ -115,12 +117,11 @@ as explained in the following table:
 \end{tabular}
 \end{center}
 
-
-For the conjectured results, we provide substantial evidence, in particular for
-the third row in the table, we prove the conjecture for output strings over an
-output alphabet with one letter (\cref{thm:unary-string-to-string}). In the
-remainder of this introduction, we give a more detailed review of the four rows
-in the table. 
+In the remainder of this introduction, we give a more detailed review of the four rows
+in the table, including substantial evidence for the conjectured equivalences.
+One piece of evidence that is worth mentioning here is that
+we were able to prove the equivalence for string outputs in the special case
+of \emph{unary} output alphabets (\cref{thm:unary-string-to-string}).
 
 \subsection{Protocols for Boolean outputs}
 \label{sec:intro-boolean}
@@ -131,31 +132,38 @@ f : \Sigma^* \to \set{\text{true, false}},
 \end{align*}
 i.e.~languages. In this case the two parties only exchange bits, 
 % \omc{I still think it’s better to say that the messages come from a finite set instead of bits.} 
-and they need to decide if the input string is in the language or not. As mentioned before, the parties have unbounded computational power. For example, the first message sent by Alice could answer  some undecidable question.
+and they need to decide if the input string is in the language or not.
+Here is an example of a simple language that can be computed by a protocol:
 
 \begin{myexample}[First three equal last three]
     \label{ex:three-letters}
-Suppose that the language is ``the first three letters are equal to the last three letters'', over an input alphabet $\set{a,b}$.
-Alice can send her  first three letters to Bob (if Alice got less than three letters, she needs to communicate this), and Bob can use this information to determine membership in the language. Alternatively, Bob can send his first three letters, and other variants are possible as well. The same kind of  protocol will of course work for finite constants other than three. If the constant is turned into a variable, e.g.~we care about words of the form $ww$ where $w$ is of arbitrary length, then there is no  protocol, as we will see later in this section. 
+The language ``the first three letters are equal to the last three letters'' over an input alphabet $\set{a,b}$ can be computed by the following protocol:
+Alice sends her first three letters to Bob (if Alice got less than three letters, she needs to communicate this), and Bob uses this information to determine membership in the language. Alternatively, Bob can send his last three letters, and other variants are possible as well. A similar protocol will work for constants other than three. However, if the constant is turned into a variable, e.g.~we care about words of the form $ww$ where $w$ is of arbitrary length, then there is no protocol
+(by \cref{thm:boolean-domain})
 \end{myexample}
 
-The first result of this paper  says that these protocols compute exactly the regular languages, despite the non-uniformity.
+As mentioned before, the parties have unbounded computational power, which means they their messages
+can contain answers to potentially undecidable questions about their parts of the input.
+The first result of this paper says that these protocols compute exactly the regular languages, despite this non-uniformity:
+
 \begin{restatable}{theorem}{booleandomain}
  \label{thm:boolean-domain}
  A language $L \subseteq \Sigma^*$ is computed by a \kl[boolean protocol]{protocol} if and only if it is 
  \kl(language){regular}.
 \end{restatable}
-One implication is immediate: every regular language can be computed by a protocol.  Alice can send to Bob the state of a finite automaton that recognises the language. The other implication is proved in two steps, see Section~\ref{sec:boolean-domain} for more details. In the first step, the protocol is reduced to a one-round non-interactive version, where each party independently sends a message with a constant number of bits, and the decision is then made based on these two messages. In the second step, we use the one-round protocol and the Myhill-Nerode Theorem to conclude that the language must necessarily be regular. 
+One implication is immediate: every regular language can be computed by a protocol. Alice can run an automaton on her part of the input and 
+send the intermediate state to Bob who can continue the run on his part. The other implication is proved in Section~\ref{sec:boolean-domain} in two steps. 
+In the first step, the protocol is reduced to a one-round non-interactive version, where each party independently sends a message with a constant number of bits, and the decision is then made based on these two messages. In the second step, we use Myhill-Nerode theorem to conclude that any language computed by a one-round protocol must necessarily be regular. 
 
 % It is worth underlining that, unlike in communication complexity, we are not interested in the exact number of exchanged bits. For example, in the round reduction that is described in the previous paragraph, the number of exchanged bits increases exponentially. One could investigate the constant in more detail, e.g.~how it depends on some parameters of the language, such as the number of states in an automaton that recognises it. We do not pursue this direction in this paper.
 
 
-The above theorem is not difficult to prove, nor can it be called completely new.  Although we are not aware of an exact precedent, the general idea of studying communication complexity for regular languages is not new in automata theory. This theme is called state complexity, and it is interested  in the number of states needed for a given language in a given automaton model, and how this number is affected by operations on languages or changes in the model. See  Wikipedia~\cite{stateComplexityWiki} for a comprehensive summary with numerous references, or the recent paper~\cite{goosKiefer2022} which shows how to transfer lower bounds from communication complexity to state complexity of unambiguous automata. 
+\cref{thm:boolean-domain} is not difficult to prove, nor can it be called completely new. However, it serves as an inspiration for other results in this paper,
+ concerning other output domains such as fields or strings. Before continuing with those results, let us briefly discuss the related work.
+Although we are not aware of an exact precedent for \cref{thm:boolean-domain}, the general idea of studying communication complexity for regular languages is not new in automata theory. This theme is called state complexity, and it is interested  in the number of states needed for a given language in a given automaton model, and how this number is affected by operations on languages or changes in the model. See  Wikipedia~\cite{stateComplexityWiki} for a comprehensive summary with numerous references, or the recent paper~\cite{goosKiefer2022} which shows how to transfer lower bounds from communication complexity to state complexity of unambiguous automata. 
 % \omc{Remove the Wikipedia source and keep only the Goos and Kiefer (2022) reference. I think the Wikipedia source is redundant.}
 % MB: I think that the Wikipedia source contains a lot useful references, more so than the Good and Kiefer paper. I would keep it.
- The work on state complexity is mainly about the exact number of states, which is of secondary concern to us. For our purposes, a protocol that exchanges $k$ bits is no different from a protocol that exchanges $2^k$ bits. We only care that this bound should be finite and independent of the input. 
-
-Theorem~\ref{thm:boolean-domain} is  simple  technically, and its main value lies in its role as an inspiration for other results in this paper, which use  other output domains  such as  fields or strings. 
+ The work on state complexity is mainly about the exact number of states, which is of secondary concern to us. For our purposes, a protocol that exchanges $k$ bits is no different from a protocol that exchanges $2^k$ bits. We only care that this bound should be finite and independent of the input.
 
 
 \subsection{Field outputs}
@@ -167,7 +175,7 @@ After the Booleans, we turn to functions with outputs in a field. For the sake o
 \begin{align*}
 f : \Sigma^* \to (\mathbb Q, +, \times).
 \end{align*}
-We adapt the  protocol model to  compute such functions. Similarly to the Boolean case, the parties exchange messages. This time however, there are two kinds of messages: bits (as in the Boolean case), and  elements of the field.  The elements of the field can be added and multiplied.  (Division is discussed in Example~\ref{ex:division}.)  Using only messages that are bits, we can still recognise regular languages, or more formally their characteristic functions. 
+We adapt the  protocol model to  compute such functions. Similarly to the Boolean case, the parties exchange messages. However, this time there are two kinds of messages: bits (as in the Boolean case), and  elements of the field.  The elements of the field can be added and multiplied.  (Division is discussed in Example~\ref{ex:division}.)  Using bit messages, we can still recognise all regular languages (or more formally their characteristic functions).
 However, messages from the field enable us to compute new functions.
 
 \begin{myexample}[Length and exponential length]\label{ex:length}
@@ -179,7 +187,7 @@ To compute the length of the input string, Alice  sends the length of her part, 
 \end{myexample}
 
 
-In the presence of an infinite message space, one needs to be careful about the design of the protocol. There are infinitely many rational numbers, and Alice could try to send her part of the input string in a single message by encoding it as a rational. This would trivialise the model, enabling every function to be computed. To prevent such tricks, we use the \emph{black box restriction} which was discussed before\footnote{The black box postulate is related to  polymorphic parametricity from the theory of programming languages~\cite[Section 7]{reynolds1983types}, or to the recent algebraic group model in cryptography~\cite[Section 1.2]{fuchsbauer2018algebraic}. An important difference with the algebraic group model is that our model does not allow for equality tests, see Example~\ref{ex:equality-tests} for a discussion.}: the messages which use the output domain (in this case, rational numbers) cannot be read directly, but can only be acted on by the operations in the output domain (in this case addition and multiplication).
+In the presence of an infinite message space, one needs to be careful about the design of the protocol. For example, Alice could try to send her part of the input string in a single message by encoding it as a rational. This would trivialise the model, enabling every function to be computed. To prevent such tricks, we use the \emph{black box restriction} which was discussed before\footnote{The black box postulate is related to  polymorphic parametricity from the theory of programming languages~\cite[Section 7]{reynolds1983types}, or to the recent algebraic group model in cryptography~\cite[Section 1.2]{fuchsbauer2018algebraic}. An important difference with the algebraic group model is that our model does not allow for equality tests, see Example~\ref{ex:equality-tests} for a discussion.}: the messages which use the output domain (in this case, rational numbers) cannot be read directly, but can only be acted on by the operations in the output domain (in this case addition and multiplication).
  If the output domain is finite, e.g.~it is a finite field, then the black box restriction is irrelevant (which is why it was not mentioned when talking about Boolean outputs). This is because one can use bits to sent elements of a finite output domain, and the bits are a preferrable communication channel, since they can be read directly and are not subject to the black box restriction. 
 
 \paragraph*{Definition of the protocol model.} Since there might be some ambiguity as to what exactly is allowed in the protocol, we give a more formal  definition. There is a finite input alphabet $\Sigma$, and a constant number of rounds $k \in \set{1,2,\ldots}$.   Alice and Bob send messages in alternation, with Alice sending the first message\footnote{One could consider other patterns of communication. In fact, in Section~\ref{sec:beyond-boolean-outputs} we use a more symmetric variant where both parties move in parallel in each round. These variants  do not change the expressive power of the model, only the  number of rounds.}. The messages are from 
