@@ -17,7 +17,7 @@ departure is the following lemma, which connects \kl{weighted automata} and
 
     \begin{lemma}
         \label{lem:postcomposition-weighted-automaton}
-        Let $\domain$ be a field, and consider two functions
+        Let $\domain$ be a semiring, and consider two functions
         \[
         \begin{tikzcd}
         \Sigma^* 
@@ -29,28 +29,20 @@ departure is the following lemma, which connects \kl{weighted automata} and
         \domain,
         \end{tikzcd}
         \]
-        such that $f$ is computed by a \kl{protocol} (with string outputs). 
-        If $g$  is computed by a \kl{weighted automaton}, 
-        then the same is true for the composition  $f;g$.
+        such that $f$ is computed by a \kl{protocol} (with string outputs) and $g$ is computed by a \kl{weighted automaton}, then the composition  $f;g$ is computed by a protocol (with outputs in $\domain$).
     \end{lemma}
     \begin{proof}
-      We will show that the composition $f;g$ is computed by a \kl{protocol}
-      (with field outputs). Thanks to \cref{thm:field-domain}, this will imply
-      that $f;g$ is computed by a \kl{weighted automaton}.
       For each string in $\Gamma^*$, the \kl{weighted automaton} for $g$ has an
-      associated matrix over the field $\domain$. We modify the protocol for
-      $f$, so that it uses matrices instead of strings. During the execution,
-      instead of sending strings in $\Gamma^*$, the parties send  the
-      corresponding matrices. At the end, instead of concatenating the output
-      strings, the matrices are multiplied, yielding a matrix for the entire
-      output string. Finally, this matrix is applied to the initial state,
-      and then the output function is applied to the resulting vector. All of
-      this is done using addition and multiplication, which is legitimate in
-      a \kl{protocol} with the output domain $\domain$.
+      associated matrix over the field $\domain$, as explained in the proof at the beginning of Section~\ref{sec:proof-of-thm-field-domain}. Similarly to that proof, we can modify the protocol for $f$ to a protocol for $f;g$ where the parties send matrices instead of strings. 
     \end{proof}
 
-
-The above lemma establishes a property of $f$, namely that \kl{weighted automata}
+\begin{corollary}\label{cor:protocol-field-continuity}
+    If the comain $\domain$ is a field, then the conclusion of \cref{lem:postcomposition-weighted-automaton} can be strengthened to say that $f;g$ is computed by a weighted automaton.
+\end{corollary}
+\begin{proof}
+    For field outputs, protocols are equivalent to weighted automata, thanks to \cref{thm:field-domain}.
+\end{proof}
+The above corollary establishes a property of $f$, namely that \kl{weighted automata}
 (over a field) are closed under precomposition with $f$. We think that this is
 an important property, and therefore we give it a name.
 
@@ -62,9 +54,7 @@ an important property, and therefore we give it a name.
     field are closed under precomposition with $f$.
 \end{definition}
 
-In the above definition, we only consider \kl{weighted automata} over a field. The
-more general setting of semirings is dicussed in
-Section~\ref{sec:beyond-fields}. The name ``continuous'' is inspired by a
+The name ``continuous'' is inspired by a
 similar terminology that is used in automata theory for functions that preserve
 regularity under inverse images, see~\cite[Theorem 4.1]{PinSilva05}
 or~\cite[Footnote 2]{continuity20}. For the latter notion, we use the name
@@ -76,15 +66,12 @@ or~\cite[Footnote 2]{continuity20}. For the latter notion, we use the name
   \intro{Boolean continuous} if preimages of \kl{regular languages} are \kl[regular language]{regular}.
 \end{definition}
 
-As we have shown in \cref{lem:postcomposition-weighted-automaton}, all
+As we have shown in \cref{cor:protocol-field-continuity}, all
 \kl{string-to-string functions} computed by \kl{protocols} are \kl{field continuous}. In
 particular, since every \kl{regular string-to-string function} is computed by a
 \kl{protocol}, it follows that every regular string-to-string function is field
 continuous\footnote{To the best of our knowledge, this is a new result. It can
-also be proved directly, without passing through protocols, and we present such
-a direct proof in Section~\ref{sec:beyond-fields}, for the more general setting
-of commutative semirings. In the more general case we need a direct proof,
-since \cref{thm:field-domain} is not known to be true for this case.} We
+also be proved directly, without passing through protocols.}. We
 conjecture that the converse is also true.
 
 \begin{conjecture}\label{conj:regular-continuous}
@@ -92,8 +79,7 @@ conjecture that the converse is also true.
   \kl[regular function]{regular}.
 \end{conjecture}
 
-Later on, in Section~\ref{sec:beyond-fields}, we will discuss variants of the
-conjecture, and in particular we show that the conjecture becomes false if the
+In Example~\ref{ex:quadratic-counterexample} later in this section,  we show that the conjecture becomes false if the
 left side is relaxed from \kl{field continuous} to \kl{Boolean continuous}.
 
 Conjecture~\ref{conj:regular-continuous} can be seen as a machine independent
@@ -131,14 +117,9 @@ The following theorem gives some evidence for the stronger conjecture,  and
 therefore also the weaker one, by showing that the field continuous functions
 share some well-known properties of the regular string-to-string functions. 
 
-\begin{theorem}\label{thm:evidence-for-the-conjecture}
-    If a function $f : \Sigma^* \to \Gamma^*$ is  field continuous, then:
-    \begin{enumerate}
-        \item \label{it:linear-size-outputs} the outputs have at most linear size;
-        \item \label{it:linear-time-computable} the outputs can be computed in linear time;
-        \item \label{it:regular-preimages} it is \kl{Boolean continuous}, i.e.~preimages of regular languages are regular.
-    \end{enumerate}
-\end{theorem}
+\evidencefortheconjecture*
+
+
 
 % Before proving the theorem, let us comment on the properties that are listed in it.  By Lemma~\ref{lem:from-regular-to-protocol}, every regular string-to-string  function is computed by a protcol, and therefore every regular string-to-string function has the properties that are listed in the theorem. The fact the regular string-to-string functions have the  first three properties is a folklore result and can be seen directly from the definition of regular string-to-string functions, without protocols. (For the third property, it is useful to know that, as language acceptors, two-way automata recognise exactly the regular languages~\cite[Theorem 2]{shepherdson1959reduction}).
 % The fact that regular functions have the  property, about postcomposition with weighted automata over a field, is not known in the literature, to the best of our knowledge. A direct proof is possible, 

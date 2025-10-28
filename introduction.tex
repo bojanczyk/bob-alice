@@ -54,17 +54,8 @@ complicated outputs, things are less clear.  For example, if the outputs of the
 function are rational numbers, then it should be legitimate for the information
 flow to contain some rational numbers. How should this be formalised?
 
-We propose a formalisation that is based on communication complexity, in which
-two parties, called Alice and Bob, cooperate to compute the output of the
-function. Note that a formal study of the communication complexity for
-functions of the form $f : \Sigma^* \times \Sigma^* \to \domain$ is well
-established since Yao's seminal paper \cite{YAO79}, and the more comprehensive
-treatment appearing in the standard text by Kushilevitz \cite{KUSH97}.
-\mb{I think that these references should be made precise. What is it that is there and is not there?}
-We adapt
-this model to our purposes as follows.
-
 \AP
+We choose to use a formalisation that is based on communication complexity~\cite{YAO79,KUSH97}, in which a function is computed by two cooperating parties, called Alice and Bob. 
 There are \textbf{no uniformity assumptions} and the two parties
 have unrestricted computational power; the goal is to measure information 
 % \omc{information flow instead of information ?}
@@ -94,7 +85,7 @@ operations. For example, in the case of numbers, the operations are addition
 and multiplication.
 
 The model, which we call \emph{protocols}, can be applied to any output domain,
-and we study several examples in this paper. As we discover, despite its
+and we study several examples in this paper. In the case of Boolean outputs, the model and its connection to finite automata have already been studied before~\cite[Theorem 5]{hauser1989}, however the results on other output domains are new up to our best knowledge.   As we discover, despite its
 non-uniformity, the model  can only define well-behaved functions. In
 particular, in all cases that we have studied  these functions are: (1)  always
 computable, even in linear time; and (2) the output size is always at most
@@ -131,7 +122,7 @@ We begin by studying the protocol model for  functions
 \begin{align*}
 f : \Sigma^* \to \set{\text{true, false}},
 \end{align*}
-i.e.~languages. In this case the two parties only exchange bits, 
+i.e.~languages. This case is not new, and it has already been studied in~\cite{hauser1989}. For Boolean outputs, the two parties only exchange bits, 
 % \omc{I still think it’s better to say that the messages come from a finite set instead of bits.} 
 and they need to decide if the input string is in the language or not.
 Here is an example.
@@ -275,14 +266,16 @@ In Section~\ref{sec:string-outputs} we discuss this conjecture in detail, and pr
 This implication is rather easy, since a two-way automaton can be neatly simulated by the repeated interactions of the protocol. The content of the conjecture, and the subject of most of our technical results, is the $\implies$ implication. Most of Section~\ref{sec:string-outputs} is devoted to evidence for this implication. 
 Our first argument  is the following result, which shows that functions computed  by protocols have many properties which are known to hold for deterministic two-way automata with output.
 
-\begin{theorem}\label{thm:evidence-for-the-conjecture}
+
+\begin{restatable}{theorem}{evidencefortheconjecture}
+    \label{thm:evidence-for-the-conjecture}
     If a string-to-string function  is  computed by a \kl{protocol}, then:
     \begin{enumerate}
         \item \label{it:linear-size-outputs} outputs have at most linear size;
         \item \label{it:linear-time-computable} outputs can be   computed in linear time;
         \item \label{it:regular-preimages} preimages of regular languages are regular.
     \end{enumerate}
-\end{theorem}
+\end{restatable}
 
 One can invent functions which satisfy the three conditions in the above
 theorem, but which are not computed by deterministic two-way automata with output, see

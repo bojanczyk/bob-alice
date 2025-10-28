@@ -3,10 +3,10 @@
 \label{sec:unary-output-alphabet}
 \AP
 In this section, we provide further evidence for
-Conjecture~\ref{conj:protocol-regular-string-to-string}
-% and~\ref{conj:regular-continuous},
- by showing that it is true for output
-alphabets with only one letter. 
+Conjectures~\ref{conj:protocol-regular-string-to-string}
+and~\ref{conj:regular-continuous},
+ by showing that they are true for output
+alphabets with only one letter. We begin with the first conjecture.
 
 \begin{theorem}\label{thm:unary-string-to-string}
   Conjecture~\ref{conj:protocol-regular-string-to-string} holds for string-to-string functions where the output alphabet has only one letter. In other words, for an output alphabet $\Gamma$ with one letter, protocols compute exactly the regular string-to-string functions. 
@@ -14,29 +14,28 @@ alphabets with only one letter.
 \end{theorem}
 
 \begin{proof}
-  In light of \cref{lem:from-regular-to-protocol}, the missing implication is from protocols to regular functions. We will prove a stronger result, namely that for unary output alphabets, protocols are equivalent to rational functions, which are a special case of the regular functions. (For general output alphabets, rational functions are strictly weaker than regular ones, but for the unary case they coincide.) 
+  In light of \cref{lem:from-regular-to-protocol}, the missing implication is from protocols to regular functions. We will prove a stronger result, namely that for unary output alphabets, protocols are equivalent to rational string-to-string functions, which are a special case of the regular string-to-string functions.   For general output alphabets, the special case is indeed spacial, i.e.~rational and regular are not the same, but the two classes coincide for output unary output alphabets (this is known, but it will also follow from the present theorem).
 
-  Let us begin by defining the rational functions. If the output alphabet $\Gamma$ has one letter only, then the monoids $(\Gamma^*, \cdot)$ and $(\Nat,+)$ are isomorphic. Therefore, we think of the outputs as being natural numbers with addition. In other words, we have function 
-\begin{align*}
-f : \Sigma^* \to \Nat.
-\end{align*}
-As the definition of rational functions, we use lookahead automata, which are equivalent to other known models of rational functions~\cite[Theorem 14.1]{bojanczyk_automata_2025}. Here is the definition.
+  Let us begin by defining the rational string-to-string  functions. One definition is that this is the special case of the rational relations mentioned in Example~\ref{ex:non-commutative-semirings}, in which the relations are functions (i.e.~for each input there is exactly one output). For the purposes of this proof, it will be more convenient to use an alternative definition based on lookahead automata, see for a proof of this defintion with the others~\cite[Theorem 14.1]{bojanczyk_automata_2025}. 
 
 \begin{definition}[Lookahead automaton]\label{def:bimachine}
   A lookahead automaton consists of:
   \begin{enumerate}
-    \item an input alphabet $\Sigma$;
+    \item input and output alphabets $\Sigma$ and $\Gamma$;
     \item two deterministic automata: 
     \begin{enumerate}
       \item a lookahead automaton, with input alphabet $\Sigma$ and states $P$;
       \item a main automaton, with input alphabet $P$ and states $Q$.
     \end{enumerate}
-    \item an output function of type $Q \times P \to \Nat$. 
+    \item an output function of type $Q \times P \to \Gamma^*$. 
   \end{enumerate}
 \end{definition}
-We now define the function that is computed by a lookahead automaton. This function has type  $\Sigma^* \to \Nat$, i.e.~each input string is mapped to a number. The general idea is that the main automaton scans the input string from left to right, using the lookahead automaton for guidance, and in each step it adds some natural number to the output.  Suppose that the input string is $a_1 \cdots a_n$, and the main automaton has already processed a prefix $a_1 \cdots a_i$ for some $i \in \set{0,1,\ldots,n}$, with the current state of the main automaton  being $q_i$. (Initially, when $i=0$, the state is the initial state of the main automaton.) Let $p_i$ be the state of the lookahead automaton after reading the remaining part of the input $a_{i+1} \cdots a_n$; we call this the lookahead. Based on the pair $(q_i,p_i)$, the output function produces some number, which is added to the output. If the entire string has been consumed, i.e.~$i=n$, then the computation stops. Otherwise, the letter $a_{i+1}$ is consumed, the main automaton updates its state by using the lookeahead $p_i$ as an input letter, and the computation continues.  This completes the definition of the function computed by a lookahead automaton. 
+We now define the function that is computed by a lookahead automaton, which has type  $\Sigma^* \to \Gamma^*$. The general idea is that the main automaton scans the input string from left to right, using the lookahead automaton for guidance, and in each step it adds some letters to  the  output string.  Suppose that the input string is $a_1 \cdots a_n$, and the main automaton has already processed a prefix $a_1 \cdots a_i$ for some $i \in \set{0,1,\ldots,n}$, with the current state of the main automaton  being $q_i$, and some prefix of the output string being already produced. Initially, when $i=0$, the state is the initial state of the main automaton, and the produced output is empty.  Let $p_i$ be the state of the lookahead automaton after reading the remaining part of the input $a_{i+1} \cdots a_n$; we call this the lookahead. Based on the pair $(q_i,p_i)$, the output function produces some part of the output string, which is appended to the already produced part. If the entire string has been consumed, i.e.~$i=n$, then the computation stops. Otherwise, the letter $a_{i+1}$ is consumed, the main automaton updates its state by using the lookeahead $p_i$ as an input letter, and the computation continues.  This completes the definition of the function computed by a lookahead automaton. 
 
-Lookahead automata compute exactly the rational functions~\cite[Theorem 14.1]{bojanczyk_automata_2025}. Therefore, to complete the proof of the theorem, we will show that if a function $f : \Sigma^* \to \Nat$ is computed by a protocol (which uses addition only), then it is also computed by a lookahead automaton.
+As mentioned before,
+lookahead automata compute exactly the rational functions. Therefore, to complete the proof of the theorem, we will show that if a function $f : \Sigma^* \to \Gamma^*$ is computed by a protocol, and the output alphabet $\Gamma$ has only one letter, then the function is also computed by a lookahead automaton. 
+
+Since there is only one output letter, the monoids $(\Gamma^*,\cdot)$ and $(\Nat,+)$ are isomorphic, and therefore we can equivalently think of $f$ as a function with outputs in $\Nat$. In this view, the protocol is only allowed to use addition in $\Nat$, and it cannot use multiplication. 
 We assume that the protocol has only one round, thanks to \cref{lemma:one-round-reduction-general}. Consider the strategy of Alice, which is a function 
 \begin{align*}
 \sigma_A : \Sigma^* \to \myunderbrace{Q_A \times \Nat^d}{elements of this set will be called \emph{configurations}}.
@@ -100,9 +99,7 @@ To compute this difference with lookahead, we will use the following claim, whic
 Thanks to the above claim, when the automaton is in state $w$ and the remaining input string is $av$, it can use regular lookahead to compute the difference~\eqref{eq:unary-difference-output}, and output it. This difference is non-negative, and therefore it is a legitimate output. There are finiely many possible choices for $u$ and $u'$, and therefore all  the regular languages from item~\ref{it:lookahead-regular-language} in \cref{claim:lookahead-regular-languages} can be combined into a single lookahead automaton. This completes the construction of the lookahead automaton $\Aa$, and therefore the proof of the theorem.
 \end{proof}
 
-
-Let us now use \cref{thm:unary-string-to-string} to prove a result on
-string-to-integer protocols. 
+In the rest of this section, we use the above theorem to derive some further observations, and in particular to prove Conjecture~\ref{conj:regular-continuous} for unary output alphabets. The first observation is about protocols that use integers with addition and have non-negative outputs.
 
 % As in the proof of the theorem, a string-to-string function with a
 % unary output alphabet can be seen as a string-to-number function with outputs in $\Nat$. The following theorem states that considering string-to-number
@@ -130,8 +127,8 @@ computed by weighted automata over $\Nat$ that have linear growth.
 
 \begin{corollary}
   \label{cor:weighted-automata-nat-regular}
-  Let $f : \Sigma^* \to \Nat$ be a function computed by a weighted automaton
-  over  $\Rat$, which has linear growth (i.e.~the output number is at most linear in the input lenth). Then $f$ is a regular function, when viewed as a string-to-string function with a unary output alphabet.
+  Let $f : \Sigma^* \to \Rat$ be a function computed by a weighted automaton
+  over  $\Rat$, which has linear growth (i.e.~the output number is at most linear in the input lenth), and such that all outputs are natural numbers. Then $f$ is a regular function, when viewed as a string-to-string function with a unary output alphabet.
 \end{corollary}
 \begin{proof}
   It is well-known that weighted automata over $\Rat$ computing integer values
@@ -152,6 +149,14 @@ computed by weighted automata over $\Nat$ that have linear growth.
   $f$ is a regular function.
 \end{proof}
 
+From the above, we conclude that Conjecture~\ref{conj:regular-continuous} holds for unary output alphabets.
+\begin{corollary}
+  \label{cor:regular-continuous-unary}
+  Conjecture~\ref{conj:regular-continuous} holds for string-to-string functions where the output alphabet has only one letter.
+\end{corollary}
+\begin{proof}
+  Let $f : \Sigma^* \to \Gamma^*$ be a function with a unary output alphabet which is field continuous. Compose this function with the weighted automaton $\Aa : \Gamma^* \to \Rat$ which computes the length of the output string. The result is a function that is subject to the assumptions of \cref{cor:weighted-automata-nat-regular}, and therefore it is a regular function. 
+\end{proof}
 Let us conclude this section with an example showing that
 \cref{cor:weighted-automata-nat-regular} cannot be extended to weighted
 automata over $\Int$ with arbitrary growth.

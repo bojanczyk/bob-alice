@@ -165,8 +165,7 @@ generalization of finite sets suitable for infinite alphabets sets. Using this
 notion, we can lift any model of computation that uses finite sets, to a model
 that uses orbit-finite sets, which allows us for a clean comparison of the two
 setting. For the purposes of this paper, we use a simplified definition of
-orbit-finite sets, which is sufficient for our purposes
-\footnote{
+orbit-finite sets, which is sufficient for our purposes\footnote{
 Definition~\ref{def:orbit-finite-sets} is weaker than the usual notion of orbit-finite sets~\cite[Section 5]{bojanczyk_slightly}; in fact it is the special case of the usual notion that is called \emph{polynomial orbit-finite sets} in~\cite[Section 1]{bojanczyk_slightly}.
 The stronger  notion that is usually used  allows for two extra features: (a) restricting to equivariant subsets (e.g.~one could limit $\atoms^2$ to pairs which are non-repeating); and (b)  symmetries (e.g.~one could identify pairs in $\atoms^2$ if they agree up to swapping of coordinates, thus yielding unordered pairs). In some cases, the extra features are desirable, in particular they establish a connection with set theory~\cite{blassDedekind2016} and  nominal sets~\cite[Section 5]{PittsAM:nomsns}. However, they do not play any role in the analysis of protocols and automata and, to avoid some technicalities, we use the simpler polynomial version from Definition~\ref{def:orbit-finite-sets}. This simplification is purely technical --- all results would continue to hold for the usual notion of orbit-finite sets.
 }.
@@ -927,6 +926,6 @@ Let $\domain$ be a field.
 \end{claim}
 \begin{proof}
     Thanks to the Orbit-Finite Fliess Theorem it is enough to show that if a function is computed by an orbit-finite linear 
-    protocol than it has an orbit-finite space of left derivatives. This follows from the same argument as in Section~\ref{sec:beyond-fields}:
+    protocol than it has an orbit-finite space of left derivatives. This follows from the same argument as in Section~\ref{sec:field-domain}:
     the vector produced by Alice in a bilinear protocol uniquely determines the left derivative of her part of the input. 
 \end{proof}
