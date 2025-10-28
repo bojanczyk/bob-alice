@@ -2,221 +2,140 @@
 \label{sec:unary-output-alphabet}
 
 In this section, we provide further evidence for
-Conjectures~\ref{conj:protocol-regular-string-to-string}
-and~\ref{conj:regular-continuous}, by showing that they are true for output
-alphabets with only one letter. From a technical point of view, this is the
-most involved result in the paper, since our proof uses a refined analysis of
-the expressive power of weighted automata that output natural numbers of linear
-size.
+Conjecture~\ref{conj:protocol-regular-string-to-string}
+% and~\ref{conj:regular-continuous},
+ by showing that it is true for output
+alphabets with only one letter. 
 
 \begin{theorem}\label{thm:unary-string-to-string}
-    The following conditions are equivalent for  a string-to-string function where  the output alphabet  has only one letter:
-    \begin{enumerate}
-        \item computed by a protocol;
-        \item \label{it:unary-weighted-continuous} field continuous;
-        \item \label{it:unary-regular} regular.
-    \end{enumerate}
+  Conjecture~\ref{conj:protocol-regular-string-to-string} holds for string-to-string functions where the output alphabet has only one letter. In other words, for an output alphabet $\Gamma$ with one letter, protocols compute exactly the regular string-to-string functions. 
+  
 \end{theorem}
 
-In light of Lemmas \ref{lem:from-regular-to-protocol} and
-\ref{lem:postcomposition-weighted-automaton}, the only missing implication is
-\ref{it:unary-weighted-continuous}~$\Rightarrow$~\ref{it:unary-regular},
-that is the content of \cref{lem:nat-protocols-regular} below.
+\begin{proof}
+  In light of \cref{lem:from-regular-to-protocol}, the missing implication is from protocols to regular functions. We will prove a stronger result, namely that for unary output alphabets, protocols are equivalent to rational functions, which are a special case of the regular functions. (For general output alphabets, rational functions are strictly weaker than regular ones, but for the unary case they coincide.) 
 
+  Let us begin by defining the rational functions. If the output alphabet $\Gamma$ has one letter only, then the monoids $(\Gamma^*, \cdot)$ and $(\Nat,+)$ are isomorphic. Therefore, we think of the outputs as being natural numbers with addition. In other words, we have function 
+\begin{align*}
+f : \Sigma^* \to \Nat.
+\end{align*}
+As the definition of rational functions, we use lookahead automata, which are equivalent to other known models of rational functions~\cite[Theorem 14.1]{bojanczyk_automata_2025}. Here is the definition.
 
-\begin{lemma}
-  \label{lem:nat-protocols-regular}
-  Let $f : \Sigma^* \to \{a\}^*$ be a function computed by a protocol
-  manipulating natural numbers. Then $f$ is a regular function.
-\end{lemma}
-
-Let us first remark that under the assumption that the output is unary,
-the class of "rational" and "linear regular functions" coincide.
-
-\begin{lemma}
-  \label{lem:unary-linear-regular-rational}
-  Let $f : \Sigma^* \to \{a\}^*$ be a function. The following conditions are
-  equivalent:
+\begin{definition}[Lookahead automaton]\label{def:bimachine}
+  A lookahead automaton consists of:
   \begin{enumerate}
-    \item \label{it:unary-rational}
-      $f$ is a rational function;
-    \item \label{it:unary-linear-regular}
-        $f$ is a linear regular function.
+    \item an input alphabet $\Sigma$;
+    \item two deterministic automata: 
+    \begin{enumerate}
+      \item a lookahead automaton, with input alphabet $\Sigma$ and states $P$;
+      \item a main automaton, with input alphabet $P$ and states $Q$.
+    \end{enumerate}
+    \item an output function of type $Q \times P \to \Nat$. 
   \end{enumerate}
-\end{lemma}
-\begin{proof}
-  The implication \ref{it:unary-rational}~$\Rightarrow$~\ref{it:unary-linear-regular}
-  is immediate  and holds even without the assumption on the 
-  unary output from \cref{fig:transducer-classes}.
+\end{definition}
+We now define the function that is computed by a lookahead automaton. This function has type  $\Sigma^* \to \Nat$, i.e.~each input string is mapped to a number. The general idea is that the main automaton scans the input string from left to right, using the lookahead automaton for guidance, and in each step it adds some natural number to the output.  Suppose that the input string is $a_1 \cdots a_n$, and the main automaton has already processed a prefix $a_1 \cdots a_i$ for some $i \in \set{0,1,\ldots,n}$, with the current state of the main automaton  being $q_i$. (Initially, when $i=0$, the state is the initial state of the main automaton.) Let $p_i$ be the state of the lookahead automaton after reading the remaining part of the input $a_{i+1} \cdots a_n$; we call this the lookahead. Based on the pair $(q_i,p_i)$, the output function produces some number, which is added to the output. If the entire string has been consumed, i.e.~$i=n$, then the computation stops. Otherwise, the letter $a_{i+1}$ is consumed, the main automaton updates its state by using the lookeahead $p_i$ as an input letter, and the computation continues.  This completes the definition of the function computed by a lookahead automaton. 
 
-  For the converse implication, assume that $f$ is rational (?).
-  \omc{For converse implication, the assumption should be $f$ is linear regular, right? Typo?}
-  Then it is
-  computed by a two-way transducer with outputs. However, this transduction can
-  be decomposed into a two step process: first, a rational function computes
-  the crossing sequences of the transducer on every letter of the input, and
-  then, a two-way transducer that simply follows these crossing sequences to
-  produce the output in the correct order. Since the order of the output does
-  not matter in the unary case, the second step can be performed in a
-  block-wise fashion, producing all outputs corresponding to a letter
-  immediately after reading it. This second step is therefore also a rational
-  function, and since those are closed under composition, we conclude that $f$ is
-  a rational function.
+Lookahead automata compute exactly the rational functions~\cite[Theorem 14.1]{bojanczyk_automata_2025}. Therefore, to complete the proof of the theorem, we will show that if a function $f : \Sigma^* \to \Nat$ is computed by a protocol (which uses addition only), then it is also computed by a lookahead automaton.
+We assume that the protocol has only one round, thanks to \cref{lemma:one-round-reduction-general}. Consider the strategy of Alice, which is a function 
+\begin{align*}
+\sigma_A : \Sigma^* \to \myunderbrace{Q_A \times \Nat^d}{elements of this set will be called \emph{configurations}}.
+\end{align*}
+In the proof, we order strings with respect to the configurations that they produce under Alice's strategy. We write $w' \le w$ if (a) the corresponding configurations have the same signal part from $Q_A$; and (b) the vectors from $\Nat^d$ are ordered so that  $w'$ has a smaller or equal vector than $w$, in the coordinatewise ordering on $\Nat^d$. The following claim, which isolates a finite set of minimal strings, is a standard application of Dickson's lemma.
+
+\begin{claim}\label{claim:minimal-configurations}
+  There is a finite set of strings $W \subseteq \Sigma^*$ such that each string is greater or equal to some string in $W$ with respect to the above ordering.
+\end{claim}
+\begin{proof}
+  We partition the strings with respect to the signal component, which gives us finitely many parts. In each part, the strings are ordered coordinatewise according to the vector from $\Nat^d$. By Dickson's lemma, there are finitely many minimal elements in each part, and therefore finitely many minimal elements overall.
 \end{proof}
 
-Let us consider a "protocol" computing a function $f : \Sigma^* \to \{a\}^*$.
-Recall that one can assume that the protocol is one round
-(\cref{lemma:one-round-reduction-general}). Let us write $\sigma_A : \Sigma^*
-\to Q_A \times \domain^k$ for the strategy of Alice, $\sigma_B : \Sigma^*
-\times Q_A \to Q_B \times \domain^k$ for the strategy of Bob, and $\theta : Q_A
-\times Q_B \to (\domain^{2k} \to \domain)$ for the combining function, that can
-only use concatenation of registers. We can place a quasi-order on $Q_A \times
-\domain^k$, by saying that $(q, \vec{r}) \leq (q', \vec{r}')$ if $q = q'$ and
-for each $i \in \{1, \ldots, k\}$ we have $|r_i|\leq |r_i'|$. This quasi-order
-on $Q_A \times \domain^k$ can be lifted to a quasi-order on strings in
-$\Sigma^*$, by saying that $u \leq v$ if $\sigma_A(u) \leq \sigma_A(v)$. A key
-property of this ordering is the following:
+Let $W$ be the finite set which consists of the empty strings $\varepsilon$, plus the minimal strings from the above claim. Below define a lookahead automaton $\Aa$ that computes the function $f$, and which uses $W$ as the states of the main automaton. The automaton is designed to satisfy the following invariant:
+\begin{align*}
+\myunderbrace{\Aa_w}{lookahead automaton obtained from $\Aa$ by setting $w$ \\ to be the initial state of the main automaton}(v){} = f(wv).
+\end{align*}
+If we choose the empty string $\varepsilon$ as the initial state of the main automaton, then the invariant tells us that the automaton computes $f$, as needed to prove the theorem. It remains to define the transitions of the main automaton, the lookahead automaton, and the output function. Once these have been defined, the invariant will be proved by induction on the length of the remaining input string $v$.
 
-\begin{lemma}
-  \label{lemma:order-monotonicity-unary-output}
-  Let $u, v \in \Sigma^*$ be such that $u \leq v$. Then for every $w \in
-  \Sigma^*$, we have $|f(uw)| \leq |f(vw)|$. Furthermore, the function 
-  $\Delta_{u,v} : w \mapsto |f(vw)| - |f(uw)|$ is a bounded function, and for 
-  every $c \in \Nat$, the set $\{ w \in \Sigma^* : \Delta_{u,v}(w) = c\}$ is
-  a regular language.
-\end{lemma}
+Suppose that the main automaton is in state $w \in W$. If the remaining part of the input string is empty, which can be inferred by having an emptiness check in the lookahead automaton, then the automaton outputs $f(\varepsilon)$. Otherwise, the remaining input string has at least one letter, and it can be decomposed as $av$, where $a$ is its first letter.  By \cref{claim:minimal-configurations}, there is some $w' \in W$ with
+\begin{align*}
+w' \leq wa.
+\end{align*}
+The main automaton will consume the letter $a$, and change its state to  $w'$, with the remaining input string being $v$. For this state update, the only necessary lookahead is to know the first letter $a$. However, there will be some nontrivial lookahead used to compute the output. More specifically, when consuming the input letter $a$, in order to maintain the invariant, we  need to output the difference 
+\begin{align}
+  \label{eq:unary-difference-output}
+\Aa_{w}(av) - \Aa_{w'}(v)  = f(wa v) -  f(w' v).
+\end{align}
+To compute this difference with lookahead, we will use the following claim, which will be applied to $u' = w'$ and $u = wa$.
+
+
+
+\begin{claim}\label{claim:lookahead-regular-languages}
+  Consider two strings $u' \leq u$ in $\Sigma^*$. Then
+  \begin{enumerate}
+    \item \label{it:lookahead-finite-set} The set $\setbuild{ f(uv) - f(u' v)}{$v \in \Sigma^* $}$ is finite and contains only non-negative integers.
+    \item \label{it:lookahead-regular-language} For every $c$ in the above set, $\setbuild{ v \in \Sigma^*}{ $f(u v) - f(u' v) = c $}$ is a regular language.
+  \end{enumerate}
+\end{claim}
 \begin{proof}
-  Assume that $u \leq v$, and fix some $w \in \Sigma^*$.
-  Let $q \in Q_A$ be the state that Alice sends to Bob after reading $u$.
-  It is the same state after reading $v$. From the point of view of 
-  Bob, the two strings behave identically. Now, since the combining function
-  can only use concatenation of registers, and since the registers produced by
-  Bob on the split $(u, w)$ are the same as those produced on the split
-  $(v, w)$, the result follows by monotonicity of concatenation with respect to
-  length. Note that the difference in lengths is bounded by the difference 
-  between the lengths of the registers after Alice's turn, which does not 
-  depend on $w$, proving the boundedness.
+  We begin with finiteness  from item~\ref{it:lookahead-finite-set}. Since the signals of Alice are the same in the configurations of $u$ and $u'$, it follows that the pairs of signals of Alice and Bob will be the same in the executions of the protocol on both $(u,v)$ and $(u',v)$. This means that the output in both cases will be obtained by taking some fixed number (which depends on $v$) and adding to it a number that appears in Alice's configuration after reading $u$ or $u'$. Since $u$ and $u'$ are fixed, it follows that difference 
+  \begin{align*}
+  f(uv) - f(u'v)
+  \end{align*}
+  is bounded by a constant independent of $v$, which only depends on Alice's configurations for $u$ and $u'$. This proves finiteness. The difference is also a non-negative, by the assumption that $u' \leq u$, which implies that the contribution of Alice is smaller or equal in $u'$ as compared to $u$.
 
-  Finally, the set $\{ w \in \Sigma^* : \Delta_{u,v}(w) = c\}$ is regular because it
-  can be computed by a Boolean Alice-Bob protocol: Alice simulates the original protocol
-  when prepending $u$ and $v$ to its input, sends the difference of the lengths 
-  of its registers (that is now a finite message, since the difference is bounded) to Bob,
-  who can then check whether the total difference is $c$.
-  Because of \cref{thm:boolean-domain}, we conclude that the language is in fact regular.
+  %  Fix some difference $c$. We will give a protocol (with Boolean outputs) that computes the language 
+  % \begin{align*}
+  % \setbuild{ v \in \Sigma^*}{ $f(u v) - f(u' v) = c $}.
+  % \end{align*}
+  % Since protocols with Boolean outputs compute exactly the regular languages by \cref{thm:boolean-domain}, this will prove the claim. In the new protocol that we are designing, the input string is $v$, and it is split into two parts $v = v_1 v_2$, one for Alice and one for Bob. Bob sends the signal from $Q_B$ that he would have sent for $v_2$ in the original protocol for $f$. 
+  
+  Let us now prove item~\ref{it:lookahead-regular-language} about regularity.
+  Consider the original protocol for $f$. This is a protocol with output domain $(\Nat,+)$, which can be thought of as a special case of  the field $(\Rat,+, \times)$. In the special case multiplication is not used by the protocol, and only natural numbers are sent. By \cref{thm:field-domain} on protocols with field outputs, we know that the function $f$ is computed by a weighted automaton over $\Rat$. From this and standard closure properties of weighted automata, it follows that once we fix $u$ and $u'$,  the function 
+  \begin{align*}
+  v \quad \mapsto \quad f(uv) - f(u' v)
+  \end{align*}
+  is also computed by a weighted automaton over $\Rat$. By the previous item, this function has finite image. For weighted automata with a finite image, it is known that every preimage of a number is a regular language. This concludes the proof of item~\ref{it:lookahead-regular-language}.
 \end{proof}
 
-The second key property of the ordering is the following: it is in fact a
-""well-quasi-order"", meaning that for any infinite sequence $(q_i,
-\vec{r}_i)_{i \in \Nat}$, there are two indices $i < j$ such that $(q_i,
-\vec{r}_i) \leq (q_j, \vec{r}_j)$. 
-
-\begin{lemma}
-  \label{lemma:wqo-unary-output}
-  The quasi-order on $\Sigma^*$ defined above is a well-quasi-order.
-\end{lemma}
-\begin{proof}
-  Because the order only compares words with respect to their image by
-  $\sigma_A$, it is enough to show that the quasi-order on $Q_A \times
-  \domain^k$ is a well-quasi-order.
-  Since $Q_A$ is finite, it is enough to show that for each $q \in Q_A$,
-  the quasi-order on $\{q\} \times \domain^k$ is a well-quasi-order.
-  This follows from Dickson's lemma, since $\domain = \{a\}^*$ is isomorphic
-  to $\Nat$ with addition, and since $\Nat^k$ with the product ordering is a
-  well-quasi-order by Dickson's lemma.
-\end{proof}
-
-From the above two lemmas, we can conclude the proof of
-\cref{lem:nat-protocols-regular}. 
-
-\begin{proof}
-  We claim that there exists a finite set $L$ of words $u_1, \ldots, u_n \in
-  \Sigma^*$, closed under taking prefixes, and such that for every $u \in L$
-  and every letter $a \in \Sigma$, either $ua \in L$, or there is some $u_i \in
-  L$ such that $u_i \leq ua$. 
-  Such a finite set $L$ exists by \cref{lemma:wqo-unary-output}, since one can
-  extract a finite set of minimal elements for the quasi-order, and close it
-  under prefixes. 
-
-  We can now produce a left-to-right automaton that computes $f$ using regular
-  lookaheads as follows. The states of the automaton are the words in $L$.
-  The final output of a state $u_i \in L$ is $f(u_i)$.
-  The transition from a state $u_i$ on a letter $a$ is defined as follows:
-  \begin{itemize}
-    \item if $u_i a \in L$, then the transition goes to state $u_i a$;
-    \item otherwise, there is some $u_j \in L$ such that $u_j \leq u_i a$,
-      and the transition goes to state $u_j$ (this is a choice made uniformly).
-  \end{itemize}
-  The lookahead for the transition from $u_i$ on $a$ is the regular language
-  that tells the precise difference in size between $f(u_i a w)$ and $f(u_j w)$. By
-  \cref{lemma:order-monotonicity-unary-output}, this delay is bounded so there 
-  are finitely many possibilities, and the precise difference can be checked by a
-  regular property on $w$. The automaton outputs this difference on the
-  transition.
-
-  An immediate induction proves that this automaton with regular lookaheads
-  computes the same function as $f$, and it is a standard result that 
-  regular functions are closed under regular lookaheads,
-  concluding the proof.
+Thanks to the above claim, when the automaton is in state $w$ and the remaining input string is $av$, it can use regular lookahead to compute the difference~\eqref{eq:unary-difference-output}, and output it. This difference is non-negative, and therefore it is a legitimate output. There are finiely many possible choices for $u$ and $u'$, and therefore all  the regular languages from item~\ref{it:lookahead-regular-language} in \cref{claim:lookahead-regular-languages} can be combined into a single lookahead automaton. This completes the construction of the lookahead automaton $\Aa$, and therefore the proof of the theorem.
 \end{proof}
 
 
-Let us now use \cref{lem:nat-protocols-regular} to prove a result on
-string-to-number functions. Remark that a string-to-string function with a
-unary output alphabet can be seen as a string-to-number function, by mapping
-the string $a^n$ to the number $n$. Concatenation becomes addition in this
-setting. The following theorem states that considering string-to-number
-protocols (keeping only addition as operation on numbers) does not change the
-class of functions if the outputs are non-negative.
+Let us now use \cref{thm:unary-string-to-string} to prove a result on
+string-to-integer protocols. 
+
+% As in the proof of the theorem, a string-to-string function with a
+% unary output alphabet can be seen as a string-to-number function with outputs in $\Nat$. The following theorem states that considering string-to-number
+% protocols (keeping only addition as operation on numbers) does not change the
+% class of functions if the outputs are non-negative.
 
 \begin{theorem}
   \label{thm:string-to-number-protocols-nat}
-  Let $f : \Sigma^* \to \Nat$ be a function computed by a protocol
-  manipulating integers. Then, $f$ is also computed by a protocol
-  manipulating natural numbers.
+  Consider a protocol with output domain $(\Int,+)$ where all outputs are non-negative. Then the same function can be computed by a protocol with output domain $(\Nat,+)$.
 \end{theorem}
 \begin{proof}
   Let us assume without loss of generality that $f$ is computed by a one-round
-  protocol. Furthermore, up to normalizing the protocol, we can assume that only one
-  register of Alice is used in the final computation, and that all registers of
-  Alice can be used in some computation. This can be ensured by a powerset
+  protocol.  We use the name \emph{configuration} for the message sent by alice, similarly to the proof of \cref{thm:unary-string-to-string}. The configuration consists of a signal, and several integers. We can improve the protocol so that:  (a) for each input with a split $w = w_1 w_2$ exactly one of the numbers in Alice's configuration is part of the  final output; and (b) if Alice's configuration for a string $w_1$ uses some integer, then  there is some $w_2$ where this integer contributes to the final output.  These assumptions can be ensured by a powerset
   construction on Alice's side.
 
-  Let us prove the following intermediate claim: the registers of Alice are
-  uniformly bounded below. Assuming the contrary, there is a sequence of inputs
-  $(u_i)_{i \in \Nat}$ such that the value of some register $r$ of Alice after
-  reading $u_i$ tends to $-\infty$ as $i$ tends to infinity. Since there are
-  finitely many states of Alice, we can assume without loss of generality that
-  the state of Alice after reading $u_i$ is some fixed state $q$ for all $i$.
-  Now, there is a fixed word $v$ such that when Bob receives state $q$ from
-  Alice and reads $v$, the output of the protocol is the sum of register $r$ of
-  Alice and some value computed by Bob. Because $r$ tends to $-\infty$ on the
-  sequence $(u_i)_{i \in \Nat}$, the output of the protocol on inputs $u_i v$
-  is negative for sufficiently large $i$, which is absurd.
+  Let us prove the following intermediate claim: the integers in  Alice's configuration are
+  uniformly bounded below. This is a simple corollary of the properties (a) and (b) below: if the integers would be arbitrarily large negative numbers, then the contribution of Bob for some fixed string $w_2$ would not be enough to offset them. 
 
 
-  Hence, one can define a new protocol computing $f$ as follows: Alice
-  computes as before, but truncates all registers to zero if they are
-  negative. As state, she sends to Bob her state together with the content of
-  the registers that were truncated, which is a finite information since we
-  have proved that the registers are uniformly bounded below. Bob can then
-  simulate the original protocol, if he wishes to use a truncated register,
-  he directly substracts the value from his own output. The result of Bob
-  remains non-negative, since the original protocol computed a non-negative
-  output.
+  Thanks to the above claim, we can further improve the protocol as follows. Alice sends her original configuration, with the following change: if some numbers were negative, then they are truncated to zero, and the signal is adjusted so that it stores the negative numbers. This can be done in a finite signal space, due to the claim on lower bounds. Once Bob receives the message, he can the produce the output of the original protocol, by possibly using the signals to reconstruct the original integers.
 \end{proof}
 
-This theorem allows us to derive a neat characterisation of functions 
+This theorem allows us to derive a characterisation of functions 
 computed by weighted automata over $\Nat$ that have linear growth.
 
 \begin{corollary}
   \label{cor:weighted-automata-nat-regular}
   Let $f : \Sigma^* \to \Nat$ be a function computed by a weighted automaton
-  over the semiring $\Rat$, such that $f$ has linear growth. Then, $f$ is a regular function.
+  over  $\Rat$, which has linear growth (i.e.~the output number is at most linear in the input lenth). Then $f$ is a regular function, when viewed as a string-to-string function with a unary output alphabet.
 \end{corollary}
 \begin{proof}
   It is well-known that weighted automata over $\Rat$ computing integer values
   can be simulated by weighted automata over the semiring $\Int$: this is
-  sometimes referred to as $\Rat$ being a "fatou extension" of $\Int$
+  sometimes referred to as $\Rat$ being a Fatou extension of $\Int$
   \cite[p. 110]{BerstelReutenauer08}.
   Therefore, we can assume without loss of generality that $f$ is computed by
   a weighted automaton over $\Int$. Then, one can leverage a 
@@ -225,7 +144,6 @@ computed by weighted automata over $\Nat$ that have linear growth.
   \{a,b\}^*$ is computed, then each letter $a$ is mapped to $+1$ and each 
   letter $b$ is mapped to $-1$, and finally all values are summed up. 
   For a precise statement, see \cite[Proposition II.13, Theorem III.3]{Zpolyreg23}.
-
   Now, it is clear from the above description that $f$ can be computed by a protocol
   manipulating integer values, and combining them only using addition. By
   \cref{thm:string-to-number-protocols-nat}, $f$ can also be computed by a
