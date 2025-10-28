@@ -192,7 +192,7 @@ In the presence of an infinite message space, one needs to be careful about the 
 \begin{align*}
 \myunderbrace{\set{\text{true, false}} + \Rat}{disjoint union of bits and rational numbers}.
 \end{align*}
-When choosing their message in the $i$-th round, the corresponding  party (Alice in odd rounds, Bob in even rounds) has access to their part of the input string, and the  bits from previous messages. The numbers  are rationals, and cannot influence the decision, as per the black box restriction.  Therefore, the information available  in the $i$-th round is described by  the set 
+When choosing their message in the $i$-th round, the corresponding  party (Alice in odd rounds, Bob in even rounds) has access to their part of the input string, and the  bits from previous messages. The numbers  are rationals, and cannot influence the decision, as per the black box restriction.  The information available  in the $i$-th round is given by  the set 
 \begin{align}\label{eq:strategy-input}
 \myunderbrace{\Sigma^*}{part of the  input \\ string that is \\ known to the party}
 \qquad \times \qquad 
@@ -226,7 +226,7 @@ Finally, the protocol must be split invariant, i.e.~for every input string $w$, 
 
 
 
-  This result might even seem surprising. Our protocol is designed to use polynomial operations on the output domain, and therefore one could expect the relevant automaton model to be also based on polynomials, such as the  polynomial automata of~\cite{DBLP:conf/lics/BenediktDSW17}. However,  the split invariance in the protocols  enforces linearity, and thus it excludes the general polynomials operations that are used in polynomial automata. The linearity phenomenon is true for outputs in a field -- because weighted automata are based on linear maps -- and it will also be true for other output domains, such as strings, see \cref{thm:evidence-for-the-conjecture}. We do not have a fully general understanding of this phenomenon.
+  This result might even seem surprising. Our protocol is designed to use polynomial operations on the output domain, and therefore one could expect the relevant automaton model to be also based on polynomials, such as the  polynomial automata of~\cite{DBLP:conf/lics/BenediktDSW17}. As it turns out, the split invariance in the protocols  enforces linearity, and thus it excludes the general polynomials operations that are used in polynomial automata. The linearity phenomenon is true for outputs in a field -- because weighted automata are based on linear maps -- and it will also be true for other output domains, such as strings, see \cref{thm:evidence-for-the-conjecture}. We do not have a fully general understanding of this phenomenon.
 
   The proof of \cref{thm:field-domain} is given in Section~\ref{sec:proof-of-thm-field-domain}, but here we present a rough outline.  The proof is similar  to the one used for the case of Boolean outputs, and has  two steps:
 
@@ -247,7 +247,7 @@ to their parts of the input string, where $d$ is some fixed finite dimension. Th
 \begin{myexample}[Division]\label{ex:division} What if we added division to the operations?  Consider the function  $w \mapsto 1/(|w|+1)$. This function can easily be computed using a protocol with division. We now argue that it cannot be computed using addition and multiplication only, thus proving that division gives extra power. Since the function depends only on the length of the input, it can be seen as having type $\Nat \to \Rat$. In such a type, weighted automata are the same as linear recurrence sequences. The inverse function $1/(n+1)$ is not a  linear recurrence sequence, which can be shown using the exponential polynomial form~\cite[Theorem 2.1]{BerstelReutenauer08}. Summing up, the choice of operations is important; we use a field, but we only allow the ring operations. We do not know what happens if division is allowed.
 \end{myexample}
 
-\paragraph*{Related work.} \cref{thm:field-domain} can be seen as a machine independent characterisation of  weighted automata. This would not be the first such characterisation, e.g.~the Fliess Theorem itself can be seen as a machine independent characterisation. Other research related to the Fliess Theorem is the categorical approach to  minimisation of weighted automata from~\cite{colcombetPetrisan2017}. We think that the value of our approach is that it places weighted automata in a broader context, which is defined purely in terms of communication, and in a way that is applicable to  other output domains, such as strings that will be considered next. As far as we know, the only  work  which takes such a broad view is the cost register automata of~\cite[Section C]{alurDantoniDeshmukhYuan2013}, which are an automaton model that describes functions with outputs in an arbitrary output domain, similarly to our setting. However, unlike our model, cost register automata are defined in terms of a certain finite state machine model, and as such they lack the abstract machine independent flavour of our approach.
+\paragraph*{Related work.} \cref{thm:field-domain} can be seen as a machine independent characterisation of  weighted automata. This would not be the first such characterisation, e.g.~the Fliess Theorem itself can be seen as a machine independent characterisation. Other research related to the Fliess Theorem is the categorical approach to  minimisation of weighted automata from~\cite{colcombetPetrisan2017}. We think that the value of our approach is that it places weighted automata in a broader context, which is defined purely in terms of communication, and in a way that is applicable to  other output domains, such as strings that will be considered next. As far as we know, the only  work  which takes such a broad view is the cost register automata of~\cite[Section C]{alurDantoniDeshmukhYuan2013}, which are an automaton model that describes functions with outputs in an arbitrary output domain, similarly to our setting. However, unlike our model, cost register automata are defined in terms of a  finite state machine model, and as such they lack the abstract machine independent flavour of our approach.
 
 \subsection{String outputs}
 \label{sec:intro-strings}
@@ -256,25 +256,24 @@ Our third group of results concerns string-to-string functions
 \begin{align*}
 f : \Sigma^* \to \Gamma^*.
 \end{align*}
-We  use the same kind of protocol as in the previous section, except that instead of numbers, the black box messages  contain strings from $\Gamma^*$, and instead of addition and multiplication, we have string concatenation.  
+We  use the same kind of protocol as in the previous section, except that instead of numbers, the black box messages  contain strings from $\Gamma^*$, and instead of addition and multiplication, we have string concatenation.  Here are some examples.
 
 \begin{myexample}[Reversal and duplication]\label{ex:reverse-duplicate}
     Using the protocol, we can compute string reversal: Alice sends to Bob the reverse of her part of the input, and  Bob concatenates this with  his part of the reverse. Another string-to-string function that can be easily computed by a protocol is string duplication $w \mapsto ww$. 
 \end{myexample}
 
-The string-to-string case is of particular interest because, as we have mentioned earlier in the introduction, there is no general agreement as to  which string-to-string functions should be considered ``regular''. There are numerous automata models to choose from, some of which are summarised in \cref{fig:transducer-classes}, which contains twenty models, grouped by equivalence into three classes. We can exclude the weakest class (the rational functions), since it is too weak: it  cannot compute the reverse or duplicate functions from Example~\ref{ex:reverse-duplicate}. We can also exclude the strongest class (the polyregular functions), since it is too strong: polyregular functions can have superlinear output size, and as we will see in a moment, protocols can only have linear output size. The remaining class from \cref{fig:transducer-classes} is the middle class of functions. One of the models which defines this class is  deterministic two-way automata with output~\cite{shepherdson1959reduction}. We conjecture  that this class     is the correct answer: 
+The string-to-string case is of particular interest because, as we have mentioned earlier in the introduction, there is no consensus as to  which string-to-string functions should be considered ``regular''. There are numerous automata models to choose from, some of which are summarized in \cref{fig:transducer-classes}, which contains twenty models, grouped by equivalence into three classes. We can exclude the weakest class (the rational functions), since it is too weak: it  cannot compute the reverse or duplicate functions from Example~\ref{ex:reverse-duplicate}. We can also exclude the strongest class (the polyregular functions), since it is too strong: polyregular functions can have superlinear output size, and as we will see in a moment, protocols can only have linear output size. By a process of elimination, we are left with the final  class from \cref{fig:transducer-classes}, which is traditionally called the ``regular functions''. One of the models which defines this class is  deterministic two-way automata with output~\cite{shepherdson1959reduction}. We conjecture  that this class     is the correct answer (thus validating the traditional name): 
 
 \begin{conjecture}\label{conj:protocol-regular-string-to-string}
     A string-to-string function is computed by a protocol iff it is computed by a deterministic two-way automaton with output.
 \end{conjecture}
 
-The functions computed by deterministic two-way automata with output are traditionally called ``regular'', and the above conjecture could be seen as a justification for using this name.
 In Section~\ref{sec:string-outputs} we discuss this conjecture in detail, and provide evidence in its favour, including a proof of the  implication 
 \begin{align*}
 \text{protocol} \quad \impliedby \quad \text{two-way automaton},
 \end{align*} 
-This implication is rather easy, since a two-way automaton can be neatly simulated by the repeated interactions of the protocol. The content of the conjecture, and the subject of most of our technical results, is the $\implies$ implication. 
-Our first argument in favour of  the conjecture is the following result, which shows that functions computed  by protocols have many properties which are known to hold for regular functions.
+This implication is rather easy, since a two-way automaton can be neatly simulated by the repeated interactions of the protocol. The content of the conjecture, and the subject of most of our technical results, is the $\implies$ implication. Most of Section~\ref{sec:string-outputs} is devoted to evidence for this implication. 
+Our first argument  is the following result, which shows that functions computed  by protocols have many properties which are known to hold for deterministic two-way automata with output.
 
 \begin{theorem}\label{thm:evidence-for-the-conjecture}
     If a string-to-string function  is  computed by a \kl{protocol}, then:
@@ -286,14 +285,14 @@ Our first argument in favour of  the conjecture is the following result, which s
 \end{theorem}
 
 One can invent functions which satisfy the three conditions in the above
-theorem, but which are not regular, see
+theorem, but which are not computed by deterministic two-way automata with output, see
 Example~\ref{ex:not-regular-but-continuous-over-finite-fields}. However, all
 known examples of such functions  are artificial, and none can be computed by
 protocols (or any known transducer models).  The proof of
 \cref{thm:evidence-for-the-conjecture}, which is given in
 Section~\ref{sec:string-outputs}, uses a linear representation of strings as
 matrices, and then applies \cref{thm:field-domain} about protocols with field
-outputs. In fact, this technique suggest an alternative approach to regularity,
+outputs. In fact, this technique suggests an alternative approach to regularity,
 which connects string-to-string functions with the better understood case of
 string-to-field functions. This approach is discussed in
 Section~\ref{sec:continuity}.
@@ -302,19 +301,9 @@ Our second argument in favour of the \cref{conj:regular-continuous} is that we
 can prove it in the special case when the output alphabet is unary, i.e.~it has
 only one letter. This is the content of
 Section~\ref{sec:unary-output-alphabet}. When the output alphabet is unary, the
-output strings are commutative, i.e.~the order of letters is irrelevant. Our
-proof of \cref{thm:unary-string-to-string} relies on this commutativity on the
-output side since it collapses the class of "linear regular functions" to the
-much simpler class of "rational functions"
-(\cref{lem:unary-linear-regular-rational}).
+output strings are commutative, i.e.~the order of letters is irrelevant; this commutativity is essential to our proof of the conjecture in the unary output case. 
 
-Our third argument in favour of the \cref{conj:regular-continuous} is that we
-can prove it to be true when the functions are considered under the
-\emph{origin semantics} of~\cite{bojanczykTransducersOriginInformation2014}.
-That is, strings come with extra origin information, and the functions are
-required to explicit which part of the output originates from which part of the
-input. This is the content of Section~\ref{sec:origin-semantics}, and the
-result is stated in \cref{thm:origin-string-to-string}. 
+
 
 \paragraph*{Related work.} One of the consequences of the Myhill-Nerode theorem
 for string-to-Boolean functions, or the Fliess Theorem for string-to-number
