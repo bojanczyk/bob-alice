@@ -566,25 +566,50 @@ also constant. It remains to prove the lemma.
 \subsection{Weighted automata}
 \label{sec:weighted-automata-atoms}
 
-In \cref{thm:unambiguous-to-protocol}, we have proved one implication in Conjecture~\ref{conj:protocols-unambiguous}. This section is devoted to presenting some evidence for the other implication, i.e.
+In \cref{thm:unambiguous-to-protocol}, we have proved one implication in Conjecture~\ref{conj:protocols-unambiguous}.
+This section is devoted to presenting some evidence for the other implication, i.e.
 \begin{align}\label{eq:missing-orbit-finite-implication}
 \text{protocol} \quad \implies \quad \text{unambiguous automaton}.
 \end{align}
- We begin by explaining why the  orbit-finite case cannot be handled using the techniques that were used to prove this implication in the finite case.
+We begin by explaining why the orbit-finite case cannot be handled using the
+techniques that were used to prove this implication in the finite case.
 
 \paragraph*{What goes wrong in the orbit-finite case?}
-In the finite case, the proof had two parts: (a) a reduction to one-round protocols, and (b) the Myhill-Nerode Theorem. Part (b) does not seem to be problematic, as orbit-finite versions of the Myhill-Nerode Theorem are known in many variants, including monoids~\cite[Lemma 3.3]{bojanczykNominalMonoids2013}, automata~\cite[Section 3.2]{bojanczykAutomataTheoryNominal2014}, and -- as we will prove later in this section -- also for weighted automata. The problematic part is (a), in which the number of rounds is reduced to one. The key argument in this reduction  was that the sets of strategies 
+In the finite case, the proof had two parts: (a) a reduction to \kl{one-round protocols}, and (b) the Myhill-Nerode Theorem.
+Part (b) does not seem to be problematic, as orbit-finite versions of the Myhill-Nerode Theorem are known in many variants, 
+including monoids~\cite[Lemma 3.3]{bojanczykNominalMonoids2013}, automata~\cite[Section 3.2]{bojanczykAutomataTheoryNominal2014}, 
+and -- as we will prove later in this section -- also for weighted automata. 
+The problematic part is (a), in which the number of rounds is reduced to one.
+The key argument in this reduction  was that the sets of strategies 
   \begin{align*}
     (Q_B)^k \to (Q_A)^k \qquad \text{and} \qquad (Q_A)^k \to (Q_B)^k
     \end{align*}
-are finite, and thus each party could simply send their strategy as a message.  This argument fails to carry over from finite sets to orbit-finite sets. The reason is  that orbit-finite sets are not closed under taking function spaces $X \to Y$, see~\cite{functionSpaces2024} for an extended discussion of this phenomenon.  The following example shows that the one-round reduction is indeed impossible in the orbit-finite case.
+are finite, and thus each party could simply send their strategy as a message.
+This argument fails to carry over from finite sets to orbit-finite sets. 
+The reason is that \kl{orbit-finite} sets are not closed under taking function spaces $X \to Y$, see~\cite{functionSpaces2024} 
+for an extended discussion of this phenomenon.
+The following example shows that the one-round reduction 
+is indeed impossible in the orbit-finite case.
 
 \begin{myexample}
-    [No reduction to one round]\label{ex:no-one-round-reduction} Consider a language $L$ that is computed by an orbit-finite protocol with one round. Using the same argument as in \cref{lem:one-round-reduction-boolean}, we can show that the Myhill-Nerode equivalence relation for the language, as defined in~\eqref{eq:myhill-nerode-equivalence}, has an orbit-finite set of equivalence classes. As mentioned above, it follows from \cite[Section 3.2]{bojanczykAutomataTheoryNominal2014} that $L$ is also recognised by a deterministic orbit-finite automaton. As we have seen in Example~\ref{ex:protocol-not-dofa}, such automata are not strong enough to capture all protocols.
+    [No reduction to one round]\label{ex:no-one-round-reduction}
+    Consider a language $L$ that is computed by an \kl{orbit-finite protocol} with
+    one round. Using the same argument as in
+    \cref{lem:one-round-reduction-boolean}, we can show that the Myhill-Nerode
+    equivalence relation for the language, as defined
+    in~\eqref{eq:myhill-nerode-equivalence}, has an \kl{orbit-finite} set of
+    equivalence classes. As mentioned above, it follows from \cite[Section
+    3.2]{bojanczykAutomataTheoryNominal2014} that $L$ is also recognised by a
+    \kl{deterministic orbit-finite automaton}. As we have seen in
+    Example~\ref{ex:protocol-not-dofa}, such automata are not strong enough to
+    capture all \kl(orbit-finite){protocols}.
     %In fact, the reasoning in this example shows that a language is recognised by a one-round orbit-finite protocol if and only if it is recognised by a deterministic orbit-finite automaton in both directions, i.e.~both the language and its reverse are recognised by deterministic orbit-finite automata. 
 \end{myexample}
 
-In light of the above example, it is no longer surprising that the proof of \cref{thm:unambiguous-to-protocol} used multi-round protocols. In fact, we believe that the number of needed rounds can be arbitrarily large, as suggested by the following example. 
+In light of the above example, it is no longer surprising that the proof of
+\cref{thm:unambiguous-to-protocol} used multi-round protocols. In fact, we
+believe that the number of needed rounds can be arbitrarily large, as suggested
+by the following example. 
 
 \begin{myexample}[Back and forth]
     A string over the alphabet $\atoms^2$ can be seen as a directed graph, where each letter represents an edge. For $k \in \set{1,2,\ldots}$, define  $L_k$ to be the set of strings over this alphabet such that: (1) the string is functional, i.e.~for each atom $a$ there is at most letter in the string that begins with $a$; and (2) in the corresponding graph, there is a path with $k$ edges that uses the edges from the first and last letter. This language can be computed by an orbit-finite protocol with $k-1$ rounds, with each round corresponding to a step in the path. It seems unlikely that a smaller number of rounds would suffice, but we do not prove this claim here. 
