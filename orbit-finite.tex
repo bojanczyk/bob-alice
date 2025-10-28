@@ -343,34 +343,49 @@ every input string.
     an \kl{orbit-finite protocol} if and only if it is recognised by an \kl{unambiguous orbit-finite automaton}.
 \end{conjecture}
 
-One corollary of this conjecture would be that unambiguous orbit-finite
-automata are closed under complement, since protocols can be complemented by
-flipping the output bit. This corollary has been conjectured
+One corollary of this conjecture would be that \kl{unambiguous orbit-finite
+automata} are closed under complement, since \kl(orbit-finite){protocols} can
+be complemented by flipping the output bit. This corollary has been conjectured
 in~\cite[p.9]{colcombet2012forms}, and to the best of our knowledge remains
 open, despite apparent claims to the contrary in~\cite[Footnote
 5]{colcombet2015unambiguity}.
 
-In this section, we prove implication $\impliedby$ in the conjecture, i.e.~we show that orbit-finite protocols can simulate  unambiguous orbit-finite automata. Unlike similar results earlier in this paper, this simulation is non-trivial. Also, despite the one-way nature of the automata, the simulation crucially depends on the interactive nature of protocols, i.e.~it requires more than one round of communication. In particular multi-round protocols cannot be reduced to one round, as was the case for finite alphabets
-(i.e.~\cref{lemma:one-round-reduction-general} is no longer true for the orbit-finite case).
+In this section, we prove implication $\impliedby$ in the conjecture, i.e.~we
+show that \kl{orbit-finite protocols} can simulate \kl{unambiguous orbit-finite
+automata}. Unlike similar results earlier in this paper, this simulation is
+non-trivial. Also, despite the one-way nature of the automata, the simulation
+crucially depends on the interactive nature of protocols, i.e.~it requires more
+than one round of communication. In particular multi-round protocols cannot be
+reduced to one round, as was the case for finite alphabets
+(i.e.~\cref{lemma:one-round-reduction-general} is no longer true for the
+orbit-finite case).
 
 \begin{theorem}
     \label{thm:unambiguous-to-protocol}
-    If a language $L$ over an orbit-finite alphabet is recognised by an unambiguous orbit-finite automaton, then it is also computed by an orbit-finite protocol.
+    If a language $L$ over an \kl{orbit-finite} alphabet is recognised by 
+    \kl{an unambiguous orbit-finite automaton}, then 
+    it is also computed by an \kl{orbit-finite protocol}.
 \end{theorem}
 \begin{proof}
-For the rest of this proof fix an unambiguous orbit-finite automaton, whose state space is the orbit-finite set $Q$.
+  For the rest of this proof fix an \kl{unambiguous orbit-finite automaton}, whose state space is the \kl{orbit-finite} set $Q$.
 Suppose that the input string is factorized as $w = w_1 w_2$. The general idea of the protocol is that Alice and Bob will jointly
-compute the the intermediate state (if it exists), i.e.~the state $q$ which satisfies:
+compute the intermediate state (if it exists), i.e.~the state $q$ which satisfies:
 \begin{align*}
 \myunderbrace{I \xrightarrow{w_1}q}{there is a run over $w_1$\\ from an initial state to $q$} \qquad \text{and} \qquad
 \myunderbrace{q \xrightarrow{w_2} F}{there is a run over $w_2$\\ from $q$ to a final state.}
 \end{align*}
-By unambiguity, there is at most one intermediate state, and it exists if and only if the string is accepted.
+By \kl{unambiguity}, there is at most one intermediate state, and it exists if and only if the string is accepted.
 
-Observe that Alice can compute
-the set of states that are reachable from an initial state by reading her string $w_1$, and Bob can compute the set of states from which a final state is reachable by reading his string $w_2$. 
-So, the challenge is to compute their intersection, which is either a singleton with the intermediate state, or the empty set. Before we explain how to do this,
-let us first explain why this is non-trivial, i.e. why Alice cannot send her set of states to Bob, or vice versa. The problem is that the set of all reachable subsets of $Q$ is not-orbit finite, and therefore it cannot be sent in a constant number of messages. This issue is illustrated in the following example.
+Observe that Alice can compute the set of states that are reachable from an
+initial state by reading her string $w_1$, and Bob can compute the set of
+states from which a final state is reachable by reading his string $w_2$. So,
+the challenge is to compute their intersection, which is either a singleton
+with the intermediate state, or the empty set. Before we explain how to do
+this, let us first explain why this is non-trivial, i.e. why Alice cannot send
+her set of states to Bob, or vice versa. The problem is that the set of all
+reachable subsets of $Q$ is not \kl{orbit-finite}, and therefore it cannot be sent
+in a constant number of messages. This issue is illustrated in the following
+example.
 
 \begin{myexample}
     \mb{rozwinac to tutaj}
@@ -385,11 +400,12 @@ is not preserved by the powerset construction. Is one of the main obstacles when
 To work around the issue explained above, Alice and Bob will engage in interactive communication, which will narrow down the set of possible candidates. At each stage, the set of possible candidates will be represented using orbits, as defined below.
 
 \begin{definition}[Orbit] \label{def:orbit}
-    For a finite set $S \subseteq \atoms$, the $S$-orbit of $q \in Q$ is the following set:
+  \AP
+  For a finite set $S \subseteq \atoms$, the \intro{$S$-orbit} of $q \in Q$ is the following set:
     \begin{align*}
     \setbuild{ \pi(q)}{$\pi$ is a permutation of $\atoms$ such that $\pi(a)=a$ for all $a \in S$}.
     \end{align*}
-The set $S$ is called the \emph{support} of the orbit.
+  The set $S$ is called the \intro{support} of the orbit.
 \end{definition}
 
 \begin{myexample}\label{ex:tau-disjoint}
@@ -397,41 +413,66 @@ The set $S$ is called the \emph{support} of the orbit.
     \begin{center}
         (\red{John}, Tom, Mary, Tom, \red{Eve})
     \end{center}
-    An element of this orbit is any tuple of the form 
+    An element of this \kl{orbit} is any tuple of the form 
     \begin{center}
         (\red{John}, $a$, $b$, $a$, \red{Eve})
     \end{center}
-    where $a$ and $b$ are distinct atoms, which are not \red{John} or \red{Eve}. 
+    where $a$ and $b$ are distinct \kl{atoms}, which are not \red{John} or \red{Eve}. 
     % Two elements of this orbit are $\tau$-disjoint if the corresponding choices $\set{a_1,b_1}$ and $\set{a_2,b_2}$ are disjoint sets. 
 \end{myexample}
 
- As the support increases, the orbit becomes smaller; in particular the biggest orbits are the ones with empty support, i.e.
- the $\emptyset$-orbits, which we call the equivariant orbits. It is not hard to see that every orbit-finite set has a finite number of equivariant orbits~\cite[Lemma 1.4]{bojanczyk_slightly}; in fact this is the reason for the name.  
-Each orbit in an orbit-finite set is a subset of $\atoms^d$ for some $d$. In such an orbit, we partition the coordinates $\set{1,\ldots,d}$ into two parts: the \emph{fixed coordinates}, which use the atoms from the support, and the \emph{free coordinates}, which do not use these atoms. In Example~\ref{ex:tau-disjoint}, the fixed coordinates are  the first and last ones, while the free coordinates are the middle three. The \emph{dimension} of an orbit is the number of distinct atoms in the free coordinates. In Example~\ref{ex:tau-disjoint}, the dimension is two, corresponding to the atoms $a$ and $b$. 
-An important special case is when the dimension is zero; in this case the orbit contains only one state.
+\AP As the \kl{support} increases, the \kl{orbit} becomes smaller; in
+particular the biggest orbits are the ones with empty support, i.e. the
+$\emptyset$-orbits, which we call the \intro{equivariant orbits}. It is not
+hard to see that every \kl{orbit-finite} set has a finite number of
+\kl{equivariant orbits}~\cite[Lemma 1.4]{bojanczyk_slightly}; in fact this is
+the reason for the name. Each \kl{orbit} in an \kl{orbit-finite} set is a
+subset of $\atoms^d$ for some $d$. In such an orbit, we partition the
+coordinates $\set{1,\ldots,d}$ into two parts: the \intro{fixed coordinates},
+which use the \kl{atoms} from the \kl{support}, and the \intro{free
+coordinates}, which do not use these atoms. In Example~\ref{ex:tau-disjoint},
+the \kl{fixed coordinates} are  the first and last ones, while the \kl{free
+coordinates} are the middle three. The \intro[orbit dimension]{dimension} of an
+orbit is the number of distinct atoms in the \kl{free coordinates}. In
+Example~\ref{ex:tau-disjoint}, the \kl[orbit dimension]{dimension} is two,
+corresponding to the atoms $a$ and $b$. An important special case is when the
+\kl[orbit dimension]{dimension} is zero; in this case the orbit contains only one state.
 
-In the protocol, Alice and Bob will jointly maintain a set $S \subseteq \atoms$ and list of $S$-orbits which may contain the intermediate state (starting with $S = \emptyset$ the list of all $\emptyset$-orbits). They will ensure that if the intermediate state exists, i.e.~if the input string is accepted,  then the intermediate state is contained in one of the orbits on the list.
-The goal is to decrease the dimension of the orbits on the list until they become zero-dimensional, by gradually computing the set $S$ of atoms that appear in the intermediate state. Once the orbits become zero-dimensional, they will contain only a finite (and bounded) number of the candidates. At this point, Alice can compute which of these candidates are reachable from an initial state over $w_1$ and send this (bounded) information to Bob, who can then check if one of these candidates can reach a final state over $w_2$. 
+In the \kl(orbit-finite){protocol}, Alice and Bob will jointly maintain a set
+$S \subseteq \atoms$ and list of \kl{$S$-orbits} which may contain the
+intermediate state (starting with $S = \emptyset$ the list of all
+$\emptyset$-orbits). They will ensure that if the intermediate state exists,
+i.e.~if the input string is accepted,  then the intermediate state is contained
+in one of the \kl{orbits} on the list. The goal is to decrease the \kl[orbit
+dimension]{dimension} of the orbits on the list until they become
+\kl{zero-dimensional}, by gradually computing the set $S$ of atoms that appear in
+the intermediate state. Once the orbits become zero-dimensional, they will
+contain only a finite (and bounded) number of the candidates. At this point,
+Alice can compute which of these candidates are reachable from an initial state
+over $w_1$ and send this (bounded) information to Bob, who can then check if
+one of these candidates can reach a final state over $w_2$. 
 
-To decrease the dimension and increase $S$, we will use the following lemma.
+To decrease the \kl[orbit dimension]{dimension} and increase $S$, we will use the following lemma.
 \begin{lemma}\label{lem:fixed-atoms}
-        Let $S \subset \atoms$ be a finite set, and let $\varphi \subseteq Q$ be an infinite $S$-orbit 
-        of dimension $k$. 
-        Consider an input string $w = w_1 w_2$, and the sets:
-        \begin{align*}
-        \myunderbrace{X_1 = \setbuild{ q \in \varphi}{$ I \xrightarrow{w_1} q$}}{states reachable on Alice's side}
-        \qquad
-        \myunderbrace{X_2 = \setbuild{ q \in \varphi}{$ q \xrightarrow{w_2} F$}}{states reachable on Bob's side}
-        \end{align*}
-        There is a set $T \subseteq \atoms$ of size at most $k$, such that either: 
-\begin{enumerate}
-    \item   every state from $X_1$ contains an atom of $T$ on some free coordinate; or 
-    \item   every state from $X_2$ contains an atom of $T$ on some free coordinate.
-\end{enumerate}
-    \end{lemma}
+  Let $S \subset \atoms$ be a finite set, and let $\varphi \subseteq Q$ be an infinite \kl{$S$-orbit}
+  of \kl[orbit dimension]{dimension} $k$. 
+  Consider an input string $w = w_1 w_2$, and the sets:
+  \begin{align*}
+  \myunderbrace{X_1 = \setbuild{ q \in \varphi}{$ I \xrightarrow{w_1} q$}}{states reachable on Alice's side}
+  \qquad
+  \myunderbrace{X_2 = \setbuild{ q \in \varphi}{$ q \xrightarrow{w_2} F$}}{states reachable on Bob's side}
+  \end{align*}
+  There is a set $T \subseteq \atoms$ of size at most $k$, such that either: 
+  \begin{enumerate}
+    \item   every state from $X_1$ contains an \kl{atom} of $T$ on some \kl{free coordinate}; or 
+    \item   every state from $X_2$ contains an \kl{atom} of $T$ on some \kl{free coordinate}.
+  \end{enumerate}
+\end{lemma}
     \begin{proof}
- In the proof of the lemma, we use an analysis of disjointness, which is inspired by the sunflower lemma.
- We say that two states $p,q$ in an  $S$-orbit are $S$-disjoint if 
+      \AP
+ In the proof of the lemma, we use an analysis of disjointness, which is
+ inspired by the sunflower lemma. We say that two states $p,q$ in an \kl{$S$-orbit}
+ are \intro{$S$-disjoint} if 
  \begin{align*}
     \forall a \in \atoms 
     \qquad 
@@ -442,51 +483,82 @@ To decrease the dimension and increase $S$, we will use the following lemma.
     (\red{John}, Tom, Mary, Tom, \red{Eve}) \qquad
     (\red{John}, Ann, Timmy, Ann, \red{Eve})
 \end{center}
-are $\{\textrm{John}, \textrm{Eve}\}$-disjoint, because the sets $\set{\text{Tom, Mary}}$ and $\set{\text{Ann, Timmy}}$ are disjoint. In other words, the atoms from $S$ can repeat (in fact, they must),
-but all other atoms must be disjoint in the two states.
+are $\{\textrm{John}, \textrm{Eve}\}$-disjoint, because the sets
+$\set{\text{Tom, Mary}}$ and $\set{\text{Ann, Timmy}}$ are disjoint. In other
+words, the atoms from $S$ can repeat (in fact, they must), but all other atoms
+must be disjoint in the two states.
 
 The following claim characterizes subsets of orbits that do not contain any pair of disjoint elements:
 \begin{claim}\label{claim:sunflower}
-        Let $Q$ be a $S$-orbit type of dimension $d$ and let $X$ be a subset of $Q$.
-        If $X$ does not contain two $S$-disjoint elements, then there is a
-        set $T$ of at most $d$ atoms such that every element of $X$ uses at last one atom from $T$ on a free coordinate.
+  Let $Q$ be an \kl{$S$-orbit} type of \kl[orbit dimension]{dimension} $d$, and let $X$ be a subset of $Q$.
+  If $X$ does not contain two \kl{$S$-disjoint} elements, then there is a
+  set $T$ of at most $d$ atoms such that every element of $X$ uses at last one atom from $T$ on a \kl{free coordinate}.
 \end{claim}
 \begin{proof}
         Take some element $x \in X$. Either there is an element of $X$ that is completely disjoint with $x$, or otherwise some atom from $x$ must appear in every other element of $X$ on a free coordinate.
 \end{proof}
 
-The claim leaves us with showing that at least one of $X_1$ or $X_2$ does not contain an $S$-disjoint pair of elements.
-Suppose, towards a contradiction that both $X_1$ and $X_2$ contain $S$-disjoint pairs of elements, 
-say $p_1, p_2 \in X_1$ and $q_1, q_2 \in X_2$. It follows that the two pairs $(p_1,p_2)$ and $(q_1,q_2)$ are
-in the same equivariant orbit (of $Q \times Q$), i.e. there is some atom permutation $\pi$ which sends $p_1$ to $q_1$ and $p_2$ to $q_2$.
-Applying $\pi$ to Alices's part of the input string, we obtain a new input string $\pi(w_1) w_2$, 
-in which both $q_1$ and $q_2$ are valid intermediate states. It follows that
-there are at least two accepting runs (one that passes trough $q_1$ and one that passes trough $q_2$),
-contradicting the unambiguity assumption. 
+The claim leaves us with showing that at least one of $X_1$ or $X_2$ does not
+contain an \kl{$S$-disjoint} pair of elements. Suppose, towards a contradiction that
+both $X_1$ and $X_2$ contain \kl{$S$-disjoint} pairs of elements, say $p_1, p_2 \in
+X_1$ and $q_1, q_2 \in X_2$. It follows that the two pairs $(p_1,p_2)$ and
+$(q_1,q_2)$ are in the same \kl{equivariant orbit} (of $Q \times Q$), i.e. there is
+some atom permutation $\pi$ which sends $p_1$ to $q_1$ and $p_2$ to $q_2$.
+Applying $\pi$ to Alices's part of the input string, we obtain a new input
+string $\pi(w_1) w_2$, in which both $q_1$ and $q_2$ are valid intermediate
+states. It follows that there are at least two accepting runs (one that passes
+through $q_1$ and one that passes through $q_2$), contradicting the \kl{unambiguity}
+assumption. 
 \end{proof}
 
-Using the above lemma, we will construct a protocol that simulates the automaton. As explained before, the idea is to narrow down orbit which contains the intermediate state. This idea is formalised in the following lemma. 
+Using the above lemma, we will construct a \kl(orbit-finite){protocol} that
+simulates the automaton. As explained before, the idea is to narrow down orbit
+which contains the intermediate state. This idea is formalised in the following
+lemma. 
 
 
 \begin{lemma}\label{lem:narrow-down-orbit}
-    Let $S$ be a finite subset of atoms, and let $X \subseteq Q$ be an orbit. Alice and Bob can exchange a constant number of messages -- which depends only on the dimension of $X$ -- to determine if the intermediate state belongs to $X$. 
+  Let $S$ be a finite subset of \kl{atoms}, and let $X \subseteq Q$ be an \kl{orbit}. 
+  Alice and Bob can exchange a constant number of messages
+  -- which depends only on the \kl[orbit dimension]{dimension} of $X$ -- 
+  to determine if the intermediate state belongs to $X$. 
 \end{lemma}
 
-Before proving the lemma, let us explain how to use it to complete the proof of \cref{thm:unambiguous-to-protocol}.
-We know that the set of all states $Q$ splits into constant number of equivariant orbits, so the two
-parties can run the protocol the lemma for each of these orbits with $S=\emptyset$.
-Each run of the protocol uses a constant number of rounds, so the total number of rounds is also constant.
-It remains to prove the lemma.
+Before proving the lemma, let us explain how to use it to complete the proof of
+\cref{thm:unambiguous-to-protocol}. We know that the set of all states $Q$
+splits into constant number of \kl{equivariant orbits}, so the two parties can run
+the protocol the lemma for each of these orbits with $S=\emptyset$. Each run of
+the protocol uses a constant number of rounds, so the total number of rounds is
+also constant. It remains to prove the lemma.
 
 \begin{proof}[Proof of \cref{lem:narrow-down-orbit}]
-    The proof proceeds by induction on the dimension of the orbit $X$.
+  The proof proceeds by induction on the \kl{dimension of the orbit} $X$.
     
-    The induction basis is when the  dimension is zero. In this case, the orbit has exactly one state, and Alice and Bob can simply check  if the state is reachable on their side and exchange this bit of information.
+  The induction basis is when the dimension is zero. In this case, the orbit
+  has exactly one state, and Alice and Bob can simply check  if the state is
+  reachable on their side and exchange this bit of information.
 
-    Consider now the induction step. Apply \cref{lem:fixed-atoms}, to the orbit. In the factorisation $w = w_1 w_2$, at least one of the two alternatives in the conclusion of \cref{lem:fixed-atoms} must hold. Alice can check if the first alternative holds, and Bob can check if the second alternative holds.  At least one of the two parties must report success, which is witnessed by some set $T$ of atoms. The successful party sends the set $T$ to the other party. This is possible since the size of $T$ is bounded by the dimension of $X$. The orbit $X$ splits into finitely many orbits $X_1,\ldots,X_n$ with the larger support $S \cup T$, see~\cite[Lemma 10.9]{bojanczyk_slightly}. The number $n$ depends only on the dimension of $X$ (as the size of $T$ is bounded by the dimension of $X$).
-    We know that the intermediate state contains at least one atom from $T$, so we are only interested in the orbits among $X_1,\ldots,X_n$ which use at least one atom from $T$ on a coordinate that was free in $X$. These orbits have lower dimension,
-    so the parties can sequentially apply the induction assumption to check if the intermediate state belongs to any of these orbits.
-    This completes the proof of the lemma, and therefore also of \cref{thm:unambiguous-to-protocol}.
+  Consider now the induction step. Apply \cref{lem:fixed-atoms}, to the
+  orbit. In the factorisation $w = w_1 w_2$, at least one of the two
+  alternatives in the conclusion of \cref{lem:fixed-atoms} must hold. Alice
+  can check if the first alternative holds, and Bob can check if the second
+  alternative holds.  At least one of the two parties must report success,
+  which is witnessed by some finite set $T$ of atoms. The successful party sends the
+  set $T$ to the other party. This is possible since the size of $T$ is
+  bounded by the \kl[orbit dimension]{dimension} of $X$. 
+  The orbit $X$ splits into finitely many
+  orbits $X_1,\ldots,X_n$ with the larger \kl(orbit){support} $S \cup T$, see~\cite[Lemma
+  10.9]{bojanczyk_slightly}. The number $n$ depends only on the \kl[orbit dimension]{dimension} 
+  of $X$ (as the size of $T$ is bounded by the dimension of $X$).
+
+  We know that the intermediate state contains at least one atom from $T$, so
+  we are only interested in the orbits among $X_1,\ldots,X_n$ which use at
+  least one atom from $T$ on a coordinate that was \kl[free coordinate]{free} in $X$. 
+  These orbits
+  have lower \kl(orbit){dimension}, so the parties can sequentially apply the induction
+  assumption to check if the intermediate state belongs to any of these
+  orbits. This completes the proof of the lemma, and therefore also of
+  \cref{thm:unambiguous-to-protocol}.
 \end{proof}
 \end{proof}
 
