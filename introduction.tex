@@ -120,9 +120,9 @@ justify the protocol-based approach to regularity.
 
 In the remainder of this introduction, we give a more detailed review of the four rows
 in the table, including substantial evidence for the conjectured equivalences.
-One piece of evidence that is worth mentioning here is that
-we were able to prove the equivalence for string outputs in the special case
-of \emph{unary} output alphabets (\cref{thm:unary-string-to-string}).
+% One piece of evidence that is worth mentioning here is that
+% we were able to prove the equivalence for string outputs in the special case
+% of \emph{unary} output alphabets (\cref{thm:unary-string-to-string}).
 
 \subsection{Protocols for Boolean outputs}
 \label{sec:intro-boolean}
@@ -134,21 +134,20 @@ f : \Sigma^* \to \set{\text{true, false}},
 i.e.~languages. In this case the two parties only exchange bits, 
 % \omc{I still think it’s better to say that the messages come from a finite set instead of bits.} 
 and they need to decide if the input string is in the language or not.
-Here is an example of a simple language that can be computed by a protocol:
+Here is an example.
 
 \begin{myexample}[Parity]
     \label{ex:three-letters}
 Suppose that the language is ``the string has even length''. In a protocol for this language, Alice sends the parity for her part of the input (one bit), and Bob uses this bit to return the final answer.  
 \end{myexample}
 
-As mentioned before, the parties have unbounded computational power, which means they their messages
+As mentioned before, the parties have unbounded computational power, which means that  their messages
 can contain answers to potentially undecidable questions about their parts of the input.
-Interestingly, despite this non-uniformity, the protocols compute exactly the regular languages.
-This fact was proven in~\cite[Theorem 5]{hauser1989}, but we restate it here for completeness.
+Despite this, the protocols compute exactly the regular languages.
+This was first shown in~\cite[Theorem 5]{hauser1989}, but we restate it here for completeness, and provide a self-contained proof later in the paper.
 
 \begin{restatable}{theorem}{booleandomain}
- \label{thm:boolean-domain} \cite[Theorem 5]{hauser1989}
- A language $L \subseteq \Sigma^*$ is computed by a \kl[boolean protocol]{protocol} if and only if it is 
+ \label{thm:boolean-domain} A language $L \subseteq \Sigma^*$ is computed by a \kl[boolean protocol]{protocol} if and only if it is 
  \kl[regular language]{regular}.
 \end{restatable}
 One implication is immediate: every regular language can be computed by a protocol.  Alice can send to Bob the state of a finite automaton that recognises the language. The other implication is proved in two steps, see Section~\ref{sec:boolean-domain} for more details. In the first step, the protocol is reduced to a one-round non-interactive version, where each party independently sends a message with a constant number of bits, and the decision is then made based on these two messages. In the second step,  the Myhill-Nerode Theorem is used to show that the language must necessarily be regular. 
@@ -170,12 +169,12 @@ Before moving to the other output domains, let us comment on other related work 
 
 
 
-After the Booleans, we turn to functions with outputs in a field. For the sake of concreteness, let us  consider functions with outputs in the  field of rationals
+After the Booleans, we turn to functions with outputs in a field. This is the first original contribution of this paper. For the sake of concreteness, let us  consider functions with outputs in the  field of rationals
 \begin{align*}
 f : \Sigma^* \to (\mathbb Q, +, \times).
 \end{align*}
-We adapt the  protocol model to  compute such functions. Similarly to the Boolean case, the parties exchange messages. However, this time there are two kinds of messages: bits (as in the Boolean case), and  elements of the field.  The elements of the field can be added and multiplied.  (Division is discussed in Example~\ref{ex:division}.)  Using bit messages, we can still recognise all regular languages (or more formally their characteristic functions).
-However, messages from the field enable us to compute new functions.
+We adapt the  protocol model to  compute such functions. Similarly to the Boolean case, the parties exchange messages. However, this time there are two kinds of messages: bits (as in the case of  Boolean outputs), and  elements of the field.  The elements of the field can be added and multiplied.  Division is not allowed, and its role is discussed in Example~\ref{ex:division}. Using bit messages, we can still recognise all regular languages (more formally their characteristic functions).
+However, messages from the field allow computing new functions.
 
 \begin{myexample}[Length and exponential length]\label{ex:length}
     Consider the following two functions

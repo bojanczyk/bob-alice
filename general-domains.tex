@@ -23,7 +23,7 @@ although any protocol will only use finitely many operations.
 By abuse of notation, we use the same symbol $\domain$ to denote the output domain and its underlying set, with the operations being implicit. Here are the output domains that will be studied in this paper: 
 \begin{itemize}
     \item \intro{Boolean domain}. The set is $\set{\text{true, false}}$, and there are no basic operations. (We could add basic operations, such as the Boolean operations $\lor,\land$ and $\neg$, but this will not affect the expressive power of our protocol, so we choose to have no operations.)
-    \item \intro{Field domain}. The set is a field, such as the rationals or reals, and there are two operations for addition and multiplication. This is not one domain, but a family of domains, with one for each field.
+    \item \intro{Field domain}. The set is a field, such as the rationals or reals, and there are two operations for addition and multiplication. This is not one domain, but a family of domains, with one for each field. Division is not included as an operation.
     \item \intro{String domain}. The set is $\Gamma^*$ for some finite alphabet $\Gamma$, and the operation is string concatenation.
 \end{itemize}
 
@@ -43,6 +43,10 @@ that are derived by composing them, as described in the following definition.
     \end{align*}
     for the set of term operations with $n$ arguments.
 \end{definition}
+
+\begin{myexample}\label{ex:identity-term}
+    Even if the output domain has no operations, the identity operation $\domain \to \domain$ is allowed, since it is defined by a term that consists of just a variable $x_1$.
+\end{myexample}
 
 \begin{myexample}
   If the operations are $+$ and $\times$, then after applying the usual distributivity laws,  \kl{term operations} are the same as polynomials with natural coefficients, such as 
@@ -113,7 +117,7 @@ $\Sigma^* \to \domain$.
 \begin{myexample}[Boolean domain]
     Consider the Boolean output domain. In this case, the distinction between
     \kl{output values} and \kl{signals} is irrelevant, since the output values
-    can be sent as signals. Therefore, the general protocol coincides with the
+    can be sent as signals. To produce the output, one of the parties sends it in a message, and the output function is a single variable $x_i$ that copies it, as in Example~\ref{ex:identity-term}. Therefore, the general protocol coincides with the
     \kl{Boolean protocol} from the previous section, and  can only compute regular
     languages.  The same remarks apply for a general but finite output domain
     -- a function $f : \Sigma^* \to \domain$ can be computed by a \kl{protocol} if
@@ -121,8 +125,7 @@ $\Sigma^* \to \domain$.
     regular language.
 \end{myexample}
 
-Other examples of output domains are fields and strings. These were discussed
-briefly in the introduction in Sections~\ref{sec:intro-field}
+Other examples of output domains are fields and strings. These were mentioned in the introduction in Sections~\ref{sec:intro-field}
 and~\ref{sec:intro-strings},  and will be discussed at length in
 Sections~\ref{sec:field-domain} and~\ref{sec:string-outputs}.  
 
