@@ -22,7 +22,7 @@ Consider string-to-string functions
 \begin{align*}
 f : \Sigma^* \to \Gamma^*.
 \end{align*}
-Similarly to languages, the literature on automata theory offers countless  models. This time, however, not all of them are equivalent, but there is at least some semblance of order. Let us mention three classes of functions  of particular interest:  the \emph{rational}, \emph{regular}, and \emph{polyregular} functions. These classes are described in~\cref{fig:transducer-classes} in Section~\ref{sec:string-outputs}, with each one having at least five different characterisations, using models of varied origins, including logic, algebra and programming language theory. Which of these classes, if any, should be considered ``the'' regular string-to-string functions? We could simply go with the middle one, because  the word ``regular'' is traditionally used for it, but a more principled approach would be preferable.
+Similarly to languages, the literature on automata theory offers countless  models. This time, however, not all of them are equivalent, but there is at least some semblance of order. Let us mention three classes of functions  of particular interest:  the \emph{rational}, \emph{regular}, and \emph{polyregular} functions. These classes are described in~\cref{fig:transducer-classes} in Section~\ref{sec:string-outputs} together with the appropriate references, with each one having at least five different characterisations, using models of varied origins, including logic, algebra and programming language theory. Which of these classes, if any, should be considered ``the'' regular string-to-string functions? We could simply go with the middle one, because  the word ``regular'' is traditionally used for it, but a more principled approach would be preferable.
 
 \item \textbf{Number outputs.}
 Consider string-to-number functions, say functions 
@@ -36,12 +36,12 @@ Our final example is of a different kind than the previous ones. We return to fu
 \begin{align*}
 f : \Sigma^* \to \set{\text{true, false}},
 \end{align*}
-i.e.~languages, but this time the input alphabet is no longer required to be finite. Of course the infinity needs to be tamed somehow, and the standard approach to do this is to use an infinite alphabet where letters can only be compared for equality~\cite{kaminskiFiniteMemoryAutomata1994}. This allows for languages such as ``all letters are different'' or ``the first letter is equal to the last one'', but not for languages such as ``the letters are in increasing order'', since the letters are not equipped with a linear order, or any other kind of structure.
+i.e.~languages, but this time the input alphabet is no longer required to be finite. The infinity needs to be somehow tamed, and the standard approach to do this is to use an infinite alphabet where letters can only be compared for equality~\cite{kaminskiFiniteMemoryAutomata1994}. This allows for languages such as ``all letters are different'' or ``the first letter is equal to the last one'', but not for languages such as ``the letters are in increasing order'', since the letters are not equipped with a linear order, or any other kind of structure.
 The literature is rife with automata models for such languages, with seventeen examples listed in \cref{fig:automata-infinite-alphabets}, all describing pairwise non-equivalent models. 
  Again, we might be tempted to ask: which  is  the right one?
 \end{enumerate}
 
-This type of question can be asked in other settings, with   outputs such as  trees,  graphs or elements of some abstract semiring\footnote{One could also vary the inputs, and consider regularity for, say, graph-to-graph functions. We refrain from considering general outputs in this paper, and we stay with string inputs, possibly over infinite alphabets.}. This paper attempts to provide a unified theory of regularity for such functions.   We are guided by  the following principle, which we believe to be essential for regularity:
+This type of question can be asked in other settings, with   outputs such as  trees,  graphs or elements of some abstract semiring. One could also vary the inputs, and consider regularity for, say, graph-to-graph functions, but we refrain from considering general outputs in this paper, and we stay with string inputs. This paper attempts to provide a unified theory of regularity for such functions.   We are guided by  the following principle, which we believe to be essential for regularity:
 \begin{description}
     \item[Constant information flow.]   If the input is split into parts, then only a constant amount of information  flows between them, as far as the output of the function is concerned.
 \end{description}
@@ -110,7 +110,7 @@ as explained in the following table:
     \hline
     \kl[Boolean domain]{Booleans} & Finite automata (\cref{thm:boolean-domain}) \\
     \kl[String domain]{Field}   & Weighted automata (\cref{thm:field-domain}) \\
-    \kl[String domain]{Strings} & Two-way automat with output (\cref{conj:protocol-regular-string-to-string}) \\
+    \kl[String domain]{Strings} & Two-way automata with output (\cref{conj:protocol-regular-string-to-string}) \\
     Boolean, but infinite input alphabet & Unambiguous automata (\cref{conj:protocols-unambiguous}) 
 \end{tabular}
 \end{center}

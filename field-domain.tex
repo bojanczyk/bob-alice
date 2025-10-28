@@ -124,7 +124,9 @@ This protocol has the same power as general protocols.
 
 
  \paragraph*{Step 2. Signal-free protocol.}  We say that a protocol is \emph{signal-free} if both of the sets $Q_A$ and $Q_B$ have one element each. In other words, the signals do not convey any information, and the only messaging activity consists of sending elements of the output domain. In a signal-free protocol, the concept of rounds is irrelevant, since the behaviour of one party is not influenced by the communication from the other party.
-\omc{Usually we have signal-free protocols when corresponding Machine model expressive power does not increase when we add two-wayness. Here we have one-way weighted automata, in sequential model also we have one-wayness (it can considered as signal-free because consider algebra to be semiring with concatenation and union and one element for zero, then it is signal-free), in commutative semiring the conjecture is having one-way weighted automat, is it worth mentioning that? Answer my comment wehenever you see it pelase.}
+% \omc{Usually we have signal-free protocols when corresponding Machine model expressive power does not increase when we add two-wayness. Here we have one-way weighted automata, in sequential model also we have one-wayness (it can considered as signal-free because consider algebra to be semiring with concatenation and union and one element for zero, then it is signal-free), in commutative semiring the conjecture is having one-way weighted automat, is it worth mentioning that? Answer my comment wehenever you see it pelase.}
+% MB: This is not necessarily true, I think. In a non-commutative semiring, two-way ≠ one-way, and yet we can still have signal-free protocols, by using zero, I think.
+
  \begin{claim}
     \label{claim:trivial-messages}
     Assume that the output domain is a field. Then every one-round protocol is equivalent to a signal-free  protocol.
