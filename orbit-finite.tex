@@ -161,7 +161,7 @@ In this section, we do a more systematic analysis of automata models for
 infinite alphabets, and their relationship to our protocols. As an organising
 principle, we use the approach of orbit-finite sets,
 see~\cite{bojanczykOrbitFiniteSetsTheir2017} for a longer survey, which is a
-generalization of finite sets suitable for infinite alphabets sets. Using this
+generalisation of finite sets suitable for infinite alphabets sets. Using this
 notion, we can lift any model of computation that uses finite sets, to a model
 that uses orbit-finite sets, which allows us for a clean comparison of the two
 setting. For the purposes of this paper, we use a simplified definition of
@@ -200,7 +200,6 @@ define it in terms of \kl{orbit-finite sets}:
 
 \begin{definition}[Orbit-finite protocol]
     \label{def:orbit-finite-protocol}
-    \AP
     An \intro{orbit-finite Boolean two-party protocol}
     is defined in the same way as in Definition \ref{def:two-party-protocol-boolean}, except that:
   \begin{enumerate}
@@ -565,6 +564,7 @@ also constant. It remains to prove the lemma.
 \subsection{Weighted automata}
 \label{sec:weighted-automata-atoms}
 
+\AP
 In \cref{thm:unambiguous-to-protocol}, we have proved one implication in Conjecture~\ref{conj:protocols-unambiguous}.
 This section is devoted to presenting some evidence for the other implication, i.e.
 \begin{align}\label{eq:missing-orbit-finite-implication}
@@ -616,60 +616,110 @@ by the following example.
 
 
 
-\paragraph*{Weighted orbit-finite automata.} In the reminder of this section, we present some evidence for the missing implication
-in Conjecture~\ref{conj:protocols-unambiguous}, using the orbit-finite version of weighted automata. Namely, we will prove
-\cref{thm:orbit-finite-protocol-to-weighted}, which states that every language computed by an orbit-finite protocol is also recognised by a weighted orbit-finite automaton over the two-element field.
-For finite alphabets, this would be enough to ensure regularity, see \cref{claim:regular-weighted-automata}. This claim is no longer true in the orbit-finite case, see Example~\ref{ex:weighted-vs-nondet-orbit-finite}, and therefore \cref{thm:orbit-finite-protocol-to-weighted} can only be considered as evidence for the conjecture. However, at the very least it shows that languages computed by orbit-finite protocols are decidable, which was not a priori clear from the definition.
+\paragraph*{Weighted orbit-finite automata.} In the reminder of this section,
+we present some evidence for the missing implication in
+Conjecture~\ref{conj:protocols-unambiguous}, using the orbit-finite version of
+weighted automata. Namely, we will prove
+\cref{thm:orbit-finite-protocol-to-weighted}, which states that every language
+computed by an \kl{orbit-finite protocol} is also recognised by a \kl{weighted
+orbit-finite automaton} over the two-element field. For finite alphabets, this
+would be enough to ensure \kl[regular language]{regularity}, see
+\cref{claim:regular-weighted-automata}. This claim is no longer true in the
+orbit-finite case, see Example~\ref{ex:weighted-vs-nondet-orbit-finite}, and
+therefore \cref{thm:orbit-finite-protocol-to-weighted} can only be considered
+as evidence for the conjecture. However, at the very least it shows that
+languages computed by orbit-finite protocols are decidable, which was not a
+priori clear from the definition.
 
 Let us begin by defining the orbit-finite version of weighted automata. 
 \begin{definition}[Weighted orbit-finite automata]
     \label{def:weighted-orbit-finite-automata}
-    A weighted orbit-finite automaton over a semiring $\domain$ is defined in the same way as in Definition~\ref{def:weighted-automaton-nondeterministic}, except that:
+    \AP
+    A \intro{weighted orbit-finite automaton} over a semiring $\domain$ is 
+    defined in the same way as in Definition~\ref{def:weighted-automaton-nondeterministic}, except that:
     \begin{enumerate}
-        \item the input alphabet and state space are orbit-finite, instead of finite;
-        \item the functions in~\eqref{eq:weight-functions} are equivariant.
+      \item the input alphabet and state space are \kl{orbit-finite}, instead of finite;
+      \item the functions in~\eqref{eq:weight-functions} are \kl{equivariant}.
     \end{enumerate}
      We require that for every input string, there are only finitely many runs with non-zero weight.
 \end{definition}
 
-For the purpose of this section, already the special case of the two-element field $\set{0,1}$ is interesting. In this case, the automaton defines a function $\Sigma^* \to \set{0,1}$, which can be seen as the characteristic function of a language. Therefore, we can compare weighted orbit-finite automata to other models, such as nondeterministic orbit-finite automata. The following example shows that these two  models are incomparable. 
+For the purpose of this section, already the special case of the two-element
+field $\set{0,1}$ is interesting. In this case, the automaton defines a
+function $\Sigma^* \to \set{0,1}$, which can be seen as the characteristic
+function of a language. Therefore, we can compare \kl{weighted orbit-finite
+automata} to other models, such as \kl{nondeterministic orbit-finite automata}. The
+following example shows that these two  models are incomparable. 
 
 \begin{myexample}\label{ex:weighted-vs-nondet-orbit-finite}
-    The language ``some letter appears twice'' is recognised by a nondeterministic orbit-finite automaton, but its characteristic function cannot be  recognised by a weighted orbit-finite automaton over the two-element field. The non-expressivity can be proved using the orbit-finite version of the Fliess Theorem, see \cref{thm:orbit-finite-fliess}. On the other hand, the  language ``an even number of distinct letters'' is not recognised by a nondeterministic orbit-finite automaton, while its characterisatic function can  be computed by a weighted orbit-finite automaton, see~\cite[Example 3.2]{orbitFiniteVectorTheoretics}. Therefore, the two models -- nondeterministic and weighted in the two-element field -- are incomparable. Inside the intersection of these two classes we will find the unambiguous automata, since for unambiguous automata, counting the runs modulo two gives the same result as checking if a run exists. This discussion is summed up in the following picture:
+  The language ``some letter appears twice'' is recognised by a
+  \kl{nondeterministic orbit-finite automaton}, but its characteristic function
+  cannot be  recognised by a \kl{weighted orbit-finite automaton} over the
+  two-element field. The non-expressivity can be proved using the orbit-finite
+  version of the Fliess Theorem, see \cref{thm:orbit-finite-fliess}. On the
+  other hand, the  language ``an even number of distinct letters'' is not
+  recognised by a nondeterministic orbit-finite automaton, while its
+  characteristic function can be computed by a \kl{weighted orbit-finite
+  automaton}, see~\cite[Example 3.2]{orbitFiniteVectorTheoretics}. Therefore,
+  the two models -- nondeterministic and weighted in the two-element field --
+  are incomparable. Inside the intersection of these two classes we will find
+  the \kl[of unamb automata]{unambiguous automata}, since for unambiguous automata, counting the runs
+  modulo two gives the same result as checking if a run exists. This discussion
+  is summed up in the following picture:
     \mypic{2}
 \end{myexample}
 
 The following theorem is the main result of Section~\ref{sec:weighted-automata-atoms}.
 \begin{theorem}\label{thm:orbit-finite-protocol-to-weighted}
-    Let $\Sigma$ be an orbit-finite input alphabet, and let $\domain$ be a field.
-    If a language $L \subseteq \Sigma^*$ is computed by a protocol, then the corresponding characteristic function of type $\Sigma^* \to \set{0,1} \subseteq \domain$  is computed by a weighted orbit-finite automaton.
+  Let $\Sigma$ be an \kl{orbit-finite} input alphabet, and let $\domain$ be a field.
+  If a language $L \subseteq \Sigma^*$ is computed by a \kl[of protocol]{protocol}, 
+  then the corresponding characteristic function of type $\Sigma^* \to \set{0,1} \subseteq \domain$
+  is computed by a \kl{weighted orbit-finite automaton}.
 \end{theorem}
 
-In the proof of the theorem, we use the recently developed theory of orbit-finite vector spaces \cite{orbitFiniteVectorTheoretics}.
-To streamline the presentation, we will use a special case of these spaces, namely those that have an orbit-finite basis.
-We begin by summarizing the necessary background.
+In the proof of the theorem, we use the recently developed theory of
+orbit-finite vector spaces \cite{orbitFiniteVectorTheoretics}. To streamline
+the presentation, we will use a special case of these spaces, namely those that
+have an orbit-finite basis. We begin by summarizing the necessary background.
 
-For an orbit-finite set $Q$, let us write $\lincomb Q$ for the vector space which consists of finite formal linear combinations of elements of $Q$. In other words, an element of this space is a vector of the form 
+For an orbit-finite set $Q$, let us write $\lincomb Q$ for the vector space
+which consists of finite formal linear combinations of elements of $Q$. In
+other words, an element of this space is a vector of the form 
 \begin{align*}
 \alpha_1 q_1 + \cdots + \alpha_n q_n,
 \end{align*}
 where the coefficients $\alpha_i$ are from the field, and the element $q_i$ (which can be seen as basis vectors) are from $Q$. We use such spaces as the orbit-finite generalisation of finite dimension\footnote{Similarly to the case of orbit-finite sets, we use a simplified definition for this paper, as compared to the literature. The usual notion of vector spaces for orbit-finite sets, see \cite[Definition 8.1]{bojanczyk_slightly} allows for more features; these features are irrelevant for our application and hence not discussed here.}.
 
 \begin{definition}
-    [Vector space of orbit-finite dimension]\label{def:orbit-finite-vector-space} A vector space of orbit-finite dimension is a vector space of the form $\lincomb Q$ for some orbit-finite set $Q$.
+    [Vector space of orbit-finite dimension]\label{def:orbit-finite-vector-space}
+    \AP
+    A \intro{vector space of orbit-finite dimension} 
+    is a vector space of the form $\lincomb Q$ for some \kl{orbit-finite} set $Q$.
 \end{definition}
-A space as in the above definition is equipped with two structures: as a vector space it is closed under linear combinations, and as a set with atoms it is closed under applying atom permutations.
-We will typically be interested in functions between such spaces that preserve both of those structures.
+A space as in the above definition is equipped with two structures: as a vector
+space it is closed under linear combinations, and as a set with \kl{atoms} it
+is closed under applying \kl{atom permutations}. We will typically be
+interested in functions between such spaces that preserve both of those
+structures.
 
-In the proof of \cref{thm:orbit-finite-protocol-to-weighted}, we will use an orbit-finite version of protocols with field outputs. 
-Recall that there are two variants: the general version from Section~\ref{sec:intro-field} and the simpler scalar-product protocols 
-from Section~\ref{sec:field-domain}. We could begin with the general version and show that it is equivalent to the scalar-product one --
-this is indeed the case. However, to keep the exposition concise, we treat orbit-finite protocols with field outputs merely as a tool 
-for proving \cref{thm:orbit-finite-protocol-to-weighted}, rather than as an object of independent interest. Therefore, we focus on the 
-simplest form of protocol required for the proof, namely an orbit-finite version of the scalar product protocols from Section~\ref{sec:field-domain}. In the orbit-finite case, instead of scalar products we will use the slightly more general notion of bilinear maps, i.e.~maps that have two arguments and are linear in each argument separately\footnote{
-    It is possible to define orbit-finite scalar product protocols,
-    but they are harder to work with. In particular, from our results it will follow that orbit-finite scalar product protocols (suitably defined) and orbit-finite bilinear protocols are equivalent, but we are not aware of a direct proof of this fact.
-}. 
+In the proof of \cref{thm:orbit-finite-protocol-to-weighted}, we will use an
+orbit-finite version of \kl{protocols} with field outputs. Recall that there
+are two variants: the general version from Section~\ref{sec:intro-field} and
+the simpler \kl{scalar-product protocols} from Section~\ref{sec:field-domain}.
+We could begin with the general version and show that it is equivalent to the
+scalar-product one -- this is indeed the case. However, to keep the exposition
+concise, we treat \kl{orbit-finite protocols} with field outputs merely as a tool
+for proving \cref{thm:orbit-finite-protocol-to-weighted}, rather than as an
+object of independent interest. Therefore, we focus on the simplest form of
+protocol required for the proof, namely an orbit-finite version of the scalar
+product protocols from Section~\ref{sec:field-domain}. In the orbit-finite
+case, instead of scalar products we will use the slightly more general notion
+of bilinear maps, i.e.~maps that have two arguments and are linear in each
+argument separately\footnote{It is possible to define orbit-finite scalar
+  product protocols, but they are harder to work with. In particular, from our
+  results it will follow that orbit-finite scalar product protocols (suitably
+  defined) and orbit-finite bilinear protocols are equivalent, but we are not
+  aware of a direct proof of this fact.}. 
 
 % This space is equipped with a scalar product, 
 % \begin{align*}
@@ -680,9 +730,11 @@ simplest form of protocol required for the proof, namely an orbit-finite version
 \begin{definition}
     [Orbit-finite bilinear protocol] 
     \label{def:orbit-finite-scalar-product-protocol}
-    An orbit-finite bilinear protocol consists of:
+    \AP
+    An \intro{orbit-finite bilinear protocol} consists of:
     \begin{enumerate}
-        \item two vector spaces of orbit-finite dimension $V_A$ and $V_B$ and two strategies, which are equivariant functions
+      \item two \kl{vector spaces of orbit-finite dimension}
+        $V_A$ and $V_B$ and two strategies, which are equivariant functions
         \begin{align*}
         \sigma_A : \Sigma^* \to V_A 
         \quad \text{and} \quad
@@ -694,7 +746,11 @@ simplest form of protocol required for the proof, namely an orbit-finite version
         \end{align*}
     \end{enumerate}
 \end{definition}
-The output of the protocol is defined in the natural way: Alice and Bob apply their strategies to their local strings, yielding two vectors, and the output of the protocol is obtained using the output map. As usual, we require split invariance, i.e.~the output of the protocol should depend only on the input string $w$ and not on its factorisation $w = w_1 w_2$.
+The output of the \kl[of bilinear protocol]{protocol} is defined in the natural way: 
+Alice and Bob apply their strategies to their local strings, yielding two vectors, 
+and the output of the protocol is obtained using the output map. 
+As usual, we require split invariance, i.e.~the output of the protocol should
+depend only on the input string $w$ and not on its factorisation $w = w_1 w_2$.
 
 % Before continuing with the proof, let us briefly use explain why we chose to work with bilinear maps instead of scalar products.
 % First, let us observe that scalar products can be defined in the orbit-finite in a natural way:
@@ -721,18 +777,23 @@ Let us go back to the proof of \cref{thm:orbit-finite-protocol-to-weighted}. The
 
 We begin with the first step, which can be seen as form of reduction to one round. Recall that without vector spaces, a reduction to one round was not possible, see Example~\ref{ex:no-one-round-reduction}. This phenomenon is connected to closure under taking function spaces: orbit-finite sets are not closed under taking function spaces, but this closure is recovered once one moves to vector spaces, see~\cite[Section 8.3]{bojanczyk_slightly}. 
 
+\alc{orbit finite bilinear protocol should probably be used here instead of 
+orbit finite scalar product protocol}
 \begin{lemma}\label{lem:orbit-finite-protocol-to-scalar}
-    If $L \subseteq \Sigma^*$ is computed by an orbit-finite protocol, then its characteristic function is computed by an orbit-finite scalar product protocol, over any field.
+  If $L \subseteq \Sigma^*$ is computed by an \kl{orbit-finite protocol}, then its characteristic function is computed by an \kl{orbit-finite bilinear product protocol}, over any field.
 \end{lemma}
 
 
 \begin{proof}
-    We first introduce a common generalisation of the two models called \emph{hybrid protocols}. In such a protocol, there are multiple rounds of messages, 
+    We first introduce a common generalisation of the two models called \emph{hybrid protocols}. 
+    In such a protocol, there are multiple rounds of messages, 
     followed by a bilinear operation. We will show that the multiple rounds can be eliminated,
-    yielding a plain orbit-finite bilinear protocol. 
+    yielding a plain \kl{orbit-finite bilinear protocol}.
     
-    Here is the formal definition of the hybrid protocol: For each round $i \in \set{1, \ldots, k-1}$, the parties exchange messages just as in an orbit-finite
-    protocol from \cref{def:orbit-finite-protocol}, using message spaces $Q_A$ and $Q_B$ and strategies of the following types: 
+    Here is the formal definition of the hybrid protocol: 
+    For each round $i \in \set{1, \ldots, k-1}$, the parties exchange messages just as in an \kl{orbit-finite
+    protocol} from Definition~\ref{def:orbit-finite-protocol}, 
+    using message spaces $Q_A$ and $Q_B$ and strategies of the following types: 
         \begin{align*}
         \sigma_{A,i} & : \Sigma^* \times (Q_B)^{i-1} \to Q_A\\
         \sigma_{B,i} & : \Sigma^* \times (Q_A)^{i-1} \to Q_B
@@ -749,7 +810,7 @@ We begin with the first step, which can be seen as form of reduction to one roun
     \end{align*}
     
 
-    The hybrid protocol generalizes both orbit-finite protocols and orbit-finite bilinear protocols. For the latter, this is clear: we simply use $k=1$ and there is no message exchange. For the former, we proceed as follows. We use  trivial vector spaces, i.e.~both $V_A$ and $V_B$ are the field. The bilinear map is multiplication. Once the two parties have agreed on a Boolean decision, they can both send $1$ (in the case of a ``yes'' decision) or $0$ (in the case of a ``no'' decision), and the bilinear map will give the correct output. 
+    The hybrid protocol generalises both orbit-finite protocols and orbit-finite bilinear protocols. For the latter, this is clear: we simply use $k=1$ and there is no message exchange. For the former, we proceed as follows. We use  trivial vector spaces, i.e.~both $V_A$ and $V_B$ are the field. The bilinear map is multiplication. Once the two parties have agreed on a Boolean decision, they can both send $1$ (in the case of a ``yes'' decision) or $0$ (in the case of a ``no'' decision), and the bilinear map will give the correct output. 
     
     In order to complete the proof of the lemma, we will show that the number of rounds can always be reduced to one, thus yielding a bilinear protocol. 
 

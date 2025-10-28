@@ -7,7 +7,6 @@
 \knowledge{notion}
  | boolean protocol
  | Boolean protocols
- | protocol@boolean
  | Boolean protocol
 
 \knowledge{notion}
@@ -269,6 +268,4 @@
  | orbit-finite Boolean two-party protocol
  | orbit-finite protocol
  | of protocol
-
-
 
