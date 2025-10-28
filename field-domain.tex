@@ -1,23 +1,41 @@
+% LTeX: language=en
 \section{Field outputs}
 \label{sec:field-domain}
 In this section, we discuss functions where the output domain is a field, equipped with addition and multiplication. We prove that protocols have  exactly the same expressive power as weighted automata.
 We begin by recalling the notion of weighted automata.
 
-\paragraph*{Weighted automata.}  A weighted automaton is a device that is used to compute a function from strings to a field (more generally, a semiring, but we consider the case of fields here). This model was originally introduced by \schutz~\cite{schutzenberger1961definition}. Essentially, this is a deterministic automaton where the state space is a vector space of finite dimension, and each input letter induces a linear map. Here is the formal definition. 
+\paragraph*{Weighted automata.} \AP A \kl{weighted automaton} is a device that
+is used to compute a function from strings to a field (more generally, a
+semiring, but we consider the case of fields here). This model was originally
+introduced by \schutz~\cite{schutzenberger1961definition}. Essentially, this is
+a deterministic automaton where the state space is a vector space of finite
+dimension, and each input letter induces a linear map. Here is the formal
+definition. 
 
 \begin{definition}[Weighted automaton]
     \label{def:weighted-automaton}
-    A weighted automaton over a field $\domain$ is given by: 
+    \AP
+    A \intro{weighted automaton} over a field $\domain$ is given by: 
     \begin{enumerate}
         \item a finite input alphabet $\Sigma$;
-        \item a dimension $d \in \set{0,1,\ldots}$;
+        \item a \intro(wa){dimension} $d \in \set{0,1,\ldots}$;
         \item an initial state $q_0 \in \domain^d$;
-        \item \label{it:weighted-definition-transitions} for each letter $a \in \Sigma$, a corresponding linear map of type $\domain^d \to \domain^d$;
-        \item \label{it:weighted-definition-final} a \emph{final map}, which is a linear map of type $\domain^d \to \domain$. 
+        \item \label{it:weighted-definition-transitions} 
+          for each letter $a \in \Sigma$, a 
+          corresponding linear map of type $\domain^d \to \domain^d$;
+        \item \label{it:weighted-definition-final} a \intro(wa){final map},
+          which is a linear map of type $\domain^d \to \domain$. 
     \end{enumerate}
 \end{definition}
 
-A weighted automaton computes a function of type $\Sigma^* \to \domain$, which is defined in the same way as for a deterministic finite automaton: we begin in the initial state, then we apply the linear maps corresponding to the input letters, and finally we apply the final map. There is an alternative but equivalent way of describing weighted automata, which uses a nondeterministic automaton with weights on transitions. This viewpoint will be used later in this paper, see Definition~\ref{def:weighted-automaton-nondeterministic}.
+A \kl{weighted automaton} computes a function of type $\Sigma^* \to \domain$,
+which is defined in the same way as for a deterministic finite automaton: we
+begin in the initial state, then we apply the linear maps corresponding to the
+input letters, and finally we apply the \kl(wa){final map}. There is an
+alternative but equivalent way of describing weighted automata, which uses a
+nondeterministic automaton with weights on transitions. This viewpoint will be
+used later in this paper, see
+Definition~\ref{def:weighted-automaton-nondeterministic}.
 
 The main result of this section is that our protocol is equivalent to weighted automata, as stated in the following theorem from the introduction, which we now recall:
 \fielddomain*
@@ -29,43 +47,81 @@ The main result of this section is that our protocol is equivalent to weighted a
 %     \end{align*}  is computed by a protocol if and only if it is  computed by a weighted automaton.
 % \end{theorem}
 
-Weighted automata can be defined not just for fields, but also for rings and even semirings. We do not know how to prove the theorem for such generalisations, since the Fliess Theorem, which is used in the proof is only known for fields. Rings and semirings will be discussed in more detail in Section~\ref{sec:commutative-semirings}.
- Before proving the theorem in Section~\ref{sec:proof-of-thm-field-domain}, we return to the issue of division, which was already discussed in Example~\ref{ex:division}.
+\kl{Weighted automata} can be defined not just for fields, but also for rings and
+even semirings. We do not know how to prove the theorem for such
+generalisations, since the Fliess Theorem, which is used in the proof is only
+known for fields. Rings and semirings will be discussed in more detail in
+Section~\ref{sec:commutative-semirings}. Before proving the theorem in
+Section~\ref{sec:proof-of-thm-field-domain}, we return to the issue of
+division, which was already discussed in Example~\ref{ex:division}.
 
 \begin{myexample}[Division, continued]\label{ex:division-continued}
-    Because it is undefined for zero, division is not a total operation, and therefore technically speaking it does not fall into our framework. We could, however try to incorporate it, by making the two parties responsible for avoiding division by zero. Under this framework, we could use a protocol to compute the function $1/|w|$ (a better choice would be $1/|w|+1$, since it would avoid problems with the empty string). As we have discussed in Example~\ref{ex:division}, such a function cannot be computed by a protocol that uses only addition and multiplication. We do not know what functions can be computed if division is also allowed.
+    Because it is undefined for zero, division is not a total operation, and
+    therefore technically speaking it does not fall into our framework. We
+    could, however try to incorporate it, by making the two parties responsible
+    for avoiding division by zero. Under this framework, we could use a
+    \kl{protocol} to compute the function $1/|w|$ (a better choice would be
+    $1/(|w|+1)$, since it would avoid problems with the empty string). As we have
+    discussed in Example~\ref{ex:division}, such a function cannot be computed
+    by a \kl{protocol} that uses only addition and multiplication. We do not know
+    what functions can be computed if division is also allowed.
 \end{myexample}
 
 
 
 \begin{myexample}[Semiring outputs]
-    \label{ex:non-commutative-semirings} In this example we show that for semirings which are not fields, the protocol need not be equivalent to weighted automata.  The implication 
+    \label{ex:non-commutative-semirings} 
+    In this example we show that for semirings which are not fields, the \kl{protocol} need not be equivalent to \kl{weighted automata}. The implication 
     \begin{align*}
     \text{protocol} \quad \impliedby \quad \text{weighted automaton}
     \end{align*}
-    in \cref{thm:field-domain}, as we will see in a moment, holds for any semiring, and therefore the problematic implication is the other one. Here is an example where it fails.
-    Let $\domain$ be  the free (non-commutative) idempotent semiring generated by two letters $a$ and $b$. Elements of this semiring are finite sets of words in $\set{a,b}^*$, such as 
+    in \cref{thm:field-domain}, as we will see in a moment, holds for any
+    semiring, and therefore the problematic implication is the other one. Here
+    is an example where it fails. Let $\domain$ be  the free (non-commutative)
+    idempotent semiring generated by two letters $a$ and $b$. Elements of this
+    semiring are finite sets of words in $\set{a,b}^*$, such as 
     \begin{align*}
     \set{3ab, 5ba, 7aab}
     \end{align*}
-    The addition operation is multiset union, and the multiplication operation is concatenation of words, extended to sets in the natural way, as illustrated on this example:
+    The addition operation is multiset union, 
+    and the multiplication operation is concatenation of words, 
+    extended to sets in the natural way, as illustrated on this example:
     \begin{align*}
     \set{a,b}\cdot \set{a,b} = \set{aa, ab, ba, bb}.
     \end{align*}
-    Weighted automata over this semiring are the same as the rational relations~\cite[Chapter IX]{Eilenberg74}. On the other hand, a protocol can define string-to-$\domain$ functions that are not rational. This is witnessed already by functions that produce singleton sets (call these singleton functions), which can be seen as functions of type $\Sigma^* \to \set{a,b}^*$. For example, consider the singleton version of the  reverse function, i.e.
+    \kl{Weighted automata} over this semiring are the same as the 
+    rational relations~\cite[Chapter IX]{Eilenberg74}. 
+    On the other hand, a protocol can define string-to-$\domain$ functions
+    that are not rational. This is witnessed already by functions that produce 
+    singleton sets (call these singleton functions), which can be seen as 
+    functions of type $\Sigma^* \to \set{a,b}^*$. For example, consider 
+    the singleton version of the  reverse function, i.e.
     \begin{align*}
     w \mapsto \set{\text{reverse of $w$}} \in \domain.
     \end{align*}
-    This function can be computed by a protocol, using the same idea as in Example~\ref{ex:reverse-duplicate}. This function, however, is not a rational relation, and therefore it is not computed by a weighted automaton over $\domain$. 
+    This function can be computed by a \kl{protocol}, using the same idea as in 
+    Example~\ref{ex:reverse-duplicate}. This function, however, is not
+    a rational relation, and therefore it is not computed by a weighted automaton over $\domain$. 
     \omc{I think the conjecture could be about two-way weighted automata over semirings. First, observe that every function computed by a two-way weighted automaton can be computed by a protocol, and then conjecture that the converse also holds. So, I’ll include the following part (which you wrote) in the comment section.}
     \omc{
         remove this?
     "So what exactly can be computed by protocols with outputs in the semiring $\domain$? We do not know the answer to this question, although it is plausible that there is some suitable nondeterministic transducer model."}
-    We know more in the case of singleton functions. In this case, all messages sent during the protocol must be singletons (this is because once a non-singleton is produced, it can never be turned into a singleton). Therefore, the operation $+$ can never be used in a non-trivial way, and thus the protocol can only use muliplication. This means that it coincides with the protocols with outputs that are strings with concatenation, as discussed in Section~\ref{sec:string-outputs}. According to Conjecture~\ref{conj:protocol-regular-string-to-string}, the singleton functions are therefore exactly the regular functions.
+    We know more in the case of singleton functions. In this case, all messages sent during the protocol must be singletons (this is because once a non-singleton is produced, it can never be turned into a singleton). Therefore, the operation $+$ can never be used in a non-trivial way, and thus the protocol can only use muliplication. This means that it coincides with the protocols with outputs that are strings with concatenation, as discussed in Section~\ref{sec:string-outputs}. According to Conjecture~\ref{conj:protocol-regular-string-to-string}, the singleton functions are therefore exactly the \kl{regular functions}.
 \end{myexample}
 
 \begin{myexample}[Equality tests]
-\label{ex:equality-tests} In this example, we discuss an extension of the protocol which allows for equality tests, similarly to the algebraic group model~\cite{fuchsbauer2018algebraic}. Clearly, equality tests cannot be completely unrestricted. Otherwise, in the presence of a countable output domain (which is the case for all protocols studied in this paper), the receiver could compare the message with all possible values one by one, until the correct one would be identified. This would  invalidate the black box discipline. A reasonable restriction is to allow a constant number of equality tests for each message; this constant can also be brought  down to one, by possibly sending more copies of the same message. The resulting protocol would be able of complementing a weighted automaton $\Aa$, in the following sense:
+\label{ex:equality-tests}
+In this example, we discuss an extension of the \kl{protocol} which allows for
+equality tests, similarly to the algebraic group
+model~\cite{fuchsbauer2018algebraic}. Clearly, equality tests cannot be
+completely unrestricted. Otherwise, in the presence of a countable output
+domain (which is the case for all protocols studied in this paper), the
+receiver could compare the message with all possible values one by one, until
+the correct one would be identified. This would  invalidate the \kl{black box
+discipline}. A reasonable restriction is to allow a constant number of equality
+tests for each message; this constant can also be brought down to one, by
+possibly sending more copies of the same message. The resulting protocol would
+be able of complementing a weighted automaton $\Aa$, in the following sense:
 \begin{align*}
 w \in \Sigma^* 
 \quad \mapsto \quad 
@@ -74,11 +130,15 @@ w \in \Sigma^*
     0 & \text{otherwise}.
 \end{cases}
 \end{align*}
-This form of complementation is undesirable from the point of view of decidability. For example, language equivalence is undecidable for weighted automata that are complemented in this way~\cite[Theorem 4.9]{bojanczyk_automata_2025}. Since we strive for protocols that describe ``regular'' functions, and such functions should be decidable, we avoid equality tests.
+This form of complementation is undesirable from the point of view of decidability. For example, language equivalence is undecidable for \kl{weighted automata} that are complemented in this way~\cite[Theorem 4.9]{bojanczyk_automata_2025}. 
+Since we strive for protocols that describe ``regular'' functions, and such functions should be decidable, we avoid equality tests.
 \end{myexample}
 
 \begin{myexample}[Wrong output domains]\label{ex:wrong-output-domains}
- This discussion of equality tests from Example~\ref{ex:equality-tests} also explains why we should not expect results about regularity that work for any output domain. For example, if we would extend the field domain with a unary complementation operation 
+ This discussion of equality tests from Example~\ref{ex:equality-tests} also
+ explains why we should not expect results about regularity that work for any
+ \kl{output domain}. For example, if we would extend the field domain with a unary
+ complementation operation 
  \begin{align*}
  x 
  \quad \mapsto \quad 
@@ -87,100 +147,206 @@ This form of complementation is undesirable from the point of view of decidabili
     0 & \text{otherwise},
 \end{cases}
  \end{align*}
- then our protocols could recover the undecidable model discussed in the previous paragraph.  Of course, one can come up with even more obviously wrong output domains, such as a domain that consits of Turing machines with certain evaluation operations. We do not know where the dividing line is between ``right'' and ``wrong'' output domains.
+ then our protocols could recover the undecidable model discussed in the
+ previous paragraph.  Of course, one can come up with even more obviously wrong
+ \kl{output domains}, such as a domain that consists of Turing machines with certain
+ evaluation operations. We do not know where the dividing line is between
+ ``right'' and ``wrong'' \kl{output domains}.
 \end{myexample}
 
 
 \subsection{Proof of \cref{thm:field-domain}}
 \label{sec:proof-of-thm-field-domain}
-We now return to the proof of \cref{thm:field-domain}. The right-to-left implication says that every weighted automaton can be simulated by a protocol. This is proved essentially in the same way as in the Boolean case. Suppose that the function is computed by a weighted automaton, which uses  dimension $d$. Every input string $\Sigma^*$ induces a linear map of type $\domain^d \to \domain^d$, which is obtained by composing the linear maps for the individual letters in the string.  Such a linear map can be represented as a matrix, and therefore it can be output using $d^2$ messages.  In the protocol, Alice sends the matrix  which corresponds to her local string, and Bob sends the  matrix which corresponds to  his local string. These matrices are multiplied using the field operations, and then multiplied with the initial and final vectors. This protocol has one round and is signal-free, i.e.~no information is conveyed using signals.
+\AP
+We now return to the proof of \cref{thm:field-domain}. The right-to-left
+implication says that every \kl{weighted automaton} can be simulated by a \kl{protocol}.
+This is proved essentially in the same way as in the \kl[Boolean protocol]{Boolean case}. 
+Suppose that
+the function is computed by a \kl{weighted automaton}, which uses \kl(wa){dimension} $d$.
+Every input string $\Sigma^*$ induces a linear map of type $\domain^d \to
+\domain^d$, which is obtained by composing the linear maps for the individual
+letters in the string.  Such a linear map can be represented as a matrix, and
+therefore it can be output using $d^2$ messages.  In the \kl{protocol}, Alice sends
+the matrix  which corresponds to her local string, and Bob sends the  matrix
+which corresponds to  his local string. These matrices are multiplied using the
+field operations, and then multiplied with the initial and final vectors. This
+protocol has one round and is \intro{signal-free}, i.e.~no information is conveyed
+using signals.
 
-The rest of this proof is devoted to the left-to-right implication, i.e.~showing that every function computed by a protocol is computed by a weighted automaton. As in the Boolean case, we will do a sequence of reductions, such that the protocol becomes more and more restrictive. In particular, we will show that the protocol can be reduced to a version that has one-round and  is signal-free.
+The rest of this proof is devoted to the left-to-right implication,
+i.e.~showing that every function computed by a \kl{protocol} is computed by a
+\kl{weighted automaton}. As in the Boolean case, we will do a sequence of
+reductions, such that the \kl{protocol} becomes more and more restrictive. In
+particular, we will show that the \kl{protocol} can be reduced to a version that has
+one-round and is \kl{signal-free}.
 
 \subsubsection{Reduction to a scalar product protocol}
 \label{sec:reduction-to-scalar-product-protocols}
+\AP
+In the first step, we show that each \kl{protocol} can be constrained to have a
+special form, which has one round and is \kl{signal-free}. This protocol uses only
+the scalar product,  as explained in the following definition. 
 
-In the first step, we show that each protocol can be constrained to have a special form, which has one round and is signal-free. This protocol uses only the scalar product,  as explained in the following definition. 
 \begin{definition}[Scalar product protocol] \label{def:scalar-product-protocol}
-    Assume that the output domain is a field.
-    A scalar product protocol is defined as follows. First, each of the two parties uses their local string to  produce a vector of field elements, of some fixed dimension $d$, as expressed by two functions: 
+    Assume that the \kl{output domain} is a field.
+    A \intro{scalar product protocol} is defined as follows.
+    First, each of the two parties uses their local string to 
+    produce a vector of field elements, 
+    of some fixed dimension $d$, as expressed by two functions: 
     \begin{align*}
     \sigma_A, \sigma_B : \Sigma^* \to \domain^d.
     \end{align*}
     Next, the output is defined to be the scalar product of the two vectors. 
 \end{definition}
 
-This protocol has the same power as general protocols. 
+This \kl[scalar product protocol]{protocol} has the same power as \kl{general
+protocols}.
 
 \begin{lemma}\label{lem:scalar-product-reduction}
-    Assume that the output domain is a field. 
-    If a function is computed by a protocol, then it is computed by a scalar product protocol.
+  Assume that the \kl{output domain} is a field. 
+  If a function is computed by a \kl{protocol}, 
+  then it is computed by a \kl{scalar product protocol}.
 \end{lemma}
 \begin{proof}
-    The proof is a sequence of reductions, where more and more conditions are imposed on the protocol.  
+    The proof is a sequence of reductions, 
+    where more and more conditions are imposed on the protocol.  
     
-    \paragraph*{Step 1. One-round protocol.} The first step is to reduce the protocol to a one-round protocol. This is done using \cref{lemma:one-round-reduction-general}.
+    \paragraph*{Step 1. One-round protocol.} 
+    The first step is to reduce the protocol to a one-round protocol. 
+    This is done using \cref{lemma:one-round-reduction-general}.
 
 
 
- \paragraph*{Step 2. Signal-free protocol.}  We say that a protocol is \emph{signal-free} if both of the sets $Q_A$ and $Q_B$ have one element each. In other words, the signals do not convey any information, and the only messaging activity consists of sending elements of the output domain. In a signal-free protocol, the concept of rounds is irrelevant, since the behaviour of one party is not influenced by the communication from the other party.
+ \paragraph*{Step 2. Signal-free protocol.}  \AP 
+ We say that a protocol is
+ \intro{signal-free} if both of the sets $Q_A$ and $Q_B$ have one element each.
+ In other words, the signals do not convey any information, and the only
+ messaging activity consists of sending elements of the \kl{output domain}. In a
+ \kl{signal-free protocol}, the concept of rounds is irrelevant, since the behaviour
+ of one party is not influenced by the communication from the other party.
+
 % \omc{Usually we have signal-free protocols when corresponding Machine model expressive power does not increase when we add two-wayness. Here we have one-way weighted automata, in sequential model also we have one-wayness (it can considered as signal-free because consider algebra to be semiring with concatenation and union and one element for zero, then it is signal-free), in commutative semiring the conjecture is having one-way weighted automat, is it worth mentioning that? Answer my comment wehenever you see it pelase.}
 % MB: This is not necessarily true, I think. In a non-commutative semiring, two-way ≠ one-way, and yet we can still have signal-free protocols, by using zero, I think.
 
  \begin{claim}
     \label{claim:trivial-messages}
-    Assume that the output domain is a field. Then every one-round protocol is equivalent to a signal-free  protocol.
+    Assume that the \kl{output domain} is a field. 
+    Then every one-round protocol is equivalent to a \kl{signal-free protocol}.
  \end{claim}
  \begin{proof} 
-    Consider a one-round protocol. Without loss of generality, we assume that both signal spaces $Q_A$ and $Q_B$ are the same space $Q$. (We can always use the union of two signal spaces for both parties.) Assume that each of the parties sends $d$ field elements in the protocol. In other words, the protocol works as follows:
+    Consider a one-round protocol. Without loss of generality, we assume that
+    both signal spaces $Q_A$ and $Q_B$ are the same space $Q$. (We can always
+    use the union of two signal spaces for both parties.) Assume that each of
+    the parties sends $d$ field elements in the protocol. In other words, the
+    protocol works as follows:
     \begin{enumerate}
         \item Based on her local string, Alice chooses a message $(q_A,\bar x) \in Q \times \domain^d$;
         \item Based on his local string, Bob chooses a message $(q_B,\bar y) \in Q \times \domain^d$;
         \item Based on the signals $q_A$ and $q_B$, a term operation  with $2d$ variables is chosen, call it $t_{q_A,q_B}$, and the output is obtained by applying this term operation to $(\bar x, \bar y).$
     \end{enumerate}
-    To prove the claim, we need to show that the protocol can be adapted so that always the same term operation is chosen, i.e.~there is no dependence of this term operation on the signals $q_A$ and $q_B$. This way the signals can be eliminated. To do this, we increase the dimension from $d$ to $d + |Q|$. 
-    This means that for each possible signal $q \in Q$, each party sends a field element corresponding to this signal. The idea is that instead of sending a signal $q \in Q$, each party will set the corresponding field element to $1$, and the remaining field elements to $0$. The corresponding term operation is then 
+    To prove the claim, we need to show that the protocol can be adapted so
+    that always the same term operation is chosen, i.e.~there is no dependence
+    of this term operation on the signals $q_A$ and $q_B$. This way the signals
+    can be eliminated. To do this, we increase the \kl{protocol dimension} from $d$ to $d +
+    |Q|$. 
+
+    This means that for each possible signal $q \in Q$, each party sends a
+    field element corresponding to this signal. The idea is that instead of
+    sending a signal $q \in Q$, each party will set the corresponding field
+    element to $1$, and the remaining field elements to $0$. The corresponding
+    \kl{term operation} is then 
     \begin{align*}
     \sum_{\substack{q_A \in Q \\ q_B \in Q}} \myoverbrace{x_{q_A} \cdot y_{q_B}}{variables corresponding \\ to the messages $q_A$ and $q_B$, } \cdot t_{q_A,q_B}(\bar x, \bar y).
     \end{align*}
-    When evaluating this term operation, the summands that do not correspond to the intended message $(q_A,q_B)$ will be eliminated, since they will contain a variable that is set to $0$. Only the summand corresponding to the intended message will be used, and thus the correct output will be produced. 
+    When evaluating this \kl{term operation},
+    the summands that do not correspond to the intended message $(q_A,q_B)$
+    will be eliminated, since they will contain a variable that is set to $0$. 
+    Only the summand corresponding to the intended message will be used,
+    and thus the correct output will be produced. 
  \end{proof}
 
- In the above claim, the only property of fields that was used is that there are elements $1$ and $0$ with the usual field properties, i.e.~$1$ is neutral for multiplication, while $0$ is neutral for addition and cancellative for multiplication. Therefore, so far our proof would work in any semiring with such elements.
+ In the above claim, the only property of fields that was used is that there
+ are elements $1$ and $0$ with the usual field properties, i.e.~$1$ is neutral
+ for multiplication, while $0$ is neutral for addition and cancellative for
+ multiplication. Therefore, so far our proof would work in any semiring with
+ such elements.
 
- \paragraph*{Step 3. Scalar product.} In the previous step, we have reduced the protocol to a special case, where Alice and Bob send vectors, call them $\bar x, \bar y \in \domain^d$, and then some fixed term operation $t$ with $2d$ variables is applied to them. 
-  To complete the proof of the lemma, we show that the term operation can be turned into a scalar product. This term operation is a sum of monomials, with each monomial being a product of some variables. Consider the monomials in the term operation $t$. For each monomial, its contribution to the output  is obtained by multiplying two numbers: (a) the product of the  variables in the term operation that are contributed by Alice; and   (b) the product of the variables in the term operation that are contributed by Bob. We can redesign the protocol so that for each monomial, Alice sends the contribution (a), and Bob sends the contribution (b). In the new protocol, the dimension is the number of monomials from the original protocol, and the term operation is a scalar product. 
+ \paragraph*{Step 3. Scalar product.}
+ In the previous step, we have reduced the \kl{protocol} to a special case, where
+ Alice and Bob send vectors, call them $\bar x, \bar y \in \domain^d$, and then
+ some fixed \kl{term operation} $t$ with $2d$ variables is applied to them. To
+ complete the proof of the lemma, we show that the term operation can be turned
+ into a scalar product. This term operation is a sum of monomials, with each
+ monomial being a product of some variables. Consider the monomials in the term
+ operation $t$. For each monomial, its contribution to the output  is obtained
+ by multiplying two numbers: (a) the product of the  variables in the term
+ operation that are contributed by Alice; and   (b) the product of the
+ variables in the term operation that are contributed by Bob. We can redesign
+ the protocol so that for each monomial, Alice sends the contribution (a), and
+ Bob sends the contribution (b). In the new protocol, the dimension is the
+ number of monomials from the original protocol, and the term operation is a
+ scalar product. 
 
-  This completes the third and final step in the proof. In this step, the only property of fields that was used is that multiplication is commutative, and therefore each monomial can be cleanly separated into two parts, one for Alice and one for Bob. Summing up, the entire lemma would work for commutative semirings, and just for fields. However, the second part of the proof of Theorem~\ref{thm:field-domain}, presented in Section~\ref{sec:from-scalar-product-protocol-to-weighted-automaton}, does use the assumption  that the output domain is a field.
+  This completes the third and final step in the proof. In this step, the only
+  property of fields that was used is that multiplication is commutative, and
+  therefore each monomial can be cleanly separated into two parts, one for
+  Alice and one for Bob. Summing up, the entire lemma would work for
+  commutative semirings, and just for fields. However, the second part of the
+  proof of Theorem~\ref{thm:field-domain}, presented in
+  Section~\ref{sec:from-scalar-product-protocol-to-weighted-automaton}, does
+  use the assumption  that the output domain is a field.
 \end{proof}
 
 \subsubsection{From a scalar product protocol to a weighted automaton}
 \label{sec:from-scalar-product-protocol-to-weighted-automaton}
-In this section, we complete the proof of \cref{thm:field-domain}, by showing that scalar product protocols can be simulated by weighted automata. Similarly to the Boolean case, the proof  uses a Myhill-Nerode characterization. In the case of weighted automata, this characterisation is called  the Fliess Theorem. This theorem  characterises functions computed by weighted automata in terms of a certain infinite matrix.
+\AP
+In this section, we complete the proof of \cref{thm:field-domain}, by showing
+that \kl{scalar product protocols} can be simulated by \kl{weighted automata}.
+Similarly to the \kl[boolean protocol]{Boolean case}, the proof uses a
+Myhill-Nerode characterization. In the case of \kl{weighted automata}, this
+characterization is called  the Fliess Theorem, which characterizes
+functions computed by weighted automata in terms of a certain infinite matrix.
+
 
 \begin{definition}[Hankel Matrix]\label{def:hankel-matrix}
-    Let $\domain$ be a field. The Hankel matrix of a function 
+  \AP
+    Let $\domain$ be a field. The \intro{Hankel matrix} of a function 
     \begin{align*}
     f : \Sigma^* \to \domain
     \end{align*}  
     is the matrix where rows are words in $\Sigma^*$, columns are words in $\Sigma^*$, and the entry corresponding to a row $u$ and a column $v$ is $f(uv)$.
 \end{definition}
 
-Another perspective on the Hankel matrix is that it describes the \emph{derivatives} of the function $f$. Each row in the Hankel matrix can be seen as a function of type $\Sigma^* \to \domain$, which inputs columns (i.e.~strings) and outputs the corresponding entries in the Hankel matrix. If the row corresponds to a word $w$, then this function is
+Another perspective on the \kl{Hankel matrix} is that it describes the
+\kl{derivatives} of the function $f$. Each row in the \kl{Hankel matrix} can be
+seen as a function of type $\Sigma^* \to \domain$, which inputs columns
+(i.e.~strings) and outputs the corresponding entries in the Hankel matrix. If
+the row corresponds to a word $w$, then this function is
 \begin{align*}
 v \mapsto f(wv),
 \end{align*}
-which is called the \emph{left derivative} of $f$ with respect to $w$. Similarly, the columns of the Hankel matrix describe \emph{right derivatives} of $f$.
+which is called the \intro{left derivative} of $f$ with respect to $w$.
+Similarly, the columns of the Hankel matrix describe \intro{right derivatives} of $f$.
 
 The Fliess Theorem~\cite[Theorem 2.1.1]{fliess1974} states that a function 
 \begin{align*}
 f : \Sigma^* \to \domain
 \end{align*}
-is computed by a weighted automaton if and only if  its  Hankel matrix  has finite rank, i.e.~its rows (i.e.~the left derivatives) are spanned by a finite subset. (This is equivalent to saying that the columns, or right derivatives, have a finite spanning subset.) Therefore, to complete the proof of \cref{thm:field-domain}, it is enough to show the following lemma.
+is computed by a \kl{weighted automaton} if and only if  its \kl{Hankel matrix}
+has finite rank, i.e.~its rows (i.e.~the \kl{left derivatives}) are spanned by
+a finite subset. (This is equivalent to saying that the columns, or \kl{right
+derivatives}, have a finite spanning subset.) Therefore, to complete the proof
+of \cref{thm:field-domain}, it is enough to show the following lemma.
 
 \begin{lemma}\label{lem:hankel-finite-rank}
-    If a function is computed by a scalar product protocol, then its Hankel matrix has finite rank.
+    If a function is computed by a \kl{scalar product protocol},
+    then its \kl{Hankel matrix} has finite rank.
 \end{lemma}
 \begin{proof}
-    Essentially by definition, the Hankel matrix of a function computed by a scalar product protocol with dimension $d$ can be obtained as a sub-matrix of the following matrix: rows and columns are vectors in $\domain^d$, and the entries are obtained by taking scalar products. This matrix is easily seen to have finite rank, namely $d$, since the scalar product  becomes a linear operation once one of the two arguments is fixed.
+  Essentially by definition, the \kl{Hankel matrix} of a function computed by a
+  \kl{scalar product protocol} with dimension $d$ can be obtained as a
+  sub-matrix of the following matrix: rows and columns are vectors in
+  $\domain^d$, and the entries are obtained by taking scalar products. This
+  matrix is easily seen to have finite rank, namely $d$, since the scalar
+  product  becomes a linear operation once one of the two arguments is fixed.
 \end{proof}
