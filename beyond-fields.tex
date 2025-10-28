@@ -118,7 +118,7 @@ part, in black, corresponds to the weakest continuity condition, namely over
 finite fields. As explained in the proof of
 \cref{thm:evidence-for-the-conjecture}, this condition is the same as
 \kl{Boolean continuity}, and it is strictly more general than
-\kl(function){regularity}. There is no machine model for the black part,
+\kl[regular function]{regularity}. There is no machine model for the black part,
 because there are uncountably many such functions, as explained in
 \cite{bojanczykTitoRegular23}.
 
@@ -134,7 +134,7 @@ the \kl{regular functions}.
 \label{sec:rational-functions}
 \AP
 In this section we describe the \kl{rational string-to-string functions}, and
-prove that they are exactly the functions which are \kl(alg){continuous} over all
+prove that they are exactly the functions which are \kl[continuous@alg]{continuous} over all
 semirings.  We only give a brief description of the class, for a more precise
 definition the reader is referred to~\cite[Section
 14.2]{bojanczyk_automata_2025}. The underlying model is \intro{(one-way)
@@ -143,7 +143,7 @@ that there are extra labels for output strings, as  explained in the following
 picture: 
 \mypic{5}
 The output of a run is obtained by concatenating the labels, similarly to how
-it is done in a \kl(nfa){weighted automaton} from
+it is done in a \kl[wa-nfa]{weighted automaton} from
 Definition~\ref{def:weighted-automaton-nondeterministic}. (This similarity will
 be revisited in a moment.) The semantics of the automaton is a binary relation
 that maps an input string to all possible outputs of accepting runs. Any
@@ -154,9 +154,10 @@ output string, then it is called a \intro{rational string-to-string function}.
 (We add the ``string-to-string'' qualifier to avoid confusion with the field
 of rational functions, which consists of fractions of polynomials.)  
 
+\AP
 Below we show that: (1) the \kl{rational string-to-string functions} are a
 strict subset of the \kl(function){regular} ones; and (2) they are exactly the
-functions that are \kl(alg){continuous} over all semirings. Both results are
+functions that are \kl[continuous@alg]{continuous} over all semirings. Both results are
 straightforward and could be called folklore.
 
 \begin{myexample}
@@ -171,13 +172,14 @@ straightforward and could be called folklore.
 \end{myexample}
 
 \begin{theorem}\label{thm:rational-functions}
-  A \kl{string-to-string function} is \kl(function){rational} if and only if it is 
-  \kl(alg){continuous} over all semirings.
+  \AP
+  A \kl{string-to-string function} is \kl[rational function]{rational} if and only if it is 
+  \kl[continuous@alg]{continuous} over all semirings.
 \end{theorem}
 \begin{proof}
     The left-to-right implication is proved using a simple product
     construction, which is particularly easy if we use the nondeterministic
-    presentation of \kl(nfa){weighted automata} from
+    presentation of \kl[wa-nfa]{weighted automata} from
     Definition~\ref{def:weighted-automaton-nondeterministic}. The right-to-left
     implication is proved by viewing a \kl{rational string-to-string function} as a
     special case of \kl{weighted automata}, for suitable semiring. The semiring is 
@@ -187,17 +189,17 @@ straightforward and could be called folklore.
     i.e.~finite sets of output strings, with the addition being union and
     multiplication being concatenation. Essentially by comparing the
     definitions, one sees that a string-to-string relation is \kl(function){regular}
-    if and only if it is computed by a \kl(nfa){weighted automaton} over this semiring. 
+    if and only if it is computed by a \kl[wa-nfa]{weighted automaton} over this semiring. 
 
     This observation gives us the right-to-left implication in the theorem.
     Indeed, suppose that a \kl{string-to-string function} $f : \Sigma^* \to
-    \Gamma^*$ is \kl(alg){continuous} over all semirings. 
-    Consider the \kl(nfa){weighted automaton}
+    \Gamma^*$ is \kl[continuous@alg]{continuous} over all semirings. 
+    Consider the \kl[wa-nfa]{weighted automaton}
     \begin{align*}
     \iota : \Gamma^* \to \pfin(\Gamma^*),
     \end{align*}
-    which maps a string to itself (as a singleton set). By \kl(alg){continuity}, we know
-    that $f; \iota$ is computed by a \kl(nfa){weighted automaton} over $\domain$. This
+    which maps a string to itself (as a singleton set). By \kl[continuous@alg]{continuity}, we know
+    that $f; \iota$ is computed by a \kl[wa-nfa]{weighted automaton} over $\domain$. This
     means that the composition $f;\iota$ is a rational string-to-string
     relation; in particular the same is true for $f$. Since the composition is
     also functional, it follows that $f$ is a \kl{rational function}.
