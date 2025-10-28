@@ -6,6 +6,7 @@
 % protocols for boolan 
 \knowledge{notion}
  | boolean protocol
+ | Boolean protocols
  | protocol@boolean
  | Boolean protocol
 
@@ -15,9 +16,7 @@
 
 \knowledge{notion}
  | regular language
-
-\knowledge{notion,scope=language,synonym={regular language}}
- | regular
+ | regular languages
 
 
 % protocols for general domains
@@ -28,8 +27,6 @@
  | two-party protocol
  | general domain protocol
 
-\knowledge{notion}
- | protocols for infinite input alphabets
 
 \knowledge{notion}
  | output function@protocol
@@ -42,14 +39,14 @@
 
 \knowledge{notion}
  | output domain
+ | output values
  | output domains
 \knowledge{notion}
  | number of rounds
 
 \knowledge{notion}
  | protocol dimension
-\knowledge{notion,scope=protocol,synonym={protocol dimension}}
- | dimension
+ | dimension@protocol
 
 % Output domains for the protocols 
 
@@ -75,11 +72,8 @@
  | signals
 \knowledge{notion}
  | signal-free
-\knowledge{notion}
  | signal-free protocol
  | signal-free protocols
-\knowledge{notion}
- | output values
 \knowledge{notion}
  | output part
 
@@ -103,12 +97,10 @@
  | local string
  | local strings
 
-\knowledge{notion}
- | message space
- | message spaces
 
 \knowledge{notion}
  | one-round
+ | one-round protocols
  | one-round protocol
 
 \knowledge{notion}
@@ -131,11 +123,8 @@
 \knowledge{notion}
  | nondeterministic weighted automaton
  | wa-nfa
-\knowledge{notion,scope=nondet,synonym={nondeterministic weighted automaton}}
- | weighted automaton
-\knowledge{notion,scope=nfa,synonym={nondeterministic weighted automaton}}
- | weighted automata
- | weighted automaton
+ | weighted automata@nfa
+ | weighted automaton@nfa
 
 \knowledge{notion,scope=wa}
  | dimension
@@ -170,9 +159,6 @@
  | regular functions
  | regular string-to-string function
  | regular string-to-string functions
-\knowledge{notion,scope=function,synonym={regular function}}
- | regular
- | regularity
 
 \knowledge{notion}
  | polyregular
@@ -185,9 +171,6 @@
  | rational string-to-string function
  | rational string-to-string relation
  | rational string-to-string functions
-\knowledge{notion,scope=function,synonym={rational function}}
- | rational
-
 \knowledge{notion}
  | (one-way) nondeterministic automata with output
 
@@ -213,39 +196,79 @@
 % infinite alphabet notions
 
 \knowledge{notion}
- | equivariant
  | equivariant language
+ | equivariant languages
  | equivariant strategy
 
 \knowledge{notion}
+ | equivariant
+
+\knowledge{notion}
+ | one-way orbit-finite automata
+ | nondeterministic orbit-finite automata
+ | nondeterministic orbit-finite automaton
+ | of nfa
+\knowledge{notion}
+ | deterministic orbit-finite automaton
+ | deterministic orbit-finite automata
+ | of dfa
+
+\knowledge{notion}
  | unambiguous
- | unambiguous register automaton
+ | an unambiguous orbit-finite automaton
+ | unambiguous orbit-finite automata
+ | unambiguous orbit-finite automaton
+ | unambiguity
+
+
 
 \knowledge{notion}
- | register automaton
- | register automata
+ | (simple) equivariant protocols
+ | simple equivariant protocol
+ | simple equivariant protocols
 
-% algebraic notions
-
-\knowledge{notion}
- | linear map
-
-\knowledge{notion}
- | final map
 
 \knowledge{notion}
  | orbit-finite
  | orbit-finitely
-
-% query-related notions
-
-\knowledge{notion}
- | query counting
- | query counting function
+ | orbit-finite set
+ | orbit-finite sets
 
 \knowledge{notion}
- | monoid homomorphism
+ | atom
+ | atoms
+\knowledge{notion}
+ | atom permutation
+ | permutations of the alphabet
+\knowledge{notion}
+ | orbit
+ | orbits
+ | $S$-orbit
+ | $S$-orbits
+\knowledge{notion}
+ | equivariant orbits
+ | equivariant orbit
+ | zero-dimensional
+\knowledge{notion}
+ | fixed coordinates
+\knowledge{notion}
+ | free coordinates
+ | free coordinate
+\knowledge{notion}
+ | support
+ | of support
+\knowledge{notion}
+ | orbit dimension
+ | dimension of the orbit
+ | of dimension
+\knowledge{notion}
+ | $S$-disjoint
 
 \knowledge{notion}
- | leftmost factorisation
+ | orbit-finite protocols
+ | orbit-finite Boolean two-party protocol
+ | orbit-finite protocol
+ | of protocol
+
+
 
