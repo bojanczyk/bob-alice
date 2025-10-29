@@ -356,7 +356,7 @@ revealing this model, let us briefly compare protocols to the two most prominent
 for infinite alphabets
 (we will revisit both of those comparisons in more detail in \cref{sec:infinite-alphabets}).
 
-\begin{myexample}[Deterministic too weak]\label{ex:last-letter-does-not-appear-before}
+\begin{myexample}[Deterministic too weak]\label{ex:reg-det-too-weak}
     The protocols are strictly stronger than the register variant of deterministic automata
     (i.e. \emph{deterministic register automata} \cite[Definition~3]{kaminskiFiniteMemoryAutomata1994}).
     A protocol can simulate any deterministic register automaton, using the same idea as for finite alphabets,
@@ -369,7 +369,7 @@ for infinite alphabets
     are not closed under reverse \cite[Examples~4~and~8]{kaminskiFiniteMemoryAutomata1994}. 
 \end{myexample}
 
-% \begin{myexample}[Deterministic too weak]\label{ex:last-letter-does-not-appear-before}
+% \begin{myexample}[Deterministic too weak]\label{ex:reg-det-too-weak}
 
 %     Deterministic register automata \cite[Definition~3]{kaminskiFiniteMemoryAutomata1994} is 
 %     an automaton model equipped with a finite state, and a fixed number of register used for
@@ -392,7 +392,7 @@ for infinite alphabets
 % In the previous example, we excluded deterministic register automata as being too weak. We now exclude nondeterministic register automata as being too strong. 
 
 \begin{myexample}[Nondeterministic too strong]
-    \label{ex:some-twice}
+    \label{ex:reg-ndet-too-strong}
     The \emph{nondeterministic register automata} \cite[Definition~1]{kaminskiFiniteMemoryAutomata1994} are already too strong for the protocols, as attested by the language
     ``some letter appears twice''. This language cannot be computed by a protocol. The intuitive reason is that if neither Alice or Bob sees a repetition in their parts of the input string, then they should exchange all their letters to check for cross-part repetitions, which cannot be done in a constant number of messages -- 
     a detailed proof is given in \cref{sec:infinite-alphabets}. However, this language can be recognised by a nondeterministic register automaton, 

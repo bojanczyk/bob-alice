@@ -41,10 +41,10 @@ of two-party protocols to various settings will help us  find a canonical model
 of regular languages for infinite alphabets. This seems to be at least
 partially successful, since there is evidence --- which we present in this
 section --- that the protocols are equivalent to one of the existing automaton
-models, namely unambiguous register automata, see
-item~\ref{it:orbit-finite-unamb} in
-Figure~\ref{fig:automata-infinite-alphabets}. (This way hope to avoid the
-situation from XKCD comic proliferation of standards.) If true, this
+models\footnote{
+  Thus avoiding proliferation of standards, humanistically depicted in a famous XKCD comic.
+}, namely unambiguous register automata, see item~\ref{it:orbit-finite-unamb} in
+Figure~\ref{fig:automata-infinite-alphabets}. If true, this
 equivalence would be unexpected, since there does not seem to be any syntactic
 connection between unambiguous register automata and protocols. Regarding point
 (b), one of the exciting features of our protocol model for infinite alphabets
@@ -84,7 +84,7 @@ protocol cannot be reduced to the one-round case as in
 
 
 
-\subsubsection{Protocols for an infinite alphabet}
+\subsection{Protocols for an infinite alphabet}
 \label{sec:protocols-infinite-alphabet}
 \AP
 We now give a more detailed description of our model. 
@@ -135,8 +135,10 @@ In the above, $\pi$ is applied to messages in the natural way --
 it modifies the \kl{atoms} and leaves the Booleans unchanged.
 
 \begin{myexample}[Repetitions cannot be detected]
-    Let us formalise the claim from Example \ref{ex:some-twice} that the
-    language ``some letter appears at least twice'' cannot be computed by a
+\label{ex:protocol-not-repetitions}
+    Having formally defined the protocols for infinite alphabets,
+    we can now revisit Example~\ref{ex:reg-ndet-too-strong} from the introduction
+    and prove that the language ``some letter appears at least twice'' cannot be computed by a
     \kl[simple equivariant protocol]{protocol}. 
     Suppose, towards a contradiction, that there is a protocol with
     $k$ rounds that computes this language. Consider an input string with
@@ -167,7 +169,7 @@ that uses orbit-finite sets, which allows us for a clean comparison of the two
 setting. For the purposes of this paper, we use a simplified definition of
 orbit-finite sets, which is sufficient for our purposes\footnote{
 Definition~\ref{def:orbit-finite-sets} is weaker than the usual notion of orbit-finite sets~\cite[Section 5]{bojanczyk_slightly}; in fact it is the special case of the usual notion that is called \emph{polynomial orbit-finite sets} in~\cite[Section 1]{bojanczyk_slightly}.
-The stronger  notion that is usually used  allows for two extra features: (a) restricting to equivariant subsets (e.g.~one could limit $\atoms^2$ to pairs which are non-repeating); and (b)  symmetries (e.g.~one could identify pairs in $\atoms^2$ if they agree up to swapping of coordinates, thus yielding unordered pairs). In some cases, the extra features are desirable, in particular they establish a connection with set theory~\cite{blassDedekind2016} and  nominal sets~\cite[Section 5]{PittsAM:nomsns}. However, they do not play any role in the analysis of protocols and automata and, to avoid some technicalities, we use the simpler polynomial version from Definition~\ref{def:orbit-finite-sets}. This simplification is purely technical --- all results would continue to hold for the usual notion of orbit-finite sets.
+The stronger  notion that is usually used  allows for two extra features: (a) restricting to equivariant subsets (e.g.~one could limit $\atoms^2$ to pairs which are non-repeating); and (b)  symmetries (e.g.~one could identify pairs in $\atoms^2$ if they agree up to swapping of coordinates, thus yielding unordered pairs). In some cases, the extra features are desirable, in particular they establish a connection with set theory~\cite{blassDedekind2016} and  nominal sets~\cite[Section 5]{PittsAM:nomsns}. However, those features do not play any role in the analysis of protocols and automata and, to avoid technicalities, we use the simpler polynomial version from Definition~\ref{def:orbit-finite-sets}. This simplification is purely technical --- all results continue to hold for the usual notion of orbit-finite sets.
 }.
 %   instead of the fully general notion of orbit-finite sets, we use a special case, which is called \emph{polynomial orbit-finite sets}. This special case has a more concrete defnition, and is sufficient for our purposes. 
 \begin{definition}[Orbit-finite sets] \label{def:orbit-finite-sets}
@@ -195,7 +197,7 @@ the following sense:
 We can now discuss various orbit-finite models of computation, by generalising
 finite sets to orbit-finite ones, and requiring all subsets and relations to be
 \kl{equivariant}. As a first example of this approach, we can revisit the definition
-of \kl{Boolean protocols} from Section~\ref{sec:protocols-infinite-alphabet}, and
+of \kl{simple equivariant protocols} from Section~\ref{sec:protocols-infinite-alphabet}, and
 define it in terms of \kl{orbit-finite sets}:
 
 \begin{definition}[Orbit-finite protocol]
@@ -257,44 +259,26 @@ is the special case which has exactly one initial state, and where the transitio
 
 As stated in Figure~\ref{fig:automata-infinite-alphabets}, deterministic and
 nondeterministic orbit-finite automata have different expressive power.
-Moreover, none of these models is equivalent to \kl{orbit-finite protocols}:
+Moreover, as stated in Examples~\ref{ex:reg-det-too-weak}~and~\ref{ex:reg-ndet-too-strong}
+none of these models is equivalent to \kl{orbit-finite protocols}:
 \kl[of dfa]{deterministic automata} are too weak, and 
 \kl[of nfa]{nondeterministic automata} are too
-strong, as explained in the following examples.
+strong. Example~\ref{ex:reg-ndet-too-strong} was already revisited in Example~\ref{ex:protocol-not-repetitions}, and we now revisit Example~\ref{ex:reg-det-too-weak}:  
 
-\begin{myexample}
-    [Deterministic too weak]\label{ex:protocol-not-dofa}
+\begin{myexample} [Deterministic too weak]\label{ex:protocol-not-dofa}
   Every \kl{deterministic orbit-finite automaton} can be simulated by a 
-  \kl[of protocol]{protocol},
-  in the same way as for finite alphabets. Alice sends her state to Bob,
-  which will typically require sending some atoms. Bob then uses this state
-  to continue the computation and report the answer. 
-    
-  However, the inclusion is strict: \kl[of protocol]{protocols} are more powerful than
-  \kl{deterministic orbit-finite automata}. One reason is that protocols are
-  symmetric, -- if a language can be computed by a protocol, then so can its
-  reverse. On the other hand, deterministic orbit-finite automata are not
-  symmetric. For example, the language ``the first letter appears at least
-  twice'' can be recognised by a deterministic orbit-finite automaton, but
-  its reverse ``the last letter appears at least twice'' cannot. The latter
-  language can be computed by a protocol, and hence witnesses that the two
-  models are different. 
-\end{myexample}
-
-\begin{myexample}
-    [Nondeterministic too strong] \label{ex:protocol-not-nofa}  
-    The language ``some letter appears at least twice'', from Example
-    \ref{ex:some-twice}, can be recognised by a \kl{nondeterministic orbit-finite
-    automaton}, but cannot be computed by a \kl[of protocol]{protocol}.
-    We do not know yet if
-    \kl{nondeterministic orbit-finite automata} can simulate all \kl[of protocol]{protocols}, 
-    and therefore for
-    all we know the two models could be incomparable. However, as we will
-    explain later in this section, we conjecture that there is indeed an
-    inclusion, since we believe that \kl[of protocol]{protocols}
-    are equivalent to a special case
-    of \kl{nondeterministic orbit-finite automata} -- see
-    Conjecture~\ref{conj:protocols-unambiguous}.
+  \kl[of protocol]{protocol}, in the same way as for finite alphabets.
+  Alice simulates the run of the automaton on her part of the input, 
+  and sends the intermediate orbit-finite state (as an orbit-finite message)
+  to Bob who continues the simulation.  
+  
+  The inclusion is strict: The language ``the last letter appears at least
+  twice'' can be computed by a \kl[of protocol]{protocol} (as explained in
+  Example~\ref{ex:reg-det-too-weak}), but cannot be recognised by a 
+  \kl{deterministic orbit-finite automaton}. Indeed, in order to compare the
+  last letter with all previous letters, the automaton would need to store all
+  those letters in its orbit-finite state, which is impossible since the number of letters 
+  is unbounded. (See \cite[Example~4]{kaminskiFiniteMemoryAutomata1994} for a formal proof).
 \end{myexample}
 
 In Definition~\ref{def:orbit-finite-automata}, we have defined \kl{one-way
