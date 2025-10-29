@@ -333,44 +333,81 @@ IV]{Zpolyreg23}.
 
 \subsection{Infinite input alphabets}
 \label{sec:intro-infinite}
-Our final group of results is about languages over infinite input alphabets. This is a departure from the previous setting, where  the input alphabet was always finite. Following the standard approach in automata theory,  we assume that letters can only be compared for equality. This is formalised by using invariance under  permutations of the alphabet, i.e.
+Our final group of results is about languages over infinite input alphabets. This is a departure from the previous setting, where  the input alphabet was always finite. Following the standard approach in automata theory, we assume that letters can only be compared for equality. Formally, we only want to consider languages that are invariant under permutations of the
+alphabet, i.e.
 \begin{align*}
 w \in L 
 \quad \iff \quad
 \pi(w) \in L \qquad \text{for every permutation $\pi$ of the alphabet}.
 \end{align*}
-An example of such a language is ``all letters are different''.
+An example of such a language is ``all letters are different'', but not ``the letters are in the increasing order''.
  As mentioned earlier in the introduction, there is a rich literature on automata for such languages, see the surveys~\cite{neven2003power,segoufin2006automata,bojanczykOrbitFiniteSetsTheir2017} or the lecture notes~\cite{bojanczyk_slightly}.  The  relevant automata models typically use registers to store some letters from the input, so that they can be compared to later letters. Essentially any automaton model for finite alphabets can be lifted this way to infinite alphabets~\cite[Figure 1]{neven2003power}, and there is even a systematic way to do this, which is based on the theory of orbit-finite sets~\cite[Chapter 2]{bojanczyk_slightly}. Unfortunately, after this lifting, previously equivalent models become non-equivalent.  This sad situation is illustrated in~\cref{fig:automata-infinite-alphabets}, which describes seventeen non-equivalent automata models for infinite alphabets; all of these models collapse to the regular languages when considered for finite alphabets. Equally sadly, there are almost no results in the literature on infinite alphabets that prove non-trivial equivalences of models. The only known cases of this kind are about the  weakest of the available models, namely orbit-finite monoids~\cite{bojanczykNominalMonoids2013}, which are known to be equivalent in expressive power to a certain variant of \mso~\cite[Theorems 4.2 and 5.1]{DBLP:journals/corr/ColcombetLP14}, and also to single-use register automata~\cite[Theorem 6]{bojanczykstefanski2020}.
 This situation desperately calls for some unifying principles. 
 
 Since protocols have successfully identified important models in the previous
 cases, we try to see  what happens in the case of an infinite input alphabet.
 When extending protocols to infinite input alphabets, we adapt them as follows:
-(1) messages can contain input letters; (2)  messages can only be compared for
+(1) messages can contain input letters; (2)  input letters can only be compared for
 equality. Condition (2) is formalised by saying that the execution of the
 protocol is invariant under permutations of the input alphabet, similarly to
 the languages that we consider. The protocols  work their magic once again, and
 they point to (as we conjecture)  one of the models in the literature. Before
-revealing this model, let us give two examples.
+revealing this model, let us briefly compare protocols to the two most prominent models 
+for infinite alphabets
+(we will revisit both of those comparisons in more detail in \cref{sec:infinite-alphabets}).
 
-\begin{myexample}[Deterministic too weak]\label{ex:last-letter-does-not-appear-before} Consider the language ``the first letter does not appear elsewhere in the string''. This language can be computed by a protocol, in which Alice checks the condition on her side, and then sends the first letter to Bob, so that he can check the condition on his side. More generally, a protocol can simulate any  deterministic register automaton~\cite[Definition 3]{kaminskiFiniteMemoryAutomata1994}, using the same idea as for  finite alphabets: Alice  sends her state  to Bob, together with the values of the registers.  However,  protocols can do more. In particular, they are under reversing the input string, and therefore they can compute all reverses of languages recognised by deterministic register automata. Since deterministic register automata are not closed under reversal, it follows  that protocols are strictly more powerful than deterministic register automata. 
+\begin{myexample}[Deterministic too weak]\label{ex:last-letter-does-not-appear-before}
+    The protocols are strictly stronger than the register variant of deterministic automata
+    (i.e. \emph{deterministic register automata} \cite[Definition~3]{kaminskiFiniteMemoryAutomata1994}).
+    A protocol can simulate any deterministic register automaton, using the same idea as for finite alphabets,
+    i.e. Alice sends the intermediate state (this time including the register values) to Bob, who 
+    continues the run on his side. To see that the inclusion is strict, consider the language
+    ``the last letter appears elsewhere in the word''. It is computed by a protocol, 
+    in which Bob checks the condition on his side, and sends the last letter to Alice, so that she can verify
+    that it does not appear on her side. On the other hand, it is a well-know fact that this language
+    is not recognised by a deterministic register automata, as it proves that deterministic register automata 
+    are not closed under reverse \cite[Examples~4~and~8]{kaminskiFiniteMemoryAutomata1994}. 
 \end{myexample}
 
-In the previous example, we  excluded deterministic register automata as being too weak. We now exclude nondeterministic register automata as being too strong. 
+% \begin{myexample}[Deterministic too weak]\label{ex:last-letter-does-not-appear-before}
 
-\begin{myexample}[Nondeterministic too strong ]
+%     Deterministic register automata \cite[Definition~3]{kaminskiFiniteMemoryAutomata1994} is 
+%     an automaton model equipped with a finite state, and a fixed number of register used for
+%     storing and comparing input letters. An example of a language that can be recognised by this 
+%     model is ``the fist letter does not appear elsewhere in the string''. The automaton 
+%     can save the first letter in its register compare it with every other input letter, remembering in 
+%     its finite state if it has found a reappearance. However, the reverse of this language,
+%     i.e. ``the last letter does not appear elsewhere in the string'' is no longer recognized 
+%     by deterministic register automata: In order to compare the last letter with all
+%     other letters that appear in the word, the automaton would have to store all those letters in its memory, which cannot be done 
+%     using a fixed number of registers.
+
+%     A protocol can simulate any deterministic register automaton, using the same idea as for finite alphabets: Alice computes the intermediate state and register values and sends them to Bob, who continues the run of the automaton on his side. In particular, in order to compute the language
+%     ``the fist letter does not appear elsewhere in the string'' Alice can check the condition on her side, and then send the first letter to Bob,
+%     so that he can check the condition on his side. However, the inclusion is strict.
+%     In particular, as a symmetric model they can compute the reverse of the language above, i.e.
+%     ``the last letter does not appear elsewhere in the string'' (in the protocol Alice takes the role of Bob and vice versa).
+% \end{myexample}
+    
+% In the previous example, we excluded deterministic register automata as being too weak. We now exclude nondeterministic register automata as being too strong. 
+
+\begin{myexample}[Nondeterministic too strong]
     \label{ex:some-twice}
-    Consider the language ``some letter appears twice''. This language can be recognised by a nondeterministic register automaton. However, as we will see later in the paper, it cannot be computed by a protocol. The  intuitive reason  is that if Alice does not see a repetition in her part of the input string, then she should send all of her letters to Bob, since any of them could be repeated in Bob's part. However, Alice cannot do this, since there is a constant number of messages. A formal proof will be given later in the paper.
+    The \emph{nondeterministic register automata} \cite[Definition~1]{kaminskiFiniteMemoryAutomata1994} are already too strong for the protocols, as attested by the language
+    ``some letter appears twice''. This language cannot be computed by a protocol. The intuitive reason is that if neither Alice or Bob sees a repetition in their parts of the input string, then they should exchange all their letters to check for cross-part repetitions, which cannot be done in a constant number of messages -- 
+    a detailed proof is given in \cref{sec:infinite-alphabets}. However, this language can be recognised by a nondeterministic register automaton, 
+    which nondeterministically guesses the first appearance of a repeated letter, saves it in a register, and then verifies that it appears again later in the string
+    \cite[Example~1]{kaminskiFiniteMemoryAutomata1994}.
 \end{myexample}
 
 Which automaton model, if any, corresponds to protocols? As explained in the previous two examples, deterministic register automata are too weak, while nondeterministic register automata are too strong.
-We conjecture, see Conjecture~\ref{conj:protocols-unambiguous}, that the winner is a seemingly  unexpected candidate, namely unambiguous register automata~\cite[Section 5]{colcombet2015unambiguity}. This  is the special case of  nondeterministic register automata, in which  for every  input string there is  at most  one accepting run. 
-Section~\ref{sec:infinite-alphabets} is devoted to our conjecture. We begin by proving one implication, namely 
+We conjecture (in Conjecture~\ref{conj:protocols-unambiguous}), that the winner is a seemingly  unexpected candidate, namely unambiguous register automata~\cite[Section 5]{colcombet2015unambiguity}. This is the special case of  nondeterministic register automata, in which for every input string there is at most one accepting run.
+We discuss this conjecture in \cref{sec:infinite-alphabets}, and provide evidence in its favour. We start with an actual proof of one implication, namely:
 \begin{align*}
 \text{protocol} \quad \impliedby \quad \text{unambiguous automaton}.
 \end{align*}
-Contrary to  previous variants of this implication, the proof is non-trivial. The issue is with the nondeterminism of the automaton. One  interesting phenomenon is that, in the case of infinite input alphabets, the interactive multi-round nature of the protocols becomes essential, and protocols cannot be reduced to one round, as was the case for finite input alphabets. In our proof of the implication $\impliedby$, we design a protocol where  the two parties  progressively eliminate the uncertainty about letters used in the run of the automaton, until the unique accepting run is identified.
- The proof uses a variant of the sunflower lemma. 
+Contrary to  previous variants of this implication, the proof is non-trivial -- the usual construction does not work, because the automaton is nondeterministic. One  interesting phenomenon is that, in the case of infinite input alphabets, the interactive multi-round nature of the protocols becomes essential, and protocols cannot be reduced to one round, as was the case for finite input alphabets. In our proof of the implication $\impliedby$, we design a protocol where  the two parties  progressively eliminate the uncertainty about letters used in the run of the automaton, until the unique accepting run is identified or its existence disproved.
+The proof uses a variant of the sunflower lemma.
 
-Therefore,  the content of the conjecture is -- as in previous cases --  the other implication, namely that protocols can be simulated by unambiguous register automata. We provide evidence for this implication, using the recently developed theory of orbit-finite vector spaces~\cite{orbitFiniteVectorTheoretics}. We show that every function computed by a protocol can be computed by a weighted automaton with registers. This is almost like an unmabiguous automaton, except that some runs might have negative weights, and the weights always cancel out to give a final result that is either $0$ or $1$. In particular, the functions computed by protocols are computable, which is not a priori clear from the model. Along the way, we again need to develop some new theory, in particular an orbit-finite generalisation of the Fliess Theorem. 
+Therefore,  the content of the conjecture is -- as in previous cases --  the other implication, namely that protocols can be simulated by unambiguous register automata. We provide evidence for this implication, using the recently developed theory of orbit-finite vector spaces~\cite{orbitFiniteVectorTheoretics}. We show that every function computed by a protocol can be computed by a weighted automaton with registers. This is almost like an unmabiguous automaton, except that some runs might have negative weights, and the weights always cancel out to give a final result that is either $0$ or $1$. In particular, the functions computed by protocols are computable, which is not a priori clear from the model. Along the way, we develop some new theory, in particular an orbit-finite generalisation of the Fliess Theorem. 
 
