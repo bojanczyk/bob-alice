@@ -63,7 +63,7 @@ have unrestricted computational power; the goal is to measure information
 and
 not computation.  The input string is split into two parts $w = w_1 w_2$, and
 Alice has access to $w_1$ while Bob has access to $w_2$. They exchange messages
-in order to compute the output of the  function. There must be a
+in order to compute the output of the function. There must be a
 \textbf{constant number of messages}, where the constant  depends only on the
 protocol and not on the input string. Also, the  output of the computation must
 be \textbf{split invariant}, which means that the output depends only on the
@@ -200,7 +200,7 @@ Based on this information, the corresponding party chooses a new message to  sen
 \end{align}
 If addition or multiplication is used, then the party sending the message is responsible for the operation to be well-defined, i.e.~the messages sent in rounds $x$ and $y$ must have been numbers.
 Summing up, the strategy in round $i$ is a function which inputs an element of the set from \eqref{eq:strategy-input}, and outputs an element of the set from \eqref{eq:strategy-output}. This function need not be computable. The protocol is then described by $k$ such strategies, one for each round $i \in \set{1,\ldots,k}$. We assume that the last message, sent in the $k$-th round, is a number and not a bit -- this number is defined to be the output of the protocol. 
-Finally, the protocol must be split invariant, i.e.~for every input string $w$, the same output must be produced regardless of the factorization $w = w_1 w_2$ into strings owned by Bob and Alice. This completes the definintion of the protocol model, in the case of field outputs.
+Finally, the protocol must be \kl{split invariant}, i.e.~for every input string $w$, the same output must be produced regardless of the factorization $w = w_1 w_2$ into strings owned by Bob and Alice. This completes the definition of the protocol model, in the case of field outputs.
 
 
 \paragraph*{Equivalence with weighted automata.} Our main result for field outputs is the following theorem, which says that protocols are equivalent to weighted automata. The precise definition of weighted automata will be given later in Section~\ref{sec:field-domain}.
