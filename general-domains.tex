@@ -87,7 +87,7 @@ operations until all \kl[signal part]{signals} have been exchanged.
     \item an \kl{output domain} $\domain$;
     \item a finite input alphabet $\Sigma$;
     \item a \intro{number of rounds} $k \in \set{1,2,\ldots}$;
-    \item \intro{signal spaces} for Alice and Bob, which are finite sets $Q_A$ and $Q_B$;
+    \item \kl{signal spaces} for Alice and Bob, which are finite sets $Q_A$ and $Q_B$;
     \item a \intro[protocol dimension]{dimension} $d \in \set{0,1,\ldots}$;
     \item for each round $i \in \set{1,\ldots,k}$, a \intro{strategy}
     \begin{align*}
@@ -95,7 +95,7 @@ operations until all \kl[signal part]{signals} have been exchanged.
     \qquad 
         \myoverbrace{\sigma_B^i : \myunderbrace{\Sigma^*}{Bob's \\ local\\ string} \times \myunderbrace{Q_A^{i-1}}{history of \\ signals \\ from Alice}  \to \myunderbrace{Q_B \times \domain^d}{new\\ message}}{stategy for Bob in the $i$-th round}
     \end{align*}
-    \item an \intro[output function@protocol]{output function} of type \begin{align*}
+    \item an \intro[protocol output function]{output function} of type \begin{align*}
     (Q_A \times Q_B)^{k} \to (\domain^{2dk} \termop \domain).
     \end{align*}
   \end{enumerate}

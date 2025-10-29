@@ -11,6 +11,7 @@
 
 \knowledge{notion}
  | scalar product protocols
+ | scalar-product protocols
  | scalar product protocol
 
 \knowledge{notion}
@@ -29,9 +30,7 @@
 
 \knowledge{notion}
  | output function@protocol
-\knowledge{notion}
- | signal space
- | signal spaces
+ | protocol output function
 \knowledge{notion}
  | strategies
  | strategy 
@@ -67,6 +66,8 @@
  
 
 \knowledge{notion}
+ | signal space
+ | signal spaces
  | signal part
  | signals
 \knowledge{notion}
@@ -134,6 +135,7 @@
  | Hankel matrix
 \knowledge{notion}
  | derivatives
+ | derivative
 \knowledge{notion}
  | left derivative
  | left derivatives
@@ -200,6 +202,7 @@
  | equivariant strategy
 
 \knowledge{notion}
+ | equivariant function
  | equivariant
 
 \knowledge{notion}
@@ -218,6 +221,7 @@
  | unambiguous orbit-finite automata
  | unambiguous orbit-finite automaton
  | unambiguity
+ | of unambiguous automata
 
 
 
@@ -238,6 +242,7 @@
  | atoms
 \knowledge{notion}
  | atom permutation
+ | atom permutations
  | permutations of the alphabet
 \knowledge{notion}
  | orbit
@@ -269,3 +274,31 @@
  | orbit-finite protocol
  | of protocol
 
+\knowledge{notion}
+ | orbit-finite bilinear protocol
+ | orbit-finite bilinear protocols
+ | of bilinear protocol
+ | orbit-finite bilinear product protocol
+
+\knowledge{notion}
+ | weighted orbit-finite automaton
+ | weighted orbit-finite automata
+ | orbit-finite weighted automata
+ | orbit-finite weighted automaton
+\knowledge{notion}
+ | vector space of orbit-finite dimension
+ | vector spaces of orbit-finite dimension
+ | ofd vector spaces
+\knowledge{notion}
+ | hybrid protocols
+ | hybrid protocol
+\knowledge{notion}
+ | configuration
+ | configurations
+
+\knowledge{notion}
+ | pre-weight
+
+\knowledge{notion}
+ | orbit-finitely spanned
+ | orbit-finitely spanned vector space
