@@ -32,7 +32,7 @@ generalisations.
   \end{enumerate}
 \end{definition}
 \AP
-Given a pair of input strings $(w_1,w_2)$, which are called the \emph{local
+Given an input string $w \in \Sigma^*$ and a split $w = w_1 w_2$ into two strings,  which are called the \emph{local
 strings} of Alice and Bob, respectively, the  protocol is run as follows. There
 are $k$ rounds. In each round, both parties send messages, and therefore after
 $i$ rounds are played, the communication history contains $i$ messages sent by
@@ -43,8 +43,7 @@ party are needed, since the party knows their own messages). Based on this
 information, each party uses their strategy to produce a new message. At the
 end of the protocol, the output function is used to determine the value of the
 function, based on all messages in  the communication history. We say that the
-protocol computes a language $L \subseteq \Sigma^*$ if for every two strings
-$w_1,w_2$, the output of the protocol tells us if the concatenation $w_1w_2$
+protocol computes a language $L \subseteq \Sigma^*$ if for every string $w$ and every split $w = w_1 w_2$, the output of the protocol tells us if  $w$
 belongs to the language. This corresponds to the split invariance condition
 that was discussed in the introduction.  Also, the reader will recognise the
 restriction on the total number of bits (this is bounded by the number of
@@ -64,24 +63,24 @@ introduction, which we now recall.
   We begin with the easier right-to-left implication, which says that the protocol can compute every regular language. If the language is  regular, then it  is recognised by a deterministic finite automaton, say  with state space $Q$. To compute the language, we can use a
   \intro{one-round protocol} (as we will see in a moment, this is not a coincidence, since all protocols can be reduced to one round). Alice sends the state in $Q$ of the automaton after reading her local string, and Bob sends the dependency $Q \to \set{\text{yes, no}}$ which says how Alice's state determines acceptance. Once these two pieces of information are known, we can apply the function from Bob's message to the state in Alice's message to determine the output.
 
-  The rest of this proof is devoted to the left-to-right implication, i.e.~to showing that every language computed by the protocol is regular. 
-  Observe that in the right-to-left implication, we have proved that regular languages need only one round. Therefore, if we want to  prove that the protocol can only compute regular languages, then a by-product will be that the protocol collapses to the one-round case.  This is, in fact, the first step. 
+  The rest of this proof is devoted to the left-to-right implication, i.e.~to showing that every language computed by the protocol is regular.  We begin by reducing to one round. 
   \begin{lemma}\label{lem:one-round-reduction-boolean}
     For every protocol, there is an equivalent one-round protocol. 
   \end{lemma}
   \begin{proof}
     The general idea is that instead of engaging in interactive communication, each party sends the dependency of their message upon the unknown messages of the other party. Suppose that we are  Alice. The sequence of messages that we send will depend on our local string, and  the messages sent by Bob. Once the local string is fixed, this dependency is captured by a function of type 
     \begin{align*}
-    (Q_B)^k \to (Q_A)^k.
+    (Q_B)^k \to (Q_A)^k,
     \end{align*}
-    Instead of waiting for Bob's messages, Alice sends this function. (This function is not a general function, since it must satisfy the following \emph{causality} constraint: the $i$-th coordinate of the output depends only on the first $i-1$ input coordinates.) At the same time, Bob sends an analogous function of type 
+    which satisfies the following \emph{causality} constraint: the $i$-th coordinate of the output depends only on the first $i-1$ input coordinates.
+    Instead of waiting for Bob's messages, Alice sends this function. At the same time, Bob sends an analogous function of type 
     \begin{align*}
     (Q_A)^k \to (Q_B)^k,
     \end{align*}
     which describes the dependency of his messages. Due to the causality constraints, the two functions combine to create a unique output in $(Q_A \times Q_B)^k$, which can be used to determine the output of the protocol.
   \end{proof}
 
-The proof of the above lemma can incur an exponential cost in the size of the message spaces. This is of little concern to us, since we only care about the protocol having a constant number of rounds.
+The proof of the above lemma incurs an exponential cost in the size of the message spaces. This is of little concern to us, since we only care about the protocol having a constant number of rounds.
   To complete the proof of the theorem, we use the  Myhill-Nerode Theorem.  Indeed, consider the strategy of  Alice: 
   \begin{align*}
   \sigma_A : \Sigma^* \to Q_A.
@@ -94,3 +93,8 @@ The proof of the above lemma can incur an exponential cost in the size of the me
   The equivalence described above is the same equivalence as in the Myhill-Nerode Theorem. In particular, equivalence classes of this equivalence are the same as states of the minimal deterministic automaton. Since the number of possible messages in $Q_A$ is finite, it follows that the minimal automaton is finite, and therefore the language is regular.  (Observe that we have shown that the language has at most $Q_A$ equivalence classes of Myhill-Nerode equivalence, which gives an upper bound on the size of the minimal automaton recognizing the language.)
 \end{proof}
 
+In \cref{thm:boolean-domain}, we have seen that protocols with a constant number of bits exchanged define exactly the regular languages.  Before continuing, let us briefly discuss what happens if a small, but nonconstant, number of bits is allowed (the observations in this discussion were suggested by Katzper Michno). Already by sending $\log n$ bits, where $n$ is the input length, one can compute any property of the length of the input string, including undecidable properties. This is because $\log n$ bits are enough to get the length of the input string. For one-round protocols, there is nothing between $\log n$ bits and a constant number. Indeed, as mentioned at the end of the proof of \cref{thm:boolean-domain}, the minimal number of bits that can be sent by Alice in a one-round protocol for a string of length $n$ is 
+\begin{align*}
+\log( \myunderbrace{\text{number of Myhill-Nerode equivalence classes for strings of length at most $n$}}{this is called the state complexity of the language} ).
+\end{align*}
+For a regular language the state complexity is constant. For a non-regular language, the state complexity cannot be smaller than $n$. This can be proved similarly to the Morse-Hedlund, see~\cite[Theorem 1.3]{ormes2016extender} for a generalisation which talks about multidmensional strings. We do not discuss this further, since our focus is on regular languages (and their generalisations to other output domains that will be dicussed in later sections), in which only a constant amount of communication is needed.
