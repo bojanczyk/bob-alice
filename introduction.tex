@@ -353,14 +353,13 @@ protocol is invariant under permutations of the input alphabet, similarly to
 the languages that we consider. The protocols  work their magic once again, and
 they point to (as we conjecture)  one of the models in the literature. Before
 revealing this model, let us briefly compare protocols to the two most prominent models 
-for infinite alphabets
-(we will revisit both of those comparisons in more detail in \cref{sec:infinite-alphabets}).
+for infinite alphabets.
 
 \begin{myexample}[Deterministic too weak]\label{ex:reg-det-too-weak}
     The protocols are strictly stronger than the register variant of deterministic automata
     (i.e. \emph{deterministic register automata} \cite[Definition~3]{kaminskiFiniteMemoryAutomata1994}).
     A protocol can simulate any deterministic register automaton, using the same idea as for finite alphabets,
-    i.e. Alice sends the intermediate state (this time including the register values) to Bob, who 
+    i.e. Alice sends the intermediate state, including the register values, to Bob, who 
     continues the run on his side. To see that the inclusion is strict, consider the language
     ``the last letter appears elsewhere in the word''. It is computed by a protocol, 
     in which Bob checks the condition on his side, and sends the last letter to Alice, so that she can verify

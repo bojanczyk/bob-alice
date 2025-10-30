@@ -263,23 +263,7 @@ Moreover, as stated in Examples~\ref{ex:reg-det-too-weak}~and~\ref{ex:reg-ndet-t
 none of these models is equivalent to \kl{orbit-finite protocols}:
 \kl[of dfa]{deterministic automata} are too weak, and 
 \kl[of nfa]{nondeterministic automata} are too
-strong. Example~\ref{ex:reg-ndet-too-strong} was already revisited in Example~\ref{ex:protocol-not-repetitions}, and we now revisit Example~\ref{ex:reg-det-too-weak}:  
-
-\begin{myexample} [Deterministic too weak]\label{ex:protocol-not-dofa}
-  Every \kl{deterministic orbit-finite automaton} can be simulated by a 
-  \kl[of protocol]{protocol}, in the same way as for finite alphabets.
-  Alice simulates the run of the automaton on her part of the input, 
-  and sends the intermediate orbit-finite state (as an orbit-finite message)
-  to Bob who continues the simulation.  
-  
-  The inclusion is strict: The language ``the last letter appears at least
-  twice'' can be computed by a \kl[of protocol]{protocol} (as explained in
-  Example~\ref{ex:reg-det-too-weak}), but cannot be recognised by a 
-  \kl{deterministic orbit-finite automaton}. Indeed, in order to compare the
-  last letter with all previous letters, the automaton would need to store all
-  those letters in its orbit-finite state, which is impossible since the number of letters 
-  is unbounded. (See \cite[Example~4]{kaminskiFiniteMemoryAutomata1994} for a formal proof).
-\end{myexample}
+strong. 
 
 In Definition~\ref{def:orbit-finite-automata}, we have defined \kl{one-way
 orbit-finite automata}, which read the input string from left to right. A
@@ -607,11 +591,12 @@ In light of the above example, it is no longer surprising that the proof of
 believe that the number of needed rounds can be arbitrarily large, as suggested
 by the following example. 
 
-\begin{myexample}[Back and forth]
-    A string over the alphabet $\atoms^2$ can be seen as a directed graph, where each letter represents an edge. It will be convenient for us to assume that each node has at most one outgoing edge, so to enforce this syntactically, we adopt the convention that
-    if an atom $a$ appears
-    as the first component of more than one letter, we only include the first
-    of those letters in the graph and ignore the rest. For $k \in \set{1,2,\ldots}$, define $L_k$ to be the set of strings over $\atoms^2$ such that in the corresponding graph, there is a path of length at most $k$ from the source of the first letter to the target of the last letter. This language can be computed by an orbit-finite protocol with $k$ rounds, with each round corresponding to a step in the path. It seems unlikely that any bounded number of rounds would suffice for all $L_k$, but we do not prove this claim here.
+\begin{myexample}[Many rounds]
+    We think of a string over the alphabet $\atoms^2$ as a representation of  a partial function of type $\atoms \to \atoms$. The general idea is that we view the input string as consisting of a list of (input, output) pairs, and if an input appears several times, then the leftmost occurrence is binding. More formally, the  function is defined as follows: if the input is $a$, then we search for the leftmost letter $(a,b)$ that appears in the input string and has $a$ as the first component. If there is such a letter, then the output is $b$, otherwise the ouptut is undefined. Using this representation, we define for each  $k \in \set{0,1,\ldots}$ a  language as follows:
+    \begin{align*}
+    L_k = \setbuild{ w \in (\atoms^2)^* }{ if $f$ is the partial function represented by $w$, then \\  $f^k(a)=b$ where $(a,b)$ is the last letter of $w$ }.
+    \end{align*}
+     This language can be computed by an orbit-finite protocol with $k$ rounds, with each round corresponding to one iteration of the function. It seems unlikely that any bounded number of rounds would suffice for all $L_k$, but we do not prove this claim here.
 \end{myexample}
 %\rs{I don't think this example works -- The protocols cannot check that the input is functional. }
 
@@ -837,58 +822,62 @@ We begin with the first step, which can be seen as form of reduction to one roun
 
         Before we continue, let us now explain the ``fs'' annotation on the arrow above. It stands for
         the set of \emph{finitely-supported functions}, which is a relaxation of
-        equivariant functions. Before defining this notion formally, let us present an example:
+        equivariant functions. The general idea is that while equivariant functions can only refer to equality between letters, the  finitely supported functions can also use finitely many constants. Before presenting the definition, we give two examples. The first example is the function of type $\atoms \to \atoms$ defined by 
+        \begin{align}\label{eq:fs-function-example}
+        a \in \atoms \mapsto 
+        \begin{cases}
+        \text{John} & \text{if $a = \text{Eve}$}\\
+        a & \text{otherwise}.
+        \end{cases}
+        \end{align} 
+        This function is  finitely supported but not equivariant. Here is a second example of finitely supported functions, which is particularly  relevant to our application.
 
         \begin{myexample}[Partial application not equivariant]
         \label{ex:partial-application-not-equivariant}
-        A partial application of a function $f : X \times Y \to Z$ to an argument $x \in X$ is a function $f(x, -) : Y \to Z$, defined as $f(x, -)(y) = f(x,y)$. An important observation is that even if $f$ is equivariant, the partially applied function $f(x, -)$ might not be equivariant. For example, consider
+        A partial application of a function 
         \begin{align*}
-        f: \eqfun{\atoms^* \times \atoms} {\set{\textrm{true}, \textrm{false}}},
+        f : X \times Y \to Z
+        \end{align*}
+        to an argument $x \in X$ is a function $f(x, -) : Y \to Z$, defined as $f(x, -)(y) = f(x,y)$. Even if $f$ is equivariant, then the  partially applied function $f(x, -)$ might not be equivariant. For example, consider the equivariant function
+        \begin{align*}
+        f: {\atoms^* \times \atoms} \to  {\set{\textrm{true}, \textrm{false}}},
         \end{align*}
         such that $f(w, a) = \textrm{true}$ if and only if $a$ appears in $w$. Now, consider the partial application
         \begin{align*}
         f' := f(\textrm{Celine}\, \textrm{John}\, \textrm{Anne}, -)
         \end{align*}
-        which is of type $\atoms \to \set{\textrm{true}, \textrm{false}}$. Observe that this function is not equivariant:
-        If we take an atom permutation $\pi$ that swaps $\textrm{John}$ with $\textrm{Eve}$, then we get that
-        \begin{align*}
-          f'(\pi(\textrm{John})) = f'(\textrm{Eve}) = \textrm{false} \qquad \text{but} \qquad \pi(f'(\textrm{John})) = \pi(\textrm{true}) = \textrm{true}.
-        \end{align*}
-        However, intuitively $f'$ is ``almost equivariant'', since it only depends on the atoms Celine, John, and Anne.
-        This is formalized below using as finitely-supported functions. 
+        which is of type $\atoms \to \set{\textrm{true}, \textrm{false}}$. This function is no longer equivariant, because the input needs to be compared to the constants Celine, John, and Anne. However, the number of constants is finite, hence it is finitely supported.
       \end{myexample}
       \begin{definition} [Finitely-supported function]
         \label{def:finitely-supported-function}
         \AP
-         A function $f : X \to Y$ is \intro{finitely-supported} if there is a finite set $S$ of atoms such that for every atom permutation $\pi$
-         that fixes all atoms from $S$ (i.e. $\forall_{s \in S}, \pi(s) = s$), we have 
+         A function $f : X \to Y$ is \intro{finitely supported} if there is a finite set $S$ of atoms such that for every atom permutation $\pi$ we have 
         \begin{align*}
-        \forall_{x \in X} \qquad f(\pi(x)) = \pi(f(x))
+            (\forall a \in S\ \pi(a)=a) 
+            \quad \implies \quad f(\pi(x)) = \pi(f(x)).
         \end{align*}
         %The set of all finitely-supported functions from $X$ to $Y$ is denoted by $\fsfun{X}{Y}$.
       \end{definition}
       An important property of finitely-supported function spaces is that they do not preserve orbit-finiteness: 
 
-      \begin{myexample}
-        The set $\fsfun{X}{Y}$ might not be \kl{orbit-finite}, even if both $X$ and $Y$ are.
-        For example, consider the set $\fsfun{\atoms}{\set{\textrm{true},\textrm{false}}}$. For every finite set $S$ of atoms, 
-        we can define a finitely-supported function $f_S : \atoms \to \set{\textrm{true},\textrm{false}}$ that maps all atoms from $S$ to true and all other atoms to false.
-        Each such function $f_S$ is finitely-supported, as it is supported by $S$. However, since $S$ can be arbitrary large, representing all such 
-        function $f_S$ would require an unbounded number of atoms, and therefore cannot be done in an \kl{orbit-finite} way.
+      \begin{myexample} If we take two orbit-finite sets, then the set of finitely-supported functions between them might not be orbit-finite. For example, the set
+        \begin{align*}
+        \fsfun{\atoms}{\set{\text{true, false}}}
+        \end{align*}
+        of finitely-supported funtions from $\atoms$ to the Booleans  is not orbit-finite, since such functions can refer to any number of constants, as demonstrated by the partial applications in Example~\ref{ex:partial-application-not-equivariant}.
       \end{myexample}
 
       As mentioned before, one can recover closure under taking function spaces by moving to vector spaces. This is formalized in the following lemma, which stems 
       from \cite{orbitFiniteVectorTheoretics}, but we use its formulation from \cite{bojanczyk_slightly}, as it is more convenient for our purposes:
       \begin{lemma}[{\cite[Lemma 8.17]{bojanczyk_slightly}}]
       \label{lem:function-space-of-ofd}
-            For all orbit-finite sets $X$ and $Y$, the space of finitely-supported functions $\fsfun{X}{\lincomb Y}$ is a \kl{vector space of orbit-finite dimension}\footnote{
-              Actually, the cited lemma states an equivalent result that the space of all 
-              finitely-supported linear transformations $\fslinfun{\lincomb X}{\lincomb Y}$ is a \kl{vector space of orbit-finite dimension}. However, the proof in \cite{bojanczyk_slightly} starts by stating
-              that it is enough to prove the version that we use here, and then proceeds to do so.
-            }.
+            For all orbit-finite sets $X$ and $Y$, the space of finitely-supported functions $\fsfun{X}{\lincomb Y}$ is a \kl{vector space of orbit-finite dimension}.
       \end{lemma}
       Let us now close this digression about function spaces (for more discussion, see \cite[Section 8.3]{bojanczyk_slightly} or \cite{functionSpaces2024})
-      and go back to the proof of the claim. Observe, that the second coordinate in~\eqref{eq:contribution-last-two-rounds} is indeed of type $\fsfun{Q_B}{V_A}$,
+      and go back to the proof of the claim. Observe, that the second coordinate in~\eqref{eq:contribution-last-two-rounds} is indeed of type 
+      \begin{align*}
+      \fsfun{Q_B}{V_A},
+      \end{align*}
       as it arises from a partial application of the equivariant function $\sigma_{A,k}$ to Alice's part of the input (i.e. $w_1 \in \Sigma^*$)
       and her message history from the first $k-2$ rounds (i.e. an element of $(Q_B)^{k-2}$). Therefore, in order to transmit it to Bob, 
       we need to turn the type in~\eqref{eq:contribution-last-two-rounds} into a vector space. The second coordinate is already a vector space,
@@ -905,7 +894,10 @@ We begin with the first step, which can be seen as form of reduction to one roun
         \begin{align*}
            W_B =  (\lincomb Q_B) \otimes (\lincomb F_B),
         \end{align*}
-        where $F_B$ is an orbit-finite basis of the vector space $\fsfun  {Q_A} {V_B}$.
+        where $F_B$ is an orbit-finite basis of the vector space 
+        \begin{align*}
+        \fsfun  {Q_A} {V_B}.
+        \end{align*}
         In order to define an equivariant bilinear map of type
         \begin{align*}
         \varphi : W_A \times W_B \to \domain
