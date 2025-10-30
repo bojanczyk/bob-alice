@@ -608,9 +608,12 @@ believe that the number of needed rounds can be arbitrarily large, as suggested
 by the following example. 
 
 \begin{myexample}[Back and forth]
-    A string over the alphabet $\atoms^2$ can be seen as a directed graph, where each letter represents an edge. For $k \in \set{1,2,\ldots}$, define  $L_k$ to be the set of strings over this alphabet such that: (1) the string is functional, i.e.~for each atom $a$ there is at most letter in the string that begins with $a$; and (2) in the corresponding graph, there is a path with $k$ edges that uses the edges from the first and last letter. This language can be computed by an orbit-finite protocol with $k-1$ rounds, with each round corresponding to a step in the path. It seems unlikely that a smaller number of rounds would suffice, but we do not prove this claim here. 
+    A string over the alphabet $\atoms^2$ can be seen as a directed graph, where each letter represents an edge. It will be convenient for us to assume that each node has at most one outgoing edge, so to enforce this syntactically, we adopt the convention that
+    if an atom $a$ appears
+    as the first component of more than one letter, we only include the first
+    of those letters in the graph and ignore the rest. For $k \in \set{1,2,\ldots}$, define $L_k$ to be the set of strings over $\atoms^2$ such that in the corresponding graph, there is a path of length at most $k$ from the source of the first letter to the target of the last letter. This language can be computed by an orbit-finite protocol with $k$ rounds, with each round corresponding to a step in the path. It seems unlikely that any bounded number of rounds would suffice for all $L_k$, but we do not prove this claim here.
 \end{myexample}
-\rs{I don't think this example works -- The protocols cannot check that the input is functional. }
+%\rs{I don't think this example works -- The protocols cannot check that the input is functional. }
 
 
 \paragraph*{Weighted orbit-finite automata.} In the reminder of this section,
