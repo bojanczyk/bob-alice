@@ -63,7 +63,7 @@ have unrestricted computational power; the goal is to measure information
 and
 not computation.  The input string is split into two parts $w = w_1 w_2$, and
 Alice has access to $w_1$ while Bob has access to $w_2$. They exchange messages
-in order to compute the output of the  function. There must be a
+in order to compute the output of the function. There must be a
 \textbf{constant number of messages}, where the constant  depends only on the
 protocol and not on the input string. Also, the  output of the computation must
 be \textbf{split invariant}, which means that the output depends only on the
@@ -200,7 +200,7 @@ Based on this information, the corresponding party chooses a new message to  sen
 \end{align}
 If addition or multiplication is used, then the party sending the message is responsible for the operation to be well-defined, i.e.~the messages sent in rounds $x$ and $y$ must have been numbers.
 Summing up, the strategy in round $i$ is a function which inputs an element of the set from \eqref{eq:strategy-input}, and outputs an element of the set from \eqref{eq:strategy-output}. This function need not be computable. The protocol is then described by $k$ such strategies, one for each round $i \in \set{1,\ldots,k}$. We assume that the last message, sent in the $k$-th round, is a number and not a bit -- this number is defined to be the output of the protocol. 
-Finally, the protocol must be split invariant, i.e.~for every input string $w$, the same output must be produced regardless of the factorization $w = w_1 w_2$ into strings owned by Bob and Alice. This completes the definintion of the protocol model, in the case of field outputs.
+Finally, the protocol must be \kl{split invariant}, i.e.~for every input string $w$, the same output must be produced regardless of the factorization $w = w_1 w_2$ into strings owned by Bob and Alice. This completes the definition of the protocol model, in the case of field outputs.
 
 
 \paragraph*{Equivalence with weighted automata.} Our main result for field outputs is the following theorem, which says that protocols are equivalent to weighted automata. The precise definition of weighted automata will be given later in Section~\ref{sec:field-domain}.
@@ -212,17 +212,17 @@ Finally, the protocol must be split invariant, i.e.~for every input string $w$, 
      Assume that the domain $\domain$ is a field. Then a function 
     \begin{align*}
     f : \Sigma^* \to \domain
-    \end{align*}  is computed by a protocol if and only if it is  computed by a weighted automaton.
+    \end{align*}  is computed by a \kl{protocol} if and only if it is  computed by a \kl{weighted automaton}.
 \end{restatable}
 
 
 
   This result might even seem surprising. Our protocol is designed to use polynomial operations on the output domain, and therefore one could expect the relevant automaton model to be also based on polynomials, such as the  polynomial automata of~\cite{DBLP:conf/lics/BenediktDSW17}. As it turns out, the split invariance in the protocols  enforces linearity, and thus it excludes the general polynomials operations that are used in polynomial automata. The linearity phenomenon is true for outputs in a field -- because weighted automata are based on linear maps -- and it will also be true for other output domains, such as strings, see \cref{thm:evidence-for-the-conjecture}. We do not have a fully general understanding of this phenomenon.
 
-  The proof of \cref{thm:field-domain} is given in Section~\ref{sec:proof-of-thm-field-domain}, but here we present a rough outline.  The proof is similar  to the one used for the case of Boolean outputs, and has  two steps:
+  The proof of \cref{thm:field-domain} is given in Section~\ref{sec:proof-of-thm-field-domain}, but here we present a rough outline.  The proof is similar to the one used for the case of Boolean outputs, and has  two steps:
 
 \begin{enumerate}
-    \item We first show in Section~\ref{sec:reduction-to-scalar-product-protocols} that any protocol with outputs in a field can be reduced to a special  form, which we call a \emph{scalar product protocol}. In this protocol, Alice and Bob apply in parallel two functions 
+  \item We first show in Section~\ref{sec:reduction-to-scalar-product-protocols} that any protocol with outputs in a field can be reduced to a special  form, which we call a \emph{\kl{scalar product protocol}}. In this protocol, Alice and Bob apply in parallel two functions 
 \begin{align*}
 \sigma_A, \sigma_B : \Sigma^* \to \Rat^d
 \end{align*}
@@ -317,7 +317,7 @@ words~\cite[Section 4]{canonicalRational2018}. A certain drawback of this line
 of work is that: (a) the canonical devices are relative to a given automaton
 model, which does not help in choosing one model over another; and (b) the
 ``canonical'' devices are not truly unique, since they depend on extra
-parameters, such as the output delay for subsequntial functions or the
+parameters, such as the output delay for subsequential functions or the
 lookahead for rational ones. Let us now move to the larger class of regular
 functions, which is the subject of our conjecture. Here,  canonical model are
 unknown, and the only known way to recover them uses non-standard semantics,
