@@ -821,7 +821,7 @@ We begin with the first step, which can be seen as form of reduction to one roun
         \end{align}
 
         Before we continue, let us now explain the ``fs'' annotation on the arrow above. It stands for
-        the set of \emph{finitely-supported functions}, which is a relaxation of
+        the set of \emph{finitely supported functions}, which is a relaxation of
         equivariant functions. The general idea is that while equivariant functions can only refer to equality between letters, the  finitely supported functions can also use finitely many constants. Before presenting the definition, we give two examples. The first example is the function of type $\atoms \to \atoms$ defined by 
         \begin{align}\label{eq:fs-function-example}
         a \in \atoms \mapsto 
@@ -848,30 +848,30 @@ We begin with the first step, which can be seen as form of reduction to one roun
         \end{align*}
         which is of type $\atoms \to \set{\textrm{true}, \textrm{false}}$. This function is no longer equivariant, because the input needs to be compared to the constants Celine, John, and Anne. However, the number of constants is finite, hence it is finitely supported.
       \end{myexample}
-      \begin{definition} [Finitely-supported function]
-        \label{def:finitely-supported-function}
+      \begin{definition} [finitely supported function]
+        \label{def:finitely supported-function}
         \AP
          A function $f : X \to Y$ is \intro{finitely supported} if there is a finite set $S$ of atoms such that for every atom permutation $\pi$ we have 
         \begin{align*}
             (\forall a \in S\ \pi(a)=a) 
             \quad \implies \quad f(\pi(x)) = \pi(f(x)).
         \end{align*}
-        %The set of all finitely-supported functions from $X$ to $Y$ is denoted by $\fsfun{X}{Y}$.
+        %The set of all finitely supported functions from $X$ to $Y$ is denoted by $\fsfun{X}{Y}$.
       \end{definition}
-      An important property of finitely-supported function spaces is that they do not preserve orbit-finiteness: 
+      An important property of finitely supported function spaces is that they do not preserve orbit-finiteness: 
 
-      \begin{myexample} If we take two orbit-finite sets, then the set of finitely-supported functions between them might not be orbit-finite. For example, the set
+      \begin{myexample} If we take two orbit-finite sets, then the set of finitely supported functions between them might not be orbit-finite. For example, the set
         \begin{align*}
         \fsfun{\atoms}{\set{\text{true, false}}}
         \end{align*}
-        of finitely-supported funtions from $\atoms$ to the Booleans  is not orbit-finite, since such functions can refer to any number of constants, as demonstrated by the partial applications in Example~\ref{ex:partial-application-not-equivariant}.
+        of finitely supported funtions from $\atoms$ to the Booleans  is not orbit-finite, since such functions can refer to any number of constants, as demonstrated by the partial applications in Example~\ref{ex:partial-application-not-equivariant}.
       \end{myexample}
 
       As mentioned before, one can recover closure under taking function spaces by moving to vector spaces. This is formalized in the following lemma, which stems 
       from \cite{orbitFiniteVectorTheoretics}, but we use its formulation from \cite{bojanczyk_slightly}, as it is more convenient for our purposes:
       \begin{lemma}[{\cite[Lemma 8.17]{bojanczyk_slightly}}]
       \label{lem:function-space-of-ofd}
-            For all orbit-finite sets $X$ and $Y$, the space of finitely-supported functions $\fsfun{X}{\lincomb Y}$ is a \kl{vector space of orbit-finite dimension}.
+            For all orbit-finite sets $X$ and $Y$, the space of finitely supported functions $\fsfun{X}{\lincomb Y}$ is a \kl{vector space of orbit-finite dimension}.
       \end{lemma}
       Let us now close this digression about function spaces (for more discussion, see \cite[Section 8.3]{bojanczyk_slightly} or \cite{functionSpaces2024})
       and go back to the proof of the claim. Observe, that the second coordinate in~\eqref{eq:contribution-last-two-rounds} is indeed of type 
