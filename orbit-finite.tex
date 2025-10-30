@@ -298,7 +298,7 @@ setting, two-way automata are very strong:
     The reason why two-way orbit-finite automata are so strong is that they can
     make an unbounded number of visits to any given position -- for example the
     automaton for the language ``some letter appears at least twice'' will
-    visit the last position a linear number of times (the length of its run is
+    visit the last position a linear number of times (where the length of its run is
     quadratic). One idea to tame this power is to consider the bounded-crossing
     variant of two-way automaton, which has a fixed bound $k$ on the number of
     times that the automaton can visit a position \cite[p.~92]{neven2003power}.
@@ -310,8 +310,8 @@ setting, two-way automata are very strong:
 \subsection{Unambiguous orbit-finite automata}
 \label{sec:unambiguous-orbit-finite-automata}
 \AP
-As we have shown in Examples~\ref{ex:protocol-not-dofa},
-\ref{ex:protocol-not-nofa} and \ref{ex:protocol-not-2dofa},
+As we have shown in Examples~\ref{ex:reg-ndet-too-strong}, \ref{ex:protocol-not-dofa},
+and \ref{ex:protocol-not-2dofa},
 \kl[of protocol]{protocols} are not equivalent to one-way deterministic or
 nondeterministic orbit-finite automata, or their two-way variants automata. So
 what is the right automaton model?  We conjecture that the answer is
@@ -332,7 +332,7 @@ in~\cite[p.9]{colcombet2012forms}, and to the best of our knowledge remains
 open, despite apparent claims to the contrary in~\cite[Footnote
 5]{colcombet2015unambiguity}.
 
-In this section, we prove implication $\impliedby$ in the conjecture, i.e.~we
+In this section, we prove the $\impliedby$ implication of the conjecture, i.e.~we
 show that \kl{orbit-finite protocols} can simulate \kl{unambiguous orbit-finite
 automata}. Unlike similar results earlier in this paper, this simulation is
 non-trivial. Also, despite the one-way nature of the automata, the simulation
@@ -365,21 +365,34 @@ the challenge is to compute their intersection, which is either a singleton
 with the intermediate state, or the empty set. Before we explain how to do
 this, let us first explain why this is non-trivial, i.e. why Alice cannot send
 her set of states to Bob, or vice versa. The problem is that the set of all
-reachable subsets of $Q$ is not \kl{orbit-finite}, and therefore it cannot be sent
+reachable subsets of $Q$ might not be \kl{orbit-finite}, and therefore it cannot be sent
 in a constant number of messages. This issue is illustrated in the following
 example.
 
 \begin{myexample}
-    \mb{rozwinac to tutaj}
-    For example, if we consider the automaton for the language ``the last letter appears at least twice'' that non-deterministically guesses the penultimate appearance of the last letter, 
-then the set of all reachable states after reading $w_1$ contains all the atoms that appear in $w_1$, which is unbounded (as it can grow with the length of $w_1$).
- It follows
-that the set of all reachable subsets of $Q$ is orbit-infinite\footnote{
-This observation can be summarized by saying that orbit-finiteness
-is not preserved by the powerset construction. Is one of the main obstacles when working with orbit-finite sets. For example, it is the reason why nondeterministic orbit-finite automata are more powerful than deterministic ones.}
+Consider the following unambiguous orbit-finite automaton for  the language ``the last letter appears at least twice''. The automaton guesses a position in the input string that is the penultimate appearance of the last letter, stores this letter in a register,
+and verifies that its next appearance is indeed the last letter in the input word.
+Formally, it has the following orbit-finite set of states:  
+\begin{align*}
+  Q \qquad = \qquad  \myunderbrace{1}{waiting for the\\ penultimate \\ appearance\\ of the last letter} \qquad +
+      \qquad \myunderbrace{\atoms}{verifying that\\ the next appearance is\\ indeed the last letter}  \qquad + \qquad
+      \myunderbrace{1}{next appearance of \\ the guessed letter; \\ accept if at \\ the end of input}.
+\end{align*}
+Observe that the automaton is unambiguous, as it takes care to accept only if the guessed position is indeed the penultimate appearance of the last letter.
+
+Suppose now, that Alice and Bob want to simulate this automaton, and Alice has read a string $w_1 = a_1 \ldots a_n$ of pairwise distinct letters.
+After reading $w_1$, the automaton can be in any  of the following $n+1$ states:
+(a) waiting for the penultimate appearance of the last letter;
+or (b) verifying that the next appearance of $a_i$ is the last letter, for $i \in \set{1,\ldots,n}$.
+It follows that the size of the set of reachable states after reading $w_1$ is unbounded (as it grows with $n$),
+and therefore it cannot be transmitted to Bob in a bounded number of orbit-finite messages.
+% This example can be summarized by saying that orbit-finiteness
+% is not preserved by the powerset construction. This is one of the main obstacles when working with orbit-finite sets.
+% For example, it is the reason why nondeterministic orbit-finite automata are more powerful than deterministic ones.
 \end{myexample}
 
-To work around the issue explained above, Alice and Bob will engage in interactive communication, which will narrow down the set of possible candidates. At each stage, the set of possible candidates will be represented using orbits, as defined below.
+To work around the issue explained above, Alice and Bob will engage in interactive communication, which will narrow down the set of possible candidates.
+At each stage, it will be represented using orbits, as defined below.
 
 \begin{definition}[Orbit] \label{def:orbit}
   \AP
@@ -446,8 +459,8 @@ To decrease the \kl[orbit dimension]{dimension} and increase $S$, we will use th
   \end{align*}
   There is a set $T \subseteq \atoms$ of size at most $k$, such that either: 
   \begin{enumerate}
-    \item   every state from $X_1$ contains an \kl{atom} of $T$ on some \kl{free coordinate}; or 
-    \item   every state from $X_2$ contains an \kl{atom} of $T$ on some \kl{free coordinate}.
+    \item   every state from $X_1$ contains an \kl{atom} from $T$ on some \kl{free coordinate}; or 
+    \item   every state from $X_2$ contains an \kl{atom} from $T$ on some \kl{free coordinate}.
   \end{enumerate}
 \end{lemma}
     \begin{proof}
@@ -460,21 +473,21 @@ To decrease the \kl[orbit dimension]{dimension} and increase $S$, we will use th
     \qquad 
  \text{$a$ appears in both $p$ and $q$} \quad \Rightarrow \quad a \in S.
  \end{align*}
+ In other words, the atoms from $S$ can appear in both $p$ and $q$ (in fact, they must), but all other atoms
+must be disjoint in the following two states.
  For example, if we take the $\{\textrm{John}, \textrm{Eve}\}$-orbit from Example~\ref{ex:tau-disjoint}, then the two states
 \begin{center}
     (\red{John}, Tom, Mary, Tom, \red{Eve}) \qquad
     (\red{John}, Ann, Timmy, Ann, \red{Eve})
 \end{center}
 are $\{\textrm{John}, \textrm{Eve}\}$-disjoint, because the sets
-$\set{\text{Tom, Mary}}$ and $\set{\text{Ann, Timmy}}$ are disjoint. In other
-words, the atoms from $S$ can repeat (in fact, they must), but all other atoms
-must be disjoint in the two states.
+$\set{\text{Tom, Mary}}$ and $\set{\text{Ann, Timmy}}$ are disjoint. 
 
 The following claim characterises subsets of orbits that do not contain any pair of disjoint elements:
 \begin{claim}\label{claim:sunflower}
-  Let $Q$ be an \kl{$S$-orbit} type of \kl[orbit dimension]{dimension} $d$, and let $X$ be a subset of $Q$.
+  Let $Q$ be an \kl{$S$-orbit} of \kl[orbit dimension]{dimension} $d$, and let $X$ be a subset of $Q$.
   If $X$ does not contain two \kl{$S$-disjoint} elements, then there is a
-  set $T$ of at most $d$ atoms such that every element of $X$ uses at last one atom from $T$ on a \kl{free coordinate}.
+  set $T$ of at most $d$ atoms such that every element of $X$ uses at least one atom from $T$ on a \kl{free coordinate}.
 \end{claim}
 \begin{proof}
         Take some element $x \in X$. Either there is an element of $X$ that is completely disjoint with $x$, or otherwise some atom from $x$ must appear in every other element of $X$ on a free coordinate.
@@ -597,7 +610,7 @@ by the following example.
 \begin{myexample}[Back and forth]
     A string over the alphabet $\atoms^2$ can be seen as a directed graph, where each letter represents an edge. For $k \in \set{1,2,\ldots}$, define  $L_k$ to be the set of strings over this alphabet such that: (1) the string is functional, i.e.~for each atom $a$ there is at most letter in the string that begins with $a$; and (2) in the corresponding graph, there is a path with $k$ edges that uses the edges from the first and last letter. This language can be computed by an orbit-finite protocol with $k-1$ rounds, with each round corresponding to a step in the path. It seems unlikely that a smaller number of rounds would suffice, but we do not prove this claim here. 
 \end{myexample}
-
+\rs{I don't think this example works -- The protocols cannot check that the input is functional. }
 
 
 \paragraph*{Weighted orbit-finite automata.} In the reminder of this section,
@@ -664,8 +677,7 @@ The following theorem is the main result of Section~\ref{sec:weighted-automata-a
 In the proof of the theorem, we use the recently developed theory of
 orbit-finite vector spaces \cite{orbitFiniteVectorTheoretics}. To streamline
 the presentation, we will use a special case of these spaces, namely those that
-have an orbit-finite basis. We begin by summarizing the necessary background.
-
+have an orbit-finite basis. We begin by summarizing the necessary background:
 For an orbit-finite set $Q$, let us write $\lincomb Q$ for the vector space
 which consists of finite formal linear combinations of elements of $Q$. In
 other words, an element of this space is a vector of the form 
@@ -783,7 +795,7 @@ We begin with the first step, which can be seen as form of reduction to one roun
         \end{align*}
     Then, in  the last $k$-th round, the message histories are used to produce vectors 
     in two \kl[ofd vector spaces]{vector spaces} $V_A$ and $V_B$ of orbit-finite dimension, 
-    see Definition~\ref{def:orbit-finite-vector-space}, using strategies 
+    as in Definition~\ref{def:orbit-finite-vector-space}, using strategies 
     of types
     \begin{align*}
         \sigma_{A,k} & : \Sigma^* \times (Q_B)^{k-1} \to V_A\\
@@ -820,11 +832,22 @@ We begin with the first step, which can be seen as form of reduction to one roun
             \myunderbrace{Q_A}{message \\ sent in \\ round $k-1$} \quad \times \quad  \myunderbrace{(\fsfun  {Q_B} {V_A})}{message sent in \\ round $k$, as a function \\ of the message sent \\ in  round $k-1$}
         \end{align}
         We want to turn the above type into a vector space. 
-        The second coordinate is already a vector space, since functions with outputs in a vector space can be added and scaled pointwise. What is more, the  second coordinate  is  a \kl{vector space of orbit-finite dimension}, which is a nontrivial result~\cite[Theorem 8.16]{bojanczyk_slightly}, i.e.~it has an orbit-finite basis  
+        The second coordinate is already a vector space, since functions with outputs in a vector space can be added and scaled pointwise. What is more, the  second coordinate is a \kl{vector space of orbit-finite dimension}. It follows from the following lemma, which stems from \cite{orbitFiniteVectorTheoretics}, 
+        but we use its formulation from \cite{bojanczyk_slightly}, as it is more convenient for our purposes:
+        \begin{lemma}[{\cite[Lemma 8.17]{bojanczyk_slightly}}]
+            \label{lem:function-space-of-ofd}
+            For all orbit-finite sets $X$ and $Y$, the space of finitely-supported functions $\fsfun{X}{\lincomb Y}$ is a \kl{vector space of orbit-finite dimension}\footnote{
+              Actually, the cited lemma states an equivalent result that the space of all 
+              finitely-supported linear transformations $\fslinfun{\lincomb X}{\lincomb Y}$ is a \kl{vector space of orbit-finite dimension}. However, the proof in \cite{bojanczyk_slightly} starts by stating
+              that it is enough to prove the version that we use here, and then proceeds to do so.
+            }.
+        \end{lemma}
+        In other words, the second coordinate has an orbit-finite basis 
         \begin{align*}
         F_A \subseteq \fsfun  {Q_B} {V_A}.  
         \end{align*}
-        \rs{expand what is the cited theorem and how it is applied}
+        \rs{I think that there is a bigger problem here: We never explain what it means for a function to be finitely supported, and we don't explain why we cannot use the
+        equivariant functions instead.}
         The first coordinate $Q_A$ in~\eqref{eq:contribution-last-two-rounds} can be turned into a vector space by  allowing linear combinations, i.e.~$\lincomb Q_A$. We combine these two using tensor product, yielding a vector space of orbit-finite dimension
         \begin{align*}
            W_A =  (\lincomb Q_A) \otimes (\lincomb F_A).
