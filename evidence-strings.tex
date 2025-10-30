@@ -151,25 +151,21 @@ share some well-known properties of the regular string-to-string functions.
     These two claims yield the corresponding items in the statement of the
     theorem. The first item, about a linear number of digits, is true because
     it is true for every \kl{weighted automaton} over $\Int$. This is because
-    applying a fixed linear map can only add a constant number of digits. For the second item, use the fact that a weighted automaton can be evaluated in linear time. We did not find this result in the literature, so we give a proof sketch below.
+    applying a fixed linear map can only add a constant number of digits, and therefore each input letter can increase the output by a constant number of digits. For the second item, use the fact that a weighted automaton can be evaluated in linear time. We did not find this result in the literature, so we give a proof sketch below.
 
     \begin{claim}
         Fix a function $f : \Sigma^* \to \Int$ computed by a weighted automaton over $\Int$. Then $f$ can be computed in linear time (ignoring logarithmic factors).
     \end{claim}
     \begin{proof}
-        We use the RAM model of computation.  In this model, numbers with $n$ digits can be multiplied in time linear in $n$ (ignoring logarithmic factors), using Fast Fourier Transform~\cite[p.291]{schonhage1971schnelle}. If we would try to evaluate the weighted automaton naively, from left to right, we would be doing a linear number of multiplications, involving numbers with a linear number of bits. This would give a quadratic time algorithm. To get linear time, we use  divide and conquer approach which was suggested to us by Marek Soko{\l}owski.
+        We use the \textsc{ram} model of computation.  In this model, numbers with $n$ digits can be multiplied in time linear in $n$ (ignoring logarithmic factors), using Fast Fourier Transform~\cite[p.291]{schonhage1971schnelle}. If we would try to evaluate the weighted automaton naively, from left to right, we would be doing a linear number of multiplications, involving numbers with a linear number of bits. This would give a quadratic time algorithm. To get linear time, we use  divide and conquer approach which was suggested to us by Marek Soko{\l}owski.
 
         For each input letter, the weighted automaton has an associated matrix. Therefore, the essence of the  problem is to compute the multiplication of $n$ matrices 
         \begin{align*}
         A_1 \cdots A_n,
         \end{align*}
-        which are taken from some fixed finite set of square matrices of same dimension. As we have already remarked before, each entry in the resulting matrix has a linear number of bits. Instead of multiplying the matrices from left to right, we organise the multiplication in a balanced binary tree. At the bottom of this tree, we have $n/2$ multiplications of matrices from the finite set. More generally, at distance $h$ from the leaves, we have $n  / 2^h$ multiplications of matrices, with the entries in these matrices having $O(h)$ bits.  Therefore, all multiplications at level $h$ can be peformed in linear time, ignoring logarithmic factors. Since the number of levels is  logarithmic, we get the desired result.
+        which are taken from some fixed finite set of square matrices of same dimension. As we have already remarked before, each entry in the resulting matrix has a linear number of bits. Instead of multiplying the matrices from left to right, we organise the multiplication in a balanced binary tree. At the bottom of this tree, we have $n/2$ multiplications of matrices from the finite set. More generally, at distance $h$ from the leaves, we have $n  / 2^h$ multiplications of matrices, with the entries in these matrices having $O(2^h)$ bits.  Therefore, the number of multiplications cancels out with the number of digits, and so for every choice of $h$, all multiplications at level $h$ can be peformed in linear time, ignoring logarithmic factors. Since the number of levels is  logarithmic, we get the desired result.
     \end{proof}
     
-    The
-    second claim is also easy to see, since the \kl{weighted automaton} can be
-    evaluated in linear time (we assume that we work in a model where addition
-    and subtraction of integers has unit cost). 
 
     We are left with property~\ref{it:regular-preimages}, about \kl{Boolean
     continuity}. This will follow from the special case of \kl{field continuity},

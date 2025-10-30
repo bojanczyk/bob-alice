@@ -40,11 +40,11 @@ We assume that the protocol has only one round, thanks to \cref{lemma:one-round-
 \begin{align*}
 \sigma_A : \Sigma^* \to \myunderbrace{Q_A \times \Nat^d}{elements of this set will be called \emph{configurations}}.
 \end{align*}
-In the proof, we order strings with respect to the configurations that they produce under Alice's strategy. We write $w' \le w$ if (a) the corresponding configurations have the same signal part from $Q_A$; and (b) the vectors from $\Nat^d$ are ordered so that  $w'$ has a smaller or equal vector than $w$, in the coordinatewise ordering on $\Nat^d$. The following claim, which isolates a finite set of minimal strings, is a standard application of Dickson's lemma.
+In the proof, we order strings with respect to the configurations that they produce under Alice's strategy. We write $w' \le w$ if (a) the corresponding configurations have the same signal part from $Q_A$; and (b) the vectors from $\Nat^d$ are ordered so that  $w'$ has a smaller or equal vector than $w$, in the coordinatewise ordering on $\Nat^d$. The following lemma, which isolates a finite set of minimal strings, is a standard application of Dickson's lemma.
 
-\begin{claim}\label{claim:minimal-configurations}
+\begin{lemma}\label{lem:minimal-configurations}
   There is a finite set of strings $W \subseteq \Sigma^*$ such that each string is greater or equal to some string in $W$ with respect to the above ordering.
-\end{claim}
+\end{lemma}
 \begin{proof}
   We partition the strings with respect to the signal component, which gives us finitely many parts. In each part, the strings are ordered coordinatewise according to the vector from $\Nat^d$. By Dickson's lemma, there are finitely many minimal elements in each part, and therefore finitely many minimal elements overall.
 \end{proof}
@@ -55,7 +55,7 @@ Let $W$ be the finite set which consists of the empty strings $\varepsilon$, plu
 \end{align*}
 If we choose the empty string $\varepsilon$ as the initial state of the main automaton, then the invariant tells us that the automaton computes $f$, as needed to prove the theorem. It remains to define the transitions of the main automaton, the lookahead automaton, and the output function. Once these have been defined, the invariant will be proved by induction on the length of the remaining input string $v$.
 
-Suppose that the main automaton is in state $w \in W$. If the remaining part of the input string is empty, which can be inferred by having an emptiness check in the lookahead automaton, then the automaton outputs $f(\varepsilon)$. Otherwise, the remaining input string has at least one letter, and it can be decomposed as $av$, where $a$ is its first letter.  By \cref{claim:minimal-configurations}, there is some $w' \in W$ with
+Suppose that the main automaton is in state $w \in W$. If the remaining part of the input string is empty, which can be inferred by having an emptiness check in the lookahead automaton, then the automaton outputs $f(\varepsilon)$. Otherwise, the remaining input string has at least one letter, and it can be decomposed as $av$, where $a$ is its first letter.  By \cref{lem:minimal-configurations}, there is some $w' \in W$ with
 \begin{align*}
 w' \leq wa.
 \end{align*}
@@ -64,17 +64,17 @@ The main automaton will consume the letter $a$, and change its state to  $w'$, w
   \label{eq:unary-difference-output}
 \Aa_{w}(av) - \Aa_{w'}(v)  = f(wa v) -  f(w' v).
 \end{align}
-To compute this difference with lookahead, we will use the following claim, which will be applied to $u' = w'$ and $u = wa$.
+To compute this difference with lookahead, we will use the following lemma, which will be applied to $u' = w'$ and $u = wa$.
 
 
 
-\begin{claim}\label{claim:lookahead-regular-languages}
+\begin{lemma}\label{lem:lookahead-regular-languages}
   Consider two strings $u' \leq u$ in $\Sigma^*$. Then
   \begin{enumerate}
     \item \label{it:lookahead-finite-set} The set $\setbuild{ f(uv) - f(u' v)}{$v \in \Sigma^* $}$ is finite and contains only non-negative integers.
     \item \label{it:lookahead-regular-language} For every $c$ in the above set, $\setbuild{ v \in \Sigma^*}{ $f(u v) - f(u' v) = c $}$ is a regular language.
   \end{enumerate}
-\end{claim}
+\end{lemma}
 \begin{proof}
   We begin with finiteness  from item~\ref{it:lookahead-finite-set}. Since the signals of Alice are the same in the configurations of $u$ and $u'$, it follows that the pairs of signals of Alice and Bob will be the same in the executions of the protocol on both $(u,v)$ and $(u',v)$. This means that the output in both cases will be obtained by taking some fixed number (which depends on $v$) and adding to it a number that appears in Alice's configuration after reading $u$ or $u'$. Since $u$ and $u'$ are fixed, it follows that difference 
   \begin{align*}
@@ -93,10 +93,16 @@ To compute this difference with lookahead, we will use the following claim, whic
   \begin{align*}
   v \quad \mapsto \quad f(uv) - f(u' v)
   \end{align*}
-  is also computed by a weighted automaton over $\Rat$. By the previous item, this function has finite image. For weighted automata with a finite image, it is known that every preimage of a number is a regular language. This concludes the proof of item~\ref{it:lookahead-regular-language}.
+  is also computed by a weighted automaton over $\Rat$. By the previous item, this function has finite image. To establish regularity of the langauge in item~\ref{it:lookahead-regular-language} and thus conclude the proof of the lemma, we use the following result about weighted automata with finite image.
+  \begin{claim}
+    Let $\domain$ be a field, and consider a function $f : \Sigma^* \to \domain$ which is computed by a weighted automaton and has finite range. Then for every $c \in \domain$, the preimage $f^{-1}(c)$ is a regular language.
+  \end{claim}
+  \begin{proof}
+    Define the \emph{support language} of a weighted automaton to be the set of input strings that are sent to zero. The inverse image $f^{-1}(c)$ is a support language, namely the support language of the weighted automaton $f-c$.  Support languages are closed under finite unions, by multiplying two weighted automata. Therefore, if $f$ has finite image, then both $f^{-1}(c)$ and its complement are support languages, since the complement is a finite union of support languages of the form $f^{-1}(c_1) \cup \cdots \cup f^{-1}(c_n)$. By~\cite[Theorem 3.1]{restivo1984cancellation}, if a language and its complement are support languages, then the language is regular.
+  \end{proof}
 \end{proof}
 
-Thanks to the above claim, when the automaton is in state $w$ and the remaining input string is $av$, it can use regular lookahead to compute the difference~\eqref{eq:unary-difference-output}, and output it. This difference is non-negative, and therefore it is a legitimate output. There are finiely many possible choices for $u$ and $u'$, and therefore all  the regular languages from item~\ref{it:lookahead-regular-language} in \cref{claim:lookahead-regular-languages} can be combined into a single lookahead automaton. This completes the construction of the lookahead automaton $\Aa$, and therefore the proof of the theorem.
+Thanks to the above lemma, when the automaton is in state $w$ and the remaining input string is $av$, it can use regular lookahead to compute the difference~\eqref{eq:unary-difference-output}, and output it. This difference is non-negative, and therefore it is a legitimate output. There are finiely many possible choices for $u$ and $u'$, and therefore all  the regular languages from item~\ref{it:lookahead-regular-language} in \cref{lem:lookahead-regular-languages} can be combined into a single lookahead automaton. This completes the construction of the lookahead automaton $\Aa$, and therefore the proof of the theorem.
 \end{proof}
 
 In the rest of this section, we use the above theorem to derive some further observations, and in particular to prove Conjecture~\ref{conj:regular-continuous} for unary output alphabets. The first observation is about protocols that use integers with addition and have non-negative outputs.
