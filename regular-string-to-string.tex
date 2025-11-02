@@ -111,9 +111,7 @@ the automaton does not halt.)
     inside $w_1$ that end in  configurations from $w_2$, and even-numbered
     steps describing runs inside $w_2$ that end in a configuration from $w_1$.
     The last step is exceptional, since it ends with an accepting
-    configuration. The number of steps in a crossing sequence is bounded  the
-    number of states, since otherwise the automaton would enter an infinite
-    loop. This bound is the number of rounds in the protocol. In each round,
+    configuration. The number of steps in a crossing sequence is bounded by twice the number of states, since otherwise the automaton would enter an infinite loop. This bound is the number of rounds in the protocol. In each round,
     the state corresponding to this round is sent as a signal, and the output
     value in the message is the  part of the output string that is produced in
     this  step. At the end of the protocol, the pieces of the output string are
