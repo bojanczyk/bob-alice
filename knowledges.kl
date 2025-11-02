@@ -119,8 +119,6 @@
  | weighted automaton
  | weighted automata
  | Weighted automata
-
-\knowledge{notion}
  | nondeterministic weighted automaton
  | wa-nfa
  | weighted automata@nfa
@@ -302,3 +300,7 @@
 \knowledge{notion}
  | orbit-finitely spanned
  | orbit-finitely spanned vector space
+
+
+\knowledge{notion}
+ | finitely supported

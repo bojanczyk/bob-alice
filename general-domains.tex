@@ -173,9 +173,8 @@ protocol]{Boolean case}.
   Every \kl{protocol} is equivalent to a one-round \kl{protocol}.
 \end{lemma}
 \begin{proof}
-  Same proof as in \cref{lem:one-round-reduction-boolean}. 
-  \omc {The idea of the proof is the same but some details are different because of the output part of the messages. should I rewrite the proof to reflect these differences? or just mention that the proof is similar with minor changes?}
- \mb{If you want to add a short proof, that would be nice! But we can still keep the sentence that it is the same proof.}
+  The proof of \cref{lem:one-round-reduction-boolean} generalises to 
+  arbitrary output domains.
 \end{proof}
 
 Slightly ahead of time, we mention that the reduction to one-round protocols will no longer be valid for infinite input alphabets, which will be studied in Section~\ref{sec:infinite-alphabets}. As we will see, in that case  the interactive nature of the protocols
