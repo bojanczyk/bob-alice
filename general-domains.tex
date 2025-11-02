@@ -174,7 +174,15 @@ protocol]{Boolean case}.
 \end{lemma}
 \begin{proof}
   The proof of \cref{lem:one-round-reduction-boolean} generalises to 
-  arbitrary output domains.
+  arbitrary output domains with minor modifications. Here we need to take care of elements of the output domain that are sent in messages. This kind of dependecy similarly captured by functions of type:
+  \begin{align*}
+    (Q_B)^k \to \domain^{dk}
+  \end{align*}
+  for Alice, and
+  \begin{align*}
+    (Q_A)^k \to \domain^{dk}
+  \end{align*}
+  for Bob. These functions can be included in the first message that each party sends, and therefore the same construction as in the proof of \cref{lem:one-round-reduction-boolean} applies.
 \end{proof}
 
 Slightly ahead of time, we mention that the reduction to one-round protocols will no longer be valid for infinite input alphabets, which will be studied in Section~\ref{sec:infinite-alphabets}. As we will see, in that case  the interactive nature of the protocols
