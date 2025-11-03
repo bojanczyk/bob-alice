@@ -55,21 +55,20 @@ function are rational numbers, then it should be legitimate for the information
 flow to contain some rational numbers. How should this be formalised?
 
 \AP
-We choose to use a formalisation that is based on communication complexity~\cite{YAO79,KUSH97}, in which a function is computed by two cooperating parties, called Alice and Bob. 
+We choose to use a formalisation that is based on communication complexity~\cite{YAO79,KUSH97}. In our model, the function is computed by two cooperating parties, called Alice and Bob. 
 There are \textbf{no uniformity assumptions} and the two parties
 have unrestricted computational power; the goal is to measure information 
 % \omc{information flow instead of information ?}
 % it is a bit of a wordplay on the name of the journal Information and Computation :)
 and
 not computation.  The input string is split into two parts $w = w_1 w_2$, and
-Alice has access to $w_1$ while Bob has access to $w_2$. They exchange messages
-in order to compute the output of the function. There must be a
-\textbf{constant number of messages}, where the constant  depends only on the
-protocol and not on the input string. Also, the  output of the computation must
+Alice has access to $w_1$ while Bob has access to $w_2$. The two parties  exchange  a
+\textbf{constant number of messages} in order to compute the function, where the constant  depends only on the
+protocol and not on the input string. The  output of the computation must
 be \textbf{split invariant}, which means that the output depends only on the
 input string $w$, and not on the split $w = w_1 w_2$. In the communication,
 there are two kinds of messages:  either bits in $\set{\text{true, false}}$  or
-elements of the output domain.
+elements of the output domain (as far as we can tell, the messages from the domain are the novelty of our approach).
 % \omc{This may be my subjective view (as I mentioned before), but I don’t think it’s a good idea to describe the messages as bits in our paper. I understand that you did this because it’s the convention in the communication complexity community. However, I would prefer saying that either the message comes from a finite set, or … The reason is that, for detail-oriented readers within the communication complexity community, in this setting the parties should either alternate turns when sending messages to each other, or there should be a "Next" function specifying the next communicator based on communication history.
 % Using a finite set instead of bits allows parties to send information that might require several rounds rather than just one. I suppose you wrote it this way to appeal to readers already familiar with communication complexity and to make the paper more attractive to them. If that’s the reason, then it makes sense to keep it as is. Otherwise, I think it would be better to take a consistent approach and use a finite set for the visible part of the messages.}. 
 % Thanks Omid! I understand your point. However, I did indeed want to start with the more standard terminology in the introduction; and later start using the terminology for our paper.
@@ -203,8 +202,7 @@ Summing up, the strategy in round $i$ is a function which inputs an element of t
 Finally, the protocol must be \kl{split invariant}, i.e.~for every input string $w$, the same output must be produced regardless of the factorization $w = w_1 w_2$ into strings owned by Bob and Alice. This completes the definition of the protocol model, in the case of field outputs.
 
 
-\paragraph*{Equivalence with weighted automata.} Our main result for field outputs is the following theorem, which says that protocols are equivalent to weighted automata. The precise definition of weighted automata will be given later in Section~\ref{sec:field-domain}.
-
+\paragraph*{Equivalence with weighted automata.} Our main result for field outputs is~\cref{thm:field-domain} below, which says that protocols are equivalent to weighted automata. The precise definition of weighted automata will be given later in Section~\ref{sec:field-domain}, but the rough idea is that a weighted automaton maintains a vector  $\domain^d$ of field elements, with each input letter updating the vector via some fixed linear map.  
 
 
 \begin{restatable}{theorem}{fielddomain}
@@ -217,7 +215,7 @@ Finally, the protocol must be \kl{split invariant}, i.e.~for every input string 
 
 
 
-  This result might even seem surprising. Our protocol is designed to use polynomial operations on the output domain, and therefore one could expect the relevant automaton model to be also based on polynomials, such as the  polynomial automata of~\cite{DBLP:conf/lics/BenediktDSW17}. As it turns out, the split invariance in the protocols  enforces linearity, and thus it excludes the general polynomials operations that are used in polynomial automata. The linearity phenomenon is true for outputs in a field -- because weighted automata are based on linear maps -- and it will also be true for other output domains, such as strings, see \cref{thm:evidence-for-the-conjecture}. We do not have a fully general understanding of this phenomenon.
+  This result might even seem surprising. Our protocol is designed to use polynomial operations on the output domain, and therefore one could expect the relevant automaton model to be also based on polynomials, such as the  polynomial automata of~\cite{DBLP:conf/lics/BenediktDSW17}, which are the extension of weighted automata that allow polynomial maps instead of linear ones. As it turns out, the split invariance in the protocols  enforces linearity, and thus it excludes the general polynomials operations that are used in polynomial automata. The linearity phenomenon is true for outputs in a field -- because weighted automata are based on linear maps -- and it will also be true for other output domains, such as strings, see \cref{thm:evidence-for-the-conjecture}. We do not have a fully general understanding of this phenomenon.
 
   The proof of \cref{thm:field-domain} is given in Section~\ref{sec:proof-of-thm-field-domain}, but here we present a rough outline.  The proof is similar to the one used for the case of Boolean outputs, and has  two steps:
 
@@ -253,7 +251,7 @@ We  use the same kind of protocol as in the previous section, except that instea
     Using the protocol, we can compute string reversal: Alice sends to Bob the reverse of her part of the input, and  Bob concatenates this with  his part of the reverse. Another string-to-string function that can be easily computed by a protocol is string duplication $w \mapsto ww$. 
 \end{myexample}
 
-The string-to-string case is of particular interest because, as we have mentioned earlier in the introduction, there is no consensus as to  which string-to-string functions should be considered ``regular''. There are numerous automata models to choose from, some of which are summarized in \cref{fig:transducer-classes}, which contains twenty models, grouped by equivalence into three classes. We can exclude the weakest class (the rational functions), since it is too weak: it  cannot compute the reverse or duplicate functions from Example~\ref{ex:reverse-duplicate}. We can also exclude the strongest class (the polyregular functions), since it is too strong: polyregular functions can have superlinear output size, and as we will see in a moment, protocols can only have linear output size. By a process of elimination, we are left with the final  class from \cref{fig:transducer-classes}, which is traditionally called the ``regular functions''. One of the models which defines this class is  deterministic two-way automata with output~\cite{shepherdson1959reduction}. We conjecture  that this class     is the correct answer (thus validating the traditional name): 
+The string-to-string case is of particular interest because, as we have mentioned earlier in the introduction, there is no consensus as to  which string-to-string functions should be considered ``regular''. There are numerous automata models to choose from, some of which are summarized in \cref{fig:transducer-classes}, which contains twenty models, grouped by equivalence into three classes. We can exclude the weakest class (the rational functions), since it is too weak: it  cannot compute the reverse or duplicate functions from Example~\ref{ex:reverse-duplicate}. We can also exclude the strongest class (the polyregular functions), since it is too strong: polyregular functions can have superlinear output size, and as we will see in a moment, protocols can only have linear output size. By a process of elimination, we are left with the final  class from \cref{fig:transducer-classes}, which is traditionally called the ``regular functions''. One of the definitions of the class is in terms of   deterministic two-way automata with output~\cite{shepherdson1959reduction}; this model  is formally defined in Section~\ref{sec:string-outputs}. We conjecture  that this class     is the correct answer (thus validating the traditional name): 
 
 \begin{conjecture}\label{conj:protocol-regular-string-to-string}
     A string-to-string function is computed by a protocol iff it is computed by a deterministic two-way automaton with output.
@@ -263,7 +261,7 @@ In Section~\ref{sec:string-outputs} we discuss this conjecture in detail, and pr
 \begin{align*}
 \text{protocol} \quad \impliedby \quad \text{two-way automaton},
 \end{align*} 
-This implication is rather easy, since a two-way automaton can be neatly simulated by the repeated interactions of the protocol. The content of the conjecture, and the subject of most of our technical results, is the $\implies$ implication. Most of Section~\ref{sec:string-outputs} is devoted to evidence for this implication. 
+This implication is rather easy, since a two-way automaton can be neatly simulated by the repeated interactions of the protocol. The content of the conjecture, and the subject of the more technical results, is the $\implies$ implication. Most of Section~\ref{sec:string-outputs} is devoted to evidence for this implication. 
 Our first argument  is the following result, which shows that functions computed  by protocols have many properties which are known to hold for deterministic two-way automata with output.
 
 
@@ -294,7 +292,7 @@ Our second argument in favour of the \cref{conj:regular-continuous} is that we
 can prove it in the special case when the output alphabet is unary, i.e.~it has
 only one letter. This is the content of
 Section~\ref{sec:unary-output-alphabet}. When the output alphabet is unary, the
-output strings are commutative, i.e.~the order of letters is irrelevant; this commutativity is essential to our proof of the conjecture in the unary output case. 
+output strings are commutative, i.e.~the order of letters is irrelevant; this commutativity is essential to our proof of the conjecture in the unary output case.  The proof is based on well-quasi orders, plus some results on weighted automata.
 
 
 
@@ -355,13 +353,12 @@ they point to (as we conjecture)  one of the models in the literature. Before
 revealing this model, let us briefly compare protocols to the two most prominent models 
 for infinite alphabets.
 
-\begin{myexample}[Deterministic too weak]\label{ex:reg-det-too-weak}
-    The protocols are strictly stronger than the register variant of deterministic automata
-    (i.e. \emph{deterministic register automata} \cite[Definition~3]{kaminskiFiniteMemoryAutomata1994}).
+\begin{myexample}[Deterministic too weak]\label{ex:reg-det-too-weak} We begin by considering a popular deterministic automaton model for infinite alphabets, namely i.e. \emph{deterministic register automata} \cite[Definition~3]{kaminskiFiniteMemoryAutomata1994}. This model is defined formally in Section~\ref{sec:infinite-alphabets}, but roughly speaking it is nondeterministic a finite automaton that is additionally equipped  with a fixed number of registers, which can be used to store input letters and compare them for equality with later input letters.  For example, the automaton can store the first input letter in a register, and then compare it with all later letters, thus recognising the language ``the first letter appears elsewhere in the word''. 
+
     A protocol can simulate any deterministic register automaton, using the same idea as for finite alphabets,
     i.e. Alice sends the intermediate state, including the register values, to Bob, who 
     continues the run on his side. To see that the inclusion is strict, consider the language
-    ``the last letter appears elsewhere in the word''. It is computed by a protocol, 
+    ``the last letter appears elsewhere in the word'', which is the reverse of the language described in the previous paragraph. It is computed by a protocol, 
     in which Bob checks the condition on his side, and sends the last letter to Alice, so that she can verify
     that it does not appear on her side. On the other hand, it is a well-know fact that this language
     is not recognised by a deterministic register automata, as it proves that deterministic register automata 
@@ -391,12 +388,9 @@ for infinite alphabets.
 % In the previous example, we excluded deterministic register automata as being too weak. We now exclude nondeterministic register automata as being too strong. 
 
 \begin{myexample}[Nondeterministic too strong]
-    \label{ex:reg-ndet-too-strong}
-    The \emph{nondeterministic register automata} \cite[Definition~1]{kaminskiFiniteMemoryAutomata1994} are already too strong for the protocols, as attested by the language
-    ``some letter appears twice''. This language cannot be computed by a protocol. The intuitive reason is that if neither Alice or Bob sees a repetition in their parts of the input string, then they should exchange all their letters to check for cross-part repetitions, which cannot be done in a constant number of messages -- 
-    a detailed proof is given in \cref{sec:infinite-alphabets}. However, this language can be recognised by a nondeterministic register automaton, 
-    which nondeterministically guesses the first appearance of a repeated letter, saves it in a register, and then verifies that it appears again later in the string
-    \cite[Example~1]{kaminskiFiniteMemoryAutomata1994}.
+    \label{ex:reg-ndet-too-strong} Consider the nondeterministic variant of the automata from the previous paragraph~\cite[Definition~1]{kaminskiFiniteMemoryAutomata1994}. This model is already too strong for the protocols, as attested by the language
+    ``some letter appears twice'', which can be computed by an automaton, see~\cite[Example~1]{kaminskiFiniteMemoryAutomata1994}, but not by  a protocol. The intuitive reason for the negative result is that if neither Alice or Bob sees a repetition in their parts of the input string, then they should exchange all their letters to check for cross-part repetitions, which cannot be done in a constant number of messages -- 
+    a detailed proof is given in \cref{sec:infinite-alphabets}. 
 \end{myexample}
 
 Which automaton model, if any, corresponds to protocols? As explained in the previous two examples, deterministic register automata are too weak, while nondeterministic register automata are too strong.
