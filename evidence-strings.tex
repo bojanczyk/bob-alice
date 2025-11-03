@@ -33,7 +33,9 @@ departure is the following lemma, which connects \kl{weighted automata} and
     \end{lemma}
     \begin{proof}
       For each string in $\Gamma^*$, the \kl{weighted automaton} for $g$ has an
-      associated matrix over the field $\domain$, as explained in the proof at the beginning of Section~\ref{sec:proof-of-thm-field-domain}. Similarly to that proof, we can modify the protocol for $f$ to a protocol for $f;g$ where the parties send matrices instead of strings. 
+      associated matrix over the semiring $\domain$, as explained in the proof at the beginning of Section~\ref{sec:proof-of-thm-field-domain}.
+      \omc{Here I changed "matrix over the field" to "matrix over the semiring", since we are in a more general setting now.}
+      Similarly to that proof, we can modify the protocol for $f$ to a protocol for $f;g$ where the parties send matrices instead of strings. 
     \end{proof}
 
 \begin{corollary}\label{cor:protocol-field-continuity}
