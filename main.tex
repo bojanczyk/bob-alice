@@ -30,11 +30,12 @@
 \begin{document}
 
 \title{Regularity as seen by Alice and Bob}
-\author{Miko{\l}aj Boja\'nczyk, Aliaume Lopez, Rafa{\l} Stefa\'nski, Omid Yaghoubi }
+% \author{Miko{\l}aj Boja\'nczyk, Aliaume Lopez, Rafa{\l} Stefa\'nski, Omid Yaghoubi }
 
 \maketitle 
 \begin{abstract}
- Inspired by communication complexity, we introduce a model of computation that defines functions of type $\Sigma^* \to \domain$, where $\Sigma$ is a finite alphabet and $\domain$ is some domain. Domains of interest include: the Booleans, strings, or a field. In the model, the input string $w$ is split into two parts $w=w_1 w_2$, which are sent to two parties, Alice and Bob. The two parties cooperate, exchanging a constant number of messages to compute the output of the function. The messages can be either bits, or elements of the output domain.  They must produce the correct output regardless of the split $w = w_1 w_2$. For some domains, the model coincides with known finite state models: in the case of Boolean outputs it defines exactly the regular languages, and in the case of fields, it defines exactly the functions computable by weighted automata. We also conjecture that a similar situation arises for other domains. This suggests that  two-party protocols can be seen  as a machine-independent definition of finite-state computability. 
+The goal of this paper is to propose a machine-independent characterisation of functions computable by finite-state automata.
+ Inspired by communication complexity, we introduce a model of computation that defines functions of type $\Sigma^* \to \domain$, where $\Sigma$ is a finite alphabet and $\domain$ is some domain. Domains of interest include: the Booleans, strings, or a field. In the model, the input string $w$ is split into two parts $w=w_1 w_2$, which are sent to two parties, Alice and Bob. The two parties cooperate, exchanging a constant number of messages to compute the output of the function. The messages can be either bits, or elements of the output domain.  They must produce the correct output regardless of the split $w = w_1 w_2$. For some domains, the model coincides with known finite state models: in the case of Boolean outputs it defines exactly the regular languages, and in the case of fields, it defines exactly the functions computable by weighted automata. We also conjecture that a similar situation arises for other domains, and present ample supporting evidence. 
 \end{abstract}
 
 

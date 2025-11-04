@@ -160,10 +160,8 @@ share some well-known properties of the regular string-to-string functions.
     \begin{proof}
         We use the \textsc{ram} model of computation.  In this model, numbers with $n$ digits can be multiplied in time linear in $n$ (ignoring logarithmic factors), using Fast Fourier Transform~\cite[p.291]{schonhage1971schnelle}. If we would try to evaluate the weighted automaton naively, from left to right, we would be doing a linear number of multiplications, involving numbers with a linear number of bits. This would give a quadratic time algorithm. To get linear time, we use  divide and conquer approach which was suggested to us by Marek Soko{\l}owski, and which is inspired by similar algorithms for multipoint evaluation of polynomials~\cite[Section 10.1]{von2003modern}.
 
-        For each input letter, the weighted automaton has an associated matrix. Therefore, the essence of the  problem is to compute the multiplication of $n$ matrices 
-        \begin{align*}
-        A_1 \cdots A_n,
-        \end{align*}
+        For each input letter, the weighted automaton has an associated matrix. Therefore, the essence of the  problem is to compute the multiplication of $n$ matrices $
+        A_1 \cdots A_n$,
         which are taken from some fixed finite set of square matrices of same dimension. As we have already remarked before, if we multiply $n$ matrices, then each entry in the resulting matrix has a $\Oo(n)$ bits. Instead of multiplying the matrices from left to right, we organise the multiplication in a balanced binary tree, and evaluate this tree bottom-up. At the bottom of this tree, we have $n/2$ multiplications of matrices from the finite set. More generally, in each subtree of height $h$, the resulting matrix has entries with $\Oo(2^h)$ bits, and there are $n / 2^h$ such subtrees. Therefore, assuming that we have evaluted the value of each subtree of height $h-1$, then we can evaluate each subtree of height $h$, by using $\Oo(n/2^h)$ instances of matrix multiplication, with the ocrresponding matrices having entries that have  $\Oo(2^h)$ bits. By using algorithms for addition and multiplication that are linear (ignoring logarithmic factors), the passage from height $h-1$ to height $h$ can be done in linear time (ignoring logarithmic factors). Since the number of heights is  logarithmic, we get the desired result.
     \end{proof}
 
