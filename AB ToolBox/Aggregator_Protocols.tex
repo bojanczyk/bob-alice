@@ -1,0 +1,18 @@
+\section{Aggregator-Protocols}
+\label{sec:agg-protocols}
+
+These protocols are similar to normal Alice--Bob protocols, with one key difference: instead of generating partial outputs using messages that contain an element of the output domain, each party has its own local partial output until the end of the communication, and at the end the final output is computed by aggregating these local outputs using a predefined operation.
+
+\begin{myexample}
+Consider the following protocol between Alice and Bob. An evil adversary split the input $w\in \Sigma^*$ into two parts $x,y\in \Sigma^*$ such that $w=xy$. Alice receives $x$ and Bob receives $y$. The goal of the protocol is to compute the length of the input string $w$, i.e., $|w|$. The protocol works as follows:
+\begin{itemize}
+    \item Alice computes the length of her input $|x|$ and keeps it as her local output.
+    \item Bob computes the length of his input $|y|$ and keeps it as his local output.
+    \item At the end of the communication, both parties send their local outputs to a ``sum-aggregator''. The aggregator computes the final output as $|x| + |y|$.
+\end{itemize}
+\end{myexample}
+
+We can define different types of aggregator-protocols based on the aggregation operation used to compute the final output from the local outputs of the parties. We have already seen that protocols on the field output domain are equivalent to aggregator-protocols with the scalar product as the aggregation operation. We call these scalar-product protocols. We also mentioned that this is true for every commutative semiring output domain. Also , It is not hard to see that in case of String-output protocols, the aggregation operation is sequence of concatenation. In that case, alice and bob communicating with each other but keep the local output for themselves until the end of the communication, and at the end each of them send $k$ strings to the aggregator, and the aggregator concatenate all the strings in a zig-zag manner to produce the final output string. In the next section, we will define commutative protocols over a monoid domain as another example of aggregator-protocols.
+
+\input{commutative_agg_boolean.tex}
+\input{sum_agg.tex}
