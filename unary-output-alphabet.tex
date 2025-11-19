@@ -26,7 +26,7 @@ alphabets with only one letter. We begin with the first conjecture.
     \begin{enumerate}
       \item a lookahead automaton, with input alphabet $\Sigma$ and states $P$;
       \item a main automaton, with input alphabet $P$ and states $Q$.
-      \omc{Is this a typo? Should it be "with input alphabet $\Sigma \times P$"?}
+      \omc{Is this a typo? Should it be "with input alphabet $\Sigma$"? According to the definition of lookahead automata in Eilenberg's book (Vol. A), both automata have input alphabet $\Sigma$ and one reads the input from right to left while the other reads from left to right, and output function depends on the states of both automata and the current input letter.}
     \end{enumerate}
     \item an output function of type $Q \times P \to \Gamma^*$. 
   \end{enumerate}
