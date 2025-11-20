@@ -56,7 +56,9 @@ Let $W$ be the finite set which consists of the empty strings $\varepsilon$, plu
 \end{align*}
 If we choose the empty string $\varepsilon$ as the initial state of the main automaton, then the invariant tells us that the automaton computes $f$, as needed to prove the theorem. It remains to define the transitions of the main automaton, the lookahead automaton, and the output function. Once these have been defined, the invariant will be proved by induction on the length of the remaining input string $v$.
 
-Suppose that the main automaton is in state $w \in W$. If the remaining part of the input string is empty, which can be inferred by having an emptiness check in the lookahead automaton, then the automaton outputs $f(\varepsilon)$. Otherwise, the remaining input string has at least one letter, and it can be decomposed as $av$, where $a$ is its first letter.  By \cref{lem:minimal-configurations}, there is some $w' \in W$ with
+Suppose that the main automaton is in state $w \in W$. If the remaining part of the input string is empty, which can be inferred by having an emptiness check in the lookahead automaton, then the automaton outputs $f(\varepsilon)$.
+\omc{It should be $f(w)$ instead of $f(\varepsilon)$, because the invariant is $\Aa_w(v) = f(wv)$}
+Otherwise, the remaining input string has at least one letter, and it can be decomposed as $av$, where $a$ is its first letter.  By \cref{lem:minimal-configurations}, there is some $w' \in W$ with
 \begin{align*}
 w' \leq wa.
 \end{align*}
