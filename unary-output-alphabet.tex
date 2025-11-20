@@ -25,6 +25,7 @@ alphabets with only one letter. We begin with the first conjecture.
     \item two deterministic automata: 
     \begin{enumerate}
       \item a lookahead automaton, with input alphabet $\Sigma$ and states $P$;
+      \omc{a lookahead automaton consists of another lookahead automaton seems cyclic. Maybe just change it to "bimachine" which is the term used in the literature?}
       \item a main automaton, with input alphabet $P$ and states $Q$.
       \omc{Is this a typo? Should it be "with input alphabet $\Sigma$"? According to the definition of lookahead automata in Eilenberg's book (Vol. A), both automata have input alphabet $\Sigma$ and one reads the input from right to left while the other reads from left to right, and output function depends on the states of both automata and the current input letter.}
     \end{enumerate}
