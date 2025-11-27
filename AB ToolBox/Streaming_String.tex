@@ -231,35 +231,18 @@ SSST computing $f$ from this well-quasi-ordering on configurations.
   $u$, we output the register $q_B(\varepsilon)$ concatenated with
   $f_B(\varepsilon, q_A(u))$.
 
+  \medskip
+  \hline
+  \medskip
+
   Let us prove by induction on the lenght of $w$ that the SSST computes $f(w)$
-  correctly. We will actually prove a stronger result: $\delta(\varepsilon, w)
-  = u$ implies that for every $s \in Q$, the register corresponding to $s$
-  equals $f_A(w, s)$, and $q_A(w) = q_A(u)$.
+  correctly. \textbf{Todo: non-trivial.} 
 
-  To prove this, let us write $R(w)_q$ for the content of the register
-  corresponding to $q \in Q$ after reading $w$.
+  \fbox{ 
+  to be completed 
+  }
+  
 
-  For the base case $w = \varepsilon$, we have $\delta(\varepsilon,
-  \varepsilon) = \varepsilon$, and the registers are initialized correctly.
-  Now, let us consider a word $w a$ where $a \in \Sigma$ and $w \in \Sigma^*$.
-  By induction hypothesis, let us write $u = \delta(\varepsilon, w)$.
-
-  Let us take any $s \in Q$. By definition of 
-  the update function, there exists $r \in Q$ such that
-  $R(wa)_s = R(w)_r \; w_{u,a,s,v,r}$. By induction hypothesis, we have
-  $R(w)_r = f_A(w, r)$, and by definition of $w_{u,a,s,v,r}$, we have
-  $f_A(wa, s) = f_A(v, r) \; w_{u,a,s,v,r}$. 
-  Hence, we have $R(wa)_s = f_A(wa, s)$, as desired.
-  Let us now prove that $q_A(wa) = q_A(v)$.
-  By induction hypothesis, we have $q_A(w) = q_A(u)$, and 
-  since $C(v) \leq C(ua)$, we have $q_A(ua) = q_A(v)$, as desired.
-
-
-  Finally, when the SSST is in state $u$ after reading $w$, by what we have
-  just proven, we have that the register corresponding to $q_B(\varepsilon)$
-  contains $f_A(w, q_B(\varepsilon))$, and since $q_A(w) = q_A(u)$, the output
-  function produces $f_A(w, q_B(\varepsilon)) \; f_B(\varepsilon, q_A(w)) =
-  f(w)$, as desired.
 \end{proof}
 
 
