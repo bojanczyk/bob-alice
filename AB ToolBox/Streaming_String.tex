@@ -1,0 +1,274 @@
+% LTeX: lang=en-US
+
+\section{Streaming String Transducers and Alice-Bob}
+
+\begin{definition}
+  A \emph{concatenating Alice-Bob communication model}
+  is an Alice-Bob protocol where 
+  \begin{enumerate}
+    \item Alice and Bob exchange information,
+    \item The output is produced by concatenating one 
+          word produced by Alice, and 
+          one word produced by Bob.
+  \end{enumerate}
+  Formally, a function $f \colon \Sigma^* \to \Gamma^*$
+  is computable in the homomorphism Alice-Bob communication model
+  if there exist two functions
+  $f_A \colon \Sigma^* \to \Gamma^*$ and
+  $f_B \colon \Sigma^* \to \Gamma^*$,
+  a finite set $Q$ of signals, and
+  two functions
+  $q_A \colon \Sigma^* \to Q$
+  and
+  $q_B \colon \Sigma^* \to Q$,
+  such that for all $u,v \in \Sigma^*$,
+  \[
+    f(uv) = f_A(u, q_B(v)) \; f_B(v, q_A(u)).
+  \]
+\end{definition}
+
+
+\begin{lemma}
+  \label{lem:concat-ab-rational}
+  Every function $f \colon \Sigma^* \to \Gamma^*$
+  computable by a rational function (bimachine)
+  is computable by a concatenating Alice-Bob communication model.
+\end{lemma}
+\begin{proof}
+  Let us consider a bimachine computing $f$,
+  with a left-to-right automaton
+  $\mathcal{A}_L$ and a right-to-left automaton $\mathcal{A}_R$.
+  Let us define $Q$ the union of the states of $\mathcal{A}_L$ and $\mathcal{A}_R$.
+  Let us define $q_A(u)$ as the state in which $\mathcal{A}_L$ ends
+  after reading $u$, and $q_B(v)$ as the state in which $\mathcal{A}_R$ ends
+  after reading $v$ (from right to left).
+
+  It we can now define $f_A(u,s)$ to be the output of the bimachine on the word
+  $u$ if the left-to-right automaton starts in its initial state, the
+  right-to-left automaton starts in state $s \in Q$, and similarly, $f_B(v,s)$
+  to be the output of the bimachine on the word $v$ if the left-to-right
+  automaton starts in state $s \in Q$, and the right-to-left automaton starts
+  in its initial state.
+\end{proof}
+
+
+
+\begin{definition}
+  A simple streaming string transducer (SSST) is 
+  given by a finite set $Q$ of states,
+  a transition function $\delta \colon Q \times \Sigma \to Q$,
+  a finite number $r$ of registers,
+  an update function $\rho \colon Q \times \Sigma \times \{ 1, ..., r\} \to 
+  \{1, ..., r\} \times \Gamma^*$,
+  an initial state $q_0 \in Q$,
+  an inital register assignment $I \colon \{1, ..., r\} \to \Gamma^*$,
+  and a final output function $F \colon Q \to \{1, ..., r\} \times \Gamma^*$.
+
+
+  The semantics of a SSST is as follows: when reading a word, the state 
+  is initially $q_0$ and the registers are initialized according to $I$.
+  When reading a letter $a$ in state $q$, the SSST moves to state
+  $\delta(q,a)$ and for each register $i$, it updates register $i$
+  by appending the string given by the second component of 
+  $\rho(q,a,i)$ to the content of
+  register $j$ where $j$ is the first component of $\rho(q,a,i)$.
+  After reading the whole input word, if the SSST is in state $q$,
+  then the output is obtained by concatenating the string given by
+  $F(q)$ to the content of the register indicated by the first component
+  of $F(q)$.
+\end{definition}
+
+\begin{lemma}
+  A function $f \colon \Sigma^* \to \Gamma^*$
+  is rational (computable by a bimachine)
+  if and only if 
+  it is computable by an SSST.
+\end{lemma}
+\begin{proof}
+
+Given a bimachine computing $f$, one can construnct an SSST with states that are
+all the possible states of the left-to-right automaton, and one register per
+state of the right-to-left automaton. 
+When reading a letter $a$ in state $q$, the SSST moves to state
+$\delta(q,a)$. 
+Given a state $p$ of the right-to-left automaton, the register 
+corresponding to $p$ is updated by 
+appending to the register $\delta(p,a)$ the output produced by 
+the bimachine when the left-to-right automaton is in state $q$,
+the right-to-left automaton is in state $p$, and the letter read is $a$.
+Finally, the output function $F$ is defined so that the output is produced
+by the register corresponding to the initial state of the right-to-left
+automaton.
+
+Conversely, consider an SSST computing $f$, one can 
+construct a bimachine that guesses which register will produce the final output,
+and only care about updating this register throughout the computation. Since 
+there is only one register now, and we only append to it, this means that 
+we actually can directly produce the output on the fly as an actual bimachine.
+\end{proof}
+
+
+Let us now consider a function $f$ computable by a concatenating Alice-Bob
+communication model, so that $f(uv) = f_A(u, q_B(v)) \; f_B(v, q_A(u))$ for
+suitable functions $f_A, f_B, q_A, q_B$ and finite set $Q$ of signals. Let us
+define a \emph{configuration of Alice} on a word $u \in \Sigma^*$ as the
+following tuple: the state $q_A(u)$, and the words $(f_A(u, s))_{s \in Q}$. Let
+us write $C(u)$ for this configuration, which defines a map from $\Sigma^*$ to
+$Q \times (\Gamma^*)^{|Q|}$.
+Let us order configurations as follows: $C(u) \leq C(v)$ if and only if $q_A(u)
+= q_A(v)$ and for all $s \in Q$, there exists $r \in Q$ such that $f_A(u, s)$
+is a prefix of $f_A(v, r)$.
+
+We claim that configurations are somehow close to being endowed with a
+well-quasi-ordering. Before doing that, let us first normalize the notion of
+configuration to contain only signals in $Q$ that can actually be sent by Bob.
+That is, for every $s \in Q$ such that there is no $v \in \Sigma^*$ with
+$q_B(v) = s$, we remove $s$ from $Q$ and we remove the corresponding word
+$f_A(u, s)$ from the configuration $C(u)$.
+
+\begin{lemma}
+  \label{lem:pref-wqo}
+  For every infinite sequence $(w_n)_{n \in \mathbb{N}}$ of words in $\Gamma^*$
+  that is increasing for the prefix order,
+  there exist $i < j$ such that $C(w_i) \leq C(w_j)$.
+\end{lemma}
+\begin{proof}
+  Let us consider such an infinite sequence $(w_n)_{n \in \mathbb{N}}$.
+  Since $Q$ is finite, there exists an infinite subsequence 
+  that has a same state $q \in Q$.
+
+  Let us notice that the sequence of lenghts of the words 
+  in $(f_A(w_n, s))_{s \in Q}$ is a sequence of $|Q|$-tuples of natural numbers,
+  hence by Dickson's lemma, there exists an infinite subsequence
+  where these lenghts are non-decreasing.
+
+  Let us now fix a $q \in Q$ and look at 
+  $|f_A(w_n, q)|$ for this $q$ when $n$ ranges over the indices of the
+  subsequence defined above. Either $|f_A(w_n, q)|$ is bounded, in which case
+  we can extract further a subsequence where $f_A(w_n, q)$ is constant, or
+  $|f_A(w_n, q)|$ is unbounded, in which case we can extract an infinite subsequence
+  where $|f_A(w_n, q)|$ is strictly increasing. 
+
+  By repeating this process for all the finitely many $q \in Q$, we can extract
+  a subsequence $(w_{n_k})_{k \in \mathbb{N}}$ such that for all $q \in Q$,
+  either $f_A(w_{n_k}, q)$ is constant, or the lenghts $|f_A(w_{n_k}, q)|$ are
+  strictly increasing.
+
+  Let us now take $i = n_0$, and $j$ be large enough so that for every $q \in
+  Q$ where $|f_A(w_{n_k}, q)|$ is strictly increasing, for every $s \in Q$, we
+  have $|f_A(w_j, q)| > |f_A(w_i, s)|$.
+
+  Let us prove that $C(w_i) \leq C(w_j)$. By construction, we have
+  $q_A(w_i) = q_A(w_j)$. Now, let us consider any $s \in Q$. If
+  $f_A(w_{n_k}, s)$ is constant, then in particular
+  $f_A(w_i, s) = f_A(w_j, s)$, so $f_A(w_i, s)$ is a prefix of
+  $f_A(w_j, s)$. 
+  Otherwise, $|f_A(w_j, s)| > |f_A(w_i, r)|$
+  for all $r \in Q$. Let us now consider a word $v$ such that 
+  $q_B(v) = s$ and let us write $w_j = w_i v'$.
+
+  \begin{equation*}
+    f_A(w_j, s) \; f_B(v, q_A(w_j))
+    f(w_j v) = f(w_i v' v)
+    = f_A(w_i, q_B(v' v)) \; f_B(v' v, q_A(w_i))
+  \end{equation*}
+
+  Since $|f_A(w_j, s)| > |f_A(w_i, r)|$ for all $r \in Q$,
+  this means that $f_A(w_i, q_B(v' v))$ is a prefix of $f_A(w_j, s)$,
+  as desired.
+
+  We have proven that $C(w_i) \leq C(w_j)$.
+\end{proof}
+
+
+Now is the time to prove the main result of this section by constructing an
+SSST computing $f$ from this well-quasi-ordering on configurations.
+
+\begin{theorem}
+  A function $f \colon \Sigma^* \to \Gamma^*$
+  is computable by a concatenating Alice-Bob communication model
+  if and only if it is computable by an SSST.
+\end{theorem}
+\begin{proof}
+  The direction from SSST to concatenating Alice-Bob communication model is
+  straightforward, since SSTs correspond to rational functions 
+  and we have already seen that rational functions can be computed
+  by concatenating Alice-Bob communication models in 
+  Lemma~\ref{lem:concat-ab-rational}.
+
+
+  Conversely, let us consider a function $f$ computable by a concatenating
+  Alice-Bob communication model. We are going to construct an SSST computing
+  $f$. Let us consider as states of the SSST words $u\in \Sigma^*$ that are a
+  finite set of representatives of minimal elements of configurations for the
+  order $\leq$ defined above. By Lemma~\ref{lem:pref-wqo}, the tree of all
+  words ordered by prefixes can be trimmed using $\leq$ so that every branch is
+  finite, hence the tree itself is finite due to K\"onig's lemma, proving the
+  existence of such a finite set of representatives. To this finite list of
+  representatives, we add the empty word $\varepsilon$ if it is not already
+  present.
+
+  The initial state of the SSST is $\varepsilon$, and the content of the
+  registers is initialized so that for every $s \in Q$, the register
+  corresponding to $s$ contains $f_A(\varepsilon, s)$.
+
+  The transition function is defined as follows: $\delta(u, a) = v$, where $v$
+  is such that $C(v) \leq C(u a)$ (which exists by definition of the
+  representatives). 
+
+  The update function is defined as follows: when reading a letter $a$ in
+  state $u$, for each $s \in Q$, let us consider the word
+  $f_A(u a, s)$. By definition of the order $\leq$, there exists $r \in Q$ such that
+  $f_A(u a, s)$ contains $f_A(\delta(u,a), r)$ as a prefix, hence
+  we can write the following update for the register corresponding to $r$:
+  \begin{equation*}
+    R_s \leftarrow R_r \; w_{u,a,s,v,r}
+  \end{equation*}
+  where $w_{u,a,s,v,r}$ is the suffix such that
+  $f_A(ua, s) = f_A(v, r) \; w_{u,a,s,v,r}$.
+
+  Finally, the output function is defined as follows: when the SSST is in state
+  $u$, we output the register $q_B(\varepsilon)$ concatenated with
+  $f_B(\varepsilon, q_A(u))$.
+
+  Let us prove by induction on the lenght of $w$ that the SSST computes $f(w)$
+  correctly. We will actually prove a stronger result: $\delta(\varepsilon, w)
+  = u$ implies that for every $s \in Q$, the register corresponding to $s$
+  equals $f_A(w, s)$, and $q_A(w) = q_A(u)$.
+
+  To prove this, let us write $R(w)_q$ for the content of the register
+  corresponding to $q \in Q$ after reading $w$.
+
+  For the base case $w = \varepsilon$, we have $\delta(\varepsilon,
+  \varepsilon) = \varepsilon$, and the registers are initialized correctly.
+  Now, let us consider a word $w a$ where $a \in \Sigma$ and $w \in \Sigma^*$.
+  By induction hypothesis, let us write $u = \delta(\varepsilon, w)$.
+
+  Let us take any $s \in Q$. By definition of 
+  the update function, there exists $r \in Q$ such that
+  $R(wa)_s = R(w)_r \; w_{u,a,s,v,r}$. By induction hypothesis, we have
+  $R(w)_r = f_A(w, r)$, and by definition of $w_{u,a,s,v,r}$, we have
+  $f_A(wa, s) = f_A(v, r) \; w_{u,a,s,v,r}$. 
+  Hence, we have $R(wa)_s = f_A(wa, s)$, as desired.
+  Let us now prove that $q_A(wa) = q_A(v)$.
+  By induction hypothesis, we have $q_A(w) = q_A(u)$, and 
+  since $C(v) \leq C(ua)$, we have $q_A(ua) = q_A(v)$, as desired.
+
+
+  Finally, when the SSST is in state $u$ after reading $w$, by what we have
+  just proven, we have that the register corresponding to $q_B(\varepsilon)$
+  contains $f_A(w, q_B(\varepsilon))$, and since $q_A(w) = q_A(u)$, the output
+  function produces $f_A(w, q_B(\varepsilon)) \; f_B(\varepsilon, q_A(w)) =
+  f(w)$, as desired.
+\end{proof}
+
+
+As a corollary, we obtain that functions computable by concatenating
+Alice-Bob communication models are exactly the rational functions.
+
+\begin{corollary}
+  A function $f \colon \Sigma^* \to \Gamma^*$
+  is computable by a concatenating Alice-Bob communication model
+  if and only if it is rational (computable by a bimachine).
+\end{corollary}
+
