@@ -8,7 +8,7 @@ Consider the following protocol between Alice and Bob. An evil adversary split t
 \begin{itemize}
     \item Alice computes the length of her input $|x|$ and keeps it as her local output.
     \item Bob computes the length of his input $|y|$ and keeps it as his local output.
-    \item At the end of the communication, both parties send their local outputs to a ``sum-aggregator''. The aggregator computes the final output as $|x| + |y|$.
+    \item At the end of the communication, both parties send their local outputs to a ``addition-aggregator''. The aggregator computes the final output as $|x| + |y|$.
 \end{itemize}
 \end{myexample}
 
@@ -45,10 +45,38 @@ Here we say that a protocol computes a function $f: \Sigma^* \to M$ if, for ever
 Observe that in simple-aggregation protocols, the parties can simply send each other the sequence of functions $(f_i)_{i=1,2,\dots,k}$ , such that each function $f_i$ is either from $Q_B^{i-1}$ to $Q_A$ or from $Q_A^{i-1}$ to $Q_B$. This sequence of functions can fully describe the behavior of both parties, or in other words, can generate the communication history (which is a sequence of signals).
 
 Hence we can simplify the definition of simple-aggregation protocols in the following way: Alice send one signal to Bob, let call it $q_A(x)$, which is a function from $\Sigma^*$ to $Q_A$ and $x$ is her local string. Similarly, Bob send one signal to Alice, let call it $q_B(y)$, which is a function from $\Sigma^*$ to $Q_B$ and $y$ is his local string. Then both parties compute their local outputs using these functions as follows:
-\[\text{Alice's local output} = f_A(x, q_B(y)) \quad , \quad \text{Bob's local output} = f_B(y, q_A(x))\]
+\[\text{Alice's local output} = f_A(x, q_B(y)) \quad , \quad \text{Bob's local output} = f_B(y, q_A(x))\] 
 Finally, the aggregator compute the final output as:
-\[\text{Output}(x,y) = f_A(x, q_B(y)) \ast f_B(y, q_A(x))\]
+\[\text{Output}(x,y) = f_A(x, q_B(y)) \ast f_B(y, q_A(x))\] \footnote{This reminds us of the \emph{Yin-Yang}, so we can call this the Yin-Yang protocols. This is because if you consider the local output of Alice as the Yang, then inside it there is the signal from Bob, which is the Yin. Similarly, the local output of Bob is the Yin, which contains the signal from Alice, which is the Yang. Together they form a complete whole.}
+
+Without loss of generality, we will always assume that all of the elements of the signal spaces $Q_A$ and $Q_B$ are reachable by the respective signal functions $q_A$ and $q_B$. In other words, for every $q_A \in Q_A$, there exists an input string $x \in \Sigma^*$ such that $q_A(x) = q_A$. Similarly, for every $q_B \in Q_B$, there exists an input string $y \in \Sigma^*$ such that $q_B(y) = q_B$.
+
+\begin{definition}
+    \label{signal-free-simple-aggregation-definition}
+A signal-free simple-aggregation protocol over a monoid is a restriction of simple-aggregation protocols in which the signal spaces $Q_A$ and $Q_B$ are singleton sets. In other words, there is no communication between the parties, and each party computes its local output based only on its input. Such a protocol is therefore specified by:
+\begin{itemize}
+    \item a monoid $(M, \ast, e)$ as the output domain
+    \item two functions $f_A: \Sigma^* \to M$ and $f_B: \Sigma^* \to M$ that are computed by Alice and Bob respectively on their local inputs
+\end{itemize}
+The final output on inputs $x,y$ is $f_A(x)\ast f_B(y)$.
+\end{definition}
+
+\begin{definition}
+    \label {configuration-definition}
+    A configuration of a simple-aggregation protocol over the input space $\Sigma^*$ for each party and input string can be defined as follows: First fixed an enumeration of elements of signal spaces of both parties, i.e., $Q_A = \{q_A^1, q_A^2, \ldots, q_A^{|Q_A|}\}$ and $Q_B = \{q_B^1, q_B^2, \ldots, q_B^{|Q_B|}\}$. Then the configuration of Alice on input $x \in \Sigma^*$ is a vector of size $|Q_B|$ defined as follows:
+    \begin{align}
+    C_A(x) &= \begin{bmatrix}
+           m_{1} \\
+           m_{2} \\
+           \vdots \\
+           m_{|Q_B|}
+    \end{bmatrix} \quad \text{where } m_{i} = f_A(x, q_B^i) \quad \text{for } 1 \leq i \leq |Q_B|
+    \end{align}
+    Similarly, the configuration of Bob on input $y \in \Sigma^*$ can be defined.
+\end{definition}
 
 \input{commutative_agg_boolean.tex}
-\input{sum_agg.tex}
+%\input{addition_agg.tex}
+\input{Homomorphism_Protocols.tex}
+\input{Sequential_Protocols.tex}
 \input{monotone_protocols.tex}

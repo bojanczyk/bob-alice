@@ -1,15 +1,6 @@
 \subsection{Commutative Protocols over a Monoid}
 \label{sec:commutative-boolean-domain}
 
-\begin{definition}
-A signal-free simple-aggregation protocol over a monoid is a restriction of simple-aggregation protocols in which the signal spaces $Q_A$ and $Q_B$ are singleton sets. In other words, there is no communication between the parties, and each party computes its local output based only on its input. Such a protocol is therefore specified by:
-\begin{itemize}
-    \item a monoid $(M, \ast, e)$ as the output domain
-    \item two functions $f_A: \Sigma^* \to M$ and $f_B: \Sigma^* \to M$ that are computed by Alice and Bob respectively on their local inputs
-\end{itemize}
-The final output on inputs $x,y$ is $f_A(x)\ast f_B(y)$.
-\end{definition}
-
 We say that a function $f:\Sigma^* \to {\mathbb D}$ (where ${\mathbb D}$ is any output domain) is commutative if, for every word $u\in\Sigma^*$ and every permutation $\pi$ of the positions of $u$, we have $f(u)=f(\pi(u))$.
 
 In Theorem~\ref{thm:commutative-signal-free}, we show the following: If, in a signal-free aggregation protocol over a commutative monoid, the neutral element $e$ of the monoid is in the image of both $f_A$ and $f_B$, then the protocol computes a commutative function $f:\Sigma^* \to M$.

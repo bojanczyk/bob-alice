@@ -1,15 +1,24 @@
 % LTeX: lang=en-US
 
-\subsection{Mnotone Protcols}
+\subsection{Monotone Protcols}
 
 \begin{definition}
   \label{monotone_protocol_definition}
-  A monotone protocol is a simple-aggregation protocol [\ref{simple-aggregation-definition}] over the monoid
+  A monotone protocol is a simple-aggregation protocol (as defined in Definition~\ref{simple-aggregation-definition}) over the monoid
   $(\Gamma^*, \cdot, \varepsilon)$
   where $\Gamma^*$ is the set of all strings over the alphabet $\Gamma$,
   $\cdot$ is the concatenation operation,
   and $\varepsilon$ is the empty string.
 \end{definition}
+
+We can have similar lemma as Lemma~\ref{prefix-lemma-sequential-protocols} for monotone protocols, stating that configurations of Alice grow monotonically with respect to the prefix order on strings, whenever the signal sent by either Alice does not change.
+
+\begin{lemma}
+    \label{prefix-lemma-monotone-protocols}
+Let $(f_A,f_B,Q_A,Q_B,q_A,q_B)$ be ingridients of a monotone protocol over the monoid $(\Gamma^*, \cdot, \varepsilon)$. Now for any two string $w_1, w_2 \in \Sigma^*$, if $q_A(w_1) = q_A(w_1w_2)$ then for every $1 \leq i \leq |Q_B|$ the $i$-th component of configuration $C_A(w_1)$ is prefix of the $i$-th component of configuration $C_A(w_1w_2)$. More percisely, if we denote the $i$-th component of configuration $C_A(w)$ as $C_A(w)[i]$, then we have:
+\[C_A(w_1w_2)[i] = C_A(w_1)[i] \cdot u \] for some $u \in \Gamma^*$ (output domain).
+In other words, configurations of Alice grow monotonically with respect to the prefix order on strings, whenever the signal sent to Bob does not change.
+\end{lemma}
 
 \begin{lemma}
   \label{lem:concat-ab-rational}
@@ -91,12 +100,7 @@ we actually can directly produce the output on the fly as an actual bimachine.
 
 
 Let us now consider a function $f$ expressible by a monotone protocol, so that $f(uv) = f_A(u, q_B(v)) \; f_B(v, q_A(u))$ for
-suitable functions $f_A, f_B, q_A, q_B$ and finite set $Q$ of signals. Let us
-define a \emph{configuration of Alice} on a word $u \in \Sigma^*$ as the
-following tuple: the state $q_A(u)$, and the words $(f_A(u, s))_{s \in Q}$. Let
-us write $C(u)$ for this configuration, which defines a map from $\Sigma^*$ to
-$Q \times (\Gamma^*)^{|Q|}$.
-Let us order configurations as follows: $C(u) \leq C(v)$ if and only if $q_A(u)
+suitable functions $f_A, f_B, q_A, q_B$ and finite set $Q$ of signals. Recall the definition of configuration of a simple-aggregation protocol from Definition~\ref{configuration-definition}. Let us order configurations as follows: $C(u) \leq C(v)$ if and only if $q_A(u)
 = q_A(v)$ and for all $s \in Q$, there exists $r \in Q$ such that $f_A(u, s)$
 is a prefix of $f_A(v, r)$.
 
