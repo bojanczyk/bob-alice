@@ -1,38 +1,20 @@
 % LTeX: lang=en-US
 
-\section{Streaming String Transducers and Alice-Bob}
+\subsection{Mnotone Protcols}
 
 \begin{definition}
-  A \emph{concatenating Alice-Bob communication model}
-  is an Alice-Bob protocol where 
-  \begin{enumerate}
-    \item Alice and Bob exchange information,
-    \item The output is produced by concatenating one 
-          word produced by Alice, and 
-          one word produced by Bob.
-  \end{enumerate}
-  Formally, a function $f \colon \Sigma^* \to \Gamma^*$
-  is computable in the homomorphism Alice-Bob communication model
-  if there exist two functions
-  $f_A \colon \Sigma^* \to \Gamma^*$ and
-  $f_B \colon \Sigma^* \to \Gamma^*$,
-  a finite set $Q$ of signals, and
-  two functions
-  $q_A \colon \Sigma^* \to Q$
-  and
-  $q_B \colon \Sigma^* \to Q$,
-  such that for all $u,v \in \Sigma^*$,
-  \[
-    f(uv) = f_A(u, q_B(v)) \; f_B(v, q_A(u)).
-  \]
+  \label{monotone_protocol_definition}
+  A monotone protocol is a simple-aggregation protocol [\ref{simple-aggregation-definition}] over the monoid
+  $(\Gamma^*, \cdot, \varepsilon)$
+  where $\Gamma^*$ is the set of all strings over the alphabet $\Gamma$,
+  $\cdot$ is the concatenation operation,
+  and $\varepsilon$ is the empty string.
 \end{definition}
-
 
 \begin{lemma}
   \label{lem:concat-ab-rational}
-  Every function $f \colon \Sigma^* \to \Gamma^*$
-  computable by a rational function (bimachine)
-  is computable by a concatenating Alice-Bob communication model.
+  For every rational function $f \colon \Sigma^* \to \Gamma^*$
+  (computable by a bimachine), there exists a monotone prtocol expressing $f$.
 \end{lemma}
 \begin{proof}
   Let us consider a bimachine computing $f$,
@@ -108,8 +90,7 @@ we actually can directly produce the output on the fly as an actual bimachine.
 \end{proof}
 
 
-Let us now consider a function $f$ computable by a concatenating Alice-Bob
-communication model, so that $f(uv) = f_A(u, q_B(v)) \; f_B(v, q_A(u))$ for
+Let us now consider a function $f$ expressible by a monotone protocol, so that $f(uv) = f_A(u, q_B(v)) \; f_B(v, q_A(u))$ for
 suitable functions $f_A, f_B, q_A, q_B$ and finite set $Q$ of signals. Let us
 define a \emph{configuration of Alice} on a word $u \in \Sigma^*$ as the
 following tuple: the state $q_A(u)$, and the words $(f_A(u, s))_{s \in Q}$. Let
@@ -185,20 +166,18 @@ Now is the time to prove the main result of this section by constructing an
 SSST computing $f$ from this well-quasi-ordering on configurations.
 
 \begin{theorem}
+
   A function $f \colon \Sigma^* \to \Gamma^*$
-  is computable by a concatenating Alice-Bob communication model
+  is computable by a monotone protocol
   if and only if it is computable by an SSST.
+
 \end{theorem}
 \begin{proof}
-  The direction from SSST to concatenating Alice-Bob communication model is
-  straightforward, since SSTs correspond to rational functions 
-  and we have already seen that rational functions can be computed
-  by concatenating Alice-Bob communication models in 
-  Lemma~\ref{lem:concat-ab-rational}.
+  The direction from SSST to monotone protocol is straightforward, since SSTs correspond to rational functions 
+  and we have already seen that rational functions can be expressed by a monotone protocol in Lemma~\ref{lem:concat-ab-rational}.
 
 
-  Conversely, let us consider a function $f$ computable by a concatenating
-  Alice-Bob communication model. We are going to construct an SSST computing
+  Conversely, let us consider a function $f$ expressible by a monotone protocol. We are going to construct an SSST computing
   $f$. Let us consider as states of the SSST words $u\in \Sigma^*$ that are a
   finite set of representatives of minimal elements of configurations for the
   order $\leq$ defined above. By Lemma~\ref{lem:pref-wqo}, the tree of all
@@ -232,7 +211,7 @@ SSST computing $f$ from this well-quasi-ordering on configurations.
   $f_B(\varepsilon, q_A(u))$.
 
   \medskip
-  \hline
+
   \medskip
 
   Let us prove by induction on the lenght of $w$ that the SSST computes $f(w)$
@@ -246,12 +225,12 @@ SSST computing $f$ from this well-quasi-ordering on configurations.
 \end{proof}
 
 
-As a corollary, we obtain that functions computable by concatenating
-Alice-Bob communication models are exactly the rational functions.
+As a corollary, we obtain that functions expressible by monotone protocols are exactly the rational functions.
 
 \begin{corollary}
+
   A function $f \colon \Sigma^* \to \Gamma^*$
-  is computable by a concatenating Alice-Bob communication model
+  is expressible by a monotone protocol
   if and only if it is rational (computable by a bimachine).
 \end{corollary}
 

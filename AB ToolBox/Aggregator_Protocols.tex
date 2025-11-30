@@ -1,4 +1,4 @@
-\section{Aggregator-Protocols}
+\section{Aggregator Protocols}
 \label{sec:agg-protocols}
 
 These protocols are similar to normal Alice--Bob protocols, with one key difference: instead of generating partial outputs using messages that contain an element of the output domain, each party has its own local partial output until the end of the communication, and at the end the final output is computed by aggregating these local outputs using a predefined operation.
@@ -14,5 +14,41 @@ Consider the following protocol between Alice and Bob. An evil adversary split t
 
 We can define different types of aggregator-protocols based on the aggregation operation used to compute the final output from the local outputs of the parties. We have already seen that protocols on the field output domain are equivalent to aggregator-protocols with the scalar product as the aggregation operation. We call these scalar-product protocols. We also mentioned that this is true for every commutative semiring output domain. Also , It is not hard to see that in case of String-output protocols, the aggregation operation is sequence of concatenation. In that case, alice and bob communicating with each other but keep the local output for themselves until the end of the communication, and at the end each of them send $k$ strings to the aggregator, and the aggregator concatenate all the strings in a zig-zag manner to produce the final output string. In the next section, we will define commutative protocols over a monoid domain as another example of aggregator-protocols.
 
+\begin{definition}
+    \label{simple-aggregation-definition}
+A simple-aggregation protocol over a monoid is given by the following ingredients:
+\begin{itemize}
+    \item a monoid $(M, \ast, e)$ as the output domain
+    \item a number $k \in \mathbb{N}$ of rounds of communication
+    \item signal spaces for Alice and Bob, which are the sets $Q_A$ and $Q_B$, respectively
+    \item for each round $1 \leq i \leq k$, two strategies:
+    \begin{itemize}
+        \item Alice's strategy: $\delta_A^i: \Sigma^* \times Q_B^{i-1} \to Q_A$
+        \item Bob's strategy: $\delta_B^i: \Sigma^* \times Q_A^{i-1} \to Q_B$
+    \end{itemize}
+    \item an output function for each party:
+    \begin{itemize}
+        \item Alice's output function: $f_A: \Sigma^* \times Q_B^k \to M$
+        \item Bob's output function: $f_B: \Sigma^* \times Q_A^k \to M$
+    \end{itemize}
+\end{itemize}
+The output of the protocol on inputs $x,y \in \Sigma^*$ is the aggregation of the local outputs of Alice and Bob:
+\[
+\text{Output}(x,y) = f_A(x, q_B^1, \ldots, q_B^k) \ast f_B(y, q_A^1, \ldots, q_A^k),
+\]
+where $q_A^i$ and $q_B^i$ are the signals sent by Alice and Bob in round $i$, respectively.
+\end{definition}
+
+Here we say that a protocol computes a function $f: \Sigma^* \to M$ if, for every input split $w=xy$, the output of the protocol on inputs $x,y$ equals $f(w)$.
+
+
+Observe that in simple-aggregation protocols, the parties can simply send each other the sequence of functions $(f_i)_{i=1,2,\dots,k}$ , such that each function $f_i$ is either from $Q_B^{i-1}$ to $Q_A$ or from $Q_A^{i-1}$ to $Q_B$. This sequence of functions can fully describe the behavior of both parties, or in other words, can generate the communication history (which is a sequence of signals).
+
+Hence we can simplify the definition of simple-aggregation protocols in the following way: Alice send one signal to Bob, let call it $q_A(x)$, which is a function from $\Sigma^*$ to $Q_A$ and $x$ is her local string. Similarly, Bob send one signal to Alice, let call it $q_B(y)$, which is a function from $\Sigma^*$ to $Q_B$ and $y$ is his local string. Then both parties compute their local outputs using these functions as follows:
+\[\text{Alice's local output} = f_A(x, q_B(y)) \quad , \quad \text{Bob's local output} = f_B(y, q_A(x))\]
+Finally, the aggregator compute the final output as:
+\[\text{Output}(x,y) = f_A(x, q_B(y)) \ast f_B(y, q_A(x))\]
+
 \input{commutative_agg_boolean.tex}
 \input{sum_agg.tex}
+\input{monotone_protocols.tex}

@@ -2,32 +2,6 @@
 \label{sec:commutative-boolean-domain}
 
 \begin{definition}
-A simple-aggregation protocol over a monoid is given by the following ingredients:
-\begin{itemize}
-    \item a monoid $(M, \ast, e)$ as the output domain
-    \item a number $k \in \mathbb{N}$ of rounds of communication
-    \item signal spaces for Alice and Bob, which are the sets $Q_A$ and $Q_B$, respectively
-    \item for each round $1 \leq i \leq k$, two strategies:
-    \begin{itemize}
-        \item Alice's strategy: $\delta_A^i: \Sigma^* \times Q_B^{i-1} \to Q_A$
-        \item Bob's strategy: $\delta_B^i: \Sigma^* \times Q_A^{i-1} \to Q_B$
-    \end{itemize}
-    \item an output function for each party:
-    \begin{itemize}
-        \item Alice's output function: $o_A: \Sigma^* \times Q_B^k \to M$
-        \item Bob's output function: $o_B: \Sigma^* \times Q_A^k \to M$
-    \end{itemize}
-\end{itemize}
-The output of the protocol on inputs $x,y \in \Sigma^*$ is the aggregation of the local outputs of Alice and Bob:
-\[
-\text{Output}(x,y) = o_A(x, q_B^1, \ldots, q_B^k) \ast o_B(y, q_A^1, \ldots, q_A^k),
-\]
-where $q_A^i$ and $q_B^i$ are the signals sent by Alice and Bob in round $i$, respectively.
-\end{definition}
-
-Here we say that a protocol computes a function $f: \Sigma^* \to M$ if, for every input split $w=xy$, the output of the protocol on inputs $x,y$ equals $f(w)$.
-
-\begin{definition}
 A signal-free simple-aggregation protocol over a monoid is a restriction of simple-aggregation protocols in which the signal spaces $Q_A$ and $Q_B$ are singleton sets. In other words, there is no communication between the parties, and each party computes its local output based only on its input. Such a protocol is therefore specified by:
 \begin{itemize}
     \item a monoid $(M, \ast, e)$ as the output domain
