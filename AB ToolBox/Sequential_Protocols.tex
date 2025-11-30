@@ -33,17 +33,17 @@ Let $(f_A,f_B,Q_A,Q_B,q_A)$ be ingridients of a sequential protocol over the mon
     \label{eq:seq1}
 \end{equation}
 
-Since $f_A(w_1)$ and $f_A(w_1w_2)$ are incomparable under the prefix relation by assumption, Equation~\eqref{eq:seq1} implies that $f_A(w_1w_2)$ is a strict prefix of $f_A(w_1)$. Write
+Since $f_A(w_1)$ is not prefix of $f_A(w_1w_2)$ by assumption, Equation~\eqref{eq:seq1} implies that $f_A(w_1w_2)$ is a strict prefix of $f_A(w_1)$. Write
 \[
 f_A(w_1) = f_A(w_1 w_2)\, v
 \]
 for some nonempty $v \in \Gamma^*$. Let
 \[
-u = f_A(w_1 w_2), \qquad z_1 = f_B(w_2,q).
+u = f_A(w_1 w_2), \qquad z_1 = f_B(w_2,q)
 \]
 Then \eqref{eq:seq1} yields
 \[
-f_B(\varepsilon,q) = v z_1.
+f_B(\varepsilon,q) = v z_1
 \]
 
 Now consider $w_1 w_2^2$. Using split-invariance,
