@@ -64,6 +64,52 @@ The same cancellation shows
 z_k = v\,z_{k+1} \qquad \text{for all } k \ge 0
 \]
 Now since $v \neq \varepsilon$, the length of $z_k$ strictly decreases with $k$. This yields a contradiction.
+\end{proof}
 
+%====
+\begin{corollary}
+If for $w_1,w_2\in\Sigma^*$ we have $q_A(w_1)=q_A(w_1w_2)=:q$, then
+\[
+   f(w_1)\cdot \bigl(f_B(\varepsilon,q)\bigr)^{-1}
+   \text{ is a prefix of }
+   f(w_1w_2)\cdot \bigl(f_B(\varepsilon,q)\bigr)^{-1}
+\]
+Equivalently, there exists a string $u\in\Gamma^*$ such that
+\[
+   f(w_1w_2)\cdot \bigl(f_B(\varepsilon,q)\bigr)^{-1}
+   \;=\;
+   f(w_1)\cdot \bigl(f_B(\varepsilon,q)\bigr)^{-1}\cdot u
+\]
+\end{corollary}
 
+\begin{proof}
+For $q = q_A(w_1)=q_A(w_1w_2)$ we have, by definition of the global output of a sequential protocol:
+\[
+   f(w_1)=f_A(w_1)\,f_B(\varepsilon,q), \qquad
+   f(w_1w_2)=f_A(w_1w_2)\,f_B(\varepsilon,q)
+\]
+By Lemma~\ref{prefix-lemma-sequential-protocols}, the assumption
+$q_A(w_1)=q_A(w_1w_2)$ implies that $f_A(w_1)$ is a prefix of $f_A(w_1w_2)$.
+Hence there exists $u\in\Gamma^*$ such that
+\[
+   f_A(w_1w_2)=f_A(w_1)\,u
+\]
+Substituting this expression into the global output gives
+\[
+   f(w_1w_2)=f_A(w_1)\,u\,f_B(\varepsilon,q)
+            = \bigl(f_A(w_1)\,f_B(\varepsilon,q)\bigr)\,u
+            = f(w_1)\,u
+\]
+Right-cancelling the common suffix $f_B(\varepsilon,q)$ yields
+\[
+   f(w_1w_2)\cdot \bigl(f_B(\varepsilon,q)\bigr)^{-1}
+   \;=\;
+   f(w_1)\cdot \bigl(f_B(\varepsilon,q)\bigr)^{-1}\cdot u
+\]
+which proves that
+\[
+   f(w_1)\cdot \bigl(f_B(\varepsilon,q)\bigr)^{-1}
+   \preceq
+   f(w_1w_2)\cdot \bigl(f_B(\varepsilon,q)\bigr)^{-1}
+\]
 \end{proof}
