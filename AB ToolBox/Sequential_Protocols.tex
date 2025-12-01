@@ -7,9 +7,9 @@ A sequential protocol over a monoid is a simple-aggregation protocol (as defined
 
 \begin{myexample}
     \label{example-sequential-protocol}
-Let $TM_1,TM_2, \ldots$ be an enumeration of all Turing machines. Also for each natural number $n$, let $\langle n \rangle$ be a standard encoding of $n$ as a binary string. Consider the sequential protocol over the monoid $(\mathbb{N}, +, 0)$ where Alice's functions are defined as $f_A(x) = |x|$ and $q_A(x) = 1$ if $TM_{|x|}$ halts on input $ \langle x \rangle$ and $f_A(x) =|x| + 1$ and $q_A(x) = 2$ otherwise. Bob's function is defined as $f_B(y, q_A(x)) = |y|+1$ if $q_A(x) = 1$ and $f_B(y, q_A(x)) = |y|$ if $q_A(x) = 2$.
+Let $TM_1,TM_2, \ldots$ be an enumeration of all Turing machines. Consider the sequential protocol over the monoid $(\mathbb{N}, +, 0)$ where Alice's functions are defined as $f_A(x) = |x|$ and $q_A(x) = 1$ if $TM_{|x|}$ halts on input $  x $ and $f_A(x) =|x| + 1$ and $q_A(x) = 2$ otherwise. Bob's function is defined as $f_B(y, q_A(x)) = |y|+1$ if $q_A(x) = 1$ and $f_B(y, q_A(x)) = |y|$ if $q_A(x) = 2$.
 
-Observe that the output of this protocol is always $|x| + |y| + 1 = |xy|+1$, regardless of whether $TM_{|x|}$ halts on input $\langle x \rangle$ or not. Therefore, the split-invariance condition is satisfied. 
+Observe that the output of this protocol is always $|x| + |y| + 1 = |xy|+1$, regardless of whether $TM_{|x|}$ halts on input $ x $ or not. Therefore, the split-invariance condition is satisfied. 
 
 \end{myexample}
 
@@ -32,7 +32,6 @@ Let $(f_A,f_B,Q_A,Q_B,q_A)$ be ingridients of a sequential protocol over the mon
     = f_A(w_1 w_2)\, f_B(\varepsilon,q)
     \label{eq:seq1}
 \end{equation}
-
 Since $f_A(w_1)$ is not prefix of $f_A(w_1w_2)$ by assumption, Equation~\eqref{eq:seq1} implies that $f_A(w_1w_2)$ is a strict prefix of $f_A(w_1)$. Write
 \[
 f_A(w_1) = f_A(w_1 w_2)\, v
@@ -45,7 +44,6 @@ Then \eqref{eq:seq1} yields
 \[
 f_B(\varepsilon,q) = v z_1
 \]
-
 Now consider $w_1 w_2^2$. Using split-invariance,
 \begin{equation}
     f(w_1 w_2^2)
@@ -55,30 +53,17 @@ Now consider $w_1 w_2^2$. Using split-invariance,
 \end{equation}
 Let $z_2 = f_B(w_2^2,q)$. Substituting $f_A(w_1) = u v$ and $f_A(w_1 w_2) = u$ into \eqref{eq:seq2} gives
 \[
-u v z_2 = u z_1 \quad \Rightarrow \quad z_2 = v z_1
+u v z_2 = u z_1 \quad \Rightarrow \quad v\,z_2 = z_1
 \]
-
 Repeating this argument inductively, define
 \[
 z_k = f_B(w_2^k,q).
 \]
 The same cancellation shows
 \[
-z_{k+1} = v z_k \qquad \text{for all } k \ge 0
+z_k = v\,z_{k+1} \qquad \text{for all } k \ge 0
 \]
-
-Now since $v \neq \varepsilon$, the length of $z_k$ strictly decreases with $k$. In particular, for sufficiently large $k$, we eventually obtain $z_k = \varepsilon$ (because $f_B$ outputs finite strings and $v$ is repeatedly removed from the left). But then
-\[
-f(w_1 w_2^{k+1})
-= f_A(w_1 w_2)\, z_k
-= f_A(w_1 w_2)\, \varepsilon
-= f_A(w_1 w_2)
-= u,
-\]
-while we have already shown that $u v$ is always a prefix of $f(w_1 x)$ for all $x$. This yields a contradiction.
-
-    
-
+Now since $v \neq \varepsilon$, the length of $z_k$ strictly decreases with $k$. This yields a contradiction.
 
 
 \end{proof}
