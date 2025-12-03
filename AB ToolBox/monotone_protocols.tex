@@ -15,7 +15,7 @@ We can have similar lemma as Lemma~\ref{prefix-lemma-sequential-protocols} for m
 
 \begin{lemma}
     \label{prefix-lemma-monotone-protocols}
-Let $(f_A,f_B,Q_A,Q_B,q_A,q_B)$ be ingridients of a monotone protocol over the monoid $(\Gamma^*, \cdot, \varepsilon)$. Now for any two string $w_1, w_2 \in \Sigma^*$, if $q_A(w_1) = q_A(w_1w_2)$ then for every $1 \leq i \leq |Q_B|$ the $i$-th component of configuration $C_A(w_1)$ is prefix of the $i$-th component of configuration $C_A(w_1w_2)$. More percisely, if we denote the $i$-th component of configuration $C_A(w)$ as $C_A(w)[i]$, then we have:
+Let $(f_A,f_B,Q_A,Q_B,q_A,q_B)$ be ingredients of a monotone protocol over the monoid $(\Gamma^*, \cdot, \varepsilon)$. Now for any two string $w_1, w_2 \in \Sigma^*$, if $q_A(w_1) = q_A(w_1w_2)$ then for every $1 \leq i \leq |Q_B|$ the $i$-th component of configuration $C_A(w_1)$ is prefix of the $i$-th component of configuration $C_A(w_1w_2)$. More precisely, if we denote the $i$-th component of configuration $C_A(w)$ as $C_A(w)[i]$, then we have:
 \[C_A(w_1w_2)[i] = C_A(w_1)[i] \cdot u \] for some $u \in \Gamma^*$ (output domain).
 In other words, configurations of Alice grow monotonically with respect to the prefix order on strings, whenever the signal sent to Bob does not change.
 \end{lemma}
@@ -23,7 +23,7 @@ In other words, configurations of Alice grow monotonically with respect to the p
 \begin{lemma}
   \label{lem:concat-ab-rational}
   For every rational function $f \colon \Sigma^* \to \Gamma^*$
-  (computable by a bimachine), there exists a monotone prtocol expressing $f$.
+  (computable by a bimachine), there exists a monotone protocol expressing $f$.
 \end{lemma}
 \begin{proof}
   Let us consider a bimachine computing $f$,
@@ -45,64 +45,53 @@ In other words, configurations of Alice grow monotonically with respect to the p
 
 
 \begin{definition}
-  A simple streaming string transducer (SSST) is 
-  given by a finite set $Q$ of states,
-  a transition function $\delta \colon Q \times \Sigma \to Q$,
-  a finite number $r$ of registers,
-  an update function $\rho \colon Q \times \Sigma \times \{ 1, ..., r\} \to 
-  \{1, ..., r\} \times \Gamma^*$,
-  an initial state $q_0 \in Q$,
-  an inital register assignment $I \colon \{1, ..., r\} \to \Gamma^*$,
-  and a final output function $F \colon Q \to \{1, ..., r\} \times \Gamma^*$.
+  An \emph{oracle}-sequential transducer (OSeq)
+  is a deterministic finite state automaton
+  $(Q, \Sigma, \delta, q_0)$
+  equipped with output functions $\lambda \colon Q \times \Sigma \to \mathcal{O}$
+  where $\mathcal{O}$ is a finite set of oracle functions
+  of type $\Sigma^* \to \Gamma^*$,
+  and a final output function $F \colon Q \to \Gamma^*$.
 
-
-  The semantics of a SSST is as follows: when reading a word, the state 
-  is initially $q_0$ and the registers are initialized according to $I$.
-  When reading a letter $a$ in state $q$, the SSST moves to state
-  $\delta(q,a)$ and for each register $i$, it updates register $i$
-  by appending the string given by the second component of 
-  $\rho(q,a,i)$ to the content of
-  register $j$ where $j$ is the first component of $\rho(q,a,i)$.
-  After reading the whole input word, if the SSST is in state $q$,
-  then the output is obtained by concatenating the string given by
-  $F(q)$ to the content of the register indicated by the first component
-  of $F(q)$.
+  The semantics of an oracle-sequential transducer $\mathcal{A}$
+  is defined inductively as follows:
+  $\mathcal{A}(q, \varepsilon) = F(q)$, and
+  $\mathcal{A}(q, a w) = \lambda(q,a)(w) \cdot \mathcal{A}(\delta(q,a), w)$.
 \end{definition}
 
 \begin{lemma}
   A function $f \colon \Sigma^* \to \Gamma^*$
   is rational (computable by a bimachine)
   if and only if 
-  it is computable by an SSST.
+  it is computable by an oracle-sequential transducer
+  where all oracle functions are regular functions of
+  bounded size output.
 \end{lemma}
 \begin{proof}
+Given a bimachine computing $f$, one can construct an oracle transducer with
+states that are all the possible states of the left-to-right automaton. Then,
+$\lambda(q,a)(w)$ is defined as what the bimachine outputs when the
+left-to-right automaton is in state $q$, and the right-to-left automaton starts
+in its initial state, reads $w$ and then reads $a$, which can be computed by a
+regular function of bounded size output by definition.
 
-Given a bimachine computing $f$, one can construnct an SSST with states that are
-all the possible states of the left-to-right automaton, and one register per
-state of the right-to-left automaton. 
-When reading a letter $a$ in state $q$, the SSST moves to state
-$\delta(q,a)$. 
-Given a state $p$ of the right-to-left automaton, the register 
-corresponding to $p$ is updated by 
-appending to the register $\delta(p,a)$ the output produced by 
-the bimachine when the left-to-right automaton is in state $q$,
-the right-to-left automaton is in state $p$, and the letter read is $a$.
-Finally, the output function $F$ is defined so that the output is produced
-by the register corresponding to the initial state of the right-to-left
-automaton.
 
-Conversely, consider an SSST computing $f$, one can 
-construct a bimachine that guesses which register will produce the final output,
-and only care about updating this register throughout the computation. Since 
-there is only one register now, and we only append to it, this means that 
-we actually can directly produce the output on the fly as an actual bimachine.
+Conversely, one can compute one big automaton that precomputes all the oracle
+functions since their output has bounded size. This is the right-to-left
+automaton. The left-to-right automaton is the states of the oracle-sequential
+transducer. The output function of the bimachine is
+defined as $\lambda(q,a)(w)$ when the left-to-right automaton is in state $q$,
+which only depends on the state of the right-to-left and left-to-right automata.
 \end{proof}
 
 
-Let us now consider a function $f$ expressible by a monotone protocol, so that $f(uv) = f_A(u, q_B(v)) \; f_B(v, q_A(u))$ for
-suitable functions $f_A, f_B, q_A, q_B$ and finite set $Q$ of signals. Recall the definition of configuration of a simple-aggregation protocol from Definition~\ref{configuration-definition}. Let us order configurations as follows: $C(u) \leq C(v)$ if and only if $q_A(u)
-= q_A(v)$ and for all $s \in Q$, there exists $r \in Q$ such that $f_A(u, s)$
-is a prefix of $f_A(v, r)$.
+Let us now consider a function $f$ expressible by a monotone protocol, so that
+$f(uv) = f_A(u, q_B(v)) \; f_B(v, q_A(u))$ for suitable functions $f_A, f_B,
+q_A, q_B$ and finite set $Q$ of signals. Recall the definition of configuration
+of a simple-aggregation protocol from
+Definition~\ref{configuration-definition}. Let us order configurations as
+follows: $C(u) \leq C(v)$ if and only if $q_A(u) = q_A(v)$ and for all $s \in
+Q$, $f_A(u, s)$ is a prefix of $f_A(v, s)$.
 
 We claim that configurations are somehow close to being endowed with a
 well-quasi-ordering. Before doing that, let us first normalize the notion of
@@ -122,10 +111,10 @@ $f_A(u, s)$ from the configuration $C(u)$.
   Since $Q$ is finite, there exists an infinite subsequence 
   that has a same state $q \in Q$.
 
-  Let us notice that the sequence of lenghts of the words 
+  Let us notice that the sequence of lengths of the words 
   in $(f_A(w_n, s))_{s \in Q}$ is a sequence of $|Q|$-tuples of natural numbers,
   hence by Dickson's lemma, there exists an infinite subsequence
-  where these lenghts are non-decreasing.
+  where these lengths are non-decreasing.
 
   Let us now fix a $q \in Q$ and look at 
   $|f_A(w_n, q)|$ for this $q$ when $n$ ranges over the indices of the
@@ -136,7 +125,7 @@ $f_A(u, s)$ from the configuration $C(u)$.
 
   By repeating this process for all the finitely many $q \in Q$, we can extract
   a subsequence $(w_{n_k})_{k \in \mathbb{N}}$ such that for all $q \in Q$,
-  either $f_A(w_{n_k}, q)$ is constant, or the lenghts $|f_A(w_{n_k}, q)|$ are
+  either $f_A(w_{n_k}, q)$ is constant, or the lengths $|f_A(w_{n_k}, q)|$ are
   strictly increasing.
 
   Let us now take $i = n_0$, and $j$ be large enough so that for every $q \in
@@ -158,83 +147,75 @@ $f_A(u, s)$ from the configuration $C(u)$.
     = f_A(w_i, q_B(v' v)) \; f_B(v' v, q_A(w_i))
   \end{equation*}
 
-  Since $|f_A(w_j, s)| > |f_A(w_i, r)|$ for all $r \in Q$,
-  this means that $f_A(w_i, q_B(v' v))$ is a prefix of $f_A(w_j, s)$,
-  as desired.
+  Since $|f_A(w_j, s)| > |f_A(w_i, r)|$ for all $r \in Q$, this means that
+  $f_A(w_i, q_B(v' v))$ is a prefix of $f_A(w_j, s)$. This defines a map
+  $\delta \colon Q \to Q$ such that $f_A(w_i, \delta(r))$ is a prefix of
+  $f_A(w_j, r)$ for all $r \in Q$.
+
+  By extracting again the sequence, we can assume that for 
+  every $i < j$, such a map $\delta_{i,j} \colon Q \to Q$ exists.
+  Using a Ramsey argument, we can extract a subsequence 
+  such that this map is the same for all pairs $(i,j)$.
+
+  \textbf{TODO aliaume: there is some work to be done to conclude...} 
 
   We have proven that $C(w_i) \leq C(w_j)$.
 \end{proof}
 
+\newcommand{\lcpbob}[1]{\operatorname{lcp}_{#1}}
+\newcommand{\derivbob}[1]{\partial_{#1}}
+
+
 
 Now is the time to prove the main result of this section by constructing an
-SSST computing $f$ from this well-quasi-ordering on configurations.
+Oracle transducer computing $f$ from this well-quasi-ordering on
+configurations. To that end, let us introduce some definitions, leaving $f$ implicit
+to unclutter notations. For every $s
+\in Q$, let us define the function $\lcpbob{s}(u)$ as the longest common prefix
+of all words $f(uw)$ when $w$ ranges over all words such that $q_B(w) = s$.
+Then, let us define the function $\derivbob{u}(w)$ as follows: if $q_B(w) = s$,
+then $\derivbob{u}(w) = \lcpbob{s}(u)^{-1} f(uw)$.
+
 
 \begin{theorem}
 
   A function $f \colon \Sigma^* \to \Gamma^*$
-  is computable by a monotone protocol
-  if and only if it is computable by an SSST.
-
+  is computable by a concatenating Alice-Bob communication model
+  if and only if it is computable by an Oracle sequential transducer,
+  where all oracle functions are regular functions of 
+  bounded size output.
 \end{theorem}
 \begin{proof}
-  The direction from SSST to monotone protocol is straightforward, since SSTs correspond to rational functions 
-  and we have already seen that rational functions can be expressed by a monotone protocol in Lemma~\ref{lem:concat-ab-rational}.
+  The direction from oracle transducers to concatenating Alice-Bob communication model is
+  straightforward, since oracle transducers correspond to rational functions 
+  and we have already seen that rational functions can be computed
+  by concatenating Alice-Bob communication models in 
+  Lemma~\ref{lem:concat-ab-rational}.
 
 
-  Conversely, let us consider a function $f$ expressible by a monotone protocol. We are going to construct an SSST computing
-  $f$. Let us consider as states of the SSST words $u\in \Sigma^*$ that are a
-  finite set of representatives of minimal elements of configurations for the
-  order $\leq$ defined above. By Lemma~\ref{lem:pref-wqo}, the tree of all
-  words ordered by prefixes can be trimmed using $\leq$ so that every branch is
-  finite, hence the tree itself is finite due to K\"onig's lemma, proving the
-  existence of such a finite set of representatives. To this finite list of
-  representatives, we add the empty word $\varepsilon$ if it is not already
-  present.
+  Conversely, let us consider a function $f$ computable by a concatenating
+  Alice-Bob communication model. We are going to construct an oracle transducer
+  computing $f$. Let us consider as states of the transducer a set of words
+  $u\in \Sigma^*$ that are a finite set of representatives of minimal elements
+  of configurations for the order $\leq$ defined above. By
+  Lemma~\ref{lem:pref-wqo}, the tree of all words ordered by prefixes can be
+  trimmed using $\leq$ so that every branch is finite, hence the tree itself is
+  finite due to K\"onig's lemma, proving the existence of such a finite set of
+  representatives. To this finite list of representatives, we add the empty
+  word $\varepsilon$ if it is not already present. \textbf{TODO aliaume: is the König
+  argument correct? unclear.}
 
-  The initial state of the SSST is $\varepsilon$, and the content of the
-  registers is initialized so that for every $s \in Q$, the register
-  corresponding to $s$ contains $f_A(\varepsilon, s)$.
+  Let us now define the transitions of the automata. Given $u \in \Sigma^*$ a
+  representative state, and $a \in \Sigma$ a letter, we know that there exists
+  $v \in \Sigma^*$ a representative state such that $C(v) \leq C(u a)$. We pick
+  one such $v$ and define a transition from $u$ to $v$ on letter $a$.
 
-  The transition function is defined as follows: $\delta(u, a) = v$, where $v$
-  is such that $C(v) \leq C(u a)$ (which exists by definition of the
-  representatives). 
+  Let us now define the oracle functions. We define $\lambda(u,a)$ to be the
+  function that maps a word $w$ to the unique word $x$ such that
+  $\derivbob{u}(aw) = x \; \derivbob{v}(w)$ where $v$ is the state reached from
+  $u$ on letter $a$.
 
-  The update function is defined as follows: when reading a letter $a$ in
-  state $u$, for each $s \in Q$, let us consider the word
-  $f_A(u a, s)$. By definition of the order $\leq$, there exists $r \in Q$ such that
-  $f_A(u a, s)$ contains $f_A(\delta(u,a), r)$ as a prefix, hence
-  we can write the following update for the register corresponding to $r$:
-  \begin{equation*}
-    R_s \leftarrow R_r \; w_{u,a,s,v,r}
-  \end{equation*}
-  where $w_{u,a,s,v,r}$ is the suffix such that
-  $f_A(ua, s) = f_A(v, r) \; w_{u,a,s,v,r}$.
-
-  Finally, the output function is defined as follows: when the SSST is in state
-  $u$, we output the register $q_B(\varepsilon)$ concatenated with
-  $f_B(\varepsilon, q_A(u))$.
-
-  \medskip
-
-  \medskip
-
-  Let us prove by induction on the lenght of $w$ that the SSST computes $f(w)$
-  correctly. \textbf{Todo: non-trivial.} 
-
-  \fbox{ 
-  to be completed 
-  }
-  
+  \textbf{for omid: it is unclear that 
+    the oracle functions even exist!}
 
 \end{proof}
-
-
-As a corollary, we obtain that functions expressible by monotone protocols are exactly the rational functions.
-
-\begin{corollary}
-
-  A function $f \colon \Sigma^* \to \Gamma^*$
-  is expressible by a monotone protocol
-  if and only if it is rational (computable by a bimachine).
-\end{corollary}
-
