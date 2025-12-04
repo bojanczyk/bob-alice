@@ -136,7 +136,7 @@ Before stating the main theorem of this section, to avoid any ambiguity, we will
             Suppose that a function $f: \Sigma^* \to \Gamma^*$ satisfies the property that for every $w_1, w_2 \in \Sigma^*$, $\widehat{f}(w_1)$ is a prefix of $f(w_1 w_2)$. Then we can define the \emph{derivative} of $f$ at $w \in \Sigma^*$ as the function $f_w: \Sigma^* \to \Gamma^*$ defined by:
             \[f_w(v) = \widehat{f}(w)^{-1} f(wv)\]
             for every $v \in \Sigma^*$. And we say that $f$ has \emph{finitely many derivatives} if the set $\{ f_w : w \in \Sigma^* \}$ is finite.
-            
+
         \end{definition}
         
 
@@ -157,7 +157,7 @@ Before stating the main theorem of this section, to avoid any ambiguity, we will
         &= (f_A(w) \cdot \widehat{u}(q_A(w)))^{-1} \cdot (f_A(w) \cdot f_B(v,q_A(w)))\\
         &= \widehat{u}(q_A(w))^{-1} \cdot f_B(v,q_A(w))
         \end{align*}
-        Therefore, for any $w_1, w_2 \in \Sigma^*$ such that $q_A(w_1) = q_A(w_2)$, it holds that $f_{w_1} = f_{w_2}$. Observe that the number of distinct functions $f_w$ is at most $|Q_A|$, but can be strictly less. Therefore it is possible that for some $q_1, q_2 \in Q_A$ with $q_1 \neq q_2$, it holds that $f_{w_1} = f_{w_2}$. But in any case, the number of distinct derivatives of $f$ is at most $|Q_A|$, which is finite. Hence, $f$ has finitely many derivatives.
+        Therefore, for any $w_1, w_2 \in \Sigma^*$ such that $q_A(w_1) = q_A(w_2)$, it holds that $f_{w_1} = f_{w_2}$. Observe that the number of distinct functions $f_w$ is at most $|Q_A|$, but can be strictly less. Therefore it is possible that for some $q_1, q_2 \in Q_A$ with $q_1 \neq q_2$, it holds that $f_{w_1} = f_{w_2}$. But in any case, the number of distinct derivatives of $f$ is at most $|Q_A|$, which is finite. Hence, $f$ has finitely many derivatives. \footnote{This theorem was proved in collaboration with Thomas Filasto.}
     
     \begin{theorem}
         \label{theorem-subsequential-machines}
@@ -165,6 +165,6 @@ Before stating the main theorem of this section, to avoid any ambiguity, we will
     \end{theorem}
     \noindent
     The proof can be found in \cite{reutenauer1990subsequential} (see Theorem 1).
-    This concludes the proof. \footnote{This theorem was proved in collaboration with Thomas Filasto.}
+    
         
 \end{proof}
