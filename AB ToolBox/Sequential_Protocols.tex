@@ -125,14 +125,14 @@ Before stating the main theorem of this section, to avoid any ambiguity, we will
 
 \begin{proof}
 
-        for every function $f: \Sigma^* \to \Gamma^*$ we will define $\hat{f}: \Sigma^* \to \Gamma^*$ as follows:
+        for every function $f: \Sigma^* \to \Gamma^*$ we will define $\widehat{f}: \Sigma^* \to \Gamma^*$ as follows:
         \[
-        \hat{f}(w) = lcp\{ f(wv) : v \in \Sigma^* \}
+        \widehat{f}(w) = lcp\{ f(wv) : v \in \Sigma^* \}
         \]
         where $lcp$ stands for longest common prefix.
         \begin{definition}
             \label{definition-finitely-many-derivatives}
-            We will say a function $f: \Sigma^* \to \Gamma^*$ has finitely many derivatives if the set $\{ f_w\coloneqq \hat{f}(w)^{-1} f(wv) : v \in \Sigma^* \mid w \in \Sigma^* \}$ is finite.
+            We will say a function $f: \Sigma^* \to \Gamma^*$ has finitely many derivatives if the set $\{ f_w\coloneqq \widehat{f}(w)^{-1} f(wv) : v \in \Sigma^* \mid w \in \Sigma^* \}$ is finite.
         \end{definition}
         
 
@@ -146,7 +146,7 @@ Before stating the main theorem of this section, to avoid any ambiguity, we will
 
         Consider $w,v \in \Sigma^*$. Since $f$ is computed by a sequential protocol, by splitting the string $ w \cdot v $ into two strings $ w $ and $ v $ it holds that $ f(w \cdot v) = f_A(w) \cdot f_B(v,q_A(w)) $. By construction, $ \widehat{u}(q_A(w)) $ is a prefix of $ f_B(v,q_A(w)) $ thus, $ f_A(w) \cdot \widehat{u}(q_A(w)) $ is a prefix of $ f(w \cdot v) $, and that for any $ v \in \Sigma^* $.
 
-        Moreover, for any $ v \in \Sigma^* $, $ f_A(w) $ is a prefix of $ f(w \cdot v) $. Hence, it is also a prefix of $ \widehat{f}(w) $, that is $ \widehat{f}(w) = f_A(w) \cdot u $ for some $ u \in \Sigma^* $. But now, for any $ v \in \Sigma^* $, $ f_A(w) \cdot u $ is a prefix of $ f_A(w) \cdot f_B(v,q_A(w)) $ according to definition of $ \widehat{f} $. So in particular, for all $ v \in \Sigma^* $, $ u $ is a prefix of $ f_B(v,q_A(w)) $. Therefore, $ u $ is a prefix of $ \widehat{u}(q_A(w)) $. But since $ f_A(w) \cdot \widehat{u}(q_A(w)) $ is a prefix of $ f(w \cdot v) $ for any $ v \in \Sigma^* $, it is also a prefix of $ \widehat{f}(w) = f_A(w) \cdot u $ and thus $ \widehat{u}(q_A(w)) $ is a prefix of $ u $. Hence, $ u = \widehat{u}(q_A(w)) $ and $ \hat{f(w)} = f_A(w) \cdot \widehat{u}(q_A(w)) $.
+        Moreover, for any $ v \in \Sigma^* $, $ f_A(w) $ is a prefix of $ f(w \cdot v) $. Hence, it is also a prefix of $ \widehat{f}(w) $, that is $ \widehat{f}(w) = f_A(w) \cdot u $ for some $ u \in \Sigma^* $. But now, for any $ v \in \Sigma^* $, $ f_A(w) \cdot u $ is a prefix of $ f_A(w) \cdot f_B(v,q_A(w)) $ according to definition of $ \widehat{f} $. So in particular, for all $ v \in \Sigma^* $, $ u $ is a prefix of $ f_B(v,q_A(w)) $. Therefore, $ u $ is a prefix of $ \widehat{u}(q_A(w)) $. But since $ f_A(w) \cdot \widehat{u}(q_A(w)) $ is a prefix of $ f(w \cdot v) $ for any $ v \in \Sigma^* $, it is also a prefix of $ \widehat{f}(w) = f_A(w) \cdot u $ and thus $ \widehat{u}(q_A(w)) $ is a prefix of $ u $. Hence, $ u = \widehat{u}(q_A(w)) $ and $ \widehat{f(w)} = f_A(w) \cdot \widehat{u}(q_A(w)) $.
         \medskip
 
         \noindent
