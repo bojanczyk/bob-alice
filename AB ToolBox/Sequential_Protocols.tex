@@ -136,7 +136,7 @@ Before stating the main theorem of this section, to avoid any ambiguity, we will
         \end{definition}
         
 
-        First we will show that every function expressed by a sequential protocol has finitely many derivatives. Let $(f_A,f_B,Q_A,q_A)$ be the ingredients of a sequential protocol over the monoid $(\Gamma^*, \cdot, \varepsilon)$. Consider the function $f: \Sigma^* \to \Gamma^*$ defined by the sequential protocol, i.e. $f(w) = f_A(w) f_B(\varepsilon, q_A(w))$. We will show that $f$ has finitely many derivatives. To be more precise, we will show that for every $w \in \Sigma^*$, the derivative $f_w$ is completely determined by the state $q_A(w)$. First partition $\Sigma^*$ into the sets $S_q = \{ w \in \Sigma^* : q_A(w) = q \}$ for each $q \in Q_A$. Now consider two function $f_{w_1}$ and $f_{w_2}$ where $w_1, w_2 \in S_q$ for some $q \in Q_A$. Now we want to show that $f_{w_1} = f_{w_2}$ First define the function $\widehat{u}: Q_A \to \Gamma^*$ as follows:
+        First we will show that every function expressed by a sequential protocol has finitely many derivatives. Let $(f_A,f_B,Q_A,q_A)$ be the ingredients of a sequential protocol over the monoid $(\Gamma^*, \cdot, \varepsilon)$. Consider the function $f: \Sigma^* \to \Gamma^*$ defined by the sequential protocol, i.e. $f(w) = f_A(w) f_B(\varepsilon, q_A(w))$. We will show that $f$ has finitely many derivatives. To be more precise, we will show that for every $w_1, w_2 \in \Sigma^*$ such that $q_A(w_1) = q_A(w_2)$, it holds that $f_{w_1} = f_{w_2}$. This will imply that the number of distinct derivatives of $f$ is at most $|Q_A|$, which is finite. First partition $\Sigma^*$ into the sets $S_q = \{ w \in \Sigma^* : q_A(w) = q \}$ for each $q \in Q_A$. Now consider two function $f_{w_1}$ and $f_{w_2}$ where $w_1, w_2 \in S_q$ for some $q \in Q_A$. Now we want to show that $f_{w_1} = f_{w_2}$ First define the function $\widehat{u}: Q_A \to \Gamma^*$ as follows:
         \[\widehat{u}(q) = lcp\{ u \in \Sigma^* : u \text{ is a prefix of } f_B(v,q) \text{ for all } v \in \Sigma^* \}\]
         that is, $\widehat{u}(q)$ is the longest common prefix of the strings $f_B(v,q)$ for all $v \in \Sigma^*$.
 
@@ -157,6 +157,8 @@ Before stating the main theorem of this section, to avoid any ambiguity, we will
         &= \widehat{u}(q_A(w))^{-1} \cdot f_B(v,q_A(w))
         \end{align*}
         which proves the claim. 
+
+        Observe that the number of distinct functions $f_w$ is at most $|Q_A|$, but can be strictly less. Therefore it is possible that for some $q_1, q_2 \in Q_A$ with $q_1 \neq q_2$, it holds that $f_{w_1} = f_{w_2}$. But in any case, the number of distinct derivatives of $f$ is at most $|Q_A|$, which is finite. Hence, $f$ has finitely many derivatives.
     
     \begin{theorem}
         \label{theorem-subsequential-machines}
