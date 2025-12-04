@@ -25,7 +25,7 @@ Let $(f_A,f_B,Q_A,Q_B,q_A)$ be ingridients of a sequential protocol over the mon
 
 \begin{proof}
     
-    Assume towards a contradiction that $q_A(w_1) = q_A(w_1 w_2)$ but $f_A(w_1)$ is \emph{not} a prefix of $f_A(w_1 w_2)$. Let $q = q_A(w_1) = q_A(w_1 w_2)$. Then:
+Assume towards a contradiction that $q_A(w_1) = q_A(w_1 w_2)$ but $f_A(w_1)$ is \emph{not} a prefix of $f_A(w_1 w_2)$. Let $q = q_A(w_1) = q_A(w_1 w_2)$. Then:
 \begin{equation}
     f(w_1 w_2)
     = f_A(w_1)\, f_B(w_2,q)
@@ -114,6 +114,11 @@ which proves that
 \]
 \end{proof}
 
+The above lemma and corollary was not used in the rest of the paper, but is included here as it may be of independent interest.
+%====
+
+Before stating the main theorem of this section, to avoid any ambiguity, we will use the definition of subsequential transducers as given in \cite{reutenauer1990subsequential}.
+
 \begin{theorem}
     For every sequential protocol over the monoid $(\Gamma^*, \cdot, \varepsilon)$, there exists a subsequential machine that computes the same function.
 \end{theorem}
@@ -153,8 +158,12 @@ which proves that
         \end{align*}
         which proves the claim. 
     
-    \begin{claim}
-        If the function $f$ has finitely many derivatives (in a sense of Definition~\ref{definition-finitely-many-derivatives}), then there exists a subsequential transducer that computes $f$.
-    \end{claim}
+    \begin{theorem}
+        \label{theorem-subsequential-machines}
+         A function $f: \Sigma^* \to \Gamma^*$ can be computed by a subsequential machine if and only if it has finitely many derivatives (as defined in Definition~\ref{definition-finitely-many-derivatives}). 
+    \end{theorem}
+    \noindent
+    The proof can be found in \cite{reutenauer1990subsequential} (see Theorem 1).
+    This concludes the proof. \footnote{This theorem was proved in collaboration with Thomas Filasto.}
         
-\end{proof}\footnote{This theorem was proved in collaboration with Thomas Filasto.}
+\end{proof}
