@@ -125,40 +125,39 @@ Before stating the main theorem of this section, to avoid any ambiguity, we will
 
 \begin{proof}
 
-        for every function $f: \Sigma^* \to \Gamma^*$ we will define $\widehat{f}: \Sigma^* \to \Gamma^*$ as follows:
+        For every function $f: \Sigma^* \to \Gamma^*$ we will define $\widehat{f}: \Sigma^* \to \Gamma^*$ as follows:
         \[
         \widehat{f}(w) = lcp\{ f(wv) : v \in \Sigma^* \}
         \]
         where $lcp$ stands for longest common prefix.
         \begin{definition}
             \label{definition-finitely-many-derivatives}
-            We will say a function $f: \Sigma^* \to \Gamma^*$ has finitely many derivatives if the set $\{ f_w\coloneqq \widehat{f}(w)^{-1} f(wv) : v \in \Sigma^* \mid w \in \Sigma^* \}$ is finite.
+
+            Suppose that a function $f: \Sigma^* \to \Gamma^*$ satisfies the property that for every $w_1, w_2 \in \Sigma^*$, $\widehat{f}(w_1)$ is a prefix of $f(w_1 w_2)$. Then we can define the \emph{derivative} of $f$ at $w \in \Sigma^*$ as the function $f_w: \Sigma^* \to \Gamma^*$ defined by:
+            \[f_w(v) = \widehat{f}(w)^{-1} f(wv)\]
+            for every $v \in \Sigma^*$. And we say that $f$ has \emph{finitely many derivatives} if the set $\{ f_w : w \in \Sigma^* \}$ is finite.
+            
         \end{definition}
         
 
-        First we will show that every function expressed by a sequential protocol has finitely many derivatives. Let $(f_A,f_B,Q_A,q_A)$ be the ingredients of a sequential protocol over the monoid $(\Gamma^*, \cdot, \varepsilon)$. Consider the function $f: \Sigma^* \to \Gamma^*$ defined by the sequential protocol, i.e. $f(w) = f_A(w) f_B(\varepsilon, q_A(w))$. We will show that $f$ has finitely many derivatives. To be more precise, we will show that for every $w_1, w_2 \in \Sigma^*$ such that $q_A(w_1) = q_A(w_2)$, it holds that $f_{w_1} = f_{w_2}$. This will imply that the number of distinct derivatives of $f$ is at most $|Q_A|$, which is finite. First partition $\Sigma^*$ into the sets $S_q = \{ w \in \Sigma^* : q_A(w) = q \}$ for each $q \in Q_A$. Now consider two function $f_{w_1}$ and $f_{w_2}$ where $w_1, w_2 \in S_q$ for some $q \in Q_A$. Now we want to show that $f_{w_1} = f_{w_2}$ First define the function $\widehat{u}: Q_A \to \Gamma^*$ as follows:
-        \[\widehat{u}(q) = lcp\{ u \in \Sigma^* : u \text{ is a prefix of } f_B(v,q) \text{ for all } v \in \Sigma^* \}\]
-        that is, $\widehat{u}(q)$ is the longest common prefix of the strings $f_B(v,q)$ for all $v \in \Sigma^*$.
-
-
-        We claim that for every string $w \in \Sigma^*$, $f_w$ is the function that maps any $v \in \Sigma^*$ to $\widehat{u}(q_A(w))^{-1} f_B(v, q_A(w))$. In other words, $f_w$ is entirely determined by the signal $q_A(w)$. 
-
-
-        Consider $w,v \in \Sigma^*$. Since $f$ is computed by a sequential protocol, by splitting the string $ w \cdot v $ into two strings $ w $ and $ v $ it holds that $ f(w \cdot v) = f_A(w) \cdot f_B(v,q_A(w)) $. By construction, $ \widehat{u}(q_A(w)) $ is a prefix of $ f_B(v,q_A(w)) $ thus, $ f_A(w) \cdot \widehat{u}(q_A(w)) $ is a prefix of $ f(w \cdot v) $, and that for any $ v \in \Sigma^* $.
-
-        Moreover, for any $ v \in \Sigma^* $, $ f_A(w) $ is a prefix of $ f(w \cdot v) $. Hence, it is also a prefix of $ \widehat{f}(w) $, that is $ \widehat{f}(w) = f_A(w) \cdot u $ for some $ u \in \Sigma^* $. But now, for any $ v \in \Sigma^* $, $ f_A(w) \cdot u $ is a prefix of $ f_A(w) \cdot f_B(v,q_A(w)) $ according to definition of $ \widehat{f} $. So in particular, for all $ v \in \Sigma^* $, $ u $ is a prefix of $ f_B(v,q_A(w)) $. Therefore, $ u $ is a prefix of $ \widehat{u}(q_A(w)) $. But since $ f_A(w) \cdot \widehat{u}(q_A(w)) $ is a prefix of $ f(w \cdot v) $ for any $ v \in \Sigma^* $, it is also a prefix of $ \widehat{f}(w) = f_A(w) \cdot u $ and thus $ \widehat{u}(q_A(w)) $ is a prefix of $ u $. Hence, $ u = \widehat{u}(q_A(w)) $ and $ \widehat{f(w)} = f_A(w) \cdot \widehat{u}(q_A(w)) $.
-        \medskip
+        Let $(f_A,f_B,Q_A,q_A)$ be the ingredients of a sequential protocol over the monoid $(\Gamma^*, \cdot, \varepsilon)$. Consider the function $f: \Sigma^* \to \Gamma^*$ defined by the sequential protocol, i.e. $f(w) = f_A(w) f_B(\varepsilon, q_A(w))$. First we will show that the function $f$ satisfies the property which is required in Definition~\ref{definition-finitely-many-derivatives}. Then we will show that $f$ has finitely many derivatives, or more precisely, we will show that for every $w_1, w_2 \in \Sigma^*$ such that $q_A(w_1) = q_A(w_2)$, it holds that $f_{w_1} = f_{w_2}$. This will imply that the number of distinct derivatives of $f$ is at most $|Q_A|$, which is finite.
 
         \noindent
-        Now, for any $ v \in \Sigma^* $:
+        First define the function $\widehat{u}: Q_A \to \Gamma^*$ as follows:
+        \[\widehat{u}(q) = lcp\{ u \in \Sigma^* : u \text{ is a prefix of } f_B(v,q) \text{ for all } v \in \Sigma^* \}\]
+        that is, $\widehat{u}(q)$ is the longest common prefix of the strings $f_B(v,q)$ for all $v \in \Sigma^*$. Now we will show that for every $w \in \Sigma^*$, $\widehat{f}(w) = f_A(w) \cdot \widehat{u}(q_A(w))$. Observe that $f_A(w)$ is always a prefix of $f(w \cdot v)$ for any $v \in \Sigma^*$, since:
+        \[f(w \cdot v) = f_A(w) \cdot f_B(v,q_A(w))\]
+        Thus, there exists a string $u \in \Sigma^*$ such that $\widehat{f}(w) = f_A(w) \cdot u$. By construction, $ \widehat{u}(q_A(w)) $ is a prefix of $ f_B(v,q_A(w)) $ for all $ v \in \Sigma^* $. Therefore, $ f_A(w) \cdot \widehat{u}(q_A(w)) $ is a prefix of $\widehat{f}(w)$. Now it is enough to show that $\widehat{f}(w)$ can not be strictly longer than $ f_A(w) \cdot \widehat{u}(q_A(w)) $. Assume by contradiction that $\widehat{f}(w)$ is strictly longer than $ f_A(w) \cdot \widehat{u}(q_A(w)) $.  Then, there exists a string $u' \in \Sigma^*$ such that $\widehat{f}(w) = f_A(w) \cdot \widehat{u}(q_A(w)) \cdot u'$, with $u' \neq \varepsilon$. By definition of $\widehat{f}$, for any $ v \in \Sigma^* $, $ f_A(w) \cdot \widehat{u}(q_A(w)) \cdot u' $ is a prefix of $ f(w \cdot v) = f_A(w) \cdot f_B(v,q_A(w)) $. Therefore, $\widehat{u}(q_A(w)) \cdot u' $ is a prefix of $ f_B(v,q_A(w)) $ for all $ v \in \Sigma^* $. This contradicts the definition of $ \widehat{u}(q_A(w)) $ as the longest common prefix of the strings $ f_B(v,q_A(w)) $ for all $ v \in \Sigma^* $. Hence, $\widehat{f}(w) = f_A(w) \cdot \widehat{u}(q_A(w))$.
+
+
+        Now consider two function $f_{w_1}$ and $f_{w_2}$ for some $w_1, w_2 \in \Sigma^*$ such that $q_A(w_1) = q_A(w_2)$. We will show that $f_{w_1} = f_{w_2}$.
+        To be more precise, we will show that for every string $w \in \Sigma^*$, $f_w$ is the function that maps any $v \in \Sigma^*$ to $\widehat{u}(q_A(w))^{-1} f_B(v, q_A(w))$. This is because for any $ v \in \Sigma^* $ we have:
         \begin{align*}
         f_w(v) &= \widehat{f}(w)^{-1} \cdot f(wv)\\
         &= (f_A(w) \cdot \widehat{u}(q_A(w)))^{-1} \cdot (f_A(w) \cdot f_B(v,q_A(w)))\\
         &= \widehat{u}(q_A(w))^{-1} \cdot f_B(v,q_A(w))
         \end{align*}
-        which proves the claim. 
-
-        Observe that the number of distinct functions $f_w$ is at most $|Q_A|$, but can be strictly less. Therefore it is possible that for some $q_1, q_2 \in Q_A$ with $q_1 \neq q_2$, it holds that $f_{w_1} = f_{w_2}$. But in any case, the number of distinct derivatives of $f$ is at most $|Q_A|$, which is finite. Hence, $f$ has finitely many derivatives.
+        Therefore, for any $w_1, w_2 \in \Sigma^*$ such that $q_A(w_1) = q_A(w_2)$, it holds that $f_{w_1} = f_{w_2}$. Observe that the number of distinct functions $f_w$ is at most $|Q_A|$, but can be strictly less. Therefore it is possible that for some $q_1, q_2 \in Q_A$ with $q_1 \neq q_2$, it holds that $f_{w_1} = f_{w_2}$. But in any case, the number of distinct derivatives of $f$ is at most $|Q_A|$, which is finite. Hence, $f$ has finitely many derivatives.
     
     \begin{theorem}
         \label{theorem-subsequential-machines}
