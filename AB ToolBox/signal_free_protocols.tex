@@ -1,5 +1,47 @@
-\subsection{Commutative Protocols over a Monoid}
-\label{sec:commutative-boolean-domain}
+
+\section{Signal Free Protocols}
+
+\begin{definition}
+    \label{signal-free-simple-aggregation-definition}
+A signal-free simple-aggregation protocol over a monoid is a restriction of simple-aggregation protocols in which the signal spaces $Q_A$ and $Q_B$ are singleton sets. In other words, there is no communication between the parties, and each party computes its local output based only on its input. Such a protocol is therefore specified by:
+\begin{itemize}
+    \item a monoid $(M, \ast, e)$ as the output domain
+    \item two functions $f_A: \Sigma^* \to M$ and $f_B: \Sigma^* \to M$ that are computed by Alice and Bob respectively on their local inputs
+\end{itemize}
+The final output on inputs $x,y$ is $f_A(x)\ast f_B(y)$.
+\end{definition}
+
+\begin{theorem}
+\label{thm:signal-free-homomorphism}
+Let $(M, \ast, e)$ be a monoid, and let $f_A, f_B: \Sigma^* \to M$ be two functions that define a signal-free aggregation protocol over $M$. Then there exists two element $s_A, s_B \in M$ such that the function $f: \Sigma^* \to M$ computed by the protocol can be expressed as:
+\[f(w) = s_A \ast h(w) \ast s_B \quad \text{for every } w \in \Sigma^*\]
+where $h: \Sigma^* \to M$ is a homomorphism from the free monoid $\Sigma^*$ to the monoid $M$. (Note that $M$ is not necessarily commutative here.)
+\end{theorem}
+\begin{proof}
+    Let $s_A = f_A(\epsilon)$ and $s_B = f_B(\epsilon)$, where $\epsilon$ is the empty string. To prove that $h$ is a homomorphism, first we show that $h(\epsilon) = e$. This is because, assume by contradiction, that $h(\epsilon) \neq e$. Then we have:
+    \[f(\epsilon) = f_A(\epsilon) \ast f_B(\epsilon) = s_A \ast s_B \neq s_A \ast e \ast s_B = f(\epsilon)\]
+    which is a contradiction. Therefore, $h(\epsilon) = e$. Then we show that for every $u,v \in \Sigma^*$, we have:
+    \[h(uv) = h(u) \ast h(v)\]
+    This is because observe that $f_A(x)= s_A \ast h(x)$ and $f_B(y)= h(y) \ast s_B$ for every $x,y \in \Sigma^*$. This is because:
+    \[f(x) = f_A(x) \ast f_B(\epsilon) = f_A(x) \ast s_B = s_A \ast h(x) \ast s_B,\]
+    which implies that $f_A(x) = s_A \ast h(x)$. Symmetrically, we have:
+    \[f(y) = f_A(\epsilon) \ast f_B(y) = s_A \ast f_B(y) = s_A \ast h(y) \ast s_B,\]
+    which implies that $f_B(y) = h(y) \ast s_B$.
+    Now consider two words $u,v \in \Sigma^*$, we give $u$ to Alice and $v$ to Bob as their inputs. Then we have:
+    \begin{align*}
+    f(uv) & = f_A(u) \ast f_B(v) \\
+    & = (s_A \ast h(u)) \ast (h(v) \ast s_B) \\
+    & = s_A \ast h(u) \ast h(v) \ast s_B \\
+    & = f_A(uv) \ast f_B(\epsilon) \\
+    & = (s_A \ast h(uv)) \ast s_B \\
+    \end{align*}
+    By cancellation of $s_A$ from the left and $s_B$ from the right, we get:
+    \[h(uv) = h(u) \ast h(v)\]
+    This completes the proof that $h$ is a homomorphism.
+\end{proof}
+
+\subsection{Commutative Signal Free Protocols}
+\label{sec:commutative-signal-free}
 
 We say that a function $f:\Sigma^* \to {\mathbb D}$ (where ${\mathbb D}$ is any output domain) is commutative if, for every word $u\in\Sigma^*$ and every permutation $\pi$ of the positions of $u$, we have $f(u)=f(\pi(u))$.
 
@@ -88,5 +130,12 @@ Let $(M, \ast, e)$ be a commutative monoid, and let $f_A, f_B: \Sigma^* \to M$ b
     Now it is not had to see that using Equations~\eqref{eq:cyclic_commutative}, \eqref{eq:adjacent_commutative}, and \eqref{eq:adjacent_commutative_2}, we can transform any word $u$ into any permutation $\pi(u)$ of $u$ by a sequence of such transformations, proving that $f(u) = f(\pi(u))$. This completes the proof of the theorem.
 \end{proof}
 
-
-
+\begin{corollary}
+\label{cor:commutative-signal-free-homomorphism}
+Let $(M, \ast, e)$ be a commutative monoid, and let $f_A, f_B: \Sigma^* \to M$ be two functions that define a signal-free aggregation protocol over $M$. Then the function $f: \Sigma^* \to M$ computed by the protocol is commutative. That is, for every word $u \in \Sigma^*$ and every permutation $\pi$ of the positions of $u$, we have $f(u) = f(\pi(u))$.
+\end{corollary}
+\begin{proof}
+    This is a direct consequence of Theorems~\ref{thm:signal-free-homomorphism} and~\ref{thm:commutative-signal-free}. It is enough to observe that $f$ can be expressed as:
+    \[f(w) = s_A \ast h(w) \ast s_B \quad \text{for every } w \in \Sigma^*\]
+    where $h: \Sigma^* \to M$ is a homomorphism from the free monoid $\Sigma^*$ to the monoid $M$, and $s_A, s_B \in M$. Now observe that the inner function $h$ can be expressed with signal-free protocols that satisfy the conditions of Theorem~\ref{thm:commutative-signal-free}. Therefore, $h$ is commutative hence $f$ is also commutative.
+\end{proof}

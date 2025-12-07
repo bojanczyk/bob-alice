@@ -1,7 +1,10 @@
-\section{Aggregator Protocols}
-\label{sec:agg-protocols}
+\chapter{Aggregator Protocols}
 
-These protocols are similar to normal Alice--Bob protocols, with one key difference: instead of generating partial outputs using messages that contain an element of the output domain, each party has its own local partial output until the end of the communication, and at the end the final output is computed by aggregating these local outputs using a predefined operation.
+\label{chap:agg-protocols}
+
+In this chapter, we introduce a new class of protocols called \emph{aggregator-protocols}. This is a new way of looking at Alice-Bob protocols. Here we want to look deeply into the way that Alice and Bob "combine" their messages to produce the final output (by message I mean the element of the output domain that each party sends to the other party at each round of communication). The combining operation here again depends on the output domain of the protocol, but in contrast to normal approaches, here we want to focus more on this combining operation and distinguish different types of protocols based on this operation. Let first explain what we mean by aggregator-protocols.
+
+These protocols are similar to normal Alice-Bob protocols, with one key difference: instead of generating partial outputs using messages that contain an element of the output domain, each party has its own local partial output until the end of the communication, and at the end the final output is computed by aggregating these local outputs using a predefined operation.
 
 \begin{myexample}
 Consider the following protocol between Alice and Bob. An evil adversary split the input $w\in \Sigma^*$ into two parts $x,y\in \Sigma^*$ such that $w=xy$. Alice receives $x$ and Bob receives $y$. The goal of the protocol is to compute the length of the input string $w$, i.e., $|w|$. The protocol works as follows:
@@ -44,22 +47,12 @@ Here we say that a protocol computes a function $f: \Sigma^* \to M$ if, for ever
 
 Observe that in simple-aggregation protocols, the parties can simply send each other the sequence of functions $(f_i)_{i=1,2,\dots,k}$ , such that each function $f_i$ is either from $Q_B^{i-1}$ to $Q_A$ or from $Q_A^{i-1}$ to $Q_B$. This sequence of functions can fully describe the behavior of both parties, or in other words, can generate the communication history (which is a sequence of signals).
 
-Hence we can simplify the definition of simple-aggregation protocols in the following way: Alice send one signal to Bob, let call it $q_A(x)$, which is a function from $\Sigma^*$ to $Q_A$ and $x$ is her local string. Similarly, Bob send one signal to Alice, let call it $q_B(y)$, which is a function from $\Sigma^*$ to $Q_B$ and $y$ is his local string. Then both parties compute their local outputs using these functions as follows:
+Hence we can simplify the definition of simple-aggregation protocols in the following way: Alice send one signal to Bob, let call it $q_A(x)$, which is a function from $\Sigma^*$ to $Q_A$ and $x$ is her local input. Similarly, Bob send one signal to Alice, let call it $q_B(y)$, which is a function from $\Sigma^*$ to $Q_B$ and $y$ is his local input. Then both parties compute their local outputs using these functions as follows:
 \[\text{Alice's local output} = f_A(x, q_B(y)) \quad , \quad \text{Bob's local output} = f_B(y, q_A(x))\] 
 Finally, the aggregator compute the final output as:
 \[\text{Output}(x,y) = f_A(x, q_B(y)) \ast f_B(y, q_A(x))\] \footnote{This reminds us of the \emph{Yin-Yang}, so we can call this the Yin-Yang protocols. This is because if you consider the local output of Alice as the Yang, then inside it there is the signal from Bob, which is the Yin. Similarly, the local output of Bob is the Yin, which contains the signal from Alice, which is the Yang. Together they form a complete whole.}
 
 Without loss of generality, we will always assume that all of the elements of the signal spaces $Q_A$ and $Q_B$ are reachable by the respective signal functions $q_A$ and $q_B$. In other words, for every $q_A \in Q_A$, there exists an input string $x \in \Sigma^*$ such that $q_A(x) = q_A$. Similarly, for every $q_B \in Q_B$, there exists an input string $y \in \Sigma^*$ such that $q_B(y) = q_B$.
-
-\begin{definition}
-    \label{signal-free-simple-aggregation-definition}
-A signal-free simple-aggregation protocol over a monoid is a restriction of simple-aggregation protocols in which the signal spaces $Q_A$ and $Q_B$ are singleton sets. In other words, there is no communication between the parties, and each party computes its local output based only on its input. Such a protocol is therefore specified by:
-\begin{itemize}
-    \item a monoid $(M, \ast, e)$ as the output domain
-    \item two functions $f_A: \Sigma^* \to M$ and $f_B: \Sigma^* \to M$ that are computed by Alice and Bob respectively on their local inputs
-\end{itemize}
-The final output on inputs $x,y$ is $f_A(x)\ast f_B(y)$.
-\end{definition}
 
 \begin{definition}
     \label {configuration-definition}
@@ -75,8 +68,16 @@ The final output on inputs $x,y$ is $f_A(x)\ast f_B(y)$.
     Similarly, the configuration of Bob on input $y \in \Sigma^*$ can be defined.
 \end{definition}
 
-\input{commutative_agg_boolean.tex}
+\begin{theorem}
+    \label{thm:simple-aggregation-to-normal}
+    Suppose that a function $f: \Sigma^* \to M$ is expressible by a normal Alice-Bob protocol over a commutative monoid $(M, \ast, e)$. Then there exists a simple-aggregation protocol that expresses the same function.
+\end{theorem}
+
+\begin{proof} 
+    We are going to simply simulate the original protocol with a simple-aggregation protocol. In the simulation we replace the operation of combining the messages at each round with signals. Observe that in this setting, there are two kind of messages: the messages that are combinations of previous messages (which we call them \emph{complex terms}), and the messages that are not combinations of previous messages (which we call them \emph{primitive terms}). In the simulation, each signal corresponds to a primitive term is like a pointer to the actual message which the owner at the end of the communication can reconstruct it locally. Now if there exists one signal for each primitive term, which is possible since the number of rounds is finite, then we can have signals for each complex term as well, for the same reason that number of rounds is finite. Now at each round, instead of sending the actual message, each party sends the signal that corresponds to that message. Since the monoid is commutative, the order of combining the messages does not matter, hence alice and bob can simply aggregate their own messages that define the final output locally and send them to the aggregator at the end of the communication.
+\end{proof}
+
+\input{signal_free_protocols.tex}
 %\input{addition_agg.tex}
-\input{Homomorphism_Protocols.tex}
 \input{Sequential_Protocols.tex}
 \input{monotone_protocols.tex}
