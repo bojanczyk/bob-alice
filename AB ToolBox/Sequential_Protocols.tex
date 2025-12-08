@@ -120,6 +120,7 @@ The above lemma and corollary was not used in the rest of the paper, but is incl
 Before stating the main theorem of this section, to avoid any ambiguity, we will use the definition of subsequential transducers as given in \cite{reutenauer1990subsequential}.
 
 \begin{theorem}
+    \label{theorem-main-sequential-protocol}
     For every sequential protocol over the monoid $(\Gamma^*, \cdot, \varepsilon)$, there exists a subsequential transducer that computes the same function.
 \end{theorem}
 
@@ -164,10 +165,69 @@ Before stating the main theorem of this section, to avoid any ambiguity, we will
          A function $f: \Sigma^* \to \Gamma^*$ can be computed by a subsequential transducer if and only if it has finitely many derivatives (as defined in Definition~\ref{definition-finitely-many-derivatives}). 
     \end{theorem}
     \noindent
-    The proof can be found in \cite{reutenauer1990subsequential} (see Theorem 1).
-        
+    Also the proof can be found in \cite{reutenauer1990subsequential} (see Theorem 1), I include it here because it is essential for the next steps.
+    \begin{proof}
+    Let $ u,v \in \Sigma^* $, we start by showing the following equality:
+    \begin{equation}
+        \label{congruence-equation-derivatives}
+        \widehat{f}(uv) = \widehat{f}(u) \cdot \widehat{f_u}(v)
+    \end{equation}
+    
+    \begin{align*}
+    \widehat{f}(uv) &= lcp \lbrace f(uvw) \mid w \in \Sigma^* \rbrace\\
+    &= lcp \lbrace \widehat{f}(u) \cdot f_u(vw) \mid w \in \Sigma^* \rbrace &(f_u(vw) = \widehat{f}(u)^{-1} \cdot f(uvw))\\
+    &= \widehat{f}(u) \cdot lcp \lbrace f_u(vw) \mid w \in \Sigma^* \rbrace\\
+    &= \widehat{f}(u) \cdot \widehat{f_u}(v)
+    \end{align*}
+    Now, we will show that $ f_{u v} = (f_u)_v $. Let $ w \in \Sigma^* $, we have:
+    \begin{align*}
+    f_{u v}(w) &= \widehat{f}(uv)^{-1} \cdot f(uvw)\\
+    &=(\widehat{f}(u) \cdot \widehat{f_u}(v))^{-1} \cdot f(uvw) &\text{(by Equation \ref{congruence-equation-derivatives})}\\ 
+    &=(\widehat{f}(u) \cdot \widehat{f_u}(v))^{-1} \cdot (\widehat{f}(u) \cdot f_u(vw)) &(f_u(vw) = \widehat{f}(u)^{-1} \cdot f(uvw))\\
+    &=(\widehat{f}(u) \cdot \widehat{f_u}(v))^{-1} \cdot (\widehat{f}(u) \cdot (\widehat{f}_u(v) \cdot (f_u)_v(w))) &((f_u)_v(w) = \widehat{f}_u(v)^{-1} \cdot f_u(vw))\\
+    &= (f_u)_v(w)
+    \end{align*}
+    Now Let $ w,w' \in \Sigma^* $ such that $ f_w = f_{w'} $, then for any $ v \in \Sigma^* $, the following equality holds:
+    \begin{equation}
+    \label{equation-derivative-equivalence}
+    f_w = f_{w'} \implies f_{wv} = f_{w'v}
+    \end{equation}
+    This is because:
+    \begin{align*}
+    f_{wv} &= (f_w)_v &(f_{uv} = (f_u)_v)\\
+    &= (f_{w'})_v &(f_w = f_{w'})\\
+    f_{wv} &= f_{w'v} &(f_{uv} = (f_u)_v)
+    \end{align*}
+    
+    From the above formulae, one can construct a subsequential transducer that computes the same function as $ f $. The states of the transducer are the distinct derivatives of $ f $, i.e. $ Q = \lbrace f_w \mid w \in \Sigma^* \rbrace $. The initial state is $ f_{\varepsilon} $. The state-transition function $ \delta: Q \times \Sigma \to Q $ is defined as follows: for any $ f_w \in Q $ and $ a \in \Sigma $, $ \delta(f_w,a) = f_{wa} $. The output function $ \lambda: Q \times \Sigma \to \Gamma^* $ is defined as follows: for any $ f_w \in Q $ and $ a \in \Sigma $, $ \lambda(f_w,a) = \widehat{f_w}(a) $. Finally, the terminal output function $ t: Q \to \Gamma^* $ is defined as follows: for any $ f_w \in Q $, $ t(f_w) = \widehat{f}(w)^{-1} f(w) $. Having the above formulae in mind, one can verify that the constructed subsequential transducer computes the same function as $ f $.
+    \end{proof}
+    \noindent
+    This completes the proof of the main theorem of this section.
 \end{proof}
 
 %==== Normalized Sequential Protocols 
-To have a clean characterization of class of protocols, we like to have some kind of normalization for each one of them to avoid unwanted behaviors such as the one shown in Example~\ref{example-sequential-protocol}. We think the the roots of such unwanted behaviors are the uncomputable signal functions. Therefore, we will define normalization for each class of protocols based on the computability of their signal functions. To be more specific, we want to have a signal function that is computable by a Deterministic Finite Automaton (DFA).
+To have a clean characterization of class of protocols, we like to have some kind of normalization for each one of them to avoid unwanted behaviors such as the one shown in Example~\ref{example-sequential-protocol}. We think that if the signal functions of a protocol are computable by some simple computational model, then the protocol is more well-behaved. If we want to unwrap this idea further, let first call this simple computational model $\mathcal{M}$. Then, we can roughly say that if the signal functions of a protocol are computable by $\mathcal{M}$, then we expect that Alice output functions will be computable by some relevent computational model (by relevant we mean a model that is equivalent to the class of protocols we are looking at).
+
+Therefore, we will define normalization for each class of protocols based on the computability of their signal functions. To be more specific, we want to have a signal function that is computable by a Deterministic Finite Semi-Automaton (DFSA). Of course, by theorem~\ref{theorem-subsequential-transducer}, having a regular signal function is immidiate. It is because for any sequential protocol one can construct a subsequential transducer that computes the same function, and the state-transition function of a subsequential transducer is computable by a Deterministic Finite Semi-Automaton. But I think looking into normalization process independently is interesting and may help us in defining normalization for more expressive classes of protocols in the future.
+\begin{definition}
+    \label{definition-normalized-sequential-protocol}
+    A sequential protocol $(f_A,f_B,Q_A,q_A)$ over the monoid $(\Gamma^*, \cdot, \varepsilon)$ is called \emph{normalized} if there exists a Deterministic Finite Semi-Automaton $\mathcal{A} = (Q_A, \Sigma, \delta, q_{A_0})$ such that for every $ w \in \Sigma^* $, $ q_A(w) = \delta^*(q_{A_0}, w) $, where $\delta^*$ is the extended transition function of $\mathcal{A}$.
+\end{definition}
+\begin{theorem}
+    For every sequential protocol over the monoid $(\Gamma^*, \cdot, \varepsilon)$, there exists a normalized sequential protocol that computes the same function.
+\end{theorem}
+\begin{proof}
+    Let $(f_A,f_B,Q_A,q_A)$ be the ingredients of a sequential protocol over the monoid $(\Gamma^*, \cdot, \varepsilon)$. We will first construct another protocol $(f_A',f_B',Q_A,q_A)$ that computes the same function as $(f_A,f_B,Q_A,q_A)$ such that the alice output function $f_A'$ is exactly $\widehat{f}$ as defined in the proof of theorem~\ref{theorem-subsequential-transducer}. Then we will show that $(f_A',f_B',Q_A,q_A)$ can be normalized.
+
+    Observe that because alice can compute $q_A$, she can also compute $\widehat{u}$ as defined in the proof of theorem~\ref{theorem-subsequential-transducer}. Therefore, she can compute $\widehat{f}$ as well. Now define the functions $f_A', f_B'$ as follows:
+    \[f_A'(w) = \widehat{f}(w)\]
+    \[f_B'(w,q) = \widehat{u}(q)^{-1} f_B(w,q)\]
+    for every $ w \in \Sigma^* $ and $ q \in Q_A $. It is easy to see that the sequential protocol $(f_A',f_B',Q_A,q_A)$ computes the same function as $(f_A,f_B,Q_A,q_A)$. Now we will define an equivalence relation on Alice's signal space $Q_A$ as follows: First because we know that every signal $ q \in Q_A $ is reachable by some input string we can choose one string $ w_q \in \Sigma^* $ such that $ q_A(w_q) = q $ for every $ q \in Q_A $. Now we define the equivalence relation $\equiv$ on $Q_A$ as follows:
+    \[q_1 \equiv q_2 \iff f_{w_{q_1}} = f_{w_{q_2}}\]
+    for every $q_1, q_2 \in Q_A $. It is easy to see that $\equiv$ is indeed an equivalence relation. Now we will show that signals that are equivalent under $\equiv$ behave the same under any input string from bob's side. Let $w$ be an arbitrary string in $\Sigma^*$ and let $q_1, q_2 \in Q_A$ such that $q_1 \equiv q_2$. We want to show that $f_B'(w,q_1) = f_B'(w,q_2)$. Choose two arbitary strings $w_1, w_2 \in \Sigma^*$ such that $q_A(w_1) = q_1$ and $q_A(w_2) = q_2$. Now if we show that $f_{w_1} = f_{w_2}$ then we are done. This is because $f(w_1 w) = \widehat{f}(w_1) f_B'(w,q_1)$ and $f(w_2 w) = \widehat{f}(w_2) f_B'(w,q_2)$. Therefore $f_B'(w,q_1) = \widehat{f}(w_1)^{-1} f(w_1 w)=f_{w_1}(w)$ and $f_B'(w,q_2) = \widehat{f}(w_2)^{-1} f(w_2 w)=f_{w_2}(w)$. We have shown in \ref{theorem-main-sequential-protocol} that for any $w_1, w_2 \in \Sigma^*$ such that $q_A(w_1) = q_A(w_2)$, it holds that $f_{w_1} = f_{w_2}$. Therefore, $f_{w_1} = f_{w_{q_1}} = f_{w_{q_2}} = f_{w_2}$. Hence, $f_B'(w,q_1) = f_B'(w,q_2)$.
+
+    Now we can define the normalized sequential protocol. Let $Q_A' = Q_A /_{\equiv}$ be the quotient set of $Q_A$ under the equivalence relation $\equiv$, and $q_A': \Sigma^* \to Q_A'$ be defined as follows:
+    \[q_A'(w) = [q_A(w)]_{\equiv}\]
+    for every $ w \in \Sigma^* $. Then $(f_A',f_B',Q_A',q_A')$ defines a normalized sequential protocol that computes the same function as $(f_A,f_B,Q_A,q_A)$. To show that it is indeed normalized, we need to show that $q_A'$ is indeed regular. This follows from the formulae we have shown in the proof of theorem~\ref{theorem-main-sequential-protocol}, by Myhill-Nerode theorem. More precisely, for any $ w_1, w_2 \in \Sigma^* $, if $ q_A'(w_1) = q_A'(w_2) $, then for every string $ v \in \Sigma^* $, $q_A'(w_1 v) = q_A'(w_2 v)$. This is because $ q_A'(w_1) = q_A'(w_2) $ implies that $ q_A(w_1) \equiv q_A(w_2) $, which in turn implies that $ f_{w_1} = f_{w_2} $. Therefore, by equation~\eqref{equation-derivative-equivalence}, for every string $ v \in \Sigma^* $, $ f_{w_1 v} = f_{w_2 v} $, which implies that $ q_A(w_1 v) \equiv q_A(w_2 v) $, and hence $ q_A'(w_1 v) = q_A'(w_2 v) $. Thus, by Myhill-Nerode theorem, there exists a Deterministic Finite Semi-Automaton that computes $q_A'$. This completes the proof.
+\end{proof}
 
