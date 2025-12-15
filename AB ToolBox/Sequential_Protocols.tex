@@ -214,6 +214,7 @@ Therefore, we will define normalization for each class of protocols based on the
     A sequential protocol $(f_A,f_B,Q_A,q_A)$ over the monoid $(\Gamma^*, \cdot, \varepsilon)$ is called \emph{normalized} if there exists a Deterministic Finite Semi-Automaton $\mathcal{A} = (Q_A, \Sigma, \delta, q_{A_0})$ such that for every $ w \in \Sigma^* $, $ q_A(w) = \delta^*(q_{A_0}, w) $, where $\delta^*$ is the extended transition function of $\mathcal{A}$.
 \end{definition}
 \begin{theorem}
+    \label{theorem-normalized-sequential-protocol}
     For every sequential protocol over the monoid $(\Gamma^*, \cdot, \varepsilon)$, there exists a normalized sequential protocol that computes the same function.
 \end{theorem}
 \begin{proof}

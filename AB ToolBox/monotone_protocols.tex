@@ -19,6 +19,36 @@ Let $(f_A,f_B,Q_A,Q_B,q_A,q_B)$ be ingredients of a monotone protocol over the m
 \[C_A(w_1w_2)[i] = C_A(w_1)[i] \cdot u \] for some $u \in \Gamma^*$ (output domain).
 In other words, configurations of Alice grow monotonically with respect to the prefix order on strings, whenever the signal sent to Bob does not change.
 \end{lemma}
+\begin{proof}
+I don't know the proof yet.
+\end{proof}
+
+\begin{theorem}[Normalization of Monotone Protocols]
+  \label{thm:monotone-protocols-rational}
+  For every monotone protocol over the monoid $(\Gamma^*, \cdot, \varepsilon)$,
+  there exists a normalized monotone protocol that computes the same function. (A normalized monotone protocol is defined similarly as Definition~\ref{definition-normalized-sequential-protocol}, but for monotone protocols.)
+\end{theorem}
+\begin{proof}
+  (Not finished yet)
+  Similar to the proof of Theorem~\ref{theorem-normalized-sequential-protocol}, first we define the function $\delta \colon Q_A \times Q_B \to \Gamma^*$ as follows:
+  \[\delta(q_A, q_B) = lcp\{ f_B(v, q_A) \mid v \in \Sigma^* \text{ and } q_B(v) = q_B \}\]
+  Then, we define equivalent protocol functions as follows:
+  \begin{itemize}
+      \item $f_A'(u, q_B) = f_A(u, q_B) \delta(q_A(u), q_B)$
+      \item $f_B'(v, q_A) = \delta(q_A, q_B(v))^{-1} f_B(v, q_A)$
+  \end{itemize}
+  Now consider two following equivalence relations between strings of $\Sigma^*$:
+  \[u_1 \equiv_A u_2 \iff \forall v \in \Sigma^*, f_B'(v, q_A(u_1)) = f_B'(v, q_A(u_2)) \]
+  \[v_1 \equiv_B v_2 \iff \forall u \in \Sigma^*, f_A'(u, q_B(v_1)) = f_A'(u, q_B(v_2)) \]
+  We claim that $\equiv_A$ is a right congruence and $\equiv_B$ is a left congruence. That is, for every $u_1, u_2, a \in \Sigma$, if $u_1 \equiv_A u_2$ then $u_1 a \equiv_A u_2 a$, and for every $v_1, v_2, a \in \Sigma$, if $v_1 \equiv_B v_2$ then $a v_1 \equiv_B a v_2$. 
+
+  %--- I Hope I can complete the proof soon ---
+  To be continued...
+
+\end{proof}
+
+%------------------------------------------------------------------------------
+
 
 \begin{lemma}
   \label{lem:concat-ab-rational}
