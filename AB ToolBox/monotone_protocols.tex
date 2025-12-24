@@ -47,205 +47,36 @@ I don't know the proof yet.
 
 \end{proof}
 
-%------------------------------------------------------------------------------
+%-----------------------------------------------------------------------------
 
+Now we want to show that every function computed by a monotone protocol is rational.
+First, we define the notion of \emph{Hankel Property} for every function $f \colon \Sigma^* \to \Gamma^*$. Then we state the Reutenauer-Schützenberger Theorem that every function with Hankel Property is rational.
 
-\begin{lemma}
-  \label{lem:concat-ab-rational}
-  For every rational function $f \colon \Sigma^* \to \Gamma^*$
-  (computable by a bimachine), there exists a monotone protocol expressing $f$.
-\end{lemma}
-\begin{proof}
-  Let us consider a bimachine computing $f$,
-  with a left-to-right automaton
-  $\mathcal{A}_L$ and a right-to-left automaton $\mathcal{A}_R$.
-  Let us define $Q$ the union of the states of $\mathcal{A}_L$ and $\mathcal{A}_R$.
-  Let us define $q_A(u)$ as the state in which $\mathcal{A}_L$ ends
-  after reading $u$, and $q_B(v)$ as the state in which $\mathcal{A}_R$ ends
-  after reading $v$ (from right to left).
-
-  It we can now define $f_A(u,s)$ to be the output of the bimachine on the word
-  $u$ if the left-to-right automaton starts in its initial state, the
-  right-to-left automaton starts in state $s \in Q$, and similarly, $f_B(v,s)$
-  to be the output of the bimachine on the word $v$ if the left-to-right
-  automaton starts in state $s \in Q$, and the right-to-left automaton starts
-  in its initial state.
-\end{proof}
-
-
-
-\begin{definition}
-  An \emph{oracle}-sequential transducer (OSeq)
-  is a deterministic finite state automaton
-  $(Q, \Sigma, \delta, q_0)$
-  equipped with output functions $\lambda \colon Q \times \Sigma \to \mathcal{O}$
-  where $\mathcal{O}$ is a finite set of oracle functions
-  of type $\Sigma^* \to \Gamma^*$,
-  and a final output function $F \colon Q \to \Gamma^*$.
-
-  The semantics of an oracle-sequential transducer $\mathcal{A}$
-  is defined inductively as follows:
-  $\mathcal{A}(q, \varepsilon) = F(q)$, and
-  $\mathcal{A}(q, a w) = \lambda(q,a)(w) \cdot \mathcal{A}(\delta(q,a), w)$.
+\begin{definition}[Hankel Property]
+  A function $f \colon \Sigma^* \to \Gamma^*$ is said to have the Hankel Property if there exists a constant $K > 0$ and functions $\beta_1, \beta_2, \ldots, \beta_K \colon \Sigma^* \to \Gamma^*$ and $\gamma_1, \gamma_2, \ldots, \gamma_K \colon \Sigma^* \to \Gamma^*$ such that for every strings $u, v \in \Sigma^*$, we have:
+  \[ f(uv) = \bigcup_{i=1}^{K} \beta_i(u) \cdot \gamma_i(v) \]
 \end{definition}
 
-\begin{lemma}
-  A function $f \colon \Sigma^* \to \Gamma^*$
-  is rational (computable by a bimachine)
-  if and only if 
-  it is computable by an oracle-sequential transducer
-  where all oracle functions are regular functions of
-  bounded size output.
-\end{lemma}
-\begin{proof}
-Given a bimachine computing $f$, one can construct an oracle transducer with
-states that are all the possible states of the left-to-right automaton. Then,
-$\lambda(q,a)(w)$ is defined as what the bimachine outputs when the
-left-to-right automaton is in state $q$, and the right-to-left automaton starts
-in its initial state, reads $w$ and then reads $a$, which can be computed by a
-regular function of bounded size output by definition.
-
-
-Conversely, one can compute one big automaton that precomputes all the oracle
-functions since their output has bounded size. This is the right-to-left
-automaton. The left-to-right automaton is the states of the oracle-sequential
-transducer. The output function of the bimachine is
-defined as $\lambda(q,a)(w)$ when the left-to-right automaton is in state $q$,
-which only depends on the state of the right-to-left and left-to-right automata.
-\end{proof}
-
-
-Let us now consider a function $f$ expressible by a monotone protocol, so that
-$f(uv) = f_A(u, q_B(v)) \; f_B(v, q_A(u))$ for suitable functions $f_A, f_B,
-q_A, q_B$ and finite set $Q$ of signals. Recall the definition of configuration
-of a simple-aggregation protocol from
-Definition~\ref{configuration-definition}. Let us order configurations as
-follows: $C(u) \leq C(v)$ if and only if $q_A(u) = q_A(v)$ and for all $s \in
-Q$, $f_A(u, s)$ is a prefix of $f_A(v, s)$.
-
-We claim that configurations are somehow close to being endowed with a
-well-quasi-ordering. Before doing that, let us first normalize the notion of
-configuration to contain only signals in $Q$ that can actually be sent by Bob.
-That is, for every $s \in Q$ such that there is no $v \in \Sigma^*$ with
-$q_B(v) = s$, we remove $s$ from $Q$ and we remove the corresponding word
-$f_A(u, s)$ from the configuration $C(u)$.
-
-\begin{lemma}
-  \label{lem:pref-wqo}
-  For every infinite sequence $(w_n)_{n \in \mathbb{N}}$ of words in $\Gamma^*$
-  that is increasing for the prefix order,
-  there exist $i < j$ such that $C(w_i) \leq C(w_j)$.
-\end{lemma}
-\begin{proof}
-  Let us consider such an infinite sequence $(w_n)_{n \in \mathbb{N}}$.
-  Since $Q$ is finite, there exists an infinite subsequence 
-  that has a same state $q \in Q$.
-
-  Let us notice that the sequence of lengths of the words 
-  in $(f_A(w_n, s))_{s \in Q}$ is a sequence of $|Q|$-tuples of natural numbers,
-  hence by Dickson's lemma, there exists an infinite subsequence
-  where these lengths are non-decreasing.
-
-  Let us now fix a $q \in Q$ and look at 
-  $|f_A(w_n, q)|$ for this $q$ when $n$ ranges over the indices of the
-  subsequence defined above. Either $|f_A(w_n, q)|$ is bounded, in which case
-  we can extract further a subsequence where $f_A(w_n, q)$ is constant, or
-  $|f_A(w_n, q)|$ is unbounded, in which case we can extract an infinite subsequence
-  where $|f_A(w_n, q)|$ is strictly increasing. 
-
-  By repeating this process for all the finitely many $q \in Q$, we can extract
-  a subsequence $(w_{n_k})_{k \in \mathbb{N}}$ such that for all $q \in Q$,
-  either $f_A(w_{n_k}, q)$ is constant, or the lengths $|f_A(w_{n_k}, q)|$ are
-  strictly increasing.
-
-  Let us now take $i = n_0$, and $j$ be large enough so that for every $q \in
-  Q$ where $|f_A(w_{n_k}, q)|$ is strictly increasing, for every $s \in Q$, we
-  have $|f_A(w_j, q)| > |f_A(w_i, s)|$.
-
-  Let us prove that $C(w_i) \leq C(w_j)$. By construction, we have
-  $q_A(w_i) = q_A(w_j)$. Now, let us consider any $s \in Q$. If
-  $f_A(w_{n_k}, s)$ is constant, then in particular
-  $f_A(w_i, s) = f_A(w_j, s)$, so $f_A(w_i, s)$ is a prefix of
-  $f_A(w_j, s)$. 
-  Otherwise, $|f_A(w_j, s)| > |f_A(w_i, r)|$
-  for all $r \in Q$. Let us now consider a word $v$ such that 
-  $q_B(v) = s$ and let us write $w_j = w_i v'$.
-
-  \begin{equation*}
-    f_A(w_j, s) \; f_B(v, q_A(w_j))
-    f(w_j v) = f(w_i v' v)
-    = f_A(w_i, q_B(v' v)) \; f_B(v' v, q_A(w_i))
-  \end{equation*}
-
-  Since $|f_A(w_j, s)| > |f_A(w_i, r)|$ for all $r \in Q$, this means that
-  $f_A(w_i, q_B(v' v))$ is a prefix of $f_A(w_j, s)$. This defines a map
-  $\delta \colon Q \to Q$ such that $f_A(w_i, \delta(r))$ is a prefix of
-  $f_A(w_j, r)$ for all $r \in Q$.
-
-  By extracting again the sequence, we can assume that for 
-  every $i < j$, such a map $\delta_{i,j} \colon Q \to Q$ exists.
-  Using a Ramsey argument, we can extract a subsequence 
-  such that this map is the same for all pairs $(i,j)$.
-
-  \textbf{TODO aliaume: there is some work to be done to conclude...} 
-
-  We have proven that $C(w_i) \leq C(w_j)$.
-\end{proof}
-
-\newcommand{\lcpbob}[1]{\operatorname{lcp}_{#1}}
-\newcommand{\derivbob}[1]{\partial_{#1}}
-
-
-
-Now is the time to prove the main result of this section by constructing an
-Oracle transducer computing $f$ from this well-quasi-ordering on
-configurations. To that end, let us introduce some definitions, leaving $f$ implicit
-to unclutter notations. For every $s
-\in Q$, let us define the function $\lcpbob{s}(u)$ as the longest common prefix
-of all words $f(uw)$ when $w$ ranges over all words such that $q_B(w) = s$.
-Then, let us define the function $\derivbob{u}(w)$ as follows: if $q_B(w) = s$,
-then $\derivbob{u}(w) = \lcpbob{s}(u)^{-1} f(uw)$.
-
-
-\begin{theorem}
-
-  A function $f \colon \Sigma^* \to \Gamma^*$
-  is computable by a concatenating Alice-Bob communication model
-  if and only if it is computable by an Oracle sequential transducer,
-  where all oracle functions are regular functions of 
-  bounded size output.
+\begin{theorem}[Reutenauer-Schützenberger Theorem]
+  \label{Hankel-property-rational-function}
+  Every function $f \colon \Sigma^* \to \Gamma^*$ that has the Hankel Property is rational. \cite{reutenauerSchutzenberger1991}
 \end{theorem}
+
+So now it is enough to show that every function computed by a monotone protocol has the Hankel Property. We will show in it the next lemma.
+
+\begin{lemma}
+  \label{monotone-protocols-hankel-property}
+  Every function computed by a monotone protocol has the Hankel Property.
+\end{lemma}
 \begin{proof}
-  The direction from oracle transducers to concatenating Alice-Bob communication model is
-  straightforward, since oracle transducers correspond to rational functions 
-  and we have already seen that rational functions can be computed
-  by concatenating Alice-Bob communication models in 
-  Lemma~\ref{lem:concat-ab-rational}.
-
-
-  Conversely, let us consider a function $f$ computable by a concatenating
-  Alice-Bob communication model. We are going to construct an oracle transducer
-  computing $f$. Let us consider as states of the transducer a set of words
-  $u\in \Sigma^*$ that are a finite set of representatives of minimal elements
-  of configurations for the order $\leq$ defined above. By
-  Lemma~\ref{lem:pref-wqo}, the tree of all words ordered by prefixes can be
-  trimmed using $\leq$ so that every branch is finite, hence the tree itself is
-  finite due to K\"onig's lemma, proving the existence of such a finite set of
-  representatives. To this finite list of representatives, we add the empty
-  word $\varepsilon$ if it is not already present. \textbf{TODO aliaume: is the König
-  argument correct? unclear.}
-
-  Let us now define the transitions of the automata. Given $u \in \Sigma^*$ a
-  representative state, and $a \in \Sigma$ a letter, we know that there exists
-  $v \in \Sigma^*$ a representative state such that $C(v) \leq C(u a)$. We pick
-  one such $v$ and define a transition from $u$ to $v$ on letter $a$.
-
-  Let us now define the oracle functions. We define $\lambda(u,a)$ to be the
-  function that maps a word $w$ to the unique word $x$ such that
-  $\derivbob{u}(aw) = x \; \derivbob{v}(w)$ where $v$ is the state reached from
-  $u$ on letter $a$.
-
-  \textbf{for omid: it is unclear that 
-    the oracle functions even exist!}
-
+  Let $(f_A,f_B,Q_A,Q_B,q_A,q_B)$ be ingredients of a monotone protocol over the monoid $(\Gamma^*, \cdot, \varepsilon)$ that computes the function $f \colon \Sigma^* \to \Gamma^*$.
+  We define functions $\beta_i \colon \Sigma^* \to \Gamma^*$ and $\gamma_i \colon \Sigma^* \to \Gamma^*$ for every $1 \leq i \leq |Q_B| \times |Q_A|$ as follows:
+  \begin{itemize}
+      \item $\beta_{q,p}(u) = \emptyset$ if $q_A(u) \neq q$ else $\beta_{q,p}(u) = C_A(u)[p]$
+      \item $\gamma_{q,p}(v) = \emptyset$ if $q_B(v) \neq p$ else $\gamma_{q,p}(v) = C_B(v)[q]$
+  \end{itemize}
+  where $1 \leq q \leq |Q_B|$ and $1 \leq p \leq |Q_A|$.
+  Now for every strings $u, v \in \Sigma^*$, we have:
+  \[ f(uv) = \bigcup_{(q,p) \in Q_B \times Q_A} \beta_{q,p}(u) \cdot \gamma_{q,p}(v) \]
+  Thus, $f$ has the Hankel Property.
 \end{proof}
