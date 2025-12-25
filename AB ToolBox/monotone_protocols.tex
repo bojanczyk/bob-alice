@@ -51,8 +51,9 @@ The above theorem was independently interesting because we hope it can be extend
 
 \begin{definition}[Hankel Property]
   A function $f \colon \Sigma^* \to \Gamma^*$ is said to have the Hankel Property if there exists a constant $K > 0$ and functions $\beta_1, \beta_2, \ldots, \beta_K \colon \Sigma^* \to \Gamma^*$ and $\gamma_1, \gamma_2, \ldots, \gamma_K \colon \Sigma^* \to \Gamma^*$ such that for every strings $u, v \in \Sigma^*$, we have:
-  \[ f(uv) = \bigcup_{i=1}^{K} \beta_i(u) \cdot \gamma_i(v) \]
+  \[ f(uv) = \bigcup_{i=1}^{K} \beta_i(u) \cdot \gamma_i(v) \] \cite{reutenauerSchutzenberger1991}
 \end{definition}
+Like the original Reutenauer-Schützenberger Theorem, here we consider each string, and $\emptyset$, to be embedded in the boolean semiring $2^{B^*}$, where the addition is union and multiplication is concatenation of languages. Therefore, if one of the $\beta_i(u)$ or $\gamma_i(v)$ is $\emptyset$, then the corresponding term in the union is also $\emptyset$ \cite{reutenauerSchutzenberger1991}.
 
 \begin{theorem}[Reutenauer-Schützenberger Theorem]
   \label{Hankel-property-rational-function}
