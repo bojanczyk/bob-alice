@@ -26,7 +26,7 @@ I don't know the proof yet.
 \begin{theorem}[Normalization of Monotone Protocols]
   \label{thm:monotone-protocols-rational}
   For every monotone protocol over the monoid $(\Gamma^*, \cdot, \varepsilon)$,
-  there exists a normalized monotone protocol that computes the same function. (A normalized monotone protocol is defined similarly as Definition~\ref{definition-normalized-sequential-protocol}, but for monotone protocols.)
+  there exists a normalized monotone protocol that expresses the same function. (A normalized monotone protocol is defined similarly as Definition~\ref{definition-normalized-sequential-protocol}, but for monotone protocols.)
 \end{theorem}
 \begin{proof}
   (Not finished yet)
@@ -47,11 +47,11 @@ I don't know the proof yet.
 
 \end{proof}
 
-The above theorem was independently interesting because we hope it can be extended to more expressive protocols. So the above theorem is not directly related to the main goal of this section. The main goal of this section is to show that every function computed by a monotone protocol is rational and vice versa which we are going to do it now.
+The above theorem was independently interesting because we hope it can be extended to more expressive protocols. So the above theorem is not directly related to the main goal of this section. The main goal of this section is to show that every function expressed by a monotone protocol is rational and vice versa which we are going to do it now.
 
 %-----------------------------------------------------------------------------
 
-We want to show that every function computed by a monotone protocol is rational and vice versa. To do so first, we define the notion of \emph{Hankel Property} for every function $f \colon \Sigma^* \to \Gamma^*$. Then we state the Reutenauer-Schützenberger Theorem that every function with Hankel Property is rational and vice versa. Finally, we show that every function computed by a monotone protocol has the Hankel Property.
+We want to show that every function expressed by a monotone protocol is rational and vice versa. To do so first, we define the notion of \emph{Hankel Property} for every function $f \colon \Sigma^* \to \Gamma^*$. Then we state the Reutenauer-Schützenberger Theorem that every function with Hankel Property is rational and vice versa. Finally, we show that every function expressed by a monotone protocol has the Hankel Property.
 
 \begin{definition}[Hankel Property]
   A function $f \colon \Sigma^* \to \Gamma^*$ is said to have the Hankel Property if there exists a constant $K > 0$ and functions $\beta_1, \beta_2, \ldots, \beta_K \colon \Sigma^* \to \Gamma^*$ and $\gamma_1, \gamma_2, \ldots, \gamma_K \colon \Sigma^* \to \Gamma^*$ such that for every strings $u, v \in \Sigma^*$, we have:
@@ -63,14 +63,14 @@ We want to show that every function computed by a monotone protocol is rational 
   Every function $f \colon \Sigma^* \to \Gamma^*$ that has the Hankel Property is rational and vice versa. \cite{reutenauerSchutzenberger1991}
 \end{theorem}
 
-So now it is enough to show that every function computed by a monotone protocol has the Hankel Property. We will show in it the next lemma.
+So now it is enough to show that every function expressed by a monotone protocol has the Hankel Property. We will show in it the next lemma.
 
 \begin{lemma}
   \label{monotone-protocols-hankel-property}
-  Every function computed by a monotone protocol has the Hankel Property.
+  Every function expressed by a monotone protocol has the Hankel Property.
 \end{lemma}
 \begin{proof}
-  Let $(f_A,f_B,Q_A,Q_B,q_A,q_B)$ be ingredients of a monotone protocol over the monoid $(\Gamma^*, \cdot, \varepsilon)$ that computes the function $f \colon \Sigma^* \to \Gamma^*$.
+  Let $(f_A,f_B,Q_A,Q_B,q_A,q_B)$ be ingredients of a monotone protocol over the monoid $(\Gamma^*, \cdot, \varepsilon)$ that expresses the function $f \colon \Sigma^* \to \Gamma^*$.
   We define functions $\beta_i \colon \Sigma^* \to \Gamma^*$ and $\gamma_i \colon \Sigma^* \to \Gamma^*$ for every $1 \leq i \leq |Q_B| \times |Q_A|$ as follows:
   \begin{itemize}
       \item $\beta_{q,p}(u) = \emptyset$ if $q_A(u) \neq q$ else $\beta_{q,p}(u) = C_A(u)[p]$
@@ -82,13 +82,13 @@ So now it is enough to show that every function computed by a monotone protocol 
   Thus, $f$ has the Hankel Property.
 \end{proof}
 
-Now we know that every function computed by a monotone protocol has the Hankel Property (by Lemma~\ref{monotone-protocols-hankel-property}) and every function with the Hankel Property is rational and vice versa (by Theorem~\ref{Hankel-property-rational-function}). Therefore, we have the following main theorem of this section.
+Now we know that every function expressed by a monotone protocol has the Hankel Property (by Lemma~\ref{monotone-protocols-hankel-property}) and every function with the Hankel Property is rational and vice versa (by Theorem~\ref{Hankel-property-rational-function}). Therefore, we have the following main theorem of this section.
 
 \begin{theorem}
   \label{monotone-protocols-rational-functions}
-  A function $f \colon \Sigma^* \to \Gamma^*$ is computed by a monotone protocol over the monoid $(\Gamma^*, \cdot, \varepsilon)$ if and only if it is rational (computable by a bimachine).
+  A function $f \colon \Sigma^* \to \Gamma^*$ is expressed by a monotone protocol over the monoid $(\Gamma^*, \cdot, \varepsilon)$ if and only if it is rational (computable by a bimachine).
 \end{theorem}
-It is left to show the other direction of Theorem~\ref{monotone-protocols-rational-functions}, i.e., every rational function can be computed by a monotone protocol. We will show it in the next lemma.
+It is left to show the other direction of Theorem~\ref{monotone-protocols-rational-functions}, i.e., every rational function can be expressed by a monotone protocol. We will show it in the next lemma.
 \begin{lemma}
   \label{lem:concat-ab-rational}
   For every rational function $f \colon \Sigma^* \to \Gamma^*$
