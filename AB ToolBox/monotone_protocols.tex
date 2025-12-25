@@ -81,3 +81,32 @@ So now it is enough to show that every function computed by a monotone protocol 
   \[ f(uv) = \bigcup_{(q,p) \in Q_B \times Q_A} \beta_{q,p}(u) \cdot \gamma_{q,p}(v) \]
   Thus, $f$ has the Hankel Property.
 \end{proof}
+
+Now we know that every function computed by a monotone protocol has the Hankel Property (by Lemma~\ref{monotone-protocols-hankel-property}) and every function with the Hankel Property is rational and vice versa (by Theorem~\ref{Hankel-property-rational-function}). Therefore, we have the following main theorem of this section.
+
+\begin{theorem}
+  \label{monotone-protocols-rational-functions}
+  A function $f \colon \Sigma^* \to \Gamma^*$ is computed by a monotone protocol over the monoid $(\Gamma^*, \cdot, \varepsilon)$ if and only if it is rational (computable by a bimachine).
+\end{theorem}
+It is left to show the other direction of Theorem~\ref{monotone-protocols-rational-functions}, i.e., every rational function can be computed by a monotone protocol. We will show it in the next lemma.
+\begin{lemma}
+  \label{lem:concat-ab-rational}
+  For every rational function $f \colon \Sigma^* \to \Gamma^*$
+  (computable by a bimachine), there exists a monotone protocol expressing $f$.
+\end{lemma}
+\begin{proof}
+  Let us consider a bimachine computing $f$,
+  with a left-to-right automaton
+  $\mathcal{A}_L$ and a right-to-left automaton $\mathcal{A}_R$.
+  Let us define $Q$ the union of the states of $\mathcal{A}_L$ and $\mathcal{A}_R$.
+  Let us define $q_A(u)$ as the state in which $\mathcal{A}_L$ ends
+  after reading $u$, and $q_B(v)$ as the state in which $\mathcal{A}_R$ ends
+  after reading $v$ (from right to left).
+
+  It we can now define $f_A(u,s)$ to be the output of the bimachine on the word
+  $u$ if the left-to-right automaton starts in its initial state, the
+  right-to-left automaton starts in state $s \in Q$, and similarly, $f_B(v,s)$
+  to be the output of the bimachine on the word $v$ if the left-to-right
+  automaton starts in state $s \in Q$, and the right-to-left automaton starts
+  in its initial state.
+\end{proof}
