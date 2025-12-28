@@ -30,7 +30,7 @@ I don't know the proof yet.
 \end{theorem}
 \begin{proof}
   (Not finished yet)
-  Similar to the proof of Theorem~\ref{theorem-normalized-sequential-protocol}, first we define the function $\delta \colon Q_A \times Q_B \to \Gamma^*$ as follows:
+  Similar to the proof of Theorem~\ref{theorem-normalized-monotone-protocol}, first we define the function $\delta \colon Q_A \times Q_B \to \Gamma^*$ as follows:
   \[\delta(q_A, q_B) = lcp\{ f_B(v, q_A) \mid v \in \Sigma^* \text{ and } q_B(v) = q_B \}\]
   Then, we define equivalent protocol functions as follows:
   \begin{itemize}
@@ -53,7 +53,7 @@ The above theorem was independently interesting because we hope it can be extend
   A function $f \colon \Sigma^* \to \Gamma^*$ is said to have the Hankel Property if there exists a constant $K > 0$ and functions $\beta_1, \beta_2, \ldots, \beta_K \colon \Sigma^* \to \Gamma^*$ and $\gamma_1, \gamma_2, \ldots, \gamma_K \colon \Sigma^* \to \Gamma^*$ such that for every strings $u, v \in \Sigma^*$, we have:
   \[ f(uv) = \bigcup_{i=1}^{K} \beta_i(u) \cdot \gamma_i(v) \] \cite{reutenauerSchutzenberger1991}
 \end{definition}
-Like the original Reutenauer-Schützenberger Theorem, here we consider each string, and $\emptyset$, to be embedded in the boolean semiring $2^{B^*}$, with union and prodcut as operations. Therefore, if one of the $\beta_i(u)$ or $\gamma_i(v)$ is $\emptyset$, then the corresponding term in the union is also $\emptyset$ \cite{reutenauerSchutzenberger1991}.
+Like the original Reutenauer-Schützenberger Theorem, here we consider each string, and $\emptyset$, to be embedded in the boolean semiring $2^{\Gamma^*}$, with union and prodcut as operations. Therefore, if one of the $\beta_i(u)$ or $\gamma_i(v)$ is $\emptyset$, then the corresponding term in the union is also $\emptyset$ \cite{reutenauerSchutzenberger1991}.
 
 \begin{theorem}[Reutenauer-Schützenberger Theorem]
   \label{Hankel-property-rational-function}
