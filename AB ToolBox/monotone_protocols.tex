@@ -12,9 +12,7 @@
 \end{definition}
 \newcommand{\lcp}[1]{\operatorname{\bigwedge}_{#1}}
 
-Monotone protocols are interesting because they capture a natural class of functions called rational functions that can be computed by bimachines \cite{schutzenberger1961remark} \footnote{The terminology "Bimachine" is due to Eilenberg \cite{Eilenberg74}.}. The equivalence between monotone protocols and rational functions, is a simple corollary of the Reutenauer-Schützenberger Theorem \cite{reutenauer1991minimization} which we are going to explain it at beginning of this section. To do so, we define the notion of \emph{Hankel Property} for every function $f \colon \Sigma^* \to \Gamma^*$. Then we state the Reutenauer-Schützenberger Theorem that every function is rational if and only if it has the Hakel Property. We are going to show that Hankel Property and monotone protocols are equivalent, i.e., every function expressed by a monotone protocol has the Hankel Property and every function that has the Hankel Property can be expressed by a monotone protocol. Therefore any function expressed by a monotone protocol is rational and vice versa. 
-
-\label{hankel-property-and-monotone-protocols}
+Monotone protocols are interesting because they capture a natural class of functions called rational functions that can be computed by bimachines \cite{schutzenberger1961remark} \footnote{The terminology "Bimachine" is due to Eilenberg \cite{Eilenberg74}.}. The equivalence between monotone protocols and rational functions, is a simple corollary of the Reutenauer-Schützenberger Theorem \cite{reutenauer1991minimization} which we are going to explain it at beginning of this section. To do so, we define the notion of \emph{Hankel Property} for every function $f \colon \Sigma^* \to \Gamma^*$. Then we state the Reutenauer-Schützenberger Theorem that every function is rational if and only if it has the Hakel Property. We are going to show that Hankel Property and monotone protocols are equivalent, i.e., every function expressed by a monotone protocol has the Hankel Property and every function that has the Hankel Property can be expressed by a monotone protocol. Therefore any function expressed by a monotone protocol is rational and vice versa. Throughout this section, for any monotone protocol with ingredients $(f_A,f_B,Q_A,Q_B,q_A,q_B)$, we denote by $f_A[p]$ the function $f_A(\cdot, p)$ for any signal $p \in Q_B$ and by $f_B[q]$ the function $f_B(\cdot, q)$ for any signal $q \in Q_A$.
 
 \begin{definition}[Hankel Property]
   A function $f \colon \Sigma^* \to \Gamma^*$ is said to have the Hankel Property if there exists a constant $K > 0$ and functions $\beta_1, \beta_2, \ldots, \beta_K \colon \Sigma^* \to \Gamma^*$ and $\gamma_1, \gamma_2, \ldots, \gamma_K \colon \Sigma^* \to \Gamma^*$ such that for every strings $u, v \in \Sigma^*$, we have:
@@ -27,7 +25,8 @@ Like the original Reutenauer-Schützenberger Theorem, here we consider each stri
   Every function $f \colon \Sigma^* \to \Gamma^*$ that has the Hankel Property is rational and vice versa. \cite{reutenauerSchutzenberger1991}
 \end{theorem}
 
-So now it is enough to show that every function expressed by a monotone protocol has the Hankel Property. We will show in it the next lemma.
+\noindent
+Now we show that monotone protocols and Hankel Property are equivalent.
 
 \begin{lemma}
   \label{monotone-protocols-hankel-property}
@@ -71,7 +70,7 @@ So now it is enough to show that every function expressed by a monotone protocol
   
 \end{proof}
 
-Also we have seen that expressibility by a monotone protocol is equivalent to having the Hankel Property for a function, it is not that obvious that how these two conecpts, i.e., monotone protocols and Hankel Property, are related to each other. To see this relation more clearly, we need to define notion of distance between two strings with respect to a function. For that, we introduce a notion of distance over $ \Sigma^* $ with respect to a function $ f \colon \Sigma^* \to \Gamma^* $ as follows:
+Also we have seen that expressibility by a monotone protocol is equivalent to having the Hankel Property for a function, it is not that obvious that how these two conecpts, i.e., monotone protocols and Hankel Property, are related to each other. To see this relation more clearly, we use a notion of distance between two string that is used in the Reutenauer-Schützenberger Theorem proof. Then we explore an equivalence relation which is also left congruent with respect to a function based on this notion of distance, which is a central part of their proof. After defining these two notions we will show how they can be interpreted in the setting of monotone protocols. Then we will try to refine the protocol based on that interpretation to obtain a protocol that is equivalent to the original one but the signals of both Alice and Bob are computable by finite automata. Then we will show how we can construct a bimachine from such a protocol. Let us start by defining the notion of distance between two strings.
 
 \begin{definition}[Distance]
   Let $u_1, u_2 \in \Sigma^*$ be two strings. The distance between $u_1$ and $u_2$ is denoted by $\norm{u_1, u_2}$ and defined as follows:
@@ -80,28 +79,26 @@ Also we have seen that expressibility by a monotone protocol is equivalent to ha
 \end{definition}
 \medskip
 
-Based on this notion of distance, Reutenauer and Schutzenberger define an equivalence relation, $ \RS $ by $ \forall u,v \in \Sigma^*, u \RS v $ if and only if $ \exists c(u,v) \in \mathbb N, \forall w \in \Sigma^*, \norm{f(wu),f(wv)} \le c $. This relation is the central part of their proof that functions that have the Hankel property are rational, as we will discuss later on \cite{reutenauer1991minimization}.
+Based on this notion of distance, Reutenauer and Schutzenberger define an equivalence relation, $ \RS $ by $ \forall u,v \in \Sigma^*, u \RS v $ if and only if $ \exists c \in \mathbb N, \forall w \in \Sigma^*, \norm{f(wu),f(wv)} \leq c $. This relation is the central part of their proof that functions that have the Hankel property are rational, as we will discuss later on \cite{reutenauer1991minimization}.
 
-For now, we present an interpretation of this relation in the setting of monotone protocols. Take any monotone protocol $\pi$ with ingredients $(f_A,f_B,Q_A,Q_B,q_A,q_B)$ that expresses a function $ f \colon \Sigma^* \to \Gamma^* $.
-
-For any two signals of Bob, $ q,q' \in Q_b $, we let $ q \Simil q' $ if and only if $\exists c \in \mathbb{N} $, such that for any $ w \in \Sigma^* $, we have $\norm{f_A[]}$.
-
-$ \exists c(q,q'), \norm{f_A[q],f_A[q']} \le c(q,q') $.
+For now, we present an interpretation of this relation in the setting of monotone protocols. Take any monotone protocol $\pi$ with ingredients $(f_A,f_B,Q_A,Q_B,q_A,q_B)$ that expresses a function $ f \colon \Sigma^* \to \Gamma^* $. For any two signals of Bob, $ q,q' \in Q_B $, we let $ q \Simil q' $ if and only if $\exists c \in \mathbb{N} $, such that for any $ w \in \Sigma^* $, we have $\norm{f_A[q](w),f_A[q'](w)} \leq c $. In other words, two signals of Bob are equivalent if the outputs of Alice when receiving these two signals are at a bounded distance from each other for any input string.
 
 \begin{lemma}
-    Let $ u,v \in Sigma^* $, $ u \RS v $ if and only if $ q_B(u) \Simil q_B(v) $.
+    Let fixed a monotone protocol $\pi$ with ingredients $(f_A,f_B,Q_A,Q_B,q_A,q_B)$ that expresses a function $ f \colon \Sigma^* \to \Gamma^* $. For any two strings $ u,v \in \Sigma^* $, $ u \RS v $ if and only if $ q_B(u) \Simil q_B(v) $.
 \end{lemma}
 
 \begin{proof}
-    We start by proving the left to right implication. Let $ u,v \in \Sigma^* $ such that $ q_B(u) \Simil q_B(v) $ and denote $ q_B(u) $ and $ q_B(v) $ by $ q $ and $ q' $ respectively. Then, there exists $ c(q,q') \in \mathbb N $ such that for any $ w \in \Sigma *, \norm{f_A[q](w),f_A[q'](w)} \le c(q,q') $. Therefore, $$ \norm{f(wu),f(wv)} \le c(q,q') + |f_B[w](u)| + |f_B[w](v)|\le c(q,q') + sup_{w \in \Sigma} |f_B[w](u)| + |f_B[w](v)|. $$
-
-    Let $ c'(u,v) = c(q_B(u),q_B(v)) + sup_{w \in \Sigma} |f_B[w](u)| + |f_B[w](v)| $ for any $ u,v \in \Sigma^* $, for any $ w \in \Sigma^*, \norm{f(wu),f(wv)} \le c'(u,v) $ and since there are finitely many functions of the form $ f_B[w] $, $ c'(u,v) $ is finite. This concludes the proof of the first implication.
-    \medskip
+    Let $ u,v \in \Sigma^* $ such that $ q_B(u) \Simil q_B(v) $ and denote $ q_B(u) $ and $ q_B(v) $ by $ q $ and $ q' $ respectively. Then, there exists $ c \in \mathbb N $ (which is only dependent on $ q $ and $ q' $) such that for any $ w \in \Sigma *, \norm{f_A[q](w),f_A[q'](w)} \leq c $. Therefore we have:
     
-    Now, we prove the right to left implication. Let $ q,q' \in Q_B $ be two signals equivalent for $ \Simil $ and let $ P(q,q') = \lbrace (u,v) \in \Sigma^* \mid q_B(u) = q, q_B(v) = q', u \RS v \rbrace $. Now, for any $ (u,v) \in P(q,q') $, there exists $ c(u,v) \in \mathbb N $ such that $ \forall w \in \Sigma^*, \norm{f(wu),f(wv)} \le c(u,v) $. Let $ c'(q,q') = inf_{(u,v) \in P(q,q')} c(u,v) + sup_{w \in \Sigma^*} |f_B[w](u)|+|f_B[w](v)| $. Once again, there are only finitely many distinct functions $ f[w] $ for $ w \in \Sigma^* $ so the infimum is taken over natural numbers and is therefore itself a natural number. We claim that for any $ u,v \in \Sigma^* $ such that $ u \Simil v $, and for any $ w \in \Sigma^*, \norm{f_A[q_B(u)](w),f_A[q_B(v)](w)} \le c'(q_B(u),q_B(v)) $, which would conclude the proof.
-   \medskip
-   
-   Let $ u,v \in \Sigma^* $ such that $ u \Simil v $ and let $ q = q_B(u) $ and $ q' = q_B(v) $. Assume that $ \norm{f_A[q](w),f_A[q'](w)} > c(u,v) $ then one is the prefix of the other one. Say $ f_A[q](w) $ is a prefix of $ f_A[q'](w) $. Now, $ f_A[q](w) \cdot f_B[w](u) $ and $ f_A[q'](w) $ coincide at least until the $ c(u,v) $ last letters of $ f_A[q'](w) $. As a consequence, we deduce that $ \norm{f_A[q](w),f_A[q'](w)} \le c(u,v) + |f_B[u](w)| \le c'(q,q') $. Symmetrically, if $ f_A[q'](w) $ is a prefix of $ f_A[q](w) $ then $ \norm{f_A[q](w),f_A[q'](w)} \le c(u,v) + |f_B[v](w)| \le c'(q,q') $.
-\end{proof}
+    \begin{align*}
+      \norm{f(wu),f(wv)} & \leq c + 2 \cdot \max_{x \in \{u,v\}} |f_B[q_A(w)](x)| \\
+                         & \leq c + 2 \cdot \max_{q \in Q_B, x \in \{u,v\}} |f_B[q](x)| \\
+                         & \leq c + c'
+    \end{align*}
+    observe that $c'$ is a constant that only depends on $u$ and $v$. Therefore, $ u \RS v $.
+    \medskip
+  
+  I could not verify the other direction of the proof Thomas. Please recheck it (It is included in the Thomas.tex file).
+  \end{proof}
 
 

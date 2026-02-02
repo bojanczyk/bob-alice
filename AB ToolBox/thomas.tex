@@ -1,5 +1,26 @@
+
+    Now,for other direction, let $ q,q' \in Q_B $ be two signals equivalent for $ \Simil $ and let $ P(q,q') = \lbrace (u,v) \in \Sigma^* \mid q_B(u) = q, q_B(v) = q', u \RS v \rbrace $. Now, for any $ (u,v) \in P(q,q') $, there exists $ c(u,v) \in \mathbb N $ such that $ \forall w \in \Sigma^*, \norm{f(wu),f(wv)} \le c(u,v) $. Let $ c'(q,q') = inf_{(u,v) \in P(q,q')} c(u,v) + sup_{w \in \Sigma^*} |f_B[w](u)|+|f_B[w](v)| $. Once again, there are only finitely many distinct functions $ f[w] $ for $ w \in \Sigma^* $ so the infimum is taken over natural numbers and is therefore itself a natural number. We claim that for any $ u,v \in \Sigma^* $ such that $ u \Simil v $, and for any $ w \in \Sigma^*, \norm{f_A[q_B(u)](w),f_A[q_B(v)](w)} \le c'(q_B(u),q_B(v)) $, which would conclude the proof.
+   \medskip
+   
+   Let $ u,v \in \Sigma^* $ such that $ u \Simil v $ and let $ q = q_B(u) $ and $ q' = q_B(v) $. Assume that $ \norm{f_A[q](w),f_A[q'](w)} > c(u,v) $ then one is the prefix of the other one. Say $ f_A[q](w) $ is a prefix of $ f_A[q'](w) $. Now, $ f_A[q](w) \cdot f_B[w](u) $ and $ f_A[q'](w) $ coincide at least until the $ c(u,v) $ last letters of $ f_A[q'](w) $. As a consequence, we deduce that $ \norm{f_A[q](w),f_A[q'](w)} \le c(u,v) + |f_B[u](w)| \le c'(q,q') $. Symmetrically, if $ f_A[q'](w) $ is a prefix of $ f_A[q](w) $ then $ \norm{f_A[q](w),f_A[q'](w)} \le c(u,v) + |f_B[v](w)| \le c'(q,q') $.
+\end{proof}
+
 Moreover, $ c(u,v) \le c'(q,q') $ therefore for any $ w \in \Sigma^* $, $ \norm{f_A[q](w),f_A[q'](w)} \le c'(q,q') $.
 
 % End of the proof
+
+As a consequence of this lemma and of properties of $ \RS $, we obtain that $ \Simil $ is an equivalence relation over $ Q_B $ and that $ \Simil $ has a congruence-like property, namely for any three strings $ u,v,w \in \Sigma^* $, if $ u \Simil v $ then $ wu \Simil wv $. In particular, given a string $ u \in \Sigma^* $, the equivalence class of $ q_B(u) $ can be computed by a right to left finite deterministic automaton. An other observation is that the equivalence classes of $ \Simil $ are exactly the images by $ q_B $ of those of $ \RS $ and conversely, the equivalence classes of $ \RS $ are exactly the inverse images of those of $ \Simil $.
+
+%===================================================================
+
+   Let $ u,v \in \Sigma^* $ such that $ u \Simil v $ and let $ q = q_B(u) $ and $ q' = q_B(v) $. Assume that $ \norm{f_A[q](w),f_A[q'](w)} > c(u,v) $ then one is the prefix of the other one. Say $ f_A[q](w) $ is a prefix of $ f_A[q'](w) $. Now, $ f_A[q](w) \cdot f_B[w](u) $ and $ f_A[q'](w) $ coincide at least until the $ c(u,v) $ last letters of $ f_A[q'](w) $. As a consequence, we deduce that $ \norm{f_A[q](w),f_A[q'](w)} \le c(u,v) + |f_B[u](w)| \le c'(q,q') $. Symmetrically, if $ f_A[q'](w) $ is a prefix of $ f_A[q](w) $ then $ \norm{f_A[q](w),f_A[q'](w)} \le c(u,v) + |f_B[v](w)| \le c'(q,q') $.
+
+
+Moreover, $ c(u,v) \le c'(q,q') $ therefore for any $ w \in \Sigma^* $, $ \norm{f_A[q](w),f_A[q'](w)} \le c'(q,q') $.
+
+% End of the proof
+
+Now,for other direction, let $ q,q' \in Q_B $ be two signals equivalent for $ \Simil $ and let $ P(q,q') = \lbrace (u,v) \in \Sigma^* \mid q_B(u) = q, q_B(v) = q', u \RS v \rbrace $. Now, for any $ (u,v) \in P(q,q') $, there exists $ c(u,v) \in \mathbb N $ such that $ \forall w \in \Sigma^*, \norm{f(wu),f(wv)} \le c(u,v) $. Let $ c'(q,q') = inf_{(u,v) \in P(q,q')} c(u,v) + sup_{w \in \Sigma^*} |f_B[w](u)|+|f_B[w](v)| $. Once again, there are only finitely many distinct functions $ f[w] $ for $ w \in \Sigma^* $ so the infimum is taken over natural numbers and is therefore itself a natural number. We claim that for any $ u,v \in \Sigma^* $ such that $ u \Simil v $, and for any $ w \in \Sigma^*, \norm{f_A[q_B(u)](w),f_A[q_B(v)](w)} \le c'(q_B(u),q_B(v)) $, which would conclude the proof.
+   \medskip
 
 As a consequence of this lemma and of properties of $ \RS $, we obtain that $ \Simil $ is an equivalence relation over $ Q_B $ and that $ \Simil $ has a congruence-like property, namely for any three strings $ u,v,w \in \Sigma^* $, if $ u \Simil v $ then $ wu \Simil wv $. In particular, given a string $ u \in \Sigma^* $, the equivalence class of $ q_B(u) $ can be computed by a right to left finite deterministic automaton. An other observation is that the equivalence classes of $ \Simil $ are exactly the images by $ q_B $ of those of $ \RS $ and conversely, the equivalence classes of $ \RS $ are exactly the inverse images of those of $ \Simil $.
