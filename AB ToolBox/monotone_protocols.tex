@@ -71,9 +71,7 @@ So now it is enough to show that every function expressed by a monotone protocol
   
 \end{proof}
 
-Also we have seen that expressibility by a monotone protocol is equivalent to having the Hankel Property for a function, it is not that obvious that how these two conecpts, i.e., monotone protocols and Hankel Property, are related to each other. To see this relation more clearly, we need to define notion of distance between two strings with respect to a function.
-
-We introduce a notion of distance over $ \Sigma^* $ defined as follows.
+Also we have seen that expressibility by a monotone protocol is equivalent to having the Hankel Property for a function, it is not that obvious that how these two conecpts, i.e., monotone protocols and Hankel Property, are related to each other. To see this relation more clearly, we need to define notion of distance between two strings with respect to a function. For that, we introduce a notion of distance over $ \Sigma^* $ with respect to a function $ f \colon \Sigma^* \to \Gamma^* $ as follows:
 
 \begin{definition}[Distance]
   Let $u_1, u_2 \in \Sigma^*$ be two strings. The distance between $u_1$ and $u_2$ is denoted by $\norm{u_1, u_2}$ and defined as follows:
@@ -82,9 +80,13 @@ We introduce a notion of distance over $ \Sigma^* $ defined as follows.
 \end{definition}
 \medskip
 
-Based on this notion of distance, Reutenauer and Schutzenberger define an equivalence relation, $ \RS $ by $ \forall u,v \in \Sigma^*, u \RS v $ if and only if $ \exists c(u,v) \in \mathbb N, \forall w \in \Sigma^*, \norm{f(wu),f(wv)} \le c $. This relation is the central part of their proof that functions that have the Hankel property are rational, as we will discuss later on.\cite{reutenauer1991minimization}
+Based on this notion of distance, Reutenauer and Schutzenberger define an equivalence relation, $ \RS $ by $ \forall u,v \in \Sigma^*, u \RS v $ if and only if $ \exists c(u,v) \in \mathbb N, \forall w \in \Sigma^*, \norm{f(wu),f(wv)} \le c $. This relation is the central part of their proof that functions that have the Hankel property are rational, as we will discuss later on \cite{reutenauer1991minimization}.
 
-For now, we present an interpretation of this relation in the setting of monotone protocols. For any two signals of Bob, $ q,q' \in Q_b $, we let $ q \Simil q' $ if and only if $ \exists c(q,q'), \norm{f_A[q],f_A[q']} \le c(q,q') $.
+For now, we present an interpretation of this relation in the setting of monotone protocols. Take any monotone protocol $\pi$ with ingredients $(f_A,f_B,Q_A,Q_B,q_A,q_B)$ that expresses a function $ f \colon \Sigma^* \to \Gamma^* $.
+
+For any two signals of Bob, $ q,q' \in Q_b $, we let $ q \Simil q' $ if and only if $\exists c \in \mathbb{N} $, such that for any $ w \in \Sigma^* $, we have $\norm{f_A[]}$.
+
+$ \exists c(q,q'), \norm{f_A[q],f_A[q']} \le c(q,q') $.
 
 \begin{lemma}
     Let $ u,v \in Sigma^* $, $ u \RS v $ if and only if $ q_B(u) \Simil q_B(v) $.
