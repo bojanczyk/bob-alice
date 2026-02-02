@@ -11,54 +11,9 @@
   and $\varepsilon$ is the empty string.
 \end{definition}
 \newcommand{\lcp}[1]{\operatorname{\bigwedge}_{#1}}
-We can have similar lemma as Lemma~\ref{prefix-lemma-sequential-protocols} for monotone protocols, stating that configurations of Alice grow monotonically with respect to the prefix order on strings, whenever the signal sent by Alice does not change.
 
-\begin{lemma}
-    \label{prefix-lemma-monotone-protocols}
-Let $(f_A,f_B,Q_A,Q_B,q_A,q_B)$ be ingredients of a monotone protocol over the monoid $(\Gamma^*, \cdot, \varepsilon)$. Now for any two string $w_1, w_2 \in \Sigma^*$, if $q_A(w_1) = q_A(w_1w_2)$ then for every $1 \leq i \leq |Q_B|$ the $i$-th component of configuration $C_A(w_1)$ is prefix of the $i$-th component of configuration $C_A(w_1w_2)$. More precisely, if we denote the $i$-th component of configuration $C_A(w)$ as $C_A(w)[i]$, then we have:
-\[C_A(w_1w_2)[i] = C_A(w_1)[i] \cdot u \] for some $u \in \Gamma^*$ (output domain).
-In other words, configurations of Alice grow monotonically with respect to the prefix order on strings, whenever the signal sent to Bob does not change.
-\end{lemma}
-\begin{proof}
-I don't know the proof yet.
-\end{proof}
+Monotone protocols are interesting because they capture a natural class of functions called rational functions that can be computed by bimachines \cite{schutzenberger1961remark} \footnote{The terminology "Bimachine" is due to Eilenberg \cite{Eilenberg74}.}. The equivalence between monotone protocols and rational functions, is a simple corollary of the Reutenauer-Schützenberger Theorem \cite{reutenauer1991minimization} which we are going to explain it at beginning of this section. To do so, we define the notion of \emph{Hankel Property} for every function $f \colon \Sigma^* \to \Gamma^*$. Then we state the Reutenauer-Schützenberger Theorem that every function is rational if and only if it has the Hakel Property. We are going to show that Hankel Property and monotone protocols are equivalent, i.e., every function expressed by a monotone protocol has the Hankel Property and every function that has the Hankel Property can be expressed by a monotone protocol. Therefore any function expressed by a monotone protocol is rational and vice versa. 
 
-\begin{theorem}[Normalization of Monotone Protocols]
-  \label{thm:monotone-protocols-rational}
-  For every monotone protocol over the monoid $(\Gamma^*, \cdot, \varepsilon)$,
-  there exists a normalized monotone protocol that expresses the same function. (A normalized monotone protocol is defined similarly as Definition~\ref{definition-normalized-sequential-protocol}, but for monotone protocols.)
-\end{theorem}
-\begin{proof}
-  (Not finished yet)
-  Similar to the proof of Theorem~\ref{theorem-normalized-sequential-protocol}, first we define the function $\delta \colon Q_A \times Q_B \to \Gamma^*$ as follows:
-  %\[\delta(q_A, q_B) = lcp\{ f_B(v, q_A) \mid v \in \Sigma^* \text{ and } q_B(v) = q_B \}\]
-  \[\delta(q, p) = \lcp{q_B(v) = p}f_B(v, q)\]
-  Then, we define equivalent protocol functions as follows:
-  \begin{itemize}
-      \item $f_A'(u, p) = f_A(u, p) \delta(q_A(u), p)$
-      \item $f_B'(v, q) = \delta(q, q_B(v))^{-1} f_B(v, q)$
-  \end{itemize}
-  Now consider two following equivalence relations between strings of $\Sigma^*$:
-  \[u_1 \sim_A u_2 \iff \forall v \in \Sigma^*, f_B'(v, q_A(u_1)) = f_B'(v, q_A(u_2)) \]
-  \[v_1 \sim_B v_2 \iff \forall u \in \Sigma^*, f_A'(u, q_B(v_1)) = f_A'(u, q_B(v_2)) \]
-  We claim that $\sim_A$ is a right congruence and $\sim_B$ is a left congruence. That is, for every $u_1, u_2, a \in \Sigma$, if $u_1 \sim_A u_2$ then $u_1 a \sim_A u_2 a$, and for every $v_1, v_2, a \in \Sigma$, if $v_1 \sim_B v_2$ then $a v_1 \sim_B a v_2$. 
-  To prove the claim for $\sim_B$, first observe the following:
-  \begin{align*}
-      f_A'(w,p)= & \lcp{q_B(z) = p}f(wz) \\
-  \end{align*}
-  This is because:
-  \begin{align*}
-      f_A'(w,p) & = f_A(w,p) \delta(q_A(w), p) \\
-      & = f_A(w,p) \lcp{q_B(z) = p}f_B(z, q_A(w)) \\
-      & = \lcp{q_B(z) = p} f_A(w,p) f_B(z, q_A(w)) \\
-      & = \lcp{q_B(z) = p} f(wz)
-  \end{align*}
-  (To be continued...)
-\end{proof}
-
-The above theorem was independently interesting because we hope it can be extended to more expressive protocols. So the above theorem is not directly related to the main goal of this section. The main goal of this section is to show that every function expressed by a monotone protocol is rational and vice versa which we are going to do it now. To do so first, we define the notion of \emph{Hankel Property} for every function $f \colon \Sigma^* \to \Gamma^*$. Then we state the Reutenauer-Schützenberger Theorem that every function with Hankel Property is rational and vice versa. Finally, we show that every function expressed by a monotone protocol has the Hankel Property.
-
-\subsection{Hankel Property and Monotone Protocols}
 \label{hankel-property-and-monotone-protocols}
 
 \begin{definition}[Hankel Property]
@@ -91,74 +46,31 @@ So now it is enough to show that every function expressed by a monotone protocol
   Thus, $f$ has the Hankel Property.
 \end{proof}
 
-Also it is not hard to see that every function that has the Hankel Property is expressible by a monotone protocol. This is not surprising considering the fact that class of functions associated to monotone protocols is exactly the class of rational functions (by the next Theorem \ref{monotone-protocols-rational-functions}) , but one can also easily prove it directly from the definition of monotone protocols. The idea is the following: for any split of the input string $uv$, Alice simply computes all the $\beta_i(u)$'s and make a list of $i$'s for which $\beta_i(u)$ is not empty, and send the list to Bob. Then Bob do the similar thing for $\gamma_i(v)$'s and it is not possible the intersection of the two lists to be anything beyond one element, because otherwise the output would be ambiguous. Therefore, Bob can simply sned the intersection index $i$ to Alice and both of them can output $\beta_i(u) \cdot \gamma_i(v)$.
-
-Now we know that every function expressed by a monotone protocol has the Hankel Property (by Lemma~\ref{monotone-protocols-hankel-property}) and every function with the Hankel Property is rational and vice versa (by Theorem~\ref{Hankel-property-rational-function}). Therefore, we have the following main theorem of this section.
-
-\begin{theorem}
-  \label{monotone-protocols-rational-functions}
-  A function $f \colon \Sigma^* \to \Gamma^*$ is expressed by a monotone protocol over the monoid $(\Gamma^*, \cdot, \varepsilon)$ if and only if it is rational (computable by a bimachine).
-\end{theorem}
-It is left to show the other direction of Theorem~\ref{monotone-protocols-rational-functions}, i.e., every rational function can be expressed by a monotone protocol. We will show it in the next lemma.
-\begin{lemma}
-  \label{lem:rational-functions-to-monotone-protocols}
-  For every rational function $f \colon \Sigma^* \to \Gamma^*$
-  (computable by a bimachine), there exists a monotone protocol expressing $f$.
-\end{lemma}
-\begin{proof}
-  Let us consider a bimachine computing $f$,
-  with a left-to-right automaton
-  $\mathcal{A}_L$ and a right-to-left automaton $\mathcal{A}_R$.
-  Let us define $Q$ the union of the states of $\mathcal{A}_L$ and $\mathcal{A}_R$.
-  Let us define $q_A(u)$ as the state in which $\mathcal{A}_L$ ends
-  after reading $u$, and $q_B(v)$ as the state in which $\mathcal{A}_R$ ends
-  after reading $v$ (from right to left).
-
-  It we can now define $f_A(u,s)$ to be the output of the bimachine on the word
-  $u$ if the left-to-right automaton starts in its initial state, the
-  right-to-left automaton starts in state $s \in Q$, and similarly, $f_B(v,s)$
-  to be the output of the bimachine on the word $v$ if the left-to-right
-  automaton starts in state $s \in Q$, and the right-to-left automaton starts
-  in its initial state.
-\end{proof}
-
-\subsection{Function Distance and Monotone Protocols}
-\label{function-distance-and-monotone-protocols}
-In this section, we use the definition of left and right distance of functions which is defined in \cite{berstel1979rational} and explore its connection to monotone protocols.
-
 \newcommand{\norm}[1]{\left\lVert#1\right\rVert}
 
-
-\begin{definition}[Left and Right Distance]
-  Let $u_1, u_2 \in \Sigma^*$ be two strings. The left distance between $u_1$ and $u_2$ is denoted by $\norm{u_1, u_2}_L$ and defined as follows:
-  \[\norm{u_1, u_2}_L = |u_1| + |u_2| - 2 \cdot |u_1 \wedge u_2| \]
-  where $u_1 \wedge u_2$ is the longest common prefix of $u_1$ and $u_2$.
-\end{definition}
-Similarly, the right distance between $u_1$ and $u_2$ is denoted by $\norm{u_1, u_2}_R$ and defined symmetrically (instead of longest common prefix, we consider longest common suffix).
-
-\begin{definition} [Bounded Variation]
-  A function $f \colon \Sigma^* \to \Gamma^*$ is said to have bounded left (resp. right) variation if and only if for all $k\geq 0$, there exists $K\geq 0$ such that for every two strings $u_1, u_2 \in \Sigma^*$ with $\norm{u_1, u_2}_L \leq k$ (resp. $\norm{u_1, u_2}_R \leq k$), we have $\norm{f(u_1), f(u_2)}_{L} \leq K$ (resp. $\norm{f(u_1), f(u_2)}_{R} \leq K$) \cite{berstel1979rational}.
-\end{definition}
-Now we can state the following theorem that connects bounded variation functions to monotone protocols.
-\begin{theorem}
-  \label{theorem:bounded-variation-monotone-protocols}
-  Every function $f \colon \Sigma^* \to \Gamma^*$ expressed by a monotone protocol has bounded left and right variation.
-\end{theorem}
-\begin{proof}
-  Consider any two strings $u_1, u_2 \in \Sigma^*$ such that $\norm{u_1, u_2}_L \leq k$. Let assign $u_1 \wedge u_2$ to Alice and the remaining suffixes of $u_1$ and $u_2$ to Bob, we denote them by $w_1$ and $w_2$ respectively. Now let $K$ be \[\max_{q \in Q_A,i \in \{ 1, 2 \}} |f_B(w_i, q)| \] Now observe that $\norm{f(u_1), f(u_2)}_{L} \leq 2K$. Since the difference between $f(u_1)$ and $f(u_2)$ can only come from the Bob's:
-  \[f(u_i)=f_A(u_1 \wedge u_2, q_B(w_i)) \cdot f_B(w_i, q_A(u_1 \wedge u_2))\]
-  and Bob's output for both $u_1$ and $u_2$ are bounded by $K$ (The right variation case is symmetric).
-\end{proof}  
-\begin{definition}[Left and Right Function Distance]
-  Let $f \colon \Sigma^* \to \Gamma^*$ be a function and $u, v \in \Sigma^*$ be two strings. The left function distance between $u$ and $v$ is denoted by $\norm{u, v}_L^f$ and defined as follows:
-  \[\sup \{ \norm{f(uw), f(vw)}_L \mid w \in \Sigma^* \} \]
-  and right function distance is defined symmetrically.
-\end{definition}
-Now we will explore the connection between $\sim_A$ and $\sim_B$ equivalence relations defined in the proof of Theorem~\ref{thm:monotone-protocols-rational} and function distances.
 \begin{lemma}
-  \label{lemma:equivalence-function-distance}
-  Let $(f_A,f_B,Q_A,Q_B,q_A,q_B)$ be ingredients of a monotone protocol over the monoid $(\Gamma^*, \cdot, \varepsilon)$. Now for any two string $u_1, u_2 \in \Sigma^*$ such that $u_1 \sim_A u_2$ there exists a constant $K$ such that $\norm{u_1, u_2}_L^f \leq K$. 
+  \label{hankel-property-monotone-protocols}
+  Every function that has the Hankel Property can be expressed by a monotone protocol.
 \end{lemma}
+
 \begin{proof}
-  We simply assign $u_1$ and $u_2$ to Alice and an arbitrary string $w$ to Bob. Now observe that since $u_1 \sim_A u_2$, we have $f_B(w, q_A(u_1)) = f_B(w, q_A(u_2))$. Therefore, the difference between $f(u_1 w)$ and $f(u_2 w)$ can only come from Alice's output which is bounded by a constant (independent of $w$), similar to the proof of Theorem~\ref{theorem:bounded-variation-monotone-protocols}.
+
+  Let $f \colon \Sigma^* \to \Gamma^*$ be a function that has the Hankel Property. Then there exists a constant $K > 0$ and functions $\beta_1, \beta_2, \ldots, \beta_K \colon \Sigma^* \to \Gamma^*$ and $\gamma_1, \gamma_2, \ldots, \gamma_K \colon \Sigma^* \to \Gamma^*$ such that for every strings $u, v \in \Sigma^*$, we have:
+  \[ f(uv) = \bigcup_{i=1}^{K} \beta_i(u) \cdot \gamma_i(v) \]
+  Now we define a monotone protocol $(f_A,f_B,Q_A,Q_B,q_A,q_B)$ over the monoid $(\Gamma^*, \cdot, \varepsilon)$ that expresses the function $f$ as follows:
+  \begin{itemize}
+      \item $Q_A = Q_B = 2^{\{1, 2, \ldots, K\}}$
+      \item $q_A(u) = \{ i \mid \beta_i(u) \neq \emptyset \}$
+      \item $q_B(v) = \{ i \mid \gamma_i(v) \neq \emptyset \}$
+      \item $f_A(u, S_B) = \beta_i(u)$ for the unique $i \in S_B \cap q_A(u)$
+      \item $f_B(v, S_A) = \gamma_i(v)$ for the unique $i \in S_A \cap q_B(v)$
+  \end{itemize}
+  Observe that the protcol is well-defined because the function is total and therefore for every strings $u, v \in \Sigma^*$, there exists at least one index $i$ such that $\beta_i(u) \neq \emptyset$ and $\gamma_i(v) \neq \emptyset$ and also it is not possible to have two different indices $i$ and $j$ such that $\beta_i(u) \neq \emptyset$ and $\beta_j(u) \neq \emptyset$ and $\gamma_i(v) \neq \emptyset$ and $\gamma_j(v) \neq \emptyset$ because in this case we would have two different values for $f(uv)$ which is a contradiction. Now for every strings $u, v \in \Sigma^*$, we have:
+  \[ f(uv) = \bigcup_{i=1}^{K} \beta_i(u) \cdot \gamma_i(v) \]
+  Thus, the monotone protocol expresses the function $f$.
+  
 \end{proof}
+
+Also we have seen that expressibility by a monotone protocol is equivalent to having the Hankel Property for a function, it is not that obvious that how these two conecpts, i.e., monotone protocols and Hankel Property, are related to each other. To see this relation more clearly, we need to define notion of distance between two strings with respect to a function.
+
+
