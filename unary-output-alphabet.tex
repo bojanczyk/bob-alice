@@ -65,8 +65,12 @@ is equal to  the union of partial functions
 The equivalence of items \ref{item:partial-functions} and \ref{item:rational-function}, which is the essence of the theorem, was proved  by Sch\"utz-enberger and Reutenauer in~\cite[p. 674] {reutenauerSchutzenberger1991}. It remains to show the equivalence of items \ref{item:monotone-protocol} and \ref{item:partial-functions}, which is a simple unfolding of the definitions.
 
 \begin{itemize}
-  \item \ref{item:monotone-protocol} $\implies$ \ref{item:partial-functions}. Suppose  that $f$ satisfies item~\ref{item:monotone-protocol}. As her signal, Alice says which of the functions $\alpha_i$ are defined on her part of the input, and sends all the corresponding outputs. Bob does the same on his side. Based on the signals, they can determine an index $i$ such that both $\alpha_i$ and $\beta_i$ are defined, and then they can concatenate the corresponding outputs to produce the final output. This shows that item~\ref{item:partial-functions} holds.
-  \item \ref{item:partial-functions} $\implies$ \ref{item:monotone-protocol}. Suppose that $f$ satisfies item~\ref{item:partial-functions}. Based on the monotone protocol from the assumption, we define the indexing set  $I$ to be  $Q_A \times Q_B$, i.e.~all possible combinations of signals of Alice and Bob. For each such pair of signals $(q_A,q_B) \in Q_A \times Q_B$, we define two partial functions. The first one  is defined on those strings $w_1$ for which Alice's signal is $q_A$, and in this case it produces the $i$-th string from Alice, where $i$ is obtained by applying the output function to $(q_A,q_B)$. The second one is defined similarly on Bob's side. It is easy to see that the conditions from item~\ref{item:partial-functions} are now satisfied.
+  \item 
+    \ref{item:partial-functions} $\implies$ \ref{item:monotone-protocol}. Suppose that $f$ satisfies item~\ref{item:partial-functions}. 
+    As her signal, Alice says which of the functions $\alpha_i$ are defined on her part of the input, and sends all the corresponding outputs. Bob does the same on his side. Based on the signals, they can determine an index $i$ such that both $\alpha_i$ and $\beta_i$ are defined, and then they can concatenate the corresponding outputs to produce the final output. This shows that item~\ref{item:monotone-protocol} holds.
+  \item
+    \ref{item:monotone-protocol} $\implies$ \ref{item:partial-functions}. Suppose  that $f$ satisfies item~\ref{item:monotone-protocol}.
+    Based on the monotone protocol from the assumption, we define the indexing set  $I$ to be  $Q_A \times Q_B$, i.e.~all possible combinations of signals of Alice and Bob. For each such pair of signals $(q_A,q_B) \in Q_A \times Q_B$, we define two partial functions. The first one  is defined on those strings $w_1$ for which Alice's signal is $q_A$, and in this case it produces the $i$-th string from Alice, where $i$ is obtained by applying the output function to $(q_A,q_B)$. The second one is defined similarly on Bob's side. It is easy to see that the conditions from item~\ref{item:partial-functions} are now satisfied.
 \end{itemize}
 \end{proof}
 
@@ -112,7 +116,7 @@ computed by weighted automata over $\Nat$ that have linear growth.
 \begin{corollary}
   \label{cor:weighted-automata-nat-regular}
   Let $f : \Sigma^* \to \Rat$ be a function computed by a weighted automaton
-  over  $\Rat$, which has linear growth (i.e.~the output number is at most linear in the input lenth), and such that all outputs are natural numbers. Then $f$ is a regular function, when viewed as a string-to-string function with a unary output alphabet.
+  over  $\Rat$, which has linear growth (i.e.~the output number is at most linear in the input length), and such that all outputs are natural numbers. Then $f$ is a regular function, when viewed as a string-to-string function with a unary output alphabet.
 \end{corollary}
 \begin{proof}
   It is well-known that weighted automata over $\Rat$ computing integer values
