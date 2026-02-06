@@ -46,7 +46,7 @@ The output of the protocol is then defined as follows: we apply the output funct
   For a string-to-string function $f : \Sigma^* \to \Gamma^*$, the following are equivalent:
   \begin{enumerate}
     \item \label{item:monotone-protocol} $f$ is computed by a monotone protocol;
-    \item \label{item:partial-functions} there is a finite family of partial string-to-string functions 
+    \item \label{item:partial-functions} there is a finite family of partial string-to-string functions, indexed by a finite set $I$
 \begin{align*}
 \set{\alpha_i,\beta_i  : \Sigma^* \to \Gamma^*}_{i \in I}
 \end{align*}
@@ -56,7 +56,7 @@ such that the (total) function
 \end{align*}
 is equal to  the union of partial functions
 \begin{align*}
-  \bigcup_{i \in I} (w_1,w_2) \mapsto \myunderbrace{\alpha_i(w_1) \cdot \beta_i(w_2)}{the concatenation is defined \\  only if both functions are defined}.
+  \bigcup_{i \in I} \Big( (w_1,w_2) \mapsto \myunderbrace{\alpha_i(w_1) \cdot \beta_i(w_2)}{the concatenation is defined \\  only if both functions are defined} \Big).
 \end{align*}
     \item \label{item:rational-function} $f$ is a rational string-to-string function.
   \end{enumerate}

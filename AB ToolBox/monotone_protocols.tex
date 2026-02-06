@@ -98,7 +98,12 @@ For now, we present an interpretation of this relation in the setting of monoton
     observe that $c'$ is a constant that only depends on $u$ and $v$. Therefore, $ u \RS v $.
     \medskip
   
-  I could not verify the other direction of the proof Thomas. Please recheck it (It is included in the Thomas.tex file).
+  
+    Now let $ u,v \in \Sigma^* $ such that $ u \RS v $. Then, there exists $ c \in \mathbb N $ (which is only dependent on $ u $ and $ v $) such that for any $ w \in \Sigma *, \norm{f(wu),f(wv)} \leq c $. Therefore we have:
+    \begin{align*}
+      \norm{f_A[q_B(u)](w).f_B[q_A(w)](u),f_A[q_B(v)](w).f_B[q_A(w)](v)} & \leq c \\
+    \end{align*}
+
   \end{proof}
 
 
