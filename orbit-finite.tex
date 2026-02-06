@@ -294,7 +294,7 @@ setting, two-way automata are very strong:
 \subsection{Unambiguous orbit-finite automata}
 \label{sec:unambiguous-orbit-finite-automata}
 \AP
-As we have shown in Examples~\ref{ex:reg-ndet-too-strong}, \ref{ex:protocol-not-dofa},
+As we have shown in Examples~\ref{ex:reg-ndet-too-strong}, \ref{ex:reg-det-too-weak}
 and \ref{ex:protocol-not-2dofa},
 \kl[of protocol]{protocols} are not equivalent to one-way deterministic or
 nondeterministic orbit-finite automata, or their two-way variants automata. So
@@ -302,7 +302,7 @@ what is the right automaton model?  We conjecture that the answer is
 \intro{unambiguous orbit-finite automata}, i.e.~the special case of
 \kl{nondeterministic orbit-finite automata} that have zero or one accepting runs for
 every input string.
-\omc{missing reference?}
+%\omc{missing reference?}
 \begin{conjecture}
     \label{conj:protocols-unambiguous}
     A language over an \kl{orbit-finite} alphabet is computed by 
@@ -581,9 +581,9 @@ is indeed impossible in the orbit-finite case.
     equivalence classes. As mentioned above, it follows from \cite[Section
     3.2]{bojanczykAutomataTheoryNominal2014} that $L$ is also recognised by a
     \kl{deterministic orbit-finite automaton}. As we have seen in
-    Example~\ref{ex:protocol-not-dofa}, such automata are not strong enough to
+    Example~\ref{ex:reg-det-too-weak}, such automata are not strong enough to
     capture all \kl[of protocol]{protocols}.
-    \omc{I think example is removed -- check cross-references}
+    %\omc{I think example is removed -- check cross-references}
     %In fact, the reasoning in this example shows that a language is recognised by a one-round orbit-finite protocol if and only if it is recognised by a deterministic orbit-finite automaton in both directions, i.e.~both the language and its reverse are recognised by deterministic orbit-finite automata. 
 \end{myexample}
 
