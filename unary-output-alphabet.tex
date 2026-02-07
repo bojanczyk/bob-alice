@@ -37,7 +37,7 @@ in which they send a signal as well as a tuple of $d$ strings over the output al
 \begin{align*}
   \text{output} : Q_A \times Q_B \to \set{1,\ldots,d}.
 \end{align*}
-The output of the protocol is then defined as follows: we apply the output function to the signals produced by both players, which gives us an index $i \in \set{1,\ldots,d}$, and then the output string is obtained by concatenating the $i$-th string from Alice with the $i$-th string from Bob.
+The output of the protocol is then defined as follows: we apply the output function to the signals produced by both players, which gives us an index $i \in \set{1,\ldots,d}$, and then the output string is obtained by concatenating the $i$-th string from Alice with the $i$-th string from Bob (thus ensuring that Alice's part of the output always comes before Bob's).
 
 \paragraph*{Equivalence of the models.} We now show that the monotone protcols compute exactly the rational string-to-string functions. As it turns out, this equivalence was essentially already proved by Sch\"utzenberger and Reutenauer in~\cite{reutenauerSchutzenberger1991}, albeit in a different language. The corresponding characterisation is stated below.
 
@@ -104,10 +104,10 @@ In the rest of this section, we use the above theorem to derive some further obs
   construction on Alice's side.
 
   Let us prove the following intermediate claim: the integers in  Alice's configuration are
-  uniformly bounded below. This is a simple corollary of the properties (a) and (b) below: if the integers would be arbitrarily large negative numbers, then the contribution of Bob for some fixed string $w_2$ would not be enough to offset them. 
+  uniformly bounded below. This is a simple corollary of the properties (a) and (b): if the integers would be arbitrarily large negative numbers, then the contribution of Bob for some fixed string $w_2$ would not be enough to offset them. 
 
 
-  Thanks to the above claim, we can further improve the protocol as follows. Alice sends her original configuration, with the following change: if some numbers were negative, then they are truncated to zero, and the signal is adjusted so that it stores the negative numbers. This can be done in a finite signal space, due to the claim on lower bounds. Once Bob receives the message, he can the produce the output of the original protocol, by possibly using the signals to reconstruct the original integers.
+  Thanks to the above claim, we can further improve the protocol as follows. Alice sends her original configuration, with the following change: if some numbers were negative, then they are truncated to zero, and the signal is adjusted so that it stores the negative numbers. This can be done in a finite signal space, due to the claim on lower bounds. Once Bob receives the message, he can the produce the output of the original protocol, by possibly subtracting Alice's negative part encoded in the signal from his part of the output.
 \end{proof}
 
 This theorem allows us to derive a characterisation of functions 
@@ -141,8 +141,10 @@ From the above, we conclude that Conjecture~\ref{conj:regular-continuous} holds 
 \begin{corollary}
   \label{cor:regular-continuous-unary}
   Conjecture~\ref{conj:regular-continuous} holds for string-to-string functions where the output alphabet has only one letter.
+  In other words, a string-to-string function with unary output alphabet is field continuous if and only if it is regular.
 \end{corollary}
 \begin{proof}
+  By \cref{cor:protocol-field-continuity}, it suffices to show the only-if direction. 
   Let $f : \Sigma^* \to \Gamma^*$ be a function with a unary output alphabet which is field continuous. Compose this function with the weighted automaton $\Aa : \Gamma^* \to \Rat$ which computes the length of the output string. The result is a function that is subject to the assumptions of \cref{cor:weighted-automata-nat-regular}, and therefore it is a regular function. 
 \end{proof}
 Let us conclude this section with an example showing that
@@ -154,7 +156,7 @@ automata over $\Int$ with arbitrary growth.
 \begin{align*}
 w \in \set{a,b}^* 
 \quad \mapsto \quad 
-(\text{(number of $a$'s in $w$)} - \text{(number of $b$'s in $w$)})^2.
+\left(\text{(number of $a$'s in $w$)} - \text{(number of $b$'s in $w$)}\right)^2.
 \end{align*}
 This function clearly satisfies (a) and (b). As explained in \cite[p.3]{Zpolyreg23}, it also satisfies (c), since the inverse image of $0$ is not a regular language, as would be the case if only positive coefficients were used.
 \end{myexample}
